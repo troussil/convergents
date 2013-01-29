@@ -1,4 +1,5 @@
 #include <iostream>
+#include <math.h>
 #include "PointVector2D.h"
 
 int main() 
@@ -48,7 +49,7 @@ int main()
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl; 
 
     Point r(2,1); 
-    if ( r.dot(q) == 1 ) //dot product
+    if ( r.dot(q) == 3 ) //dot product
       nbok++; 
     nb++;  
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl; 
