@@ -1,13 +1,14 @@
-PROG = testPointVector2D
+PV = PointVector2D
+testPV = test$(PV)
 
-all: $(PROG)
+all: $(testPV)
 
-$(PROG): $(PROG).cpp
-	g++ -c $< -o $(PROG).o
-	g++ $(PROG).o -o $(PROG)
+$(testPV): $(testPV).cpp $(PV).h
+	g++ -c $< -o $(testPV).o
+	g++ $(testPV).o -o $(testPV)
 
 test: 
-	./$(PROG)
+	./$(testPV)
 
 clean: 
-	rm $(PROG) *.o *~
+	rm $(testPV) *.o *~

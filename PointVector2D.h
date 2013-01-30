@@ -79,6 +79,17 @@ class PointVector2D
       else { return myY; }
     }
 
+    /**
+     * Array-like access operator 
+     * @param i index of the coordinates (0 for x-, 1 for y-)
+     * @return reference on the coordinates of index i. 
+     */
+    const T& operator[](const unsigned short& i) const 
+    { 
+      if (i == 0){ return myX; }
+      else { return myY; }
+    }
+
     ///////////////////// comparisons ///////////////////
     /**
      * Equality operator
@@ -203,16 +214,20 @@ class PointVector2D
      */
     T normLinf() const 
     {
-      if (fabs(myX) <= fabs(myY)) 
-        {
-          if (myY <= 0){return(-myY);}
-          else {return(myY);}
-        } 
-      else 
-        {
-          if (myX <= 0){return(-myX);}
-          else {return(myX);}
-        } 
+      if (myX >= 0)
+	{
+	  if (myY >= 0)
+	      return myX>myY?myX:myY; 
+	  else
+	    return myX>(-myY)?myX:(-myY); 
+	}
+      else
+	{
+	  if (myY >= 0)
+	    return (-myX)>myY?(-myX):myY; 
+	  else
+	    return (-myX)>(-myY)?(-myX):(-myY); 
+	}
     }
 }; 
 
