@@ -6,7 +6,7 @@ testR = testRay
 
 
 #all cibles
-all: $(testPV) $(testR)
+all: $(testPV) $(testR) testConvergents
 
 $(testPV): $(testPV).cpp $(PV).h
 	g++ -c $< -o $(testPV).o
@@ -16,8 +16,11 @@ $(testR): $(testR).cpp $(R).h
 	g++ -c $< -o $(testR).o
 	g++ $(testR).o -o $(testR)
 
+testConvergents: testConvergents.cpp
+	g++ $< -o $@
+
 test: 
-	./$(testPV) && ./$(testR)
+	./$(testPV) && ./$(testR) && ./testConvergents
 
 clean: 
-	rm $(testPV) $(testR) *.o *~
+	rm $(testPV) $(testR) testConvergents *.o *~

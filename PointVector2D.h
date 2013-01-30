@@ -237,3 +237,10 @@ Point operator*(const typename Point::Coordinate& k, Point& p)
 {
   return p * k; 
 }
+
+//Display
+template<typename Coordinate>
+std::ostream& operator<<( std::ostream & out, const PointVector2D<Coordinate>& object )
+{
+  out << "(" << object[0] << "," << object[1] << ")"; 
+}
