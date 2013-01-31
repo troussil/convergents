@@ -22,7 +22,7 @@ class RayIntersectableStraightLine
     /////////////////////// members /////////////////////
     /**
      * Straight-line parameters. The straight-line is defined
-     * as the set {(x,y) | ax + by + c <= 0}
+     * as the set {(x,y) | ax + by + c = 0}
      */
     Integer myA, myB, myC;  
 
@@ -46,8 +46,8 @@ class RayIntersectableStraightLine
      * @param aP first point
      * @param aQ second point
      */
-    RayIntersectableStraightLine(const Point& aP, const Point& aQ)
-      : myA(aQ[0]-aP[0]), myB(aQ[1]-aP[1]), myC(-myA*aP[0]-myB*aP[1]) {}
+    RayIntersectableStraightLine(const Point& aP, const Point& aQ):
+      myA(aP[1]-aQ[1]), myB(aQ[0]-aP[0]), myC(myA*aP[0]+myB*aP[1]) {}
 
     /**
      * Copy constructor
@@ -105,7 +105,7 @@ class RayIntersectableStraightLine
      */
     Value operator()(const Point& aPoint)
     {
-      return 0; 
+      return (myA*aPoint[0] + myB*aPoint[1] + myC);
     }
 
     /**
@@ -123,9 +123,60 @@ class RayIntersectableStraightLine
     bool dray(const Point& aStartingPoint, const Vector& aDirection, 
              int& aQuotient, Point& aClosest) const 
     {
-      return true;
-    }
+      
+      // Initialise value
+      aQuotient = 0;
+      aClosest = aStartingPoint;
+      
+      // ray the straight-line passing by aS from aD
+      RayIntersectableStraightLine ray(aDirection[1], -aDirection[0], 
+          aDirection[0]*aStartingPoint[1] - aDirection[1]*aStartingPoint[0]);
 
+      // We need a Point for the intersection.
+      // pretty sure, we can do better...
+
+      double Pinter[2];
+      /**
+       *  There is no intersection if aDirection and the straight-line 
+       *  are parallel or if aS lies on the straight-line.
+       *
+       */
+      if (myB*aDirection[0] == myA*aDirection[1] || 
+          myA*aStartingPoint[0] + myB*aStartingPoint[1] + myC == 0)
+      { return false;}
+      else 
+      { 
+        if(myA != 0)
+        {
+          Pinter[1] = (myC*ray.myA - myA*ray.myC)/((double)(myA*ray.myB - myB*ray.myA));
+          Pinter[0] = -(myB*(Pinter[1] + myC))/(double)(myA); 
+        }
+        // if d is horizontal we can't divide by myA=0.
+        else 
+        {
+          Pinter[1] = - myC/(double)(myB);
+          Pinter[0] = - (ray.myB*(Pinter[1] + ray.myC))/(double)(ray.myA); 
+        }
+
+        Pinter[0] -= aStartingPoint[0];
+        Pinter[1] -= aStartingPoint[1];
+
+        /**
+         * We look the scalar product sign.
+         * If < 0 dray and d do not intersecte
+         */
+        if (Pinter[0]*aDirection[1] + Pinter[1]*aDirection[0] < 0.0)
+        { return false;}
+        else 
+        {
+          aQuotient  = floor(sqrt(Pinter[0]*Pinter[0]+Pinter[1]*Pinter[1]) /
+             (aDirection.normL2())) ;  
+          
+          aClosest = aStartingPoint + aQuotient * aDirection; 
+          return true;
+        }
+      }
+    }
 
 }; 
 

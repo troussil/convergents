@@ -17,7 +17,7 @@ int main()
     SL line(Point(0,0), Point(8,5));
  
     //constructor
-    if ( (line.a() == 8)&&(line.b() == 5)&&(line.c() == 0) ) 
+    if ( (line.a() == -5)&&(line.b() == 8)&&(line.c() == 0) ) 
       nbok++; 
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl; 
@@ -31,6 +31,7 @@ int main()
     //digital ray
     int qMax = 0; 
     Point ptMax(0,0); 
+	//#0
     if ( line.dray(Point(0,0), Vector(1,1), qMax, ptMax ) == false ) 
       nbok++; 
     nb++; 
