@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <iterator>
-#include <math.h>
+
 #include "PointVector2D.h"
 #include "RayIntersectableStraightLine.h"
 
@@ -9,7 +9,27 @@ template <typename Point, typename OutputIterator>
 void geometricConvergents(const Point& direction, 
                           OutputIterator res)
 {
- //TODO
+  // init p_-2 & p_-1
+  Point pS(0,0);
+  Point pm2(0,1);
+  Point pm1(1,0);
+  Point pconv;
+
+  int qk;
+
+  RayIntersectableStraightLine DroiteRatio(pS, direction);
+
+ //init while
+  DroiteRatio.dray(pm2, pm1, qk, pconv);
+  
+  while( direction != pconv )
+ {
+	pm2 = pm1;
+	pm1 = pconv;
+	*res++ = pconv;
+
+	DroiteRatio.dray(pm2, pm1, qk, pconv);
+ }
 }
 
 
