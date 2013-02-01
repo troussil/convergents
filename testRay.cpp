@@ -31,8 +31,14 @@ int main()
     //digital ray
     int qMax = 0; 
     Point ptMax(0,0); 
-	//#0
-    if ( line.dray(Point(0,0), Vector(1,1), qMax, ptMax ) == false ) 
+
+    if ( line.dray(Point(0,0), Vector(1,1), qMax, ptMax ) ) 
+	if ( (qMax == 0)&&(ptMax == Point(0,0)) ) 
+          nbok++; 
+    nb++; 
+    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+
+if ( line.dray(Point(0,1), Vector(1,1), qMax, ptMax ) == false )
       nbok++; 
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
