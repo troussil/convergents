@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <iterator>
-
+#include <math.h>
 #include "PointVector2D.h"
 #include "RayIntersectableStraightLine.h"
 
