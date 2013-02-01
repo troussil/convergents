@@ -165,7 +165,7 @@ class RayIntersectableStraightLine
          * We look the scalar product sign.
          * If < 0 dray and d do not intersecte
          */
-        if (Pinter[0]*aDirection[1] + Pinter[1]*aDirection[0] < 0.0)
+        if (Pinter[0]*aDirection[0] + Pinter[1]*aDirection[1] < 0.0)
         { return false;}
         else 
         {
