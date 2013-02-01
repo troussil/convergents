@@ -172,7 +172,7 @@ class PointVector2D
      */
     T dot(const PointVector2D& p) const 
     { 
-      return (p.y() * myX + p.x() * myY); 
+      return (p.x() * myX + p.y() * myY); 
     }
 
     ///////////////////// norms   //////////////////////
