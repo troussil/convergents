@@ -9,27 +9,29 @@ template <typename Point, typename OutputIterator>
 void geometricConvergents(const Point& direction, 
                           OutputIterator res)
 {
-  // init p_-2 & p_-1
+  // Init pStartingPoint from origin pS=(0,0), p_-2=(0,1) & p_-1=(1,0)
   Point pS(0,0);
   Point pm2(0,1);
   Point pm1(1,0);
-  Point pconv;
-
-  int qk;
-
-  RayIntersectableStraightLine DroiteRatio(pS, direction);
-
- //init while
-  DroiteRatio.dray(pm2, pm1, qk, pconv);
   
-  while( direction != pconv )
- {
-	pm2 = pm1;
-	pm1 = pconv;
-	*res++ = pconv;
-
-	DroiteRatio.dray(pm2, pm1, qk, pconv);
- }
+  // pconv is the next convergent pconv = pm2 + qk * pm1
+  Point pconv;
+  int qk;
+  
+  // The discrete straight-line
+  RayIntersectableStraightLine<Point> DroiteRatio(pS, direction);
+  
+  // The first convergent p0
+  DroiteRatio.dray(pm2, pm1, qk, pconv);
+  pm2 = pm1;
+  pm1 = pconv;
+  // We stop when the ray is parallel to the straight line
+  while( DroiteRatio.dray(pm2, pm1, qk, pconv) == true )
+  {
+    pm2 = pm1;
+    pm1 = pconv;
+    *res++ = pconv;
+  }
 }
 
 
