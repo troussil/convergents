@@ -21,11 +21,7 @@ void geometricConvergents(const Point& direction,
   // The discrete straight-line
   RayIntersectableStraightLine<Point> DroiteRatio(pS, direction);
   
-  // The first convergent p0
-  DroiteRatio.dray(pm2, pm1, qk, pconv);
-  pm2 = pm1;
-  pm1 = pconv;
-  // We stop when the ray is parallel to the straight line
+   // We stop when the ray is parallel to the straight line
   while( DroiteRatio.dray(pm2, pm1, qk, pconv) == true )
   {
     pm2 = pm1;
