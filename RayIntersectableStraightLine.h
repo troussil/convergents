@@ -128,55 +128,24 @@ class RayIntersectableStraightLine
       aQuotient = 0;
       aClosest = aStartingPoint;
       
-      // ray the straight-line passing by aS from aD
-      RayIntersectableStraightLine ray(aDirection[1], -aDirection[0], 
-          aDirection[0]*aStartingPoint[1] - aDirection[1]*aStartingPoint[0]);
 
-      // We need a Point for the intersection.
-      // pretty sure, we can do better...
-
-      double Pinter[2];
       /**
        *  There is no intersection if aDirection and the straight-line 
-       *  are parallel or if aS lies on the straight-line.
+       *  are parallel.
        *
        */
-      if (myB*aDirection[0] == myA*aDirection[1] || 
-          myA*aStartingPoint[0] + myB*aStartingPoint[1] + myC == 0)
-      { return false;}
+      if (myA*aDirection[0] + myB*aDirection[1] == 0 ){return false;}
       else 
       { 
-        if(myA != 0)
-        {
-          Pinter[1] = (myC*ray.myA - myA*ray.myC)/((double)(myA*ray.myB - myB*ray.myA));
-          Pinter[0] = -(myB*(Pinter[1] + myC))/(double)(myA); 
-        }
-        // if d is horizontal we can't divide by myA=0.
-        else 
-        {
-          Pinter[1] = - myC/(double)(myB);
-          Pinter[0] = - (ray.myB*(Pinter[1] + ray.myC))/(double)(ray.myA); 
-        }
+        aQuotient = -(myA*aStartingPoint[0] + myB*aStartingPoint[1] + myC)/
+          (myA*aDirection[0] + myB*aDirection[1]);
 
-        Pinter[0] -= aStartingPoint[0];
-        Pinter[1] -= aStartingPoint[1];
-
-        /**
-         * We look the scalar product sign.
-         * If < 0 dray and d do not intersecte
-         */
-        if (Pinter[0]*aDirection[0] + Pinter[1]*aDirection[1] < 0.0)
-        { return false;}
-        else 
+        if(aQuotient < 0){return false;}
+        else
         {
-          aQuotient  = floor(sqrt(Pinter[0]*Pinter[0]+Pinter[1]*Pinter[1]) /
-             (aDirection.normL2())) ;  
-          
           aClosest = aStartingPoint + aQuotient * aDirection; 
           return true;
         }
       }
     }
-
 }; 
-
