@@ -1,3 +1,4 @@
+#include<cmath>
 /**
  * Class implementing a circle that is 'ray intersectable', 
  * ie. the intersection between the circle and 
@@ -67,7 +68,7 @@ class RayIntersectableCircle
  
         myA = - py*(qz - rz) + qy*(pz - rz) - ry*(pz - qz); 
         myB = px*(qz - rz) - qx*(pz - rz) + rx*(pz - qz);
-        myC = - px*(qy - ry) + qx(py - ry) - rx*(py - qy); 
+        myC = - px*(qy - ry) + qx*(py - ry) - rx*(py - qy); 
         myD = px*(qy*rz - ry*qz) - qx*(py*rz - ry*pz) + rx*(py*qz - qy*pz); 
       }
 
@@ -130,10 +131,11 @@ class RayIntersectableCircle
      */
     double getRadius() const 
     { 
-      double v1 = myA*myA / (double) 4*myC*myC;
-      double v2 = myB*myB / (double) 4*myC*myC; 
+      double den = (double) 4*myC*myC;
+      double v1 = myA*myA / den;
+      double v2 = myB*myB / den; 
       double v3 = myD / (double) myC; 
-      return v1 + v2 - v3; 
+      return std::sqrt(v1 + v2 - v3); 
     }
 
     /**
@@ -153,12 +155,15 @@ class RayIntersectableCircle
      * Function operator
      * @param aPoint any point
      * @return 0 if @a aPoint is on the circle,
-     * a value <0 if @a aPoint is inside
-     * a value >0 if @a aPoint is outside
+     * a value <0 if @a aPoint is outside
+     * a value >0 if @a aPoint is inside
      */
     Value operator()(const Point& aPoint)
     {
-      return 0; 
+      Integer x = aPoint[0]; 
+      Integer y = aPoint[1];
+      Integer z = x*x + y*y;  
+      return (myA*aPoint[0] + myB*aPoint[1] + myC*z + myD); 
     }
 
     /**
