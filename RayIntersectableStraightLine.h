@@ -22,7 +22,7 @@ class RayIntersectableStraightLine
     /////////////////////// members /////////////////////
     /**
      * Straight-line parameters. The straight-line is defined
-     * as the set {(x,y) | ax + by + c <= 0}
+     * as the set {(x,y) | ax + by + c = 0}
      */
     Integer myA, myB, myC;  
 
@@ -46,8 +46,8 @@ class RayIntersectableStraightLine
      * @param aP first point
      * @param aQ second point
      */
-    RayIntersectableStraightLine(const Point& aP, const Point& aQ)
-      : myA(aQ[0]-aP[0]), myB(aQ[1]-aP[1]), myC(-myA*aP[0]-myB*aP[1]) {}
+    RayIntersectableStraightLine(const Point& aP, const Point& aQ):
+      myA(aP[1]-aQ[1]), myB(aQ[0]-aP[0]), myC(myA*aP[0]+myB*aP[1]) {}
 
     /**
      * Copy constructor
@@ -105,7 +105,7 @@ class RayIntersectableStraightLine
      */
     Value operator()(const Point& aPoint)
     {
-      return 0; 
+      return (myA*aPoint[0] + myB*aPoint[1] + myC);
     }
 
     /**
@@ -123,9 +123,29 @@ class RayIntersectableStraightLine
     bool dray(const Point& aStartingPoint, const Vector& aDirection, 
              int& aQuotient, Point& aClosest) const 
     {
-      return true;
+      
+      // Initialise value
+      aQuotient = 0;
+      aClosest = aStartingPoint;
+      
+
+      /**
+       *  There is no intersection if aDirection and the straight-line 
+       *  are parallel.
+       *
+       */
+      if (myA*aDirection[0] + myB*aDirection[1] == 0 ){return false;}
+      else 
+      { 
+        aQuotient = -(myA*aStartingPoint[0] + myB*aStartingPoint[1] + myC)/
+          (myA*aDirection[0] + myB*aDirection[1]);
+
+        if(aQuotient < 0){return false;}
+        else
+        {
+          aClosest = aStartingPoint + aQuotient * aDirection; 
+          return true;
+        }
+      }
     }
-
-
 }; 
-
