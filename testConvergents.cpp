@@ -11,8 +11,8 @@ void geometricConvergents(const Point& direction,
 {
   // Init pStartingPoint from origin pS=(0,0), p_-2=(0,1) & p_-1=(1,0)
   Point pS(0,0);
-  Point pm2(0,1);
-  Point pm1(1,0);
+  Point pm2(1,0);
+  Point pm1(0,1);
   
   // pconv is the next convergent pconv = pm2 + qk * pm1
   Point pconv;
