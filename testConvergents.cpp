@@ -33,19 +33,20 @@ void geometricConvergents(const Point& direction,
 
 template <typename Point, typename OutputIterator>
 void recursiveConvergents(const Point& direction, 
-                          const Point& convergent1, const Point& convergent2, 
+                          const Point& convergent1, const Point& convergent2,  
                           OutputIterator res)
 {
-  if (direction[0] > 0)
+  if (direction[1] > 0)
     {
       //Euclidean div
-      int q = direction[1] / direction[0];   //quotient
-      int r = direction[1] - q*direction[0]; //remainder
+      int q = direction[0] / direction[1];   //quotient
+      int r = direction[0] - q*direction[1]; //remainder
       //new convergent
       Point convergent3 = q * convergent2 + convergent1; 
       *res++ = convergent3; 
       //recursive call
-      recursiveConvergents(Point(r,direction[0]), convergent2, convergent3, res);  
+  std::cout << convergent2 << std::endl; 
+      recursiveConvergents(Point(direction[1],r), convergent2, convergent3, res);  
     }
 }
 
@@ -62,8 +63,8 @@ int main()
     std::vector<Vector> convergents, convergents2;
 
     Point startingPt; 
-    Point cm2(1,0); 
-    Point cm1(0,1);
+    Point cm2(0,1); 
+    Point cm1(1,0);
  
     //5/8
     convergents.clear(); 
@@ -74,7 +75,7 @@ int main()
 
     std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
 
-    if ( (convergents.size() == 4)&&(convergents.back() == startingPt) )
+    if ( (convergents.size() == 5)&&(convergents.back() == startingPt) )
       nbok++; 
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
@@ -96,7 +97,7 @@ int main()
 
     std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
 
-    if ( (convergents.size() == 3)&&(convergents.back() == startingPt) )
+    if ( (convergents.size() == 4)&&(convergents.back() == startingPt) )
       nbok++; 
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
