@@ -181,9 +181,69 @@ class RayIntersectableCircle
     bool dray(const Point& aStartingPoint, const Vector& aDirection, 
              int& aQuotient, Point& aClosest) const 
     {
-      return true;
+      // Initialise value
+      aQuotient = 0;
+      aClosest = aStartingPoint;
+      
+      /* 
+       * We look for the intersection between  aS + aQ * aD and the circle
+       *
+       */
+
+     int aEq = myC*(aDirection[0]*aDirection[0] + aDirection[1]*aDirection[1]);
+     int bEq = myA*aDirection[0] + myB*aDirection[1] + 
+       2*myC*aStartingPoint[0]*aDirection[0] + 
+       2*myC*aStartingPoint[1]*aDirection[1];
+
+     int cEq = myA*aStartingPoint[0] + myB*aStartingPoint[1] + 
+       myC*aStartingPoint[0]*aStartingPoint[0] + 
+       myC*aStartingPoint[1]*aStartingPoint[1] + myD;  
+
+     int Delta = bEq*bEq - 4*aEq*cEq;
+     
+     //Delta = 0 - 1 solution
+     // aS+aQ*aD is a tangent to the circle
+     if (Delta == 0 && -bEq/(2*aEq) >= 0)
+     {
+       aQuotient = -bEq/(2*aEq);
+       aClosest = aStartingPoint + aQuotient*aDirection;
+       return true;
+     }
+
+     // Delta > 0 - 2 solutions
+     else if (Delta >= 0)
+     {
+
+       double x1 = (-bEq - std::sqrt(Delta))/(2*aEq);
+       double x2 = (-bEq + std::sqrt(Delta))/(2*aEq);
+        
+       // aS lie on the circle
+       if (x1*x2 == 0.0)
+       {
+         return true;
+       }
+       // aS is outside the circle
+       else if (x1*x2 > 0.0)
+       {
+         if ( x1<0.0 ){return false;}
+         else 
+         { 
+           // We pick the smallest solution
+           aQuotient = floor(x1<x2 ? x1:x2);
+           aClosest = aStartingPoint + aQuotient*aDirection;
+           return true;
+         }
+       }
+       // aS is inside the circle
+       else
+       {
+         // We pick the positive solution
+         aQuotient = floor(x1<x2 ? x2:x1);
+         aClosest = aStartingPoint + aQuotient*aDirection;
+         return true;
+       }
+     }
+     // Delta < 0 & and case where there is no solution
+     else {return false;}
     }
-
-
 }; 
-
