@@ -9,7 +9,7 @@ template <typename Point, typename OutputIterator>
 void geometricConvergents(const Point& direction, 
                           OutputIterator res)
 {
-  // Init pStartingPoint from origin pS=(0,0), p_-2=(0,1) & p_-1=(1,0)
+  // Init pStartingPoint from origin pS=(0,0), p_-2=(1,0) & p_-1=(0,1)
   Point pS(0,0);
   Point pm2(1,0);
   Point pm1(0,1);

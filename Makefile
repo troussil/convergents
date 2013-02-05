@@ -1,7 +1,6 @@
 PV = PointVector2D
 testPV = test$(PV)
 
-R = RayIntersectableStraightLine
 testR = testRay
 
 
@@ -12,7 +11,7 @@ $(testPV): $(testPV).cpp $(PV).h
 	g++ -c $< -o $(testPV).o
 	g++ $(testPV).o -o $(testPV)
 
-$(testR): $(testR).cpp $(R).h
+$(testR): $(testR).cpp RayIntersectableStraightLine.h RayIntersectableCircle.h
 	g++ -c $< -o $(testR).o
 	g++ $(testR).o -o $(testR)
 
