@@ -150,6 +150,38 @@ class RayIntersectableCircle
      */
     double getCenterY() const { return (double) -myB / (double) (2*myC);  }
 
+    /**
+     * Returns the minimal y-coordinate of the digital points
+     * lying inside the circle.
+     * @return minimal y-coordinate. 
+     */
+    Coordinate getBottom() const 
+    { 
+      double y = getCenterY() - getRadius(); 
+      return (Coordinate) std::ceil( y ); 
+    }
+
+    /**
+     * Returns a vertex of the convex hull of the digital points
+     * lying inside the circle, such that it has a minimal y-coordinate, 
+     * and among the digital points of minimal y-coordinate, it has
+     * a maximal x-coordinate. 
+     * @return vertex of the convex hull. 
+     */
+    Point getConvexHullVertex() const 
+    { 
+      Point pt((Coordinate) std::floor( getCenterX() ), getBottom());
+      int q = 0;  
+      Point ptRes(0,0); 
+      if ( dray(pt, Vector(1,0), q, ptRes) )
+        return ptRes; 
+      else 
+        {
+          std::cerr << "Error in getConvexHullVertex of RayIntersectableCircle" << std::endl; 
+          return Point(0,0); 
+        } 
+    }
+
     ///////////////////// main methods ///////////////////
     /**
      * Function operator

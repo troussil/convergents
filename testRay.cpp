@@ -208,6 +208,24 @@ int main()
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
 
+    /////////////////////////////////////////////////////////////// 
+    // vertex of convex hull
+    if ( circle.getConvexHullVertex() == Point(0,-5) )
+        nbok++; 
+    nb++; 
+    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+
+    Circle circle3(Point(0,0), Point(5,1), Point(5,3));
+    if ( circle3.getConvexHullVertex() == Point(4,0) )
+        nbok++; 
+    nb++; 
+    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+
+    Circle circle4(Point(0,0), Point(5,1), Point(6,3));
+    if ( circle4.getConvexHullVertex() == Point(3,0) )
+        nbok++; 
+    nb++; 
+    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
   }
 
   //1 if at least one test failed
