@@ -16,9 +16,9 @@ int main()
   {
     typedef RayIntersectableStraightLine<Point> SL; 
     SL line(Point(0,0), Point(8,5));
- 
+
     //constructor
-    if ( (line.a() == 8)&&(line.b() == 5)&&(line.c() == 0) ) 
+    if ( (line.a() == -5)&&(line.b() == 8)&&(line.c() == 0) ) 
       nbok++; 
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl; 
@@ -32,41 +32,48 @@ int main()
     //digital ray
     int qMax = 0; 
     Point ptMax(0,0); 
-    if ( line.dray(Point(0,0), Vector(1,1), qMax, ptMax ) == false ) 
+
+    if ( line.dray(Point(0,0), Vector(1,1), qMax, ptMax ) ) 
+      if ( (qMax == 0)&&(ptMax == Point(0,0)) ) 
+        nbok++; 
+    nb++; 
+    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+
+    if ( line.dray(Point(0,1), Vector(1,1), qMax, ptMax ) == false )
       nbok++; 
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
 
     if ( line.dray(Point(3,0), Vector(1,1), qMax, ptMax ) )
-	if ( (qMax == 5)&&(ptMax == Point(8,5)) ) 
-          nbok++; 
+      if ( (qMax == 5)&&(ptMax == Point(8,5)) ) 
+        nbok++; 
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
 
     if ( line.dray(Point(2,0), Vector(1,1), qMax, ptMax ) )
-	if ( (qMax == 3)&&(ptMax == Point(5,3)) ) 
-          nbok++; 
+      if ( (qMax == 3)&&(ptMax == Point(5,3)) ) 
+        nbok++; 
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
 
     if ( line.dray(Point(1,0), Vector(1,1), qMax, ptMax ) )
-	if ( (qMax == 1)&&(ptMax == Point(2,1)) ) 
-          nbok++; 
+      if ( (qMax == 1)&&(ptMax == Point(2,1)) ) 
+        nbok++; 
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
 
     if ( line.dray(Point(2,1), Vector(3,2), qMax, ptMax ) )
-	if ( (qMax == 2)&&(ptMax == Point(8,5)) ) 
-          nbok++; 
+      if ( (qMax == 2)&&(ptMax == Point(8,5)) ) 
+        nbok++; 
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
 
     if ( line.dray(Point(0,1), Vector(1,0), qMax, ptMax ) )
-	if ( (qMax == 1)&&(ptMax == Point(1,1)) ) 
-          nbok++; 
+      if ( (qMax == 1)&&(ptMax == Point(1,1)) ) 
+        nbok++; 
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
- 
+
   }
 
   std::cout << "testRayIntersectableCircle" << std::endl; 
@@ -84,7 +91,7 @@ int main()
     //std::cout << circle.getCenterX() << " " << circle.getCenterY() << " " << circle.getRadius() << std::endl; 
     double epsilon = 0.000001; 
     if ( ((circle.getCenterX() - 0)<= epsilon)&&((circle.getCenterY() - 0)<= epsilon)
-         &&((circle.getRadius() - 5)<= epsilon) ) 
+        &&((circle.getRadius() - 5)<= epsilon) ) 
       nbok++; 
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl; 
@@ -105,7 +112,7 @@ int main()
 
     //point functor
     if ( (circle(Point(0,0)) > 0)&&(circle(Point(5,0)) == 0)
-         &&(circle(Point(3,4)) == 0)&&(circle(Point(6,1)) < 0) ) 
+        &&(circle(Point(3,4)) == 0)&&(circle(Point(6,1)) < 0) ) 
       nbok++; 
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
@@ -120,7 +127,7 @@ int main()
     //circle of center (0,0) and radius 5
     //std::cout << circle2.getCenterX() << " " << circle2.getCenterY() << " " << circle2.getRadius() << std::endl; 
     if ( ((circle2.getCenterX() - 1)<= epsilon)&&((circle2.getCenterY() - 1)<= epsilon)
-         &&((circle2.getRadius() - 5)<= epsilon) ) 
+        &&((circle2.getRadius() - 5)<= epsilon) ) 
       nbok++; 
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl; 
@@ -135,7 +142,7 @@ int main()
     //-a/(2c) (resp. -b/(2c)) are the x- (resp. y-) coordinate of the center, ie. 1 
     //d/c is the power of the origin with respect to the circle, ie. 2-25 
     if ( (circle2.c() == -det)&&(circle2.a() == -2*circle.c())&&(circle2.b() == -2*circle.c())
-         &&(circle2.d() == (2-25)*circle2.c()) ) 
+        &&(circle2.d() == (2-25)*circle2.c()) ) 
       nbok++; 
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl; 
@@ -144,11 +151,63 @@ int main()
     //digital ray
     int qMax = 0; 
     Point ptMax(0,0); 
-    if ( circle.dray(Point(0,5), Vector(1,1), qMax, ptMax ) == false ) 
+    // No intersection
+    if ( circle.dray(Point(6,0), Vector(1,1), qMax, ptMax ) == false ) 
       nbok++; 
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
-    //TODO
+    if ( circle.dray(Point(7,2), Vector(2,0), qMax, ptMax ) == false ) 
+      nbok++; 
+    nb++; 
+    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+    if ( circle.dray(Point(5,2), Vector(2,0), qMax, ptMax ) == false ) 
+      nbok++; 
+    nb++; 
+    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+
+    // Intersection, aS lie on the circle
+    if ( circle.dray(Point(3,4), Vector(1,1), qMax, ptMax ) )
+      if ( (qMax == 0)&&(ptMax == Point(3,4)) ) 
+        nbok++; 
+    nb++; 
+    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+
+    if ( circle.dray(Point(-5,0), Vector(1,1), qMax, ptMax ) )
+      if ( (qMax == 0)&&(ptMax == Point(-5,0)) ) 
+        nbok++; 
+    nb++; 
+    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+
+    if ( circle.dray(Point(5,0), Vector(1,0), qMax, ptMax ) )
+      if ( (qMax == 0)&&(ptMax == Point(5,0)) ) 
+        nbok++; 
+    nb++; 
+    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+
+    // Intersection, aS inside the circle
+    if ( circle.dray(Point(2,2), Vector(1,1), qMax, ptMax ) )
+      if ( (qMax == 1)&&(ptMax == Point(3,3)) ) 
+        nbok++; 
+    nb++; 
+    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+    if ( circle.dray(Point(2,2), Vector(-1,-1), qMax, ptMax ) )
+      if ( (qMax == 5)&&(ptMax == Point(-3,-3)) ) 
+        nbok++; 
+    nb++; 
+    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+
+    // Intersection, aS outside the circle
+    if ( circle.dray(Point(8,0), Vector(-2,0), qMax, ptMax ) )
+      if ( (qMax == 1)&&(ptMax == Point(6,0)) ) 
+        nbok++; 
+    nb++; 
+    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+    if ( circle.dray(Point(5,6), Vector(-1,-1), qMax, ptMax ) )
+      if ( (qMax == 2)&&(ptMax == Point(3,4)) ) 
+        nbok++; 
+    nb++; 
+    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+
   }
 
   //1 if at least one test failed

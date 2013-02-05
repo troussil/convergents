@@ -206,7 +206,7 @@ class PointVector2D
      */
     double normL2() const 
     { 
-      return sqrt( myX * myX + myY * myY);	
+      return sqrt( myX * myX + myY * myY);  
     }
 
     /**
