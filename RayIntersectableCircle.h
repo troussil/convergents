@@ -190,7 +190,7 @@ class RayIntersectableCircle
      * a value <0 if @a aPoint is outside
      * a value >0 if @a aPoint is inside
      */
-    Value operator()(const Point& aPoint)
+    Value operator()(const Point& aPoint) const
     {
       Integer x = aPoint[0]; 
       Integer y = aPoint[1];

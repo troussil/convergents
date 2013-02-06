@@ -103,7 +103,7 @@ class RayIntersectableStraightLine
      * a value <0 if @a aPoint is below
      * a value >0 if @a aPoint is above 
      */
-    Value operator()(const Point& aPoint)
+    Value operator()(const Point& aPoint) const
     {
       return (myA*aPoint[0] + myB*aPoint[1] + myC);
     }
