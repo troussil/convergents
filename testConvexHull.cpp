@@ -96,7 +96,7 @@ class Tracker
           }
           else 
           { //otherwise
-            //	    std::cout << out + aDir << " is outside " << std::endl; 
+            //      std::cout << out + aDir << " is outside " << std::endl; 
             if ( myShape(aPoint + aDir) >= 0 )
             { //if aPoint + aDir is inside
               next = aPoint + aDir; 
@@ -357,17 +357,19 @@ int main()
 
       std::vector<Point> v; 
       convexHull( circle, circle.getConvexHullVertex(), std::back_inserter(v) ); 
-      std::cout << "Get" << std::endl; 
+      std::cout << "---Get :" << std::endl; 
       std::copy(v.begin(), v.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
       std::cout << std::endl; 
 
       std::vector<Point> boundary; 
       Vector dir(1,0); 
       tracking( circle, circle.getConvexHullVertex(), dir, std::back_inserter(boundary) ); 
-
+      std::cout << "---Boundary" << std::endl; 
+      std::copy(boundary.begin(), boundary.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+      std::cout << std::endl; 
       std::vector<Point> mch; 
       melkmanConvexHull( boundary.begin(), boundary.end(), std::back_inserter(mch) ); 
-      std::cout << "Melkman's convex hull of the boundary" << std::endl; 
+      std::cout << "---Melkman's convex hull of the boundary" << std::endl; 
       std::copy(mch.begin(), mch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
       std::cout << std::endl; 
 
