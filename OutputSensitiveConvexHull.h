@@ -63,6 +63,7 @@ class OutputSensitiveConvexHull
      * @param aPoint any vertex of the convex hull
      * @return the next vertex
      */
+
     Point next(const Point& aPoint)
     {
       /**
@@ -82,7 +83,7 @@ class OutputSensitiveConvexHull
 
       // Orientation of the convergent
       // vm2 outside and vm1 inside
-      while (myShape(aPoint + vm1) < 0 || myShape(aPoint + vm2) > 0)
+      while (myShape(aPoint + vm2) > 0 || myShape(aPoint + vm1) < 0)
       {
         // pi/2 counter clockwise rotation
         vm2 = vm2.rotate(rot_pi2);
@@ -97,7 +98,8 @@ class OutputSensitiveConvexHull
       // p0 exisence an iteration
       if (myShape.dray(pm2, vm1, pQuotient, pConv) == false)
       {
-        return (pm1);
+        while(myShape(pm1+vm1) >= 0){pm1 += vm1;}
+	return (pm1);
       }
 
       // p0 lie on the circle
@@ -145,7 +147,7 @@ class OutputSensitiveConvexHull
               vNext = vConv;
             }
           }
-          else if (myShape(pConv + vm1) > 0)
+          else if (myShape(pConv + vm1) >= 0)
           {
             if (vNext.det(vConv + vm1) < 0)
             {
@@ -173,6 +175,7 @@ class OutputSensitiveConvexHull
         vm1 = pConv - aPoint;
 
       }
+      while(myShape(pNext+vNext) >= 0){pNext += vNext;}
       return pNext; 
     }
 }; 
