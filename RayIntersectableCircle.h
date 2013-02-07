@@ -195,7 +195,7 @@ class RayIntersectableCircle
       Integer x = aPoint[0]; 
       Integer y = aPoint[1];
       Integer z = x*x + y*y;  
-      return (myC<0 ? myA*aPoint[0] + myB*aPoint[1] + myC*z + myD:-(myA*aPoint[0] + myB*aPoint[1] + myC*z + myD)); 
+      return (myC<0 ? (myA*aPoint[0] + myB*aPoint[1] + myC*z + myD):-(myA*aPoint[0] + myB*aPoint[1] + myC*z + myD)); 
     }
 
     /**

@@ -49,7 +49,7 @@ class OutputSensitiveConvexHull
     OutputSensitiveConvexHull& operator=(const OutputSensitiveConvexHull& other) 
     { return *this; }
 
-   public: 
+  public: 
     /**
      * Default destructor
      */
@@ -72,12 +72,12 @@ class OutputSensitiveConvexHull
        */
       Point vm2( 1, 0);
       Point vm1( 0, 1);
-  
+
       int rot_pi2[4];
       rot_pi2[0] = 0; rot_pi2[1] = -1; rot_pi2[2] = 1; rot_pi2[3] = 0;
 
       int pQuotient = 0;
-      
+
       Point pConv;
       Point vConv;
 
@@ -99,7 +99,7 @@ class OutputSensitiveConvexHull
       if (myShape.dray(pm2, vm1, pQuotient, pConv) == false)
       {
         while(myShape(pm1+vm1) >= 0){pm1 += vm1;}
-	return (pm1);
+        return (pm1);
       }
 
       // p0 lie on the circle
@@ -165,7 +165,7 @@ class OutputSensitiveConvexHull
             vNext = vConv;
           }
         }
-        
+
         ite++; 
         // update pm2 and pm1
         pm2 = pm1;

@@ -2,6 +2,9 @@
 #include <vector>
 #include <deque>
 #include <iterator>
+// random
+#include <cstdlib>
+#include <ctime>
 
 #include "PointVector2D.h"
 #include "RayIntersectableCircle.h"
@@ -154,7 +157,6 @@ void melkmanConvexHull(const ForwardIterator& itb, const ForwardIterator& ite,
   //for all points
   for(ForwardIterator it = itb; it != ite; ++it)
   {
-
     if(container.size() < 3)
     {
       container.push_back( *it ); 
@@ -216,7 +218,6 @@ void melkmanConvexHull(const ForwardIterator& itb, const ForwardIterator& ite,
         //std::cout << " add to back " << *it << std::endl; 
       }
     }
-
   }//end for all points
 
   //copy
@@ -250,10 +251,11 @@ int main()
 
   int nbok = 0; //number of tests ok
   int nb = 0;   //total number of tests
-
-  std::cout << "convex hull on a simple circle" << std::endl; 
+  std::cout << std::endl; 
+  std::cout << "1 - Convex hull on a simple circle" << std::endl; 
   {
-    Circle circle( Point(1,-1), Point(4,-5), Point(-5,-7) );
+
+    Circle circle( Point(5,0), Point(0,5), Point(-5,0) );
     std::vector<Point> groundTruth; 
     groundTruth.push_back(Point(0,-5)); 
     groundTruth.push_back(Point(3,-4)); 
@@ -267,14 +269,14 @@ int main()
     groundTruth.push_back(Point(-5,0)); 
     groundTruth.push_back(Point(-4,-3));
     groundTruth.push_back(Point(-3,-4)); 
-    std::cout << "expected" << std::endl; 
+    std::cout << "Expected" << std::endl; 
     std::copy(groundTruth.begin(), groundTruth.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
     std::cout << std::endl; 
 
 
     std::vector<Point> v; 
     convexHull( circle, circle.getConvexHullVertex(), std::back_inserter(v) ); 
-    std::cout << "get" << std::endl; 
+    std::cout << "Get" << std::endl; 
     std::copy(v.begin(), v.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
     std::cout << std::endl; 
 
@@ -287,7 +289,7 @@ int main()
     std::vector<Point> boundary; 
     Vector dir(1,0); 
     tracking( circle, circle.getConvexHullVertex(), dir, std::back_inserter(boundary) ); 
-    std::cout << "boundary" << std::endl; 
+    std::cout << "Boundary" << std::endl; 
     std::copy(boundary.begin(), boundary.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
     std::cout << std::endl; 
 
@@ -303,6 +305,78 @@ int main()
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
 
+  }
+  std::cout << std::endl; 
+  std::cout << "2 - Convex hull on a the same circle but another triangle orientation" << std::endl; 
+  {
+    Circle circle( Point(-5,0), Point(0,5), Point(5,0) );
+
+    std::vector<Point> v; 
+    convexHull( circle, circle.getConvexHullVertex(), std::back_inserter(v) ); 
+    std::cout << "Get" << std::endl; 
+    std::copy(v.begin(), v.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+    std::cout << std::endl; 
+
+    std::vector<Point> boundary; 
+    Vector dir(1,0); 
+    tracking( circle, circle.getConvexHullVertex(), dir, std::back_inserter(boundary) ); 
+
+    std::vector<Point> mch; 
+    melkmanConvexHull( boundary.begin(), boundary.end(), std::back_inserter(mch) ); 
+    std::cout << "Melkman's convex hull of the boundary" << std::endl; 
+    std::copy(mch.begin(), mch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+    std::cout << std::endl; 
+
+    if (mch.size() == v.size())
+      if ( std::equal(v.begin(), v.end(), mch.begin()) )
+        nbok++; 
+    nb++; 
+    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+
+  }
+
+  srand ( time(NULL) );
+  int max = 25;
+  int nb_test = 4;
+
+  std::cout << std::endl; 
+  std::cout << "3 - Convex hull on "<<nb_test<<" random circle" << std::endl; 
+  {
+
+    for (nb_test;nb_test>0;nb_test--)
+    {
+
+      std::cout << std::endl; 
+      std::cout << " - 3."<<nb_test<<" - Convex hull on a random circle" << std::endl; 
+
+      Circle circle( Point((rand() % (2*max) -max),(rand() % (2*max) -max)), 
+          Point((rand() % (2*max) -max),(rand() % (2*max) -max)), 
+          Point((rand() % (2*max) -max),(rand() % (2*max) -max)) );
+
+      std::cout << "Disk[ (" << circle.getCenterX() << ", " << circle.getCenterY()<< " ), " << circle.getRadius()<<" ] | aStartingPoint : "<<circle.getConvexHullVertex()<<std::endl;
+
+      std::vector<Point> v; 
+      convexHull( circle, circle.getConvexHullVertex(), std::back_inserter(v) ); 
+      std::cout << "Get" << std::endl; 
+      std::copy(v.begin(), v.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+      std::cout << std::endl; 
+
+      std::vector<Point> boundary; 
+      Vector dir(1,0); 
+      tracking( circle, circle.getConvexHullVertex(), dir, std::back_inserter(boundary) ); 
+
+      std::vector<Point> mch; 
+      melkmanConvexHull( boundary.begin(), boundary.end(), std::back_inserter(mch) ); 
+      std::cout << "Melkman's convex hull of the boundary" << std::endl; 
+      std::copy(mch.begin(), mch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+      std::cout << std::endl; 
+
+      if (mch.size() == v.size())
+        if ( std::equal(v.begin(), v.end(), mch.begin()) )
+          nbok++; 
+      nb++; 
+      std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+    }
   }
 
 
