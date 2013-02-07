@@ -186,6 +186,26 @@ class PointVector2D
       return (p.x() * myX + p.y() * myY); 
     }
 
+    /**
+     * rotation operator
+     * @param mat the matrice rotation
+     * @return a rotation of p
+     */
+    PointVector2D rotate(const T mat[4]) const 
+    { 
+      return (PointVector2D(mat[0]*myX + mat[1]*myY, mat[2]*myX + mat[3]*myY)); 
+    }
+
+    /**
+     * Determinant operator
+     * @param p, objects which the det(p, *this) is computed
+     * @return T the determinant 
+     */
+    T det(const PointVector2D& p) const 
+    { 
+      return (myX*p.y() - myY*p.x()); 
+    }
+    
     ///////////////////// norms   //////////////////////
     /**
      * @return L1 norm (ie. |x|+|y|)

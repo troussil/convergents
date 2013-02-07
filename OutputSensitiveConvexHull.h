@@ -65,9 +65,114 @@ class OutputSensitiveConvexHull
      */
     Point next(const Point& aPoint)
     {
+      /**
+       * Initialisation
+       * 
+       */
+      Point vm2( 1, 0);
+      Point vm1( 0, 1);
+  
+      int rot_pi2[4];
+      rot_pi2[0] = 0; rot_pi2[1] = -1; rot_pi2[2] = 1; rot_pi2[3] = 0;
 
-      return aPoint; 
+      int pQuotient = 0;
+      
+      Point pConv;
+      Point vConv;
+
+      // Orientation of the convergent
+      // vm2 outside and vm1 inside
+      while (myShape(aPoint + vm1) < 0 || myShape(aPoint + vm2) > 0)
+      {
+        // pi/2 counter clockwise rotation
+        vm2 = vm2.rotate(rot_pi2);
+        vm1 = vm1.rotate(rot_pi2);
+      }
+      Point pm2 = aPoint + vm2;
+      Point pm1 = aPoint + vm1;
+
+      Point pNext = pm1; 
+      Point vNext = pNext - aPoint;
+
+      // p0 exisence an iteration
+      if (myShape.dray(pm2, vm1, pQuotient, pConv) == false)
+      {
+        return (pm1);
+      }
+
+      // p0 lie on the circle
+      if (myShape(pConv) >= 0)
+      {
+        pNext = pConv;
+        vNext = pNext - aPoint;
+      }
+      //p0 outise the circle
+      else if (myShape(pConv + vm1) >= 0)
+      {
+        pNext = pConv + vm1;
+        vNext = pNext - aPoint;
+      }
+
+      /**
+       * We iterate the vectors to build the next convergent
+       * p_-1 become p_-2
+       * p_0 become p_-1
+       * and their vector vm2, vm1
+       */
+
+      vConv = pConv - aPoint;
+      pm2 = pm1;
+      pm1 = pConv;
+
+      vm2 = vm1;
+      vm1 = pm1 - aPoint;
+
+      //even or odd
+      int ite = 1;
+
+      // p1 and more
+      while (myShape.dray(pm2, vm1, pQuotient, pConv) && pQuotient != 0)
+      {
+        // New Convergent, new v_i
+        vConv = pConv - aPoint;
+        if (!(ite & 1)) // even
+        {
+          if (myShape(pConv) == 0) // if the vertex lie on the circle
+          {
+            if (vNext.det(vConv) < 0)
+            {
+              pNext = pConv;
+              vNext = vConv;
+            }
+          }
+          else if (myShape(pConv + vm1) > 0)
+          {
+            if (vNext.det(vConv + vm1) < 0)
+            {
+              pNext = pConv+vm1;
+              vNext = vConv+vm1;
+            }
+          }
+        }
+
+        else // odd
+        {
+          if ( vNext.det(vConv)  < 0 )
+          {
+            pNext = pConv;
+            vNext = vConv;
+          }
+        }
+        
+        ite++; 
+        // update pm2 and pm1
+        pm2 = pm1;
+        pm1 = pConv;
+
+        vm2 = vm1;
+        vm1 = pConv - aPoint;
+
+      }
+      return pNext; 
     }
-
-
 }; 
