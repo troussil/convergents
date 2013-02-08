@@ -1,7 +1,8 @@
 #include <iostream>
+//containers and iterators
+#include <iterator>
 #include <vector>
 #include <deque>
-#include <iterator>
 // random
 #include <cstdlib>
 #include <ctime>
@@ -147,9 +148,32 @@ signedArea(const Point& a, const Point& b, const Point&c)
   return a[0]*(b[1] - c[1]) - b[0]*(a[1] - c[1]) + c[0]*(a[1] - b[1]);
 }
 
-  template <typename ForwardIterator, typename OutputIterator>
-void melkmanConvexHull(const ForwardIterator& itb, const ForwardIterator& ite,  
-    OutputIterator res )
+template <typename Container, typename Point>
+void updateConvexHull(Container& container, const Point& P)
+{
+  Point Q = container.back(); 
+  container.pop_back(); 
+  if (container.size() != 0) 
+    {
+      Point R = container.back(); 
+      //std::cout << " signed area of " << P << " " << Q << " " << R << " : " << signedArea(P,Q,R) << std::endl; 
+      while ( ( signedArea(P,Q,R) >= 0 )&&(container.size() != 0) )
+	{
+	  //remove Q
+	  //std::cout << " remove from back" << Q << std::endl; 
+	  Q = R; 
+	  container.pop_back(); 
+	  if (container.size() != 0) 
+	    R = container.back(); 
+	}
+      //add Q
+      container.push_back(Q); 
+    }
+}
+
+template <typename ForwardIterator, typename OutputIterator>
+void grahamScan(const ForwardIterator& itb, const ForwardIterator& ite,  
+		OutputIterator res )
 {
   typedef typename std::iterator_traits<ForwardIterator>::value_type Point; 
   std::deque<Point> container; 
@@ -157,75 +181,107 @@ void melkmanConvexHull(const ForwardIterator& itb, const ForwardIterator& ite,
   //for all points
   for(ForwardIterator it = itb; it != ite; ++it)
   {
-    if(container.size() < 3)
+    if(container.size() < 2)
     {
       container.push_back( *it ); 
       //std::cout << " add (to back) " << *it << std::endl; 
     }
     else
     {
-      //front
-      {
-        Point P = *it; 
-        Point Q = container.front(); 
-        container.pop_front(); 
-        if (container.size() != 0) 
-        {
-          Point R = container.front(); 
-          //std::cout << " signed area of " << P << " " << Q << " " << R << " : " << signedArea(P,Q,R) << std::endl; 
-          while ( ( signedArea(P,Q,R) >= 0 )&&(container.size() != 0) )
-          {
-            //remove Q
-            //std::cout << " remove from front " << Q << std::endl; 
-            Q = R; 
-            container.pop_front(); 
-            if (container.size() != 0) 
-              R = container.front(); 
-          }
-          //add Q
-          container.push_front(Q);
-        }
-      }
-
-      //back
-      {
-        Point P = *it; 
-        Point Q = container.back(); 
-        container.pop_back(); 
-        if (container.size() != 0) 
-        {
-          Point R = container.back(); 
-          //std::cout << " signed area of " << P << " " << Q << " " << R << " : " << signedArea(P,Q,R) << std::endl; 
-          while ( ( signedArea(P,Q,R) <= 0 )&&(container.size() != 0) )
-          {
-            //remove Q
-            //std::cout << " remove from back" << Q << std::endl; 
-            Q = R; 
-            container.pop_back(); 
-            if (container.size() != 0) 
-              R = container.back(); 
-          }
-          //add Q
-          container.push_back(Q); 
-        }
-      }
+      //maintaining convexity with the new point
+      updateConvexHull(container, *it ); 
       //add new point
-      if ( signedArea(container.front(), *it, container.back()) > 0 )
-      {
-        container.push_front(*it); 
-        //std::cout << " add to front " << *it << std::endl; 
-        container.push_back(*it); 
-        //std::cout << " add to back " << *it << std::endl; 
-      }
+      container.push_back( *it ); 
+      //std::cout << " add (to back) " << *it << std::endl; 
     }
   }//end for all points
 
+  //maintaining convexity with the starting point
+  updateConvexHull(container, *itb ); 
+
   //copy
-  std::copy(++container.rbegin(), container.rend(), res); 
+  std::copy(container.begin(), container.end(), res); 
 }
 
+// template <typename ForwardIterator, typename OutputIterator>
+// void melkmanConvexHull(const ForwardIterator& itb, const ForwardIterator& ite,  
+//     OutputIterator res )
+// {
+//   typedef typename std::iterator_traits<ForwardIterator>::value_type Point; 
+//   std::deque<Point> container; 
+
+//   //for all points
+//   for(ForwardIterator it = itb; it != ite; ++it)
+//   {
+//     if(container.size() < 3)
+//     {
+//       container.push_back( *it ); 
+//       //std::cout << " add (to back) " << *it << std::endl; 
+//     }
+//     else
+//     {
+//       //front
+//       {
+//         Point P = *it; 
+//         Point Q = container.front(); 
+//         container.pop_front(); 
+//         if (container.size() != 0) 
+//         {
+//           Point R = container.front(); 
+//           //std::cout << " signed area of " << P << " " << Q << " " << R << " : " << signedArea(P,Q,R) << std::endl; 
+//           while ( ( signedArea(P,Q,R) >= 0 )&&(container.size() != 0) )
+//           {
+//             //remove Q
+//             //std::cout << " remove from front " << Q << std::endl; 
+//             Q = R; 
+//             container.pop_front(); 
+//             if (container.size() != 0) 
+//               R = container.front(); 
+//           }
+//           //add Q
+//           container.push_front(Q);
+//         }
+//       }
+
+//       //back
+//       {
+//         Point P = *it; 
+//         Point Q = container.back(); 
+//         container.pop_back(); 
+//         if (container.size() != 0) 
+//         {
+//           Point R = container.back(); 
+//           //std::cout << " signed area of " << P << " " << Q << " " << R << " : " << signedArea(P,Q,R) << std::endl; 
+//           while ( ( signedArea(P,Q,R) <= 0 )&&(container.size() != 0) )
+//           {
+//             //remove Q
+//             //std::cout << " remove from back" << Q << std::endl; 
+//             Q = R; 
+//             container.pop_back(); 
+//             if (container.size() != 0) 
+//               R = container.back(); 
+//           }
+//           //add Q
+//           container.push_back(Q); 
+//         }
+//       }
+//       //add new point
+//       if ( signedArea(container.front(), *it, container.back()) > 0 )
+//       {
+//         container.push_front(*it); 
+//         //std::cout << " add to front " << *it << std::endl; 
+//         container.push_back(*it); 
+//         //std::cout << " add to back " << *it << std::endl; 
+//       }
+//     }
+//   }//end for all points
+
+//   //copy
+//   std::copy(++container.rbegin(), container.rend(), res); 
+// }
+
 //////////////////////////////////////////////////////////////////////
-  template <typename Shape, typename Point, typename OutputIterator>
+template <typename Shape, typename Point, typename OutputIterator>
 void convexHull(const Shape& aShape, const Point& aStartingPoint, 
     OutputIterator res)
 {
@@ -294,8 +350,8 @@ int main()
     std::cout << std::endl; 
 
     std::vector<Point> mch; 
-    melkmanConvexHull( boundary.begin(), boundary.end(), std::back_inserter(mch) ); 
-    std::cout << "Melkman's convex hull of the boundary" << std::endl; 
+    grahamScan( boundary.begin(), boundary.end(), std::back_inserter(mch) ); 
+    std::cout << "Graham's convex hull of the boundary" << std::endl; 
     std::copy(mch.begin(), mch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
     std::cout << std::endl; 
 
@@ -322,8 +378,8 @@ int main()
     tracking( circle, circle.getConvexHullVertex(), dir, std::back_inserter(boundary) ); 
 
     std::vector<Point> mch; 
-    melkmanConvexHull( boundary.begin(), boundary.end(), std::back_inserter(mch) ); 
-    std::cout << "Melkman's convex hull of the boundary" << std::endl; 
+    grahamScan( boundary.begin(), boundary.end(), std::back_inserter(mch) ); 
+    std::cout << "Graham's convex hull of the boundary" << std::endl; 
     std::copy(mch.begin(), mch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
     std::cout << std::endl; 
 
@@ -336,8 +392,8 @@ int main()
   }
 
   srand ( time(NULL) );
-  int max = 25;
-  int nb_test = 4;
+  int max = 200;
+  int nb_test = 10;
 
   std::cout << std::endl; 
   std::cout << "3 - Convex hull on "<<nb_test<<" random circle" << std::endl; 
@@ -353,7 +409,9 @@ int main()
           Point((rand() % (2*max) -max),(rand() % (2*max) -max)), 
           Point((rand() % (2*max) -max),(rand() % (2*max) -max)) );
 
-      std::cout << "Disk[ (" << circle.getCenterX() << ", " << circle.getCenterY()<< " ), " << circle.getRadius()<<" ] | aStartingPoint : "<<circle.getConvexHullVertex()<<std::endl;
+      std::cout << "Disk[ (" << circle.getCenterX() << ", " << circle.getCenterY()<< " ), " 
+		<< circle.getRadius()<<" ] | aStartingPoint : "
+		<< circle.getConvexHullVertex() << std::endl;
 
       std::vector<Point> v; 
       convexHull( circle, circle.getConvexHullVertex(), std::back_inserter(v) ); 
@@ -364,12 +422,9 @@ int main()
       std::vector<Point> boundary; 
       Vector dir(1,0); 
       tracking( circle, circle.getConvexHullVertex(), dir, std::back_inserter(boundary) ); 
-      std::cout << "---Boundary" << std::endl; 
-      std::copy(boundary.begin(), boundary.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
-      std::cout << std::endl; 
       std::vector<Point> mch; 
-      melkmanConvexHull( boundary.begin(), boundary.end(), std::back_inserter(mch) ); 
-      std::cout << "---Melkman's convex hull of the boundary" << std::endl; 
+      grahamScan( boundary.begin(), boundary.end(), std::back_inserter(mch) ); 
+      std::cout << "---Graham's convex hull of the boundary" << std::endl; 
       std::copy(mch.begin(), mch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
       std::cout << std::endl; 
 
