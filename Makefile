@@ -18,7 +18,7 @@ $(testR): $(testR).cpp RayIntersectableStraightLine.h RayIntersectableCircle.h
 testConvergents: testConvergents.cpp
 	g++ $< -o $@
 
-testConvexHull: testConvexHull.cpp OutputSensitiveConvexHull.h
+testConvexHull: testConvexHull.cpp OutputSensitiveConvexHull.h ConvexHullHelpers.h
 	g++ $< -o $@
 test: 
 	./$(testPV) && ./$(testR) && ./testConvergents && ./testConvexHull

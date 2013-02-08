@@ -230,6 +230,14 @@ class PointVector2D
     }
 
     /**
+     * @return squared L2 norm (ie. x²+y² )
+     */
+    T normL22() const 
+    { 
+      return myX * myX + myY * myY;  
+    }
+
+    /**
      * @return Linf norm (ie. max(|x|,|y|) )
      */
     T normLinf() const 
