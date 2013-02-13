@@ -78,11 +78,6 @@ class OutputSensitiveAlphaShape
         // Ralpha = -1/alpha;
         double Ralpha = -1/alpha;
 
-
-  // boucle while -- tant qu'on a pas rajouter le point bPoint.
-  // A FAIRE -- On va avoir besoin de deux points supplémentaires
-  // pour jouer les bornes a et b qui seront les valeurs initales
-
         // Lowest Bezout Point
         // lastest convergent under [a, b] 
 
@@ -90,15 +85,19 @@ class OutputSensitiveAlphaShape
 
         convergents.clear(); 
         // gcd and convergent
+        
         geometricConvergents(bPoint - aPoint, std::back_inserter(convergents)); 
         
-        Point pPoint = aPoint + convergents.end();
-
-        // While (dray(cPoint) >=0 ) 
+        // On prend le dernier convergent en dessous de la droite discrète
+        Point pPoint = convergents.end();
+        while (dray(pPoint) >= 0)
         {
-          // on va à la valeur précédente de l'itérateur.
-          pPoint = (convergent--);
+          // on va au convergent précédent
+          convergent--;
+          pPoint = convergents;
         }
+        
+        
 
         // Soit Rexp le rayon tel que P = convPoint appartienne au cercle 
         // de centre C=(cx, cy). On a :
@@ -123,19 +122,17 @@ class OutputSensitiveAlphaShape
         // On mesure Rexp²
         double Rexp = (cx- aPoint.x())*(cx- aPoint.x()) + (cy- aPoint.y())*(cy- aPoint.y());
 
-        // P n'appartient pas au disque
-        if (Rexp > Ralpha)
-        {
-          // b est le prochain sommet de l'alpha-shape
-          // On remplace a par b et b par le "convergent" suivant.
 
-        }
         // P appartient au disque et donc à l'alpha-shape
-        else
+        if (Rexp < Ralpha*Ralpha && norm(aPoint, bPoint) > 1.0)
         {
           // On conserve a et on remplace b par le convergent précédent.
+          rec_alphaShape(aShape, aPoint, pPoint, AlphaShapeHull);
+          rec_alphaShape(aShape, pPoint, bPoint, AlphaShapeHull);
 
         }
+        //dernier point de l'alpha-shape
+        AlphaShapeHull += bPpoint;
 
       }
 }; 
