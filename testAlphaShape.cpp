@@ -9,8 +9,11 @@
 
 #include "PointVector2D.h"
 #include "RayIntersectableCircle.h"
-#include "OutputSensitiveConvexHull.h"
+#include "RayIntersectableStraightLine.h"
 #include "ConvexHullHelpers.h"
+//#include "OutputSensitiveConvexHull.h"
+#include "OutputSensitiveAlphaShape.h"
+
 
 
 
@@ -19,12 +22,39 @@ int main()
 {
   typedef PointVector2D<int> Point; //type redefinition
   typedef PointVector2D<int> Vector; //type redefinition
-  typedef RayIntersectableCircle<Point> Circle; 
+  typedef RayIntersectableCircle<Point> Circle;
+  typedef OutputSensitiveAlphaShape<TShape> Shape; 
 
   int nbok = 0; //number of tests ok
   int nb = 0;   //total number of tests
+  
   std::cout << std::endl; 
-  std::cout << "I) Alpha-shape on a simple circle" << std::endl; 
+  std::cout << "I) Alpha-shape on a straight line" << std::endl; 
+  {
+  
+    Shape myShape;
+    
+    std::vector<Vector> convergents;
+    convergents.clear(); 
+    
+    Point aPoint(0,0); 
+    Point bPoint(5,8);  
+
+    myShape.convAlphaShape(aPoint, bPoint, std::back_inserter(convergents) );  
+
+    std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
+
+    if ( (convergents.size() == 4)&&(convergents.back() == aPoint) )
+      nbok++; 
+    nb++; 
+    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+  
+  
+  
+  }
+  
+  std::cout << std::endl; 
+  std::cout << "II) Alpha-shape on a simple circle" << std::endl; 
   {
 
     Circle circle( Point(5,0), Point(0,5), Point(-5,0) );
