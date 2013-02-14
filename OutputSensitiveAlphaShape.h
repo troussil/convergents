@@ -10,6 +10,7 @@
  * @tparam TShape a model of ray-intersectable shape.  
  *
  */
+ 
 template <typename TShape>
 class OutputSensitiveAlphaShape 
 {
@@ -66,13 +67,13 @@ class OutputSensitiveAlphaShape
 
     ///////////////////// main methods ///////////////////
     /**
-     * Given a vertex of the convex hull, find the next
-     * vertex in a counter-clockwise order
-     * @param aPoint any vertex of the convex hull
-     * @return the next vertex
+     * Given a straight line, find the alpha Hull,
+     * @param aPoint, bPoint, the starting and ending point 
+     * of the line
+     * @return the alpha-hull
      */
     template <typename Point, typename OutputIterator>
-      void rec_alphaShape(const Shape& aShape, const Point& aPoint, const Point bPoint, OutputIterator AlphaShapeHull)
+      void convAlphaShape(const Point& aPoint, const Point bPoint, OutputIterator AlphaShapeHull)
       {
 
         // aPoint is the first Alpha-Shape vertex
@@ -101,7 +102,7 @@ class OutputSensitiveAlphaShape
         {
           Point pm2 = pStart + cm2;
           Point pm1 = pStart + cm1;
-          RadiusCirclePredicate<Integer> radius(myDen*myDen, myNum*myNum);
+          RadiusCirclePredicate radius(myDen*myDen, myNum*myNum);
 
           if (radius(pStart, pm2, bPoint)) // pm2 inside the circumcircle
           {
