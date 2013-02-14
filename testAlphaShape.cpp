@@ -11,10 +11,82 @@
 #include "RayIntersectableCircle.h"
 #include "RayIntersectableStraightLine.h"
 #include "ConvexHullHelpers.h"
-//#include "OutputSensitiveConvexHull.h"
-#include "OutputSensitiveAlphaShape.h"
+#include "OutputSensitiveConvexHull.h"
+//#include "OutputSensitiveAlphaShape.h"
 
+/**
+ * Given a straight line, find the alpha Hull,
+ * @param aPoint, bPoint, the starting and ending point 
+ * of the line
+ * @return the alpha-hull
+ */
+  template <typename Point, typename OutputIterator>
+void convAlphaShape(const RadiusCirclePredicate predicat, const Point& aPoint, const Point bPoint, OutputIterator AlphaShapeHull)
+{
 
+  // aPoint is the first Alpha-Shape vertex
+  *AlphaShapeHull++ = aPoint;
+
+  // Init
+  Point cm2(1,0);
+  Point cm1(0,1);
+
+  Point pm2;
+  Point pm1;
+
+  Point pStart = aPoint;
+
+  // pconv is the next convergent pconv = pm2 + qk * pm1
+  Point pconv;
+  int qk;
+
+  // we found a new vertex
+  bool candidat;
+
+  // The discrete straight-line [a, b]
+  RayIntersectableStraightLine<Point> DroiteRatio(aPoint, bPoint-aPoint);
+
+  while ( pconv != bPoint ) // we have add the last vertex b
+  {
+    Point pm2 = pStart + cm2;
+    Point pm1 = pStart + cm1;
+
+    if (predicat(pStart, pm2, bPoint)) // pm2 inside the circumcircle
+    {
+      //pm2 is a vertex
+      *AlphaShapeHull++ = pm2;
+
+      // next iteration will start from pm2
+      pStart = pm2;
+      candidat = true;
+    }
+    else
+    {
+      candidat = false;
+    }
+
+    // We stop when the ray is parallel to the straight line
+    while( DroiteRatio.dray(pm2, pm1, qk, pconv) == true && candidat = false)
+    {
+      // pconv inside the circumcircle
+      if (DroiteRatio(pconv) <= 0 && predicat(pStart, pconv, bPoint) )
+      {
+        // pconv is a vertex
+        *AlphaShapeHull++ = pconv;
+        // next iteration will start from pconv
+        pStart = pconv;
+
+        candidat = true;
+      }
+      else
+      {
+        // we search for the next convergent
+        pm2 = pm1;
+        pm1 = pconv;
+      }
+    }
+  }    
+}
 
 
 ///////////////////////////////////////////////////////////////////////
@@ -23,24 +95,24 @@ int main()
   typedef PointVector2D<int> Point; //type redefinition
   typedef PointVector2D<int> Vector; //type redefinition
   typedef RayIntersectableCircle<Point> Circle;
-  typedef OutputSensitiveAlphaShape<TShape> Shape; 
+  //typedef OutputSensitiveAlphaShape<Circle> Shape; 
 
   int nbok = 0; //number of tests ok
   int nb = 0;   //total number of tests
-  
+
   std::cout << std::endl; 
   std::cout << "I) Alpha-shape on a straight line" << std::endl; 
   {
-  
-    Shape myShape;
-    
+
+    RadiusCirclePredicate predicat(1,1);
+
     std::vector<Vector> convergents;
     convergents.clear(); 
-    
+
     Point aPoint(0,0); 
     Point bPoint(5,8);  
 
-    myShape.convAlphaShape(aPoint, bPoint, std::back_inserter(convergents) );  
+    convAlphaShape(predicat, aPoint, bPoint, std::back_inserter(convergents) );  
 
     std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
 
@@ -48,11 +120,11 @@ int main()
       nbok++; 
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
-  
-  
-  
+
+
+
   }
-  
+
   std::cout << std::endl; 
   std::cout << "II) Alpha-shape on a simple circle" << std::endl; 
   {

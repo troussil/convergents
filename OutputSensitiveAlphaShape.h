@@ -10,7 +10,7 @@
  * @tparam TShape a model of ray-intersectable shape.  
  *
  */
- 
+
 template <typename TShape>
 class OutputSensitiveAlphaShape 
 {
@@ -73,7 +73,7 @@ class OutputSensitiveAlphaShape
      * @return the alpha-hull
      */
     template <typename Point, typename OutputIterator>
-      void convAlphaShape(const Point& aPoint, const Point bPoint, OutputIterator AlphaShapeHull)
+      void convAlphaShape(const RadiusCirclePredicate predicat, const Point& aPoint, const Point bPoint, OutputIterator AlphaShapeHull)
       {
 
         // aPoint is the first Alpha-Shape vertex
@@ -102,13 +102,12 @@ class OutputSensitiveAlphaShape
         {
           Point pm2 = pStart + cm2;
           Point pm1 = pStart + cm1;
-          RadiusCirclePredicate radius(myDen*myDen, myNum*myNum);
 
-          if (radius(pStart, pm2, bPoint)) // pm2 inside the circumcircle
+          if (predicat(pStart, pm2, bPoint)) // pm2 inside the circumcircle
           {
             //pm2 is a vertex
             AlphaShapeHull += pm2;
-            
+
             // next iteration will start from pm2
             pStart = pm2;
             candidat = true;
@@ -119,10 +118,10 @@ class OutputSensitiveAlphaShape
           }
 
           // We stop when the ray is parallel to the straight line
-          while( DroiteRatio.dray(pm2, pm1, qk, pconv) == true && candidat = false)
+          while(DroiteRatio.dray(pm2, pm1, qk, pconv) == true && candidat = false)
           {
             // pconv inside the circumcircle
-            if (DroiteRAtion(pconv) <= 0 && radius(pStart, pconv, bPoint) )
+            if (DroiteRAtion(pconv) <= 0 && predicat(pStart, pconv, bPoint) )
             {
               // pconv is a vertex
               AlphaShapeHull += pconv;

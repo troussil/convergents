@@ -21,7 +21,7 @@ testConvergents: testConvergents.cpp RayIntersectableStraightLine.h
 testConvexHull: testConvexHull.cpp RayIntersectableCircle.h OutputSensitiveConvexHull.h ConvexHullHelpers.h
 	g++ $< -o $@
 
-testAlphaShape: testAlphaShape.cpp OutputSensitiveAlphaShape.h RayIntersectableCircle.h RayIntersectableStraightLine.h ConvexHullHelpers.h
+testAlphaShape: testAlphaShape.cpp RayIntersectableCircle.h RayIntersectableStraightLine.h ConvexHullHelpers.h
 	g++ $< -o $@
 
 test: 
