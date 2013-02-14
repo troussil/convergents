@@ -70,69 +70,65 @@ class OutputSensitiveAlphaShape
       {
 
         // aPoint est le premier point de l'enveloppe Alpha-Shape
-        AlphaShapeHull += aPpoint;
+        AlphaShapeHull += aPoint;
 
-        // La variable pour calculer les différents convergents
-        std::vector<Vector> convergents;
+        // Init
+        Point cm2(1,0);
+        Point cm1(0,1);
 
-        // Ralpha = -1/alpha;
-        double Ralpha = -1/alpha;
+        Point pm2;
+        Point pm1;
 
-        // Lowest Bezout Point
-        // lastest convergent under [a, b] 
+        Point pStart = aPoint;
 
-        dVer = RayIntersectableStraightLine<Point>(aPoint, bPoint);
+        // pconv is the next convergent pconv = pm2 + qk * pm1
+        Point pconv;
+        int qk;
 
-        convergents.clear(); 
-        // gcd and convergent
-        
-        geometricConvergents(bPoint - aPoint, std::back_inserter(convergents)); 
-        
-        // On prend le dernier convergent en dessous de la droite discrète
-        Point pPoint = convergents.end();
-        while (dray(pPoint) >= 0)
+        bool candidat;
+
+        // The discrete straight-line [a, b]
+        RayIntersectableStraightLine<Point> DroiteRatio(aPoint, bPoint-aPoint);
+
+        while ( pconv != bPoint ) // on est en b
         {
-          // on va au convergent précédent
-          convergent--;
-          pPoint = convergents;
-        }
-        
-        
+          Point pm2 = pStart + cm2;
+          Point pm1 = pStart + cm1;
+          
+          if (1==1) // pm2 appartient au cercle
+          {
 
-        // Soit Rexp le rayon tel que P = convPoint appartienne au cercle 
-        // de centre C=(cx, cy). On a :
-        // norm(CA) = norm(CP) = R et norm(CB) = norm(CP) = R
+            AlphaShapeHull += pm2; 
+            candidat = true;
+          }
+          else
+          {
+            candidat = false;
+          }
 
-        double cy = -1/2 * ( (bPoint.x() - pPoint.x())*(-normL22(aPoint) + normL22(pPoint)) -
-            (aPoint.x() - pPoint.x())*(-normL22(bPoint) + normL22(pPoint)) ) 
-          / ( (aPoint.y() - pPoint.y())*(bPoint.x() - pPoint.x()) * 
-              (bPoint.y() - pPoint.y())*(aPoint.x() - pPoint.x()) );
+          // We stop when the ray is parallel to the straight line
+          while( DroiteRatio.dray(pm2, pm1, qk, pconv) == true && candidat = false)
+          {
+            if (1==1) // pconv appartient au cercle
+            {
+              // on rajoute le sommet
+              AlphaShapeHull += pconv;
+              // on repart de là 
+              pStart = pconv;
+              
+              candidat = true;
+            }
+            else
+            {
+            // on continue le calcul des convergents
+              pm2 = pm1;
+              pm1 = pconv;
+            }
 
-        if(aPoint.x() - pPoint.x() != 0)
-        {
-          double cx = -1/2 * (normL22(pPoint) - normL22(aPoint) + 2*cy*(aPoint.y()-pPoint.y())) 
-            / (aPoint.x() - pPoint.x());
-        }
-        else
-        {
-          double cx = -1/2 * (normL22(pPoint) - normL22(bPoint) + 2*cy*(bPoint.y()-pPoint.y())) 
-            / (bPoint.x() - pPoint.x());
-        }
 
-        // On mesure Rexp²
-        double Rexp = (cx- aPoint.x())*(cx- aPoint.x()) + (cy- aPoint.y())*(cy- aPoint.y());
+          }
 
-
-        // P appartient au disque et donc à l'alpha-shape
-        if (Rexp < Ralpha*Ralpha && norm(aPoint, bPoint) > 1.0)
-        {
-          // On conserve a et on remplace b par le convergent précédent.
-          rec_alphaShape(aShape, aPoint, pPoint, AlphaShapeHull);
-          rec_alphaShape(aShape, pPoint, bPoint, AlphaShapeHull);
-
-        }
-        //dernier point de l'alpha-shape
-        AlphaShapeHull += bPpoint;
+        }    
 
       }
 }; 
