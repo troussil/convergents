@@ -18,6 +18,7 @@ class OutputSensitiveAlphaShape
     typedef TShape Shape; 
     typedef typename Shape::Point Point; 
     typedef typename Shape::Vector Vector; //type redefinition
+    typedef long long Integer;
 
   private: 
     /////////////////////// members /////////////////////
@@ -25,7 +26,12 @@ class OutputSensitiveAlphaShape
      * const reference on a shape
      */
     const Shape& myShape;
-    const double alpha;
+    /**
+     * The alpha is viewed as the fraction, 
+     * alpha = myNum / myDen
+     */
+    const Integer myNum; 
+    const Integer myDen; 
 
   public:
     ///////////////////// standard services /////////////
@@ -69,7 +75,7 @@ class OutputSensitiveAlphaShape
       void rec_alphaShape(const Shape& aShape, const Point& aPoint, const Point bPoint, OutputIterator AlphaShapeHull)
       {
 
-        // aPoint est le premier point de l'enveloppe Alpha-Shape
+        // aPoint is the first Alpha-Shape vertex
         AlphaShapeHull += aPoint;
 
         // Init
@@ -85,20 +91,25 @@ class OutputSensitiveAlphaShape
         Point pconv;
         int qk;
 
+        // we found a new vertex
         bool candidat;
 
         // The discrete straight-line [a, b]
         RayIntersectableStraightLine<Point> DroiteRatio(aPoint, bPoint-aPoint);
 
-        while ( pconv != bPoint ) // on est en b
+        while ( pconv != bPoint ) // we have add the last vertex b
         {
           Point pm2 = pStart + cm2;
           Point pm1 = pStart + cm1;
-          
-          if (1==1) // pm2 appartient au cercle
-          {
+          RadiusCirclePredicate<Integer> radius(myDen*myDen, myNum*myNum);
 
-            AlphaShapeHull += pm2; 
+          if (radius(pStart, pm2, bPoint)) // pm2 inside the circumcircle
+          {
+            //pm2 is a vertex
+            AlphaShapeHull += pm2;
+            
+            // next iteration will start from pm2
+            pStart = pm2;
             candidat = true;
           }
           else
@@ -109,27 +120,24 @@ class OutputSensitiveAlphaShape
           // We stop when the ray is parallel to the straight line
           while( DroiteRatio.dray(pm2, pm1, qk, pconv) == true && candidat = false)
           {
-            if (1==1) // pconv appartient au cercle
+            // pconv inside the circumcircle
+            if (DroiteRAtion(pconv) <= 0 && radius(pStart, pconv, bPoint) )
             {
-              // on rajoute le sommet
+              // pconv is a vertex
               AlphaShapeHull += pconv;
-              // on repart de là 
+              // next iteration will start from pconv
               pStart = pconv;
-              
+
               candidat = true;
             }
             else
             {
-            // on continue le calcul des convergents
+              // we search for the next convergent
               pm2 = pm1;
               pm1 = pconv;
             }
-
-
           }
-
         }    
-
       }
 }; 
 
