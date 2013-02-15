@@ -285,7 +285,6 @@ struct RadiusCirclePredicate
     if (area >= 0) signArea = 1;
     else signArea = -1;
     Integer leftPart = (4*area*area*signArea*myNum2);
-
     return leftPart >= rightPart;
   }
 }; 
