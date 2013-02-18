@@ -38,7 +38,6 @@ void convAlphaShape(const RadiusCirclePredicate& predicat, const Point& aPoint, 
   // pconv is the next convergent pconv = pm2 + qk * pm1
   Point pconv;
   int qk;
-  
   int i;
 
   // we found all new vertex
@@ -126,9 +125,77 @@ void convAlphaShape(const RadiusCirclePredicate& predicat, const Point& aPoint, 
       } // We found the last convergent
     }  
 } // last vertex 
+
   *AlphaShapeHull++ = bPoint;
 } // end proc
 
+  
+template <typename Point, typename OutputIterator>
+void recAlphaShape(const RadiusCirclePredicate& predicat, const Point& aPoint, const Point bPoint, RayIntersectableStraightLine<Point> DroiteRatio, OutputIterator AlphaShapeHull)
+{
+
+  *AlphaShapeHull++ = aPoint;
+  // Init p_-2=(1,0) & p_-1=(0,1)
+  Point cm2, cm1, pm2, pm1;
+
+  cm2[0]=1; cm2[1]=0; 
+  cm1[0]=0; cm1[1]=1; 
+
+  pm2 = aPoint + cm2;
+  pm1 = aPoint + cm1;
+  
+  // pconv is the next convergent pconv = pm2 + qk * pm1
+  Point pconv;
+  int qk = 0;
+  int i;
+  
+  // Bezout point
+  Point pcandid = aPoint;
+    
+  // The discrete straight-line
+  //RayIntersectableStraightLine<Point> DroiteRatio(aPoint, bPoint-aPoint);
+
+  // Bezout Point
+std::cout <<"#1 - pm2, cm2 : "<<pm2<<cm2 <<" +-+ pm1,cm1 : "<<pm1<<cm1<<std::endl; 
+  while( DroiteRatio.dray(pm2, cm1, qk, pconv) == true)
+  {
+
+    i = 1;
+std::cout <<"#1 - a : "<<aPoint <<" +-+ b : "<<bPoint<<std::endl; 
+
+
+    while (i <= qk)
+    {
+      if (DroiteRatio(pm2 + (i*cm1)) < 0)
+      {
+        pcandid = pm2 + (i*cm1);
+        i = qk+1;
+          std::cout <<"#refactor - pcandid : "<<pcandid <<std::endl;
+      }
+      i++;
+    }
+    pm2 = pm1;
+    pm1 = pconv;
+    cm2 = cm1;
+    cm1 = pconv-aPoint;
+std::cout <<"#1 - pm2, cm2 : "<<pm2<<cm2 <<" +-+ pm1,cm1 : "<<pm1<<cm1<<std::endl; 
+std::cout <<"#3 - pconv : "<<pconv <<std::endl;
+std::cout <<"#test : "<<DroiteRatio.dray(pm2, cm1, qk, pconv) <<std::endl;
+  }
+  std::cout <<"#2 - pcandid : "<<pcandid <<std::endl;
+   
+  if (predicat(aPoint, pcandid, bPoint) == false)
+  {  
+  std::cout <<"++ AA ++"<<std::endl;   
+     recAlphaShape(predicat, aPoint, pcandid, DroiteRatio, AlphaShapeHull );
+  std::cout <<"-- BB --"<<std::endl;     
+     recAlphaShape(predicat, pcandid, bPoint, DroiteRatio, AlphaShapeHull );
+  std::cout <<"** CC **"<<std::endl;
+  }
+  *AlphaShapeHull++ = bPoint;
+
+
+} // end proc
 
 ///////////////////////////////////////////////////////////////////////
 int main() 
@@ -164,7 +231,7 @@ int main()
     std::cout << " - Infinite radius = Convexe hull" << std::endl; 
     std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
     std::cout << std::endl;
-    
+           
     if (convergents.size() == groundTruth.size())
       if ( std::equal(groundTruth.begin(), groundTruth.end(), convergents.begin()) )
         nbok++; 
@@ -219,7 +286,7 @@ int main()
     groundTruth.push_back(Point(5,8)); 
         
     convAlphaShape(predicat4, aPoint, bPoint, std::back_inserter(convergents) );  
-    std::cout << " - New vertex : (2,3)" << std::endl; 
+    std::cout << " - New vertex : (2,3) -- predicat 4" << std::endl; 
     std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
     std::cout << std::endl;
     
@@ -262,7 +329,7 @@ int main()
     groundTruth.push_back(Point(5,8)); 
         
     convAlphaShape(predicat6, aPoint, bPoint, std::back_inserter(convergents) );  
-    std::cout << " - New vertex : (1,1)" << std::endl; 
+    std::cout << " - New vertex : (1,1) -- predicat 6" << std::endl; 
     std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
     std::cout << std::endl;
     
@@ -360,7 +427,7 @@ int main()
     groundTruth.push_back(Point(5,8)); 
         
     convAlphaShape(predicat10, aPoint, bPoint, std::back_inserter(convergents) );  
-    std::cout << " - New vertex : (4,5)" << std::endl; 
+    std::cout << " - New vertex : (4,5) -- predicat 10" << std::endl; 
     std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
     std::cout << std::endl;
     
@@ -400,6 +467,14 @@ int main()
         nbok++; 
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;    
+    
+    convergents.clear(); 
+    RayIntersectableStraightLine<Point> DroiteRatio(aPoint, bPoint);
+    
+    recAlphaShape(predicat6, aPoint, bPoint, DroiteRatio, std::back_inserter(convergents) );
+    std::cout << " - autre méthode, predicat 8" << std::endl; 
+    std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
+    std::cout << std::endl;
     
   }
 
