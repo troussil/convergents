@@ -38,70 +38,94 @@ void convAlphaShape(const RadiusCirclePredicate& predicat, const Point& aPoint, 
   // pconv is the next convergent pconv = pm2 + qk * pm1
   Point pconv;
   int qk;
+  
+  int i;
 
-  // we found a new vertex
-  bool candidat;
+  // we found all new vertex
+  bool candidat = false;
+  //we found the next vertex
+  bool convergent = false;
 
   // The discrete straight-line [a, b]
   RayIntersectableStraightLine<Point> DroiteRatio(aPoint, bPoint);
 
-  while ( pconv != bPoint ) // we have add the last vertex b
+  while ( candidat == false ) // we do not have compute all the candidat.
   {
     cm2[0]=1; cm2[1]=0; 
-    cm1[0]=0; cm2[1]=1; 
+    cm1[0]=0; cm1[1]=1; 
 
     pm2 = pStart + cm2;
     pm1 = pStart + cm1;
-
-    if ( predicat(pStart, pm1, bPoint)==false && DroiteRatio(pm1) <= 0)
+    if ( predicat(pStart, pm1, bPoint) == false && DroiteRatio(pm1) <= 0)
     { 
       // pm1 is a vertex
       *AlphaShapeHull++ = pm1;
 
       // next iteration will start from pm1
       pStart = pm1;
-      candidat = true;
+      convergent = true;
+      
+      // We found the last vertex 
+      if (pStart + cm1 == bPoint)
+      {
+        candidat = true;
+      }
 
     } 
-    else if ( predicat(pStart, pm2, bPoint)==false && DroiteRatio(pm1) <= 0) 
+    else if ( predicat(pStart, pm2, bPoint) == false && DroiteRatio(pm2) <= 0) 
     {
       // pm2 is a vertex
       *AlphaShapeHull++ = pm2;
 
       // next iteration will start from pm2
       pStart = pm2;
-      candidat = true;
+      convergent = true;
 
     }
-    else // se search for the next candidat
+    else // we search for the next candidat
     {
-      candidat = false;
-
-      // We stop when the ray is parallel to the straight line
-      while( DroiteRatio.dray(pm2, cm1, qk, pconv) == true && candidat == false && pconv != bPoint)
+      convergent = false;
+      
+      // While we do not have comput all the convergent and the vertices
+      while( DroiteRatio.dray(pm2, cm1, qk, pconv) == true &&
+        convergent == false && candidat == false )
       {
-        // pconv is inside the circumcircle
-        if (DroiteRatio(pconv) <= 0 && predicat(pStart, pconv, bPoint)==false )
+     
+        i = 1;
+        while (i <= qk && convergent == false)
         {
-          // pconv is a vertex
-          *AlphaShapeHull++ = pconv;
-          // next iteration will start from pconv
-          pStart = pconv;
-          candidat = true;
+          // pconv is inside the circumcircle
+          if (DroiteRatio(pm2 + (i*cm1)) <= 0 && 
+            predicat(pStart, (pm2 + (i*cm1)), bPoint) == false )
+          {
+            // pconv - i*cm1 is a vertex
+            *AlphaShapeHull++ = pm2 + i*cm1;
+            // next iteration will start from pconv
+            pStart = pm2 + i*cm1;
+            convergent = true;
+          }
+          i++;
         }
-        else
+        if (convergent == false)
         {
+          // We found the last vertex
+          if (predicat(pStart, pconv, bPoint) == true)
+          {
+            candidat = true;
+          }
+          else
+          {
           // we search for the next convergent
           pm2 = pm1;
           pm1 = pconv;
 
           cm2 = cm1;
-          cm1 = pconv-pStart;            
+          cm1 = pconv-pStart;
+          }      
         }
       } // We found the last convergent
     }  
-  } // last vertex 
-  
+} // last vertex 
   *AlphaShapeHull++ = bPoint;
 } // end proc
 
@@ -118,10 +142,8 @@ int main()
   int nb = 0;   //total number of tests
 
   std::cout << std::endl; 
-  std::cout << "I) Alpha-shape on a straight line" << std::endl; 
+  std::cout << "I) Alpha-shape on a straight line between [0,0] and [5,8]" << std::endl; 
   {
-
-
 
     std::vector<Vector> convergents;
     convergents.clear(); 
@@ -130,32 +152,127 @@ int main()
     Point aPoint(0,0); 
     Point bPoint(5,8);  
 
-    // convexe
-    RadiusCirclePredicate predicat(100000,1);
+    // Infinite radius
+    RadiusCirclePredicate predicat;
     convergents.clear(); 
+    
+    std::vector<Point> groundTruth; 
+    groundTruth.push_back(Point(0,0)); 
+    groundTruth.push_back(Point(5,8)); 
+        
     convAlphaShape(predicat, aPoint, bPoint, std::back_inserter(convergents) );  
-    std::cout << "resul 100-1: " << std::endl; 
+    std::cout << " - Infinite radius = Convexe hull" << std::endl; 
     std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
-
-    // convexe
-    RadiusCirclePredicate predicat2(100,1);
+    std::cout << std::endl;
+    
+    if (convergents.size() == groundTruth.size())
+      if ( std::equal(groundTruth.begin(), groundTruth.end(), convergents.begin()) )
+        nbok++; 
+    nb++; 
+    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+   
+    // Very large radius
+    RadiusCirclePredicate predicat2(100000,1);
     convergents.clear(); 
+    
+    groundTruth.clear(); 
+    groundTruth.push_back(Point(0,0)); 
+    groundTruth.push_back(Point(5,8)); 
+        
     convAlphaShape(predicat2, aPoint, bPoint, std::back_inserter(convergents) );  
-    std::cout << "resul 9-1: " << std::endl; 
+    std::cout << " - Very large radius = Convexe hull" << std::endl; 
     std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
-
-    RadiusCirclePredicate predicat3(1,3);
+    std::cout << std::endl;
+    
+    if (convergents.size() == groundTruth.size())
+      if ( std::equal(groundTruth.begin(), groundTruth.end(), convergents.begin()) )
+        nbok++; 
+    nb++; 
+    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+    
+    // Convergent lie on the circle
+    RadiusCirclePredicate predicat3(39338,4);
     convergents.clear(); 
+    
+    groundTruth.clear(); 
+    groundTruth.push_back(Point(0,0));
+    groundTruth.push_back(Point(5,8)); 
+        
     convAlphaShape(predicat3, aPoint, bPoint, std::back_inserter(convergents) );  
-    std::cout << "resul 3-1: " << std::endl; 
+    std::cout << " - Convergent lie on the circle : No new vertex" << std::endl; 
     std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
-
-
-    RadiusCirclePredicate predicat4(2,1);
+    std::cout << std::endl;
+    
+    if (convergents.size() == groundTruth.size())
+      if ( std::equal(groundTruth.begin(), groundTruth.end(), convergents.begin()) )
+        nbok++; 
+    nb++; 
+    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+    
+    // First new vertex
+    RadiusCirclePredicate predicat4(39337,4);
     convergents.clear(); 
+    
+    groundTruth.clear(); 
+    groundTruth.push_back(Point(0,0));
+    groundTruth.push_back(Point(2,3));
+    groundTruth.push_back(Point(5,8)); 
+        
     convAlphaShape(predicat4, aPoint, bPoint, std::back_inserter(convergents) );  
-    std::cout << "resul 2-1: " << std::endl; 
+    std::cout << " - New vertex" << std::endl; 
     std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
+    std::cout << std::endl;
+    
+    if (convergents.size() == groundTruth.size())
+      if ( std::equal(groundTruth.begin(), groundTruth.end(), convergents.begin()) )
+        nbok++; 
+    nb++; 
+    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+    
+    // Add the next vertices
+    RadiusCirclePredicate predicat5(11569,36);
+    convergents.clear(); 
+    
+    groundTruth.clear(); 
+    groundTruth.push_back(Point(0,0));
+    groundTruth.push_back(Point(1,1));
+    groundTruth.push_back(Point(2,3));
+    groundTruth.push_back(Point(5,8)); 
+        
+    convAlphaShape(predicat5, aPoint, bPoint, std::back_inserter(convergents) );  
+    std::cout << " - New vertex" << std::endl; 
+    std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
+    std::cout << std::endl;
+    
+    if (convergents.size() == groundTruth.size())
+      if ( std::equal(groundTruth.begin(), groundTruth.end(), convergents.begin()) )
+        nbok++; 
+    nb++; 
+    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+    
+    // Add the next vertices
+    RadiusCirclePredicate predicat6(19,16);
+    convergents.clear(); 
+    
+    groundTruth.clear(); 
+    groundTruth.push_back(Point(0,0));
+    groundTruth.push_back(Point(1,1));
+    groundTruth.push_back(Point(2,3));
+    groundTruth.push_back(Point(3,4));
+    groundTruth.push_back(Point(5,8)); 
+        
+    convAlphaShape(predicat6, aPoint, bPoint, std::back_inserter(convergents) );  
+    std::cout << " - New vertex" << std::endl; 
+    std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
+    std::cout << std::endl;
+    
+    if (convergents.size() == groundTruth.size())
+      if ( std::equal(groundTruth.begin(), groundTruth.end(), convergents.begin()) )
+        nbok++; 
+    nb++; 
+    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+    
+       
   }
 
 
