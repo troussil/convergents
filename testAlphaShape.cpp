@@ -21,112 +21,101 @@
  * @return the alpha-hull
  */
   template <typename Point, typename OutputIterator>
-void convAlphaShape(const RadiusCirclePredicate& predicat, const Point& aPoint, const Point bPoint, OutputIterator AlphaShapeHull)
+void convAlphaShape(const RadiusCirclePredicate& aPredicate, const Point& aPointa,
+  const Point aPointb, OutputIterator aAlphaShapeHull)
 {
   // aPoint is the first Alpha-Shape vertex
-  *AlphaShapeHull++ = aPoint;
+  *aAlphaShapeHull++ = aPointa;
 
-  // Init
-  Point cm2(1,0);
-  Point cm1(0,1);
+  // First calculating convergent come from pStart
+  Point pStart = aPointa;
 
-  Point pm2;
-  Point pm1;
+  // First convergents vectors : 
+  Point vConvM2(1,0);
+  Point vConvM1(0,1);
 
-  Point pStart = aPoint;
-
-  // pconv is the next convergent pconv = pm2 + qk * pm1
-  Point pconv;
+  // First convergents :
+  Point pConvM2 = pStart + vConvM2;
+  Point pConvM1 = pStart + vConvM1;
+ 
+  // pConv is the next convergent pconv = pConvM2 + qk * vConvM1
+  Point pConv = pStart;
   int qk;
   int i;
-
-  // we found all new vertex
-  bool candidat = false;
-  //we found the next vertex
-  bool convergent = false;
+  
+  // The convergent number is even : the convergent is below the straight line
+  bool evenConv = true;
 
   // The discrete straight-line [a, b]
-  RayIntersectableStraightLine<Point> DroiteRatio(aPoint, bPoint);
+  RayIntersectableStraightLine<Point> lineRatio(aPointa, aPointb);
 
-  while ( candidat == false ) // we do not have compute all the candidat.
+  // we do not have compute all the candidat.
+  while ( pConv != aPointb && lineRatio.dray(pConvM2, vConvM1, qk, pConv)) 
   {
-    cm2[0]=1; cm2[1]=0; 
-    cm1[0]=0; cm1[1]=1; 
-
-    pm2 = pStart + cm2;
-    pm1 = pStart + cm1;
-    if ( (predicat(pStart, pm1, bPoint) == false && DroiteRatio(pm1) < 0)||
-      DroiteRatio(pm1)==0)
-    { 
-      // We found the last vertex 
-      if (pStart + cm1 == bPoint)
-      {
-        candidat = true;
-      }
-      else // pm1 is a vertex
-      { *AlphaShapeHull++ = pm1;
-        // next iteration will start from pm1
-        pStart = pm1;
-        convergent = true;
-      }
-     
-      
-
-    } 
-    else if ( predicat(pStart, pm2, bPoint) == false && DroiteRatio(pm2) <= 0) 
+std::cout<<pConv<<std::endl;     
+std::cout<<"Resul : "<<aPredicate(pStart, pConv, pConvM2)<<std::endl;   
+    
+    // Next convergent calculation
+    //DroiteRatio.dray(pConvM2, vConvM1, qk, pConv);
+    
+    // We test if the convergent is inside the circle
+    // ie : if the circumcircle radius of (pStart, pconv, pConvM2) triangle
+    // is minus than -1*/alpha.
+    // and if the convergent is below the straight line
+    if ( ((evenConv == true) || (pConv == aPointb)) && aPredicate(pStart, pConv, pConvM2) == false)
     {
-      // pm2 is a vertex
-      *AlphaShapeHull++ = pm2;
-      // next iteration will start from pm2
-      pStart = pm2;
-      convergent = true;
+      // We have a new vertex pConvM2
+      *aAlphaShapeHull++ = pConvM2;
+        
+      // should be an independante procedure
+      i = qk/2;
+      while (aPredicate(pStart, pConvM2, pConv - (i+1)*vConvM1) == true)
+      {
+        // dichotomous search
+        // first half
+        //
+        if (aPredicate(pStart, pConvM2, pConv - i*vConvM1) == false)
+        {
+          i = i/2; 
+        }
+        else // second half
+        {
+          i = (i - i/2)/2;
+        }
+      }
+      
+      // We add the next alpha-shape vertex
+      *aAlphaShapeHull++ = pConvM2 + i*vConvM1;
+      
+      // We update pStart
+      pStart = pConvM2 + i*vConvM1;
+      
+      // we restart convergent calculation from pStart
+      vConvM2[0]=1; vConvM2[1]=0; 
+      vConvM1[0]=0; vConvM1[1]=1; 
+      
+      pConvM2 = pStart + vConvM2;
+      pConvM1 = pStart + vConvM1;
+      
+      evenConv = true;
+      
+    }
+    else // We search for the next convergent
+    {   
+//std::cout<<pConv<<std::endl;       
+      // Updating convergent
+      pConvM2 = pConvM1;
+      pConvM1 = pConv;
+      vConvM2 = vConvM1;
+      vConvM1 = pConv-pStart;
+      
+      // even, odd, even...
+      evenConv = (evenConv == false);
 
     }
-    else // we search for the next candidat
-    {
-      convergent = false;
-  
-      // While we do not have comput all the convergent and the vertices
-      while( DroiteRatio.dray(pm2, cm1, qk, pconv) == true &&
-        convergent == false && candidat == false )
-      {
-        i = 1;
-        while (i <= qk && convergent == false)
-        {
-          // pconv is inside the circumcircle
-          if (DroiteRatio(pm2 + (i*cm1)) <= 0 && 
-            predicat(pStart, (pm2 + (i*cm1)), bPoint) == false )
-          {
-            // pconv - i*cm1 is a vertex
-            *AlphaShapeHull++ = pm2 + i*cm1;
-            // next iteration will start from pconv
-            pStart = pm2 + i*cm1;
-            convergent = true;
-          }
-          i++;
-        }
-        if (convergent == false)
-        {
-          // We found the last vertex
-          if (predicat(pStart, pconv, bPoint) == true && DroiteRatio(pconv) >= 0)
-          {
-            candidat = true;
-          }
-          else
-          {
-          // we search for the next convergent
-          pm2 = pm1;
-          pm1 = pconv;
+        
+  } // end while :: all vertex have been found
 
-          cm2 = cm1;
-          cm1 = pconv-pStart;
-          }      
-        }
-      } // We found the last convergent
-    }  
-} // last vertex 
-
-  *AlphaShapeHull++ = bPoint;
 } // end proc
 
   
@@ -469,12 +458,12 @@ int main()
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;    
     
     convergents.clear(); 
-    RayIntersectableStraightLine<Point> DroiteRatio(aPoint, bPoint);
+    //RayIntersectableStraightLine<Point> DroiteRatio(aPoint, bPoint);
     
-    recAlphaShape(predicat6, aPoint, bPoint, DroiteRatio, std::back_inserter(convergents) );
-    std::cout << " - autre méthode, predicat 8" << std::endl; 
-    std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
-    std::cout << std::endl;
+    //recAlphaShape(predicat6, aPoint, bPoint, DroiteRatio, std::back_inserter(convergents) );
+    //std::cout << " - autre méthode, predicat 8" << std::endl; 
+    //std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
+    //std::cout << std::endl;
     
   }
 
