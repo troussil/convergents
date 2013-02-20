@@ -17,17 +17,17 @@
 
   template <typename Point>
 Point dichotomous(const RadiusCirclePredicate& aPredicate, const Point& aPointa,
-  const Point aConvM2, const Point aConvM1, const int aqk)
+  const Point aConvM2, const Point aConvM1, const int qk)
 {
     // convergent vector
-    Point vConvM1 = aConvM2 - aPointa;
+    Point vConvM1 = aConvM1 - aPointa;
     
     // next convergent
-    Point pConv = aConvM2 + aqk*aConvM1;
+    Point pConv = aConvM2 + qk*aConvM1;
     
     // init search milestone
     int qkstart = 0;
-    int qkstop  = aqk;
+    int qkstop  = qk;
     // middle
     int mid;
     
@@ -39,7 +39,7 @@ Point dichotomous(const RadiusCirclePredicate& aPredicate, const Point& aPointa,
       mid = (qkstart + qkstop)/2;
       if (aPredicate(aPointa, pConv, aConvM2 + mid*vConvM1) == false)
       { 
-        if (aPredicate(aPointa, pConv, aConvM2 + (mid+1)*vConvM1))
+        if (qkstart == qk || aPredicate(aPointa, pConv, aConvM2 + (mid+1)*vConvM1) == true)
         { // We found the good one 
           boolconv = true;
         }
@@ -50,7 +50,7 @@ Point dichotomous(const RadiusCirclePredicate& aPredicate, const Point& aPointa,
       }
       else
       { // the vertex is lower
-        qkstop = mid - 1;      
+        qkstop = mid - 1;
       }
     } 
   // return a new point
@@ -90,36 +90,28 @@ void convAlphaShape(const RadiusCirclePredicate& aPredicate, const Point& aPoint
   // The convergent number is even : the convergent is below the straight line
   bool evenConv = true;
 
-
-  // dichotomie bool
-  bool next = false;
-  
   // The discrete straight-line [a, b]
   RayIntersectableStraightLine<Point> lineRatio(aPointa, aPointb);
 
   // we do not have compute all the candidat.
   while ( pConv != aPointb && lineRatio.dray(pConvM2, vConvM1, qk, pConv)) 
   {
-  //std::cout<<"pconv : "<<pConv<<" -- as :"<<pStart<<std::endl;
+std::cout<<"pconv : "<<pConv<<" -- as :"<<pStart<<std::endl;
     // We test if the convergent is inside the circle
     // ie : if the circumcircle radius of (pStart, pconv, pConvM2) triangle
     // is lower than -1*/alpha.
     // and if the convergent is below the straight line
-    if ( (evenConv == true && aPredicate(pStart, pConvM2, pConv) == false) ||
-     pConv == aPointb && aPredicate(pStart, pConvM1, pConv) == false)
+    if ( (evenConv == true && aPredicate(pStart, pConvM2, pConv) == false) )
     {
-      // We have a new vertex pConvM2 or pConvM1 if we lie on the straight line
-      if(pConv == aPointb){aAlphaShapeHull++ = pConvM1;}
-      else{aAlphaShapeHull++ = pConvM2;}
-        
-      // dichotomous search
-      pStart = dichotomous(aPredicate, pStart, pConvM2, pConvM1, qk);
+std::cout << "#1" << std::endl;     
+      // dichotomous search, we update the pStart
+      if(qk >1){pStart = dichotomous(aPredicate, pStart, pConvM2, pConvM1, qk);}
+      else {pStart = pConv;}
       
+std::cout << "#1 - p : " << pStart<<std::endl;       
       // We add the next alpha-shape vertex
-      *aAlphaShapeHull++ = pConv;
+      *aAlphaShapeHull++ = pStart;
       
-      // We update pStart
-      pStart = pConv;
       
       // we restart convergent calculation from pStart
       vConvM2[0]=1; vConvM2[1]=0; 
@@ -132,7 +124,7 @@ void convAlphaShape(const RadiusCirclePredicate& aPredicate, const Point& aPoint
       
     }
     else // We search for the next convergent
-    {   
+    {   std::cout << "#0" << std::endl; 
       // Updating convergent
       pConvM2 = pConvM1;
       pConvM1 = pConv;
