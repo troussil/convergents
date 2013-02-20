@@ -14,6 +14,50 @@
 #include "OutputSensitiveConvexHull.h"
 //#include "OutputSensitiveAlphaShape.h"
 
+
+  template <typename Point>
+Point dichotomous(const RadiusCirclePredicate& aPredicate, const Point& aPointa,
+  const Point aConvM2, const Point aConvM1, const int qk)
+{
+    // convergent vector
+    Point vConvM1 = aConvM2 - aPointa;
+    
+    // next convergent
+    Point pConv = aConvM2 + qk*aConvM1;
+    
+    // init search milestone
+    int qkstart = 0;
+    int qkstop  = qk;
+    // middle
+    int mid;
+    
+    // We found the correct vertex
+    bool boolconv = false;
+    
+    while ( boolconv == false )
+    {
+      mid = (qkstart + qkstop)/2;
+      if (aPredicate(aPointa, pConv, aConvM2 + mid*vConvM1) == false)
+      { 
+        if (aPredicate(aPointa, pConv, aConvM2 + (mid+1)*vConvM1))
+        { // We found the good one 
+          boolconv = true;
+        }
+        else
+        { // the vertex is higher
+          qkstart = mid + 1;
+        }
+      }
+      else
+      { // the vertex is lower
+        qkstop = mid - 1;      
+      }
+    } 
+  // return a new point
+  return(Point(aConvM2 + mid*vConvM1));
+}
+
+
 /**
  * Given a straight line, find the alpha Hull,
  * @param aPoint, bPoint, the starting and ending point 
@@ -46,49 +90,36 @@ void convAlphaShape(const RadiusCirclePredicate& aPredicate, const Point& aPoint
   // The convergent number is even : the convergent is below the straight line
   bool evenConv = true;
 
+
+  // dichotomie bool
+  bool next = false;
+  
   // The discrete straight-line [a, b]
   RayIntersectableStraightLine<Point> lineRatio(aPointa, aPointb);
 
   // we do not have compute all the candidat.
   while ( pConv != aPointb && lineRatio.dray(pConvM2, vConvM1, qk, pConv)) 
   {
-std::cout<<pConv<<std::endl;     
-std::cout<<"Resul : "<<aPredicate(pStart, pConv, pConvM2)<<std::endl;   
-    
-    // Next convergent calculation
-    //DroiteRatio.dray(pConvM2, vConvM1, qk, pConv);
-    
+  //std::cout<<"pconv : "<<pConv<<" -- as :"<<pStart<<std::endl;
     // We test if the convergent is inside the circle
     // ie : if the circumcircle radius of (pStart, pconv, pConvM2) triangle
-    // is minus than -1*/alpha.
+    // is lower than -1*/alpha.
     // and if the convergent is below the straight line
-    if ( ((evenConv == true) || (pConv == aPointb)) && aPredicate(pStart, pConv, pConvM2) == false)
+    if ( (evenConv == true && aPredicate(pStart, pConvM2, pConv) == false) ||
+     pConv == aPointb && aPredicate(pStart, pConvM1, pConv) == false)
     {
-      // We have a new vertex pConvM2
-      *aAlphaShapeHull++ = pConvM2;
+      // We have a new vertex pConvM2 or pConvM1 if we lie on the straight line
+      if(pConv == aPointb){aAlphaShapeHull++ = pConvM1;}
+      else{aAlphaShapeHull++ = pConvM2;}
         
-      // should be an independante procedure
-      i = qk/2;
-      while (aPredicate(pStart, pConvM2, pConv - (i+1)*vConvM1) == true)
-      {
-        // dichotomous search
-        // first half
-        //
-        if (aPredicate(pStart, pConvM2, pConv - i*vConvM1) == false)
-        {
-          i = i/2; 
-        }
-        else // second half
-        {
-          i = (i - i/2)/2;
-        }
-      }
+      // dichotomous search
+      pStart = dichotomous(aPredicate, pStart, pConvM2, pConvM1, qk);
       
       // We add the next alpha-shape vertex
-      *aAlphaShapeHull++ = pConvM2 + i*vConvM1;
+      *aAlphaShapeHull++ = pConv;
       
       // We update pStart
-      pStart = pConvM2 + i*vConvM1;
+      pStart = pConv;
       
       // we restart convergent calculation from pStart
       vConvM2[0]=1; vConvM2[1]=0; 
@@ -102,7 +133,6 @@ std::cout<<"Resul : "<<aPredicate(pStart, pConv, pConvM2)<<std::endl;
     }
     else // We search for the next convergent
     {   
-//std::cout<<pConv<<std::endl;       
       // Updating convergent
       pConvM2 = pConvM1;
       pConvM1 = pConv;
@@ -115,76 +145,12 @@ std::cout<<"Resul : "<<aPredicate(pStart, pConv, pConvM2)<<std::endl;
     }
         
   } // end while :: all vertex have been found
-
+  //*aAlphaShapeHull++ = aPointb;
+  
 } // end proc
 
-  
-template <typename Point, typename OutputIterator>
-void recAlphaShape(const RadiusCirclePredicate& predicat, const Point& aPoint, const Point bPoint, RayIntersectableStraightLine<Point> DroiteRatio, OutputIterator AlphaShapeHull)
-{
-
-  *AlphaShapeHull++ = aPoint;
-  // Init p_-2=(1,0) & p_-1=(0,1)
-  Point cm2, cm1, pm2, pm1;
-
-  cm2[0]=1; cm2[1]=0; 
-  cm1[0]=0; cm1[1]=1; 
-
-  pm2 = aPoint + cm2;
-  pm1 = aPoint + cm1;
-  
-  // pconv is the next convergent pconv = pm2 + qk * pm1
-  Point pconv;
-  int qk = 0;
-  int i;
-  
-  // Bezout point
-  Point pcandid = aPoint;
-    
-  // The discrete straight-line
-  //RayIntersectableStraightLine<Point> DroiteRatio(aPoint, bPoint-aPoint);
-
-  // Bezout Point
-std::cout <<"#1 - pm2, cm2 : "<<pm2<<cm2 <<" +-+ pm1,cm1 : "<<pm1<<cm1<<std::endl; 
-  while( DroiteRatio.dray(pm2, cm1, qk, pconv) == true)
-  {
-
-    i = 1;
-std::cout <<"#1 - a : "<<aPoint <<" +-+ b : "<<bPoint<<std::endl; 
 
 
-    while (i <= qk)
-    {
-      if (DroiteRatio(pm2 + (i*cm1)) < 0)
-      {
-        pcandid = pm2 + (i*cm1);
-        i = qk+1;
-          std::cout <<"#refactor - pcandid : "<<pcandid <<std::endl;
-      }
-      i++;
-    }
-    pm2 = pm1;
-    pm1 = pconv;
-    cm2 = cm1;
-    cm1 = pconv-aPoint;
-std::cout <<"#1 - pm2, cm2 : "<<pm2<<cm2 <<" +-+ pm1,cm1 : "<<pm1<<cm1<<std::endl; 
-std::cout <<"#3 - pconv : "<<pconv <<std::endl;
-std::cout <<"#test : "<<DroiteRatio.dray(pm2, cm1, qk, pconv) <<std::endl;
-  }
-  std::cout <<"#2 - pcandid : "<<pcandid <<std::endl;
-   
-  if (predicat(aPoint, pcandid, bPoint) == false)
-  {  
-  std::cout <<"++ AA ++"<<std::endl;   
-     recAlphaShape(predicat, aPoint, pcandid, DroiteRatio, AlphaShapeHull );
-  std::cout <<"-- BB --"<<std::endl;     
-     recAlphaShape(predicat, pcandid, bPoint, DroiteRatio, AlphaShapeHull );
-  std::cout <<"** CC **"<<std::endl;
-  }
-  *AlphaShapeHull++ = bPoint;
-
-
-} // end proc
 
 ///////////////////////////////////////////////////////////////////////
 int main() 
@@ -209,14 +175,14 @@ int main()
     Point bPoint(5,8);  
 
     // Infinite radius
-    RadiusCirclePredicate predicat;
+    RadiusCirclePredicate predicate;
     convergents.clear(); 
     
     std::vector<Point> groundTruth; 
     groundTruth.push_back(Point(0,0)); 
     groundTruth.push_back(Point(5,8)); 
         
-    convAlphaShape(predicat, aPoint, bPoint, std::back_inserter(convergents) );  
+    convAlphaShape(predicate, aPoint, bPoint, std::back_inserter(convergents) );  
     std::cout << " - Infinite radius = Convexe hull" << std::endl; 
     std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
     std::cout << std::endl;
@@ -226,16 +192,17 @@ int main()
         nbok++; 
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
-   
+    std::cout << std::endl;  
+    
     // Very large radius
-    RadiusCirclePredicate predicat2(100000,1);
+    RadiusCirclePredicate predicate2(100000,1);
     convergents.clear(); 
     
     groundTruth.clear(); 
     groundTruth.push_back(Point(0,0)); 
     groundTruth.push_back(Point(5,8)); 
         
-    convAlphaShape(predicat2, aPoint, bPoint, std::back_inserter(convergents) );  
+    convAlphaShape(predicate2, aPoint, bPoint, std::back_inserter(convergents) );  
     std::cout << " - Very large radius = Convexe hull" << std::endl; 
     std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
     std::cout << std::endl;
@@ -245,7 +212,8 @@ int main()
         nbok++; 
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
-    
+    std::cout << std::endl;
+        
     // Convergent lie on the circle
     RadiusCirclePredicate predicat3(39338,4);
     convergents.clear(); 
@@ -264,7 +232,8 @@ int main()
         nbok++; 
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
-    
+    std::cout << std::endl;
+        
     // First new vertex : 2/3
     RadiusCirclePredicate predicat4(39337,4);
     convergents.clear(); 
@@ -284,7 +253,8 @@ int main()
         nbok++; 
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
-    
+    std::cout << std::endl;
+        
     // Add the next vertex
     RadiusCirclePredicate predicat5(2209,4);
     convergents.clear(); 
@@ -305,7 +275,8 @@ int main()
         nbok++; 
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
-    
+    std::cout << std::endl;
+        
     // Add the next vertex
     RadiusCirclePredicate predicat6(11569,36);
     convergents.clear(); 
@@ -327,7 +298,8 @@ int main()
         nbok++; 
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
-    
+    std::cout << std::endl;
+        
     // Add the next vertex
     RadiusCirclePredicate predicat7(5849,36);
     convergents.clear(); 
@@ -349,8 +321,9 @@ int main()
       if ( std::equal(groundTruth.begin(), groundTruth.end(), convergents.begin()) )
         nbok++; 
     nb++; 
-    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;   
-    
+    std::cout << "(" << nbok << " tests passed / " <<nb<< " tests)" << std::endl;   
+    std::cout << std::endl;
+        
     // Add the next vertex
     RadiusCirclePredicate predicat8(1359,16);
     convergents.clear(); 
@@ -374,7 +347,8 @@ int main()
         nbok++; 
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
-    
+    std::cout << std::endl;
+        
     // Add the next vertex
     RadiusCirclePredicate predicat9(7119,256);
     convergents.clear(); 
@@ -399,9 +373,10 @@ int main()
         nbok++; 
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;   
-    
+    std::cout << std::endl;
+        
     // Add the next vertex
-    RadiusCirclePredicate predicat10(399,16);
+    RadiusCirclePredicate predicat10(13,10);
     convergents.clear(); 
     
     groundTruth.clear(); 
@@ -425,7 +400,8 @@ int main()
         nbok++; 
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;  
-    
+    std::cout << std::endl;
+        
     // Add the next vertex
     RadiusCirclePredicate predicat11(2,3);
     convergents.clear(); 
@@ -456,133 +432,6 @@ int main()
         nbok++; 
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;    
-    
-    convergents.clear(); 
-    //RayIntersectableStraightLine<Point> DroiteRatio(aPoint, bPoint);
-    
-    //recAlphaShape(predicat6, aPoint, bPoint, DroiteRatio, std::back_inserter(convergents) );
-    //std::cout << " - autre méthode, predicat 8" << std::endl; 
-    //std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
-    //std::cout << std::endl;
-    
-  }
-
-
-  /*if ( (convergents.size() == 4)&&(convergents.back() == aPoint) )
-    nbok++; 
-    nb++; 
-    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
-
-
-
-    }
-
-    std::cout << std::endl; 
-    std::cout << "II) Alpha-shape on a simple circle" << std::endl; 
-    {
-
-    Circle circle( Point(5,0), Point(0,5), Point(-5,0) );
-
-    std::vector<Point> boundary; 
-    Vector dir(1,0); 
-    tracking( circle, circle.getConvexHullVertex(), dir, std::back_inserter(boundary) ); 
-    std::cout << "Boundary" << std::endl; 
-    std::copy(boundary.begin(), boundary.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
-    std::cout << std::endl; 
-
-    std::cout << "  A) infinite radius" << std::endl; 
-    std::vector<Point> groundTruth; 
-    groundTruth.push_back(Point(0,-5)); 
-    groundTruth.push_back(Point(3,-4)); 
-    groundTruth.push_back(Point(4,-3)); 
-    groundTruth.push_back(Point(5,0)); 
-    groundTruth.push_back(Point(4,3));
-    groundTruth.push_back(Point(3,4)); 
-    groundTruth.push_back(Point(0,5)); 
-    groundTruth.push_back(Point(-3,4)); 
-    groundTruth.push_back(Point(-4,3)); 
-    groundTruth.push_back(Point(-5,0)); 
-    groundTruth.push_back(Point(-4,-3));
-    groundTruth.push_back(Point(-3,-4)); 
-    std::cout << "Expected" << std::endl; 
-    std::copy(groundTruth.begin(), groundTruth.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
-    std::cout << std::endl; 
-
-    std::vector<Point> ch;
-    RadiusCirclePredicate predicate; //by default infinite radius (denominator = 0)  
-    grahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), predicate ); 
-    std::cout << "Graham's convex hull of the boundary" << std::endl; 
-    std::copy(ch.begin(), ch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
-    std::cout << std::endl; 
-
-    if (ch.size() == groundTruth.size())
-    if ( std::equal(groundTruth.begin(), groundTruth.end(), ch.begin()) )
-    nbok++; 
-    nb++; 
-    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
-
-    std::cout << "  B) radius == 1" << std::endl; 
-
-    std::cout << "Expected (boundary)" << std::endl; 
-    std::copy(boundary.begin(), boundary.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
-    std::cout << std::endl; 
-
-    std::vector<Point> ch1;
-    RadiusCirclePredicate predicate1(1,1); //radius 1  
-    grahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch1), predicate1 ); 
-    std::cout << "1-shape of the boundary" << std::endl; 
-    std::copy(ch1.begin(), ch1.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
-    std::cout << std::endl; 
-
-    if (ch1.size() == boundary.size())
-    if ( std::equal(boundary.begin(), boundary.end(), ch1.begin()) )
-    nbok++; 
-    nb++; 
-    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
-
-  std::cout << "  B) radius == 3" << std::endl; 
-
-  std::vector<Point> groundTruth3; 
-  groundTruth3.push_back(Point(0,-5)); 
-  groundTruth3.push_back(Point(2,-4)); 
-  groundTruth3.push_back(Point(3,-4)); 
-  groundTruth3.push_back(Point(4,-3)); 
-  groundTruth3.push_back(Point(4,-2)); 
-  groundTruth3.push_back(Point(5,0));
-  groundTruth3.push_back(Point(4,2));  
-  groundTruth3.push_back(Point(4,3));
-  groundTruth3.push_back(Point(3,4)); 
-  groundTruth3.push_back(Point(2,4)); 
-  groundTruth3.push_back(Point(0,5)); 
-  groundTruth3.push_back(Point(-2,4)); 
-  groundTruth3.push_back(Point(-3,4)); 
-  groundTruth3.push_back(Point(-4,3)); 
-  groundTruth3.push_back(Point(-4,2)); 
-  groundTruth3.push_back(Point(-5,0)); 
-  groundTruth3.push_back(Point(-4,-2)); 
-  groundTruth3.push_back(Point(-4,-3));
-  groundTruth3.push_back(Point(-3,-4));
-  groundTruth3.push_back(Point(-2,-4)); 
-  std::cout << "Expected" << std::endl; 
-  std::copy(groundTruth3.begin(), groundTruth3.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
-  std::cout << std::endl; 
-
-  std::vector<Point> ch3;
-  RadiusCirclePredicate predicate3(9,1); //radius 3  
-  grahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch3), predicate3 ); 
-  std::cout << "3-shape of the boundary" << std::endl; 
-  std::copy(ch3.begin(), ch3.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
-  std::cout << std::endl; 
-
-  if (ch3.size() == groundTruth3.size())
-    if ( std::equal(groundTruth3.begin(), groundTruth3.end(), ch3.begin()) )
-      nbok++; 
-  nb++; 
-  std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
-
-}
-
-//1 if at least one test failed
-//0 otherwise
-return (nb != nbok);*/ 
+    std::cout << std::endl;    
+   }   
 }
