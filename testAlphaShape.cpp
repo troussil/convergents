@@ -17,17 +17,17 @@
 
   template <typename Point>
 Point dichotomous(const RadiusCirclePredicate& aPredicate, const Point& aPointa,
-  const Point aConvM2, const Point aConvM1, const int qk)
+  const Point aConvM2, const Point aConvM1, const int aqk)
 {
     // convergent vector
     Point vConvM1 = aConvM2 - aPointa;
     
     // next convergent
-    Point pConv = aConvM2 + qk*aConvM1;
+    Point pConv = aConvM2 + aqk*aConvM1;
     
     // init search milestone
     int qkstart = 0;
-    int qkstop  = qk;
+    int qkstop  = aqk;
     // middle
     int mid;
     
