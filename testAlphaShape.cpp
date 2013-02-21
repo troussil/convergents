@@ -17,44 +17,74 @@
 
   template <typename Point>
 Point dichotomous(const RadiusCirclePredicate& aPredicate, const Point& aPointa,
-  const Point aConvM2, const Point aConvM1, const int aqk)
+  const Point aConvM2, const Point aConvM1, const int aqk, const bool aEven)
 {
-    // convergent vector
-    Point vConvM1 = aConvM1 - aPointa;
     
-    // next convergent
-    Point pConv = aConvM2 + aqk*aConvM1;
+  // Convergent vector
+  Point vConvM1 = aConvM1 - aPointa;
+      
+  // next convergent
+  Point pConv = aConvM2 + aqk*vConvM1;
+      
+  // init search milestone
+  int qkstart = 1;
+  int qkstop  = aqk;
+  // middle
+  int mid;
+      
+  // We found the correct vertex
+  bool boolconv = false;
     
-    // init search milestone
-    int qkstart = 0;
-    int qkstop  = aqk;
-    // middle
-    int mid;
-    
-    // We found the correct vertex
-    bool boolconv = false;
-    
-    while ( boolconv == false )
-    {
-      mid = (qkstart + qkstop)/2;
-      if (aPredicate(aPointa, pConv, aConvM2 + mid*vConvM1) == false)
-      { 
-        if (mid == aqk || aPredicate(aPointa, pConv, aConvM2 + (mid+1)*vConvM1) == true)
-        { // We found the good one 
-          boolconv = true;
+  if (aEven == true) // Even case
+  {
+      while ( boolconv == false )
+      {
+        mid = (qkstart + qkstop)/2;
+        if (aPredicate(aPointa, pConv, pConv - mid*vConvM1) == false)
+        { 
+          if (qkstop == 1 || aPredicate(aPointa, pConv, pConv - (mid-1)*vConvM1) == true)
+          { // We found the good one 
+            boolconv = true;
+          }
+          else
+          { // the vertex is higher
+            qkstop = mid - 1;
+          }
         }
         else
-        { // the vertex is higher
+        { // the vertex is lower
           qkstart = mid + 1;
         }
-      }
-      else
-      { // the vertex is lower
-        qkstop = mid - 1;
-      }
-    } 
-  // return a new point
-  return(Point(aConvM2 + mid*vConvM1));
+      } 
+    // return a new point
+    return(Point(pConv - mid*vConvM1));
+  }
+  else //Odd case
+  {
+       
+      while ( boolconv == false )
+      {
+        mid = (qkstart + qkstop)/2;
+        if (aPredicate(aPointa, pConv, aPointa + mid*vConvM1) == false)
+        { 
+          if (qkstop == 1 || aPredicate(aPointa, pConv, aPointa + (mid-1)*vConvM1) == true)
+          { // We found the good one 
+            boolconv = true;
+          }
+          else
+          { // the vertex is higher
+            qkstop = mid - 1;
+          }
+        }
+        else
+        { // the vertex is lower
+          qkstart = mid + 1;
+        }
+      } 
+    // return a new point
+    return(Point(aPointa + mid*vConvM1));
+  }
+  
 }
 
 
@@ -99,15 +129,23 @@ void convAlphaShape(const RadiusCirclePredicate& aPredicate, const Point& aPoint
     // ie : if the circumcircle radius of (pStart, pconv, pConvM2) triangle
     // is lower than -1*/alpha.
     // and if the convergent is below the straight line
-    if ( evenConv == true && aPredicate(pStart, pConvM2, pConv) == false)  
+    if ( (evenConv == true && aPredicate(pStart, pConvM2, pConv) == false) ||
+    evenConv == false && pConv == aPointb && aPredicate(pStart, pConvM1, pConv) == false)
     {
-std::cout << "#1 - search a next vertex"<<std::endl;
       // dichotomous search, we update the pStart
-      if(qk > 1){pStart = dichotomous(aPredicate, pStart, pConvM2, pConvM1, qk);}
-      else {pStart = pConv;}
+      if(qk > 1)
+      {
+        *aAlphaShapeHull++ = dichotomous(aPredicate, pStart, pConvM2, pConvM1, qk, evenConv);
+        *aAlphaShapeHull++ = pConv;
+      }
+      else 
+      {
+        *aAlphaShapeHull++ = pConvM2;
+        *aAlphaShapeHull++ = pConv;
+      }
 
       // We add the next alpha-shape vertex
-      *aAlphaShapeHull++ = pStart;
+      pStart = pConv;
       
       
       // we restart convergent calculation from pStart
@@ -122,7 +160,6 @@ std::cout << "#1 - search a next vertex"<<std::endl;
     }
     else // We search for the next convergent
     {   
-std::cout << "#3 - update convergent" << std::endl; 
       // Updating convergent
       pConvM2 = pConvM1;
       pConvM1 = pConv;
@@ -131,14 +168,12 @@ std::cout << "#3 - update convergent" << std::endl;
       
       // even, odd, even...
       evenConv = (evenConv == false);
-      
-      // last conv
-      if (pConv == aPointb){*aAlphaShapeHull++ = aPointb;}
-
+  // last conv
+  if (pConv == aPointb){*aAlphaShapeHull++ = aPointb;}
     }
         
   } // end while :: all vertex have been found
-  //*aAlphaShapeHull++ = aPointb;
+
   
 } // end proc
 
@@ -196,7 +231,7 @@ int main()
     groundTruth.push_back(Point(5,8)); 
         
     convAlphaShape(predicate2, aPoint, bPoint, std::back_inserter(convergents) );  
-    std::cout << " - Very large radius, R² = 1'000'000" << std::endl; 
+    std::cout << " - Very large radius, R² = 100'000" << std::endl; 
     std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
     std::cout << std::endl;
     
@@ -208,7 +243,7 @@ int main()
     std::cout << std::endl;
         
     // Convergent lie on the circle
-    RadiusCirclePredicate predicat3(39338,4);
+    RadiusCirclePredicate predicat3(1000,2);
     convergents.clear(); 
     
     groundTruth.clear(); 
@@ -216,7 +251,7 @@ int main()
     groundTruth.push_back(Point(5,8)); 
         
     convAlphaShape(predicat3, aPoint, bPoint, std::back_inserter(convergents) );  
-    std::cout << "-- R² =  9834.5" << std::endl; 
+    std::cout << "-- R² =  500." << std::endl; 
     std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
     std::cout << std::endl;
     
@@ -228,7 +263,7 @@ int main()
     std::cout << std::endl;
         
     // First new vertex : 2/3
-    RadiusCirclePredicate predicat4(39337,4);
+    RadiusCirclePredicate predicat4(35,1);
     convergents.clear(); 
     
     groundTruth.clear(); 
@@ -237,7 +272,7 @@ int main()
     groundTruth.push_back(Point(5,8)); 
         
     convAlphaShape(predicat4, aPoint, bPoint, std::back_inserter(convergents) );  
-    std::cout << "-- R² =  9834.25" << std::endl; 
+    std::cout << "-- R² =  35." << std::endl; 
     std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
     std::cout << std::endl;
     
@@ -249,7 +284,7 @@ int main()
     std::cout << std::endl;
         
     // Add the next vertex
-    RadiusCirclePredicate predicat5(2209,4);
+    RadiusCirclePredicate predicat5(34,1);
     convergents.clear(); 
     
     groundTruth.clear(); 
@@ -259,7 +294,7 @@ int main()
     groundTruth.push_back(Point(5,8)); 
         
     convAlphaShape(predicat5, aPoint, bPoint, std::back_inserter(convergents) );  
-    std::cout << "-- R² =  552.25" << std::endl; 
+    std::cout << "-- R² =  34." << std::endl; 
     std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
     std::cout << std::endl;
     
@@ -271,7 +306,7 @@ int main()
     std::cout << std::endl;
         
     // Add the next vertex
-    RadiusCirclePredicate predicat6(11569,36);
+    RadiusCirclePredicate predicat6(33,1);
     convergents.clear(); 
     
     groundTruth.clear(); 
@@ -282,7 +317,7 @@ int main()
     groundTruth.push_back(Point(5,8)); 
         
     convAlphaShape(predicat6, aPoint, bPoint, std::back_inserter(convergents) );  
-    std::cout << "-- R² =  321.4" << std::endl; 
+    std::cout << "-- R² =  33." << std::endl; 
     std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
     std::cout << std::endl;
     
@@ -294,7 +329,7 @@ int main()
     std::cout << std::endl;
         
     // Add the next vertex
-    RadiusCirclePredicate predicat7(5849,36);
+    RadiusCirclePredicate predicat7(32,1);
     convergents.clear(); 
     
     groundTruth.clear(); 
@@ -306,7 +341,7 @@ int main()
     groundTruth.push_back(Point(5,8)); 
         
     convAlphaShape(predicat7, aPoint, bPoint, std::back_inserter(convergents) );  
-    std::cout << "-- R² =  162.4" << std::endl; 
+    std::cout << "-- R² =  32." << std::endl; 
     std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
     std::cout << std::endl;
     
@@ -318,7 +353,7 @@ int main()
     std::cout << std::endl;
         
     // Add the next vertex
-    RadiusCirclePredicate predicat8(51,10);
+    RadiusCirclePredicate predicat8(31,1);
     convergents.clear(); 
     
     groundTruth.clear(); 
@@ -331,7 +366,7 @@ int main()
     groundTruth.push_back(Point(5,8)); 
         
     convAlphaShape(predicat8, aPoint, bPoint, std::back_inserter(convergents) );  
-    std::cout << "-- R² =  5.1" << std::endl; 
+    std::cout << "-- R² =  31" << std::endl; 
     std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
     std::cout << std::endl;
     
@@ -343,7 +378,7 @@ int main()
     std::cout << std::endl;
         
     // Add the next vertex
-    RadiusCirclePredicate predicat9(31,10);
+    RadiusCirclePredicate predicat9(30,1);
     convergents.clear(); 
     
     groundTruth.clear(); 
@@ -357,7 +392,7 @@ int main()
     groundTruth.push_back(Point(5,8)); 
         
     convAlphaShape(predicat9, aPoint, bPoint, std::back_inserter(convergents) );  
-    std::cout << "-- R² =  3.1" << std::endl; 
+    std::cout << "-- R² =  30" << std::endl; 
     std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
     std::cout << std::endl;
     
