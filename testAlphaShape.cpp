@@ -137,33 +137,47 @@ void convAlphaShape(const RadiusCirclePredicate& aPredicate, const Point& aPoint
     // We test if the convergent is inside the circle
     // ie : if the circumcircle radius of (pStart, pconv, pConvM2) triangle
     // is lower than -1*/alpha.
-    // and if the convergent is below the straight line
-    if ( (evenConv == true && aPredicate(pStart, pConvM2, pConv) == false) ||
+    // and if the convergent is below the straight line (even)
+    
+    if ( (evenConv == true && (aPredicate(pStart, pConvM2, pConv) == false)||qk==0) ||
         evenConv == false && pConv == aPointb && aPredicate(pStart, pConvM1, pConv) == false)
     {
       // dichotomous search, we update the pStart
-      if(qk > 1)
+      if (qk == 0)
       {
-        pStart = dichotomous(aPredicate, pStart, pConvM2, pConvM1, qk, evenConv);
-        // We add the next alpha-shape vertex
-        *aAlphaShapeHull++ = pStart;
+         // We add the next alpha-shape vertex
+        *aAlphaShapeHull++ = pConvM2;
+        pStart = pConv;
       }
-      else 
+      else if (qk == 1)
       {
-        // We add the two next alpha-shape vertices
+         // We add the two next alpha-shape vertices
         *aAlphaShapeHull++ = pConvM2;
         // We start from the second vertex
         *aAlphaShapeHull++ = pConv;
         pStart = pConv;
       }
+      else if(qk > 1)
+      {
+        pStart = dichotomous(aPredicate, pStart, pConvM2, pConvM1, qk, evenConv);
+        // We add the next alpha-shape vertex
+        *aAlphaShapeHull++ = pStart;
+      }
+      
 
       // we restart convergent calculation from pStart
       vConvM2[0]=1; vConvM2[1]=0; 
       vConvM1[0]=0; vConvM1[1]=1; 
 
+      if (lineRatio(pStart + vConvM1) <0)
+      {
+        vConvM2[0]= 0; vConvM2[1]=1; 
+        vConvM1[0]=-1; vConvM1[1]=0; 
+      }
+      
       pConvM2 = pStart + vConvM2;
       pConvM1 = pStart + vConvM1;
-
+      
       evenConv = true;
 
     }
