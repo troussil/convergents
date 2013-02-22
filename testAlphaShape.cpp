@@ -12,7 +12,25 @@
 #include "OutputSensitiveConvexHull.h"
 #include "ConvexHullHelpers.h"
 
+#include "OutputSensitiveAlphaShape.h"
 
+//////////////////////////////////////////////////////////////////////
+template <typename Shape, typename Point, typename OutputIterator, 
+	  typename Predicate>
+void alphaShape(const Shape& aShape, const Point& aStartingPoint, 
+		OutputIterator res, const Predicate& aPredicate)
+{
+  OutputSensitiveAlphaShape<Shape,Predicate> ch(aShape, aPredicate); 
+  //get the first vertex
+  Point tmp = aStartingPoint; 
+  do {
+    //store the current vertex
+    *res++ = tmp; 
+    //get the next vertex
+    tmp = ch.next(tmp); 
+    //while it is not the first one
+  } while (tmp != aStartingPoint); 
+}
 
 ///////////////////////////////////////////////////////////////////////
 int main() 
@@ -63,6 +81,18 @@ int main()
 
     if (ch.size() == groundTruth.size())
       if ( std::equal(groundTruth.begin(), groundTruth.end(), ch.begin()) )
+        nbok++; 
+    nb++; 
+    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+
+    std::vector<Point> as; 
+    alphaShape( circle, circle.getConvexHullVertex(), std::back_inserter(as), predicate ); 
+    std::cout << "Alpha shape" << std::endl; 
+    std::copy(as.begin(), as.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+    std::cout << std::endl; 
+
+    if (as.size() == groundTruth.size())
+      if ( std::equal(groundTruth.begin(), groundTruth.end(), as.begin()) )
         nbok++; 
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
