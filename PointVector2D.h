@@ -1,3 +1,5 @@
+#ifndef PointVector2D_h
+  #define PointVector2D_h
 /**
  * Class implementing 2d point or vector strutures.
  * @tparam T a model of number (for the coordinates).  
@@ -272,3 +274,4 @@ std::ostream& operator<<( std::ostream & out, const PointVector2D<Coordinate>& o
 {
   out << "(" << object[0] << "," << object[1] << ")"; 
 }
+#endif
