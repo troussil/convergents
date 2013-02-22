@@ -73,7 +73,7 @@ int main()
     std::cout << std::endl; 
 
     std::vector<Point> ch;
-    RadiusCirclePredicate predicate; //by default infinite radius (denominator = 0)  
+    CircumcircleRadiusPredicate<> predicate; //by default infinite radius (denominator = 0)  
     grahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), predicate ); 
     std::cout << "Graham's convex hull of the boundary" << std::endl; 
     std::copy(ch.begin(), ch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
@@ -104,7 +104,7 @@ int main()
     std::cout << std::endl; 
 
     std::vector<Point> ch1;
-    RadiusCirclePredicate predicate1(1,1); //radius 1  
+    CircumcircleRadiusPredicate<> predicate1(1,1); //radius 1  
     grahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch1), predicate1 ); 
     std::cout << "1-shape of the boundary" << std::endl; 
     std::copy(ch1.begin(), ch1.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
@@ -144,7 +144,7 @@ int main()
     std::cout << std::endl; 
 
     std::vector<Point> ch3;
-    RadiusCirclePredicate predicate3(9,1); //radius 3  
+    CircumcircleRadiusPredicate<> predicate3(9,1); //radius 3  
     grahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch3), predicate3 ); 
     std::cout << "3-shape of the boundary" << std::endl; 
     std::copy(ch3.begin(), ch3.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
