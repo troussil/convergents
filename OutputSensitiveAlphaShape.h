@@ -1,143 +1,176 @@
+#ifndef OutputSensitiveAlphaShape_h
+   #define OutputSensitiveAlphaShape_h
+
 #include<cmath>
+
+#include"CircumcircleRadiusPredicate.h"
 /**
  * Class implementing an on-line and ouput-sensitive algorithm
  * that retrieves the vertices of the alpha-shape of all digital
- * points lying inside an implicit shape, which is 'ray-intersectable', 
- * ie. the intersection between the shape boundary and 
+ * points lying inside an implicit shape, which is 'ray-intersectable',
+ * ie. the intersection between the shape boundary and
  * a ray emanating from a given point along a given direction
  * is computable.
- * 
- * @tparam TShape a model of ray-intersectable shape.  
  *
+ * @tparam TShape a model of ray-intersectable shape.
+ * @tparam TPredicate a model of ternary predicate: 
+ * given three points, the operator() returns a bool.  
  */
-
-template <typename TShape>
-class OutputSensitiveAlphaShape 
+template <typename TShape, typename TPredicate>
+class OutputSensitiveAlphaShape
 {
-  public: 
-    /////////////////////// inner types /////////////////
-    typedef TShape Shape; 
-    typedef typename Shape::Point Point; 
-    typedef typename Shape::Vector Vector; //type redefinition
-    typedef long long Integer;
+public:
+  /////////////////////// inner types /////////////////
+  typedef TShape Shape;
+  typedef typename Shape::Point Point;
+  typedef typename Shape::Vector Vector; //type redefinition
+  typedef TPredicate Predicate;
 
-  private: 
-    /////////////////////// members /////////////////////
-    /**
-     * const reference on a shape
-     */
-    const Shape& myShape;
-    /**
-     * The alpha is viewed as the fraction, 
-     * alpha = myNum / myDen
-     */
-    const Integer myNum; 
-    const Integer myDen; 
+private:
+  /////////////////////// members /////////////////////
+  /**
+   * const reference on a shape
+   */
+  const Shape& myShape;
+  /**
+   * Predicate that returns 'true' if the radius 
+   * of the circumcircle of three given points
+   * is greater than 1/alpha, 'false' otherwise.
+   *
+   * NB. alpha is implicitely defined by the predicate. 
+   */
+  const Predicate& myPredicate; 
 
-  public:
-    ///////////////////// standard services /////////////
-    /**
-     * Standard constructor
-     * @param aShape
-     */
-    OutputSensitiveAlphaShape(const Shape& aShape)
-      : myShape(aShape) {}
+public:
+  ///////////////////// standard services /////////////
+  /**
+   * Standard constructor
+   * @param aShape any 'ray-intersectable' shape
+   * @param aPredicate any predicate
+   */
+  OutputSensitiveAlphaShape(const Shape& aShape, const Predicate& aPredicate)
+    : myShape(aShape), myPredicate(aPredicate) {}
 
-  private:
-    /**
-     * Copy constructor
-     * @param other other object to copy
-     */
-    OutputSensitiveAlphaShape(const OutputSensitiveAlphaShape& other) {}
+private:
+  /**
+   * Copy constructor
+   * @param other other object to copy
+   */
+  OutputSensitiveAlphaShape(const OutputSensitiveAlphaShape& other) {}
 
-    /**
-     * Assignement operator
-     * @param other other object to copy
-     * @return reference on *this
-     */
-    OutputSensitiveAlphaShape& operator=(const OutputSensitiveAlphaShape& other) 
-    { return *this; }
+  /**
+   * Assignement operator
+   * @param other other object to copy
+   * @return reference on *this
+   */
+  OutputSensitiveAlphaShape& operator=(const OutputSensitiveAlphaShape& other)
+  { return *this; }
 
-  public: 
-    /**
-     * Default destructor
-     */
-    ~OutputSensitiveAlphaShape() {}
+public:
+  /**
+   * Default destructor
+   */
+  ~OutputSensitiveAlphaShape() {}
 
 
-    ///////////////////// main methods ///////////////////
-    /**
-     * Given a straight line, find the alpha Hull,
-     * @param aPoint, bPoint, the starting and ending point 
-     * of the line
-     * @return the alpha-hull
-     */
-    template <typename Point, typename OutputIterator>
-      void convAlphaShape(const RadiusCirclePredicate predicat, const Point& aPoint, const Point bPoint, OutputIterator AlphaShapeHull)
+  ///////////////////// main methods ///////////////////
+private: 
+   
+/**
+* Dichotomic search procedure to retrieve the next edge
+* of the alpha-shape in a sequence of edge-connected triangles
+* of increasing circumcircle radius. 
+* 
+* TO IMPROVE doc
+* @param aPointa is the first vertex of the triangle
+* @param Points aConvM2 and aConvM1 are the next convergents
+* @param aqk pConv = aqk*aConvM1 + aConvM2
+* @param aEven is bool which determine if the last odd convergent lie on the
+* straight line.
+* @return first convergent in the alpha shape
+*/
+Point dichotomicSearch(const Point& aPointa,
+		       const Point aConvM2, const Point aConvM1, 
+		       const int aqk, const bool aEven)
+{
+  //TO IMPROVE
+
+  // Convergent vector
+  Point vConvM1 = aConvM1 - aPointa;
+
+  // next convergent
+  Point pConv = aConvM2 + aqk*vConvM1;
+
+  // init search milestone
+  int qkstart = 1;
+  int qkstop = aqk;
+  // middle
+  int mid;
+
+  // We found the correct vertex
+  bool boolconv = false;
+
+  if (aEven == true) // Even case
+  {
+    while ( boolconv == false )
+    {
+      mid = (qkstart + qkstop)/2;
+      if (myPredicate(aPointa, pConv, pConv - mid*vConvM1) == false)
       {
-
-        // aPoint is the first Alpha-Shape vertex
-        AlphaShapeHull += aPoint;
-
-        // Init
-        Point cm2(1,0);
-        Point cm1(0,1);
-
-        Point pm2;
-        Point pm1;
-
-        Point pStart = aPoint;
-
-        // pconv is the next convergent pconv = pm2 + qk * pm1
-        Point pconv;
-        int qk;
-
-        // we found a new vertex
-        bool candidat;
-
-        // The discrete straight-line [a, b]
-        RayIntersectableStraightLine<Point> DroiteRatio(aPoint, bPoint-aPoint);
-
-        while ( pconv != bPoint ) // we have add the last vertex b
-        {
-          Point pm2 = pStart + cm2;
-          Point pm1 = pStart + cm1;
-
-          if (predicat(pStart, pm2, bPoint)) // pm2 inside the circumcircle
-          {
-            //pm2 is a vertex
-            AlphaShapeHull += pm2;
-
-            // next iteration will start from pm2
-            pStart = pm2;
-            candidat = true;
-          }
-          else
-          {
-            candidat = false;
-          }
-
-          // We stop when the ray is parallel to the straight line
-          while(DroiteRatio.dray(pm2, pm1, qk, pconv) == true && candidat = false)
-          {
-            // pconv inside the circumcircle
-            if (DroiteRAtion(pconv) <= 0 && predicat(pStart, pconv, bPoint) )
-            {
-              // pconv is a vertex
-              AlphaShapeHull += pconv;
-              // next iteration will start from pconv
-              pStart = pconv;
-
-              candidat = true;
-            }
-            else
-            {
-              // we search for the next convergent
-              pm2 = pm1;
-              pm1 = pconv;
-            }
-          }
-        }    
+        if (qkstop == 1 || myPredicate(aPointa, pConv, pConv - (mid-1)*vConvM1) == true)
+        { // We found the good one
+          boolconv = true;
+        }
+        else
+        { // the vertex is higher
+          qkstop = mid - 1;
+        }
       }
-}; 
+      else
+      { // the vertex is lower
+        qkstart = mid + 1;
+      }
+    }
+    // return a new point
+    return(Point(pConv - mid*vConvM1));
+  }
+  else //Odd case
+  {
+    while ( boolconv == false )
+    {
+      mid = (qkstart + qkstop)/2;
+      if (aPredicate(aPointa, pConv, aPointa + mid*vConvM1) == false)
+      {
+        if (qkstart == 1 || aPredicate(aPointa, pConv, aPointa + (mid+1)*vConvM1) == true)
+        { // We found the good one
+          boolconv = true;
+        }
+        else
+        { // the vertex is higher
+          qkstart = mid + 1;
+        }
+      }
+      else
+      { // the vertex is lower
+        qkstop = mid - 1;
+      }
+    }
+    // return a new point
+    return(Point(aPointa + mid*vConvM1));
+  }
+} 
 
+public:
+    /**
+     * Given a vertex of the convex hull, find the next
+     * vertex in a counter-clockwise order
+     * @param aPoint any vertex of the convex hull
+     * @return the next vertex
+     */
+    Point next(const Point& aPoint)
+    {
+      return aPoint; 
+    }
+
+}; 
+#endif

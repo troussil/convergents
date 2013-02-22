@@ -1,3 +1,6 @@
+#ifndef RayIntersectableStraightLine_h
+  #define RayIntersectableStraightLine_h
+
 /**
  * Class implementing a straight line that is 'ray intersectable', 
  * ie. the intersection between the straight line and 
@@ -149,3 +152,5 @@ class RayIntersectableStraightLine
       }
     }
 }; 
+
+#endif
