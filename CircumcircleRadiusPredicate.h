@@ -57,8 +57,8 @@ struct CircumcircleRadiusPredicate
      */
     CircumcircleRadiusPredicate& operator=(const CircumcircleRadiusPredicate& other) 
     { return *this; }
-
-  public: 
+   
+    public: 
     /**
      * Default destructor
      */

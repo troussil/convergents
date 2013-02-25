@@ -91,75 +91,34 @@ private:
 */
 Point dichotomicSearch(const Point& aPointa,
 		       const Point aConvM2, const Point aConvM1, 
-		       const int aqk, const bool aEven)
+		       const int aqk)
 {
-  //TO IMPROVE
-
   // Convergent vector
   Point vConvM1 = aConvM1 - aPointa;
 
-  // next convergent
-  Point pConv = aConvM2 + aqk*vConvM1;
-
   // init search milestone
   int qkstart = 1;
-  int qkstop = aqk;
+  int qkstop  = aqk;
   // middle
   int mid;
 
-  // We found the correct vertex
-  bool boolconv = false;
-
-  if (aEven == true) // Even case
+  do 
   {
-    while ( boolconv == false )
-    {
-      mid = (qkstart + qkstop)/2;
-      if (myPredicate(aPointa, pConv, pConv - mid*vConvM1) == false)
-      {
-        if (qkstop == 1 || myPredicate(aPointa, pConv, pConv - (mid-1)*vConvM1) == true)
-        { // We found the good one
-          boolconv = true;
-        }
-        else
-        { // the vertex is higher
-          qkstop = mid - 1;
-        }
-      }
-      else
-      { // the vertex is lower
-        qkstart = mid + 1;
-      }
+    mid = (qkstart + qkstop)/2;
+    // lower triangle predicate
+    if (aPredicate(aPointa, aPointa + (mid-1)*vConvM1, aPointa + mid*vConvM1) == true)
+    { 
+      // the vertex is higher
+      qkstart = mid + 1;
     }
-    // return a new point
-    return(Point(pConv - mid*vConvM1));
-  }
-  else //Odd case
-  {
-    while ( boolconv == false )
-    {
-      mid = (qkstart + qkstop)/2;
-      if (aPredicate(aPointa, pConv, aPointa + mid*vConvM1) == false)
-      {
-        if (qkstart == 1 || aPredicate(aPointa, pConv, aPointa + (mid+1)*vConvM1) == true)
-        { // We found the good one
-          boolconv = true;
-        }
-        else
-        { // the vertex is higher
-          qkstart = mid + 1;
-        }
-      }
-      else
-      { // the vertex is lower
-        qkstop = mid - 1;
-      }
+    else
+    { // the vertex is lower
+      qkstop = mid - 1;
     }
-    // return a new point
-    return(Point(aPointa + mid*vConvM1));
-  }
-} 
-
+  } while( qkstop - qkstart == 0 ); 
+  // return a new point
+  return(Point(aPointa + mid*vConvM1));
+}
 public:
     /**
      * Given a vertex of the convex hull, find the next

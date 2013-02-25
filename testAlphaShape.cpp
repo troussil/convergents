@@ -20,78 +20,38 @@
  * @param aPointa is the first vertex of the triangle
  * @param Points aConvM2 and aConvM1 are the next convergents
  * @param aqk pConv = aqk*aConvM1 + aConvM2
- * @param aEven is bool which determine if the last odd convergent lie on the
- * straight line.
  * @return first convergent in the alpha shape
  */
   template <typename CircumcircleRadiusPredicate, typename Point>
-Point dichotomous(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa,
-    const Point aConvM2, const Point aConvM1, const int aqk, const bool aEven)
+int dichotomous(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa,
+    const Point aConvM2, const Point aConvM1, const int aqk)
 {
-
   // Convergent vector
   Point vConvM1 = aConvM1 - aPointa;
 
-  // next convergent
-  Point pConv = aConvM2 + aqk*vConvM1;
-
   // init search milestone
-  int qkstart = 1;
+  int qkstart = 0;
   int qkstop  = aqk;
   // middle
   int mid;
 
-  // We found the correct vertex
-  bool boolconv = false;
-
-  if (aEven == true) // Even case
+  // else 
+  do 
   {
-    while ( boolconv == false )
-    {
-      mid = (qkstart + qkstop)/2;
-      if (aPredicate(aPointa, pConv, pConv - mid*vConvM1) == false)
-      { 
-        if (qkstop == 1 || aPredicate(aPointa, pConv, pConv - (mid-1)*vConvM1) == true)
-        { // We found the good one 
-          boolconv = true;
-        }
-        else
-        { // the vertex is higher
-          qkstop = mid - 1;
-        }
-      }
-      else
-      { // the vertex is lower
-        qkstart = mid + 1;
-      }
-    } 
-    // return a new point
-    return(Point(pConv - mid*vConvM1));
-  }
-  else //Odd case
-  {
-    while ( boolconv == false )
-    {
-      mid = (qkstart + qkstop)/2;
-      if (aPredicate(aPointa, pConv, aPointa + mid*vConvM1) == false)
-      { 
-        if (qkstart == 1 || aPredicate(aPointa, pConv, aPointa + (mid+1)*vConvM1) == true)
-        { // We found the good one 
-          boolconv = true;
-        }
-        else
-        { // the vertex is higher
-          qkstart = mid + 1;
-        }
-      }
-      else
-      { // the vertex is lower
-        qkstop = mid - 1;
-      }
-    } 
-    // return a new point
-    return(Point(aPointa + mid*vConvM1));
-  }
+    mid = (qkstart + qkstop)/2;
+    // lower triangle predicate
+    if (aPredicate(aPointa, (aConvM2 + (mid-1)*vConvM1), (aConvM2 + mid*vConvM1)) == true)
+    { 
+      // the vertex is higher
+      qkstart = mid + 1;
+    }
+    else
+    { // the vertex is lower
+      qkstop = mid - 1;
+    }
+  } while( qkstop - qkstart >= 0 ); 
+  // return a new point
+  return(mid);
 }
 
 
@@ -123,7 +83,13 @@ void convAlphaShape(const CircumcircleRadiusPredicate& aPredicate, const Point& 
   // pConv is the next convergent pconv = pConvM2 + qk * vConvM1
   Point pConv = pStart;
   int qk;
-
+  
+  // pConvM2 + qkalpha * vConvM1 is the first vertex of the alpha shape
+  int qkalpha;
+  
+  // qkode remember the last coefficient
+  int qkode;
+  
   // The convergent number is even : the convergent is below the straight line
   bool evenConv = true;
 
@@ -137,62 +103,34 @@ void convAlphaShape(const CircumcircleRadiusPredicate& aPredicate, const Point& 
     // ie : if the circumcircle radius of (pStart, pconv, pConvM2) triangle
     // is lower than -1*/alpha.
     // and if the convergent is below the straight line (even)
-
-std::cout<<"pStart : "<<pStart<< " + p-2 : "<<pConvM2<< " + p-1 : "<<pConvM1<< " + pk = "<<pConv<< qk<<" pair : "<<evenConv<<" So : p-2 : "<<(aPredicate(pStart, pConvM2, pConv)==false)<<" So : p-1 : "<<(aPredicate(pStart, pConvM1, pConv)==false)<<std::endl;
     
-    if ( (evenConv == true && aPredicate(pStart, pConvM2, pConv) == false) ||
-        (evenConv == false && aPredicate(pStart, pConvM1, pConv) == false))
+    if ( evenConv == true && aPredicate(pStart, pConv-vConvM1, pConv) == false)
     {
-      // pConv and pConvM2 are confounded
-      std::cout<<"--Vertex : ";
-      if (qk == 0)
+
+      qkalpha = dichotomous(aPredicate, pStart, pConvM2, pConvM1, qk);
+      // We add the next alpha-shape vertex
+      
+      while (qkalpha <= qk)
       {
-         // We add the next alpha-shape vertex
-        *aAlphaShapeHull++ = pConvM2;
-        pStart = pConv;
-        std::cout<<"0 "<<pConv;
+        *aAlphaShapeHull++ = pConvM2 + qkalpha * vConvM1;
+        qkalpha++;
       }
-      else 
-      {
-       if (qk == 1)
-       {
-         // We add the two next alpha-shape vertices
-        *aAlphaShapeHull++ = pConvM2;
-        // We start from the second vertex
-        *aAlphaShapeHull++ = pConv;
-        pStart = pConv;
-        std::cout<<"1 "<<pConvM2<<pConv;
-       }      
-        else //if(qk > 1)
-        {
-          pStart = dichotomous(aPredicate, pStart, pConvM2, pConvM1, qk, evenConv);
-          // We add the next alpha-shape vertex
-          *aAlphaShapeHull++ = pStart;
-          std::cout<<"2++ "<<pStart;
-        }
-      }
-      std::cout<<std::endl;
 
       // we restart convergent calculation from pStart
       vConvM2[0]=1; vConvM2[1]=0; 
       vConvM1[0]=0; vConvM1[1]=1; 
    
-      while (lineRatio(pStart + vConvM1) <=0)
-      { 
-        pConvM1 = pStart + vConvM1;  
-        *aAlphaShapeHull++ = pConvM1;
-        pStart = pConvM1;
-        std::cout<<"--rotation : "<< pConvM1<<std::endl;
-      }
-      
+      pStart = pConv;  
+   
       pConvM2 = pStart + vConvM2;
       pConvM1 = pStart + vConvM1;       
       
       evenConv = true;
 
+      
     }
     else // We search for the next convergent
-    {         std::cout<<"--convergent : "<< std::endl;
+    {
       // Updating convergent
       pConvM2 = pConvM1;
       pConvM1 = pConv;
@@ -201,11 +139,29 @@ std::cout<<"pStart : "<<pStart<< " + p-2 : "<<pConvM2<< " + p-1 : "<<pConvM1<< "
 
       // even, odd, even...
       evenConv = (evenConv == false);
-
+      // Stock qk;
+      qkode = qk;
     }
-
   } // end while :: all vertex have been found
-  *aAlphaShapeHull++ = aPointb;
+    
+  // if the last convergent before aPointb is above the straight line, we search
+  // if have not missed some Points.
+  // should be using the dichotomic proc
+  if (evenConv == true && pConvM1 == aPointb)
+  {
+    int i = 0;
+    
+    while( i < qkode )
+    {
+      if (aPredicate(pStart, pConvM2 + i*pConvM2, aPointb) == false)
+      {
+        *aAlphaShapeHull++ = pConvM2 + i*pConvM2;
+      }
+      i++;
+    }
+    // If not compute, aPoint b is the last vertex
+    *aAlphaShapeHull++ = aPointb;
+  }
 
 } // end proc
 
@@ -295,7 +251,7 @@ int main()
     std::cout << std::endl;
 
     // Convergent lie on the circle
-    CircumcircleRadiusPredicate<> predicat2(1000,2);
+    CircumcircleRadiusPredicate<> predicat2(39337,4);
     convergents.clear(); 
 
     groundTruth.clear(); 
@@ -303,7 +259,7 @@ int main()
     groundTruth.push_back(Point(5,8)); 
 
     convAlphaShape(predicat2, aPoint, bPoint, std::back_inserter(convergents) );  
-    std::cout << "-- R² =  500." << std::endl; 
+    std::cout << "-- R² =  39337/4." << std::endl; 
     std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
     std::cout << std::endl;
 
@@ -314,74 +270,9 @@ int main()
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
     std::cout << std::endl;
 
-    // First new vertex : 2/3
-    CircumcircleRadiusPredicate<> predicat3(35,1);
-    convergents.clear(); 
-
-    groundTruth.clear(); 
-    groundTruth.push_back(Point(0,0));
-    groundTruth.push_back(Point(2,3));
-    groundTruth.push_back(Point(5,8)); 
-
-    convAlphaShape(predicat3, aPoint, bPoint, std::back_inserter(convergents) );  
-    std::cout << "-- R² =  35." << std::endl; 
-    std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
-    std::cout << std::endl;
-
-    if (convergents.size() == groundTruth.size())
-      if ( std::equal(groundTruth.begin(), groundTruth.end(), convergents.begin()) )
-        nbok++; 
-    nb++; 
-    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
-    std::cout << std::endl;
-
+       
     // Add the next vertex
-    CircumcircleRadiusPredicate<> predicat4(34,1);
-    convergents.clear(); 
-
-    groundTruth.clear(); 
-    groundTruth.push_back(Point(0,0));
-    groundTruth.push_back(Point(2,3));
-    groundTruth.push_back(Point(4,6));
-    groundTruth.push_back(Point(5,8)); 
-
-    convAlphaShape(predicat4, aPoint, bPoint, std::back_inserter(convergents) );  
-    std::cout << "-- R² =  34." << std::endl; 
-    std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
-    std::cout << std::endl;
-
-    if (convergents.size() == groundTruth.size())
-      if ( std::equal(groundTruth.begin(), groundTruth.end(), convergents.begin()) )
-        nbok++; 
-    nb++; 
-    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
-    std::cout << std::endl;
-
-    // Add the next vertex
-    CircumcircleRadiusPredicate<> predicat5(33,1);
-    convergents.clear(); 
-
-    groundTruth.clear(); 
-    groundTruth.push_back(Point(0,0));
-    groundTruth.push_back(Point(1,1));
-    groundTruth.push_back(Point(2,3));
-    groundTruth.push_back(Point(4,6));
-    groundTruth.push_back(Point(5,8)); 
-
-    convAlphaShape(predicat5, aPoint, bPoint, std::back_inserter(convergents) );  
-    std::cout << "-- R² =  33." << std::endl; 
-    std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
-    std::cout << std::endl;
-
-    if (convergents.size() == groundTruth.size())
-      if ( std::equal(groundTruth.begin(), groundTruth.end(), convergents.begin()) )
-        nbok++; 
-    nb++; 
-    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
-    std::cout << std::endl;
-
-    // Add the next vertex
-    CircumcircleRadiusPredicate<> predicat6(32,1);
+    CircumcircleRadiusPredicate<> predicat6(2210,4);
     convergents.clear(); 
 
     groundTruth.clear(); 
@@ -393,7 +284,7 @@ int main()
     groundTruth.push_back(Point(5,8)); 
 
     convAlphaShape(predicat6, aPoint, bPoint, std::back_inserter(convergents) );  
-    std::cout << "-- R² =  32." << std::endl; 
+    std::cout << "-- R² =  2209/4" << std::endl; 
     std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
     std::cout << std::endl;
 
@@ -405,7 +296,7 @@ int main()
     std::cout << std::endl;
 
     // Add the next vertex
-    CircumcircleRadiusPredicate<> predicat7(31,1);
+    CircumcircleRadiusPredicate<> predicat7(85,1);
     convergents.clear(); 
 
     groundTruth.clear(); 
@@ -418,7 +309,7 @@ int main()
     groundTruth.push_back(Point(5,8)); 
 
     convAlphaShape(predicat7, aPoint, bPoint, std::back_inserter(convergents) );  
-    std::cout << "-- R² =  31" << std::endl; 
+    std::cout << "-- R² =  32" << std::endl; 
     std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
     std::cout << std::endl;
 
@@ -430,7 +321,7 @@ int main()
     std::cout << std::endl;
 
     // Add the next vertex
-    CircumcircleRadiusPredicate<> predicat8(30,1);
+    CircumcircleRadiusPredicate<> predicat8(9,10);
     convergents.clear(); 
 
     groundTruth.clear(); 
@@ -444,7 +335,7 @@ int main()
     groundTruth.push_back(Point(5,8)); 
 
     convAlphaShape(predicat8, aPoint, bPoint, std::back_inserter(convergents) );  
-    std::cout << "-- R² =  30" << std::endl; 
+    std::cout << "-- R² =  0.9" << std::endl; 
     std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
     std::cout << std::endl;
 
@@ -456,7 +347,7 @@ int main()
     std::cout << std::endl;
 
     // Add the next vertex
-    CircumcircleRadiusPredicate<> predicat9(13,10);
+    CircumcircleRadiusPredicate<> predicat9(16,10);
     convergents.clear(); 
 
     groundTruth.clear(); 
@@ -471,7 +362,7 @@ int main()
     groundTruth.push_back(Point(5,8)); 
 
     convAlphaShape(predicat9, aPoint, bPoint, std::back_inserter(convergents) );  
-    std::cout << "-- R² =  1.3" << std::endl; 
+    std::cout << "-- R² =  1.6" << std::endl; 
     std::copy(convergents.begin(), convergents.end(), std::ostream_iterator<Vector>(std::cout, ", ") ); 
     std::cout << std::endl;
 
