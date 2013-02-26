@@ -24,10 +24,10 @@ void alphaShape(const Shape& aShape, const Point& aStartingPoint,
   //get the first vertex
   Point tmp = aStartingPoint; 
   do {
-    //store the current vertex
-    *res++ = tmp; 
-    //get the next vertex
-    tmp = ch.next(tmp); 
+    //get the next vertices
+    //(and store the vertices 
+    //except the last one)
+    tmp = ch.nextOnes(tmp, res); 
     //while it is not the first one
   } while (tmp != aStartingPoint); 
 }

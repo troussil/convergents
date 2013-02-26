@@ -1,5 +1,5 @@
 #ifndef OutputSensitiveAlphaShape_h
-   #define OutputSensitiveAlphaShape_h
+#define OutputSensitiveAlphaShape_h
 
 #include<cmath>
 
@@ -74,103 +74,69 @@ public:
 
 
   ///////////////////// main methods ///////////////////
-private: 
-   
-/**
-* Dichotomic search procedure to retrieve the next edge
-* of the alpha-shape in a sequence of edge-connected triangles
-* of increasing circumcircle radius. 
-* 
-* TO IMPROVE doc
-* @param aPointa is the first vertex of the triangle
-* @param Points aConvM2 and aConvM1 are the next convergents
-* @param aqk pConv = aqk*aConvM1 + aConvM2
-* @param aEven is bool which determine if the last odd convergent lie on the
-* straight line.
-* @return first convergent in the alpha shape
-*/
-Point dichotomicSearch(const Point& aPointa,
-		       const Point aConvM2, const Point aConvM1, 
-		       const int aqk, const bool aEven)
-{
-  //TO IMPROVE
-
-  // Convergent vector
-  Point vConvM1 = aConvM1 - aPointa;
-
-  // next convergent
-  Point pConv = aConvM2 + aqk*vConvM1;
-
-  // init search milestone
-  int qkstart = 1;
-  int qkstop = aqk;
-  // middle
-  int mid;
-
-  // We found the correct vertex
-  bool boolconv = false;
-
-  if (aEven == true) // Even case
-  {
-    while ( boolconv == false )
-    {
-      mid = (qkstart + qkstop)/2;
-      if (myPredicate(aPointa, pConv, pConv - mid*vConvM1) == false)
-      {
-        if (qkstop == 1 || myPredicate(aPointa, pConv, pConv - (mid-1)*vConvM1) == true)
-        { // We found the good one
-          boolconv = true;
-        }
-        else
-        { // the vertex is higher
-          qkstop = mid - 1;
-        }
-      }
-      else
-      { // the vertex is lower
-        qkstart = mid + 1;
-      }
-    }
-    // return a new point
-    return(Point(pConv - mid*vConvM1));
-  }
-  else //Odd case
-  {
-    while ( boolconv == false )
-    {
-      mid = (qkstart + qkstop)/2;
-      if (aPredicate(aPointa, pConv, aPointa + mid*vConvM1) == false)
-      {
-        if (qkstart == 1 || aPredicate(aPointa, pConv, aPointa + (mid+1)*vConvM1) == true)
-        { // We found the good one
-          boolconv = true;
-        }
-        else
-        { // the vertex is higher
-          qkstart = mid + 1;
-        }
-      }
-      else
-      { // the vertex is lower
-        qkstop = mid - 1;
-      }
-    }
-    // return a new point
-    return(Point(aPointa + mid*vConvM1));
-  }
-} 
-
 public:
-    /**
-     * Given a vertex of the convex hull, find the next
-     * vertex in a counter-clockwise order
-     * @param aPoint any vertex of the convex hull
-     * @return the next vertex
-     */
-    Point next(const Point& aPoint)
-    {
-      return aPoint; 
-    }
+   
+  /**
+   * Dichotomic search procedure to retrieve the next edge
+   * of the alpha-shape in a sequence of edge-connected triangles
+   * of increasing circumcircle radius. 
+   * 
+   * @param aPoint the first vertex of the triangle
+   * @param aConvM2 (k-2)-th convergent
+   * @param aConvM1 (k-1)-th convergent
+   * @param aQk k-th quotient such that the k-th convergent
+   * is equal to aQk*aConvM1 + aConvM2
+   * @return integer mid between 0 and aQk such that
+   * aPoint and mid*aConvM1 + aConvM2 define the next edge
+   * of the alpha-shape
+   */
+  int dichotomicSearch(const Point& aPoint,
+		       const Point& aConvM2, const Point& aConvM1, 
+		       const int& aQk)
+  {
+    // Convergent vector
+    Point vConvM1 = aConvM1 - aPoint;
+
+    // init search milestone
+    int qkstart = 0;
+    int qkstop = aQk;
+    // middle
+    int mid;
+
+    do
+      {
+	mid = (qkstart + qkstop)/2;
+	// lower triangle predicate
+	if (aPredicate(aPoint, (aConvM2 + (mid-1)*vConvM1), (aConvM2 + mid*vConvM1)) == true)
+	  {
+	    // the vertex is higher
+	    qkstart = mid + 1;
+	  }
+	else
+	  { // the vertex is lower
+	    qkstop = mid - 1;
+	  }
+      } while( qkstop - qkstart >= 0 );
+    // return the index
+    return(mid);
+  } 
+
+  /**
+   * Given a vertex of the alpha-shape, 
+   * find the next ones in a counter-clockwise order. 
+   * All retrieved vertices (including @e aPoint, but
+   * excluding the last one, which is returned) 
+   * are written in @e res. 
+   * @param aPoint any vertex of the alpha-shape
+   * @return the last retrieved vertex
+   */
+  template <typename OutputIterator>
+  Point nextOnes(const Point& aPoint, const OutputIterator& res)
+  {
+    //TO DO
+    
+    return aPoint; 
+  }
 
 }; 
 #endif
