@@ -12,7 +12,7 @@ int main()
   int nbok = 0; //number of tests ok
   int nb = 0;   //total number of tests
 
-  std::cout << "testRayIntersectableStraightLine" << std::endl; 
+  std::cout << "testRayIntersectableStraightLine (0,0) - (8,5)" << std::endl; 
   {
     typedef RayIntersectableStraightLine<Point> SL; 
     SL line(Point(0,0), Point(8,5));
@@ -71,6 +71,24 @@ int main()
     if ( line.dray(Point(0,1), Vector(1,0), qMax, ptMax ) )
       if ( (qMax == 1)&&(ptMax == Point(1,1)) ) 
         nbok++; 
+    nb++; 
+    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+
+  }
+  std::cout << "testRayIntersectableStraightLine (1,1) - (9,6)" << std::endl; 
+  {
+    typedef RayIntersectableStraightLine<Point> SL; 
+    SL line(Point(1,1), Point(9,6));
+
+    //constructor
+    if ( (line.a() == -5)&&(line.b() == 8)&&(line.c() == -3) ) 
+      nbok++; 
+    nb++; 
+    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl; 
+
+    //point functor
+    if ( (line(Point(8,0)) < 0)&&(line(Point(9,6)) == 0)&&(line(Point(8,10)) > 0) ) 
+      nbok++; 
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
 
