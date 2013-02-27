@@ -50,8 +50,8 @@ class RayIntersectableStraightLine
      * @param aQ second point
      */
     RayIntersectableStraightLine(const Point& aP, const Point& aQ):
-      myA(aP[1]-aQ[1]), myB(aQ[0]-aP[0]), myC(myA*aP[0]+myB*aP[1]) {}
-
+      myA(aP[1]-aQ[1]), myB(aQ[0]-aP[0]), myC(-(myA*aP[0]+myB*aP[1])) {}
+    
     /**
      * Copy constructor
      * @param p other object to copy
