@@ -100,11 +100,194 @@ bool test(const ForwardIterator& itb, const ForwardIterator& ite,
   //output-sensitive algorithm
   std::vector<Point> ch2; 
   //TODO
-
+  convAlphaShape(predicate1, O, P, std::back_inserter(ch2) );  
+  std::cout << "1-shape of the boundary" << std::endl; 
+  std::copy(ch2.begin(), ch2.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+  std::cout << std::endl; 
+  
   //COMPARE WITH YOUR ALGO HERE
   return false; 
 
 }
+
+/**
+ * Dichotomous search procedure
+ * @param aPredicate determine the alpha shape radius
+ * @param aPointa is the first vertex of the triangle
+ * @param Points aConvM2 and aConvM1 are the next convergents vectors
+ * @param aqk pConv = aqk*aConvM1 + aConvM2
+ * @return coefficient of the first/ next convergent in the alpha shape
+ */
+  template <typename CircumcircleRadiusPredicate, typename Point>
+int dichotomous(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa,
+    const Point aConvM2, const Point aConvM1, const int aqk)
+{
+  // init search milestone
+  int qkstart = 0;
+  int qkstop  = aqk;
+
+  // middle
+  int mid;
+
+  // while we finish the dichotomy 
+  while( qkstop - qkstart >= 0 ) 
+  {
+    // Find the middle between qkstart and qkstop
+    mid = (qkstart + qkstop)/2;
+
+    // lower triangle predicate
+    if (aPredicate(aPointa, (aPointa + aConvM2 + (mid-1)*aConvM1), 
+          (aPointa + aConvM2 + mid*aConvM1)) == true)
+    { // the vertex is higher
+      qkstart = mid + 1;
+    }
+    else
+    { // the vertex is lower
+      qkstop = mid - 1;
+    }
+  } 
+  // return the coefficient of the first vertex inside the alpha-shape.
+  return((qkstart + qkstop)/2);
+}
+
+
+/**
+ * Given a straight line, find its alpha Hull,
+ * @param aPredicate determine the alpha shape radius
+ * @param aPoint, bPoint, the starting and ending point of the straight
+ * line.
+ * @return the alpha-hull of the straight line in the OutputIterator.
+ */
+  template <typename CircumcircleRadiusPredicate, typename Point, typename OutputIterator>
+void convAlphaShape(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa,
+    const Point aPointb, OutputIterator aAlphaShapeHull)
+{
+  // aPoint is the first Alpha-Shape vertex
+  *aAlphaShapeHull++ = aPointa;
+
+  // Initialisation of the convergent
+  // Convergent arise from pStart
+  Point pStart = aPointa;
+
+  // First convergents vectors : 
+  Point vConvM2(1,0);
+  Point vConvM1(0,1);
+  Point vConv;
+
+  // First convergents points :
+  Point pConvM2 = pStart + vConvM2;
+  Point pConvM1 = pStart + vConvM1;
+
+  // pConv is the next convergent pconv = pConvM2 + qk * vConvM1
+  Point pConv = pStart;
+  int qk;
+
+  // qkode remember the last coefficient, it's qk-1
+  int qkode;
+
+  // pConvM2 + qkalpha * vConvM1 is the first vertex of the alpha shape
+  int qkalpha;
+
+
+  // The convergent number is even : the convergent is below the straight line
+  bool evenConv = true;
+
+  // The discrete straight-line [a, b]
+  RayIntersectableStraightLine<Point> lineRatio(aPointa, aPointb);
+
+  /**
+   * we do not have compute all the candidat.
+   * We stop the computing when we reach the end of the straight-line : aPointb
+   * or if the next convergent do not intersect the straight-line
+   */
+  while ( pStart != aPointb && lineRatio.dray(pConvM2, vConvM1, qk, pConv)) 
+  {
+    // New pConv is calculate in lineRatio.dray(), so We update vConv
+    vConv = pConv - pStart;
+
+    if ( evenConv == true && (aPredicate(pStart, pConv-vConvM1, pConv) == false /*||
+          (vConv.normL22()*aPredicate.getDen2() > aPredicate.getNum2())*/ ))
+    {
+      /**
+       * We test if the convergent is inside the circle with the boolean evenConv
+       * We test if the circumcircle of the last triangle T(pStart, pConv-vConvM1, pConv)
+       * is lower than the radius / predicate or if the normL22 of vConv is greater than
+       * the radius.
+       */ 
+
+      // Throw the dichotomous method to find qkalpha
+      qkalpha = dichotomous(aPredicate, pStart, vConvM2, vConvM1, qk);
+
+      // We add all the vertex to the alpha-shape from qkalpha to qk
+
+      while (qkalpha <= qk)
+      {
+        *aAlphaShapeHull++ = pConvM2 + qkalpha * vConvM1;
+        qkalpha++;
+      }
+
+      // We reset the convergent from a new start.
+      pStart = pConv;  
+
+      // Frist convergents
+      vConvM2[0]=1; vConvM2[1]=0; 
+      vConvM1[0]=0; vConvM1[1]=1; 
+
+      pConvM2 = pStart + vConvM2;
+      pConvM1 = pStart + vConvM1;       
+
+      // Ready for comput p_0
+      evenConv = true;
+    } // end new alpha-shape vertex calculation
+    else 
+    { // We search for the next convergent
+
+      // Updating convergent
+      pConvM2 = pConvM1;
+      pConvM1 = pConv;
+      vConvM2 = vConvM1;
+      vConvM1 = pConv-pStart;
+
+      // even, odd, even...
+      evenConv = (evenConv == false);
+
+      // Stock qk. Need for last step.
+      qkode = qk;
+    } // New convergent have been found
+  } // end while :: all vertex have been found
+
+  if (pConvM1 == aPointb)
+  {
+    /**
+     * if the last convergent before aPointb is above the straight line, ie : if
+     * pConvM1 have reach aPointb, we might have missed some point. 
+     * At least, aPointb.
+     */ 
+
+    if (evenConv == true)
+    {
+      int i = 0;
+      while( i < qkode )
+      {
+        if (aPredicate(pStart, pConvM2 + i*pConvM2, aPointb) == false)
+        {
+          /**
+           * pConvM2 + i*pConvM2 and pConvM2 + (i+1)*pConvM2 are collineare.
+           * We test if the circumcircle of the last triangle 
+           * T(pStart, pConvM2 + i*pConvM2, aPointb) is lower than the 
+           * radius / predicate
+           */
+
+          *aAlphaShapeHull++ = pConvM2 + i*pConvM2;
+        }
+        i++;
+      } 
+    }// evenCon == true
+    // aPoint b is the last vertex
+    *aAlphaShapeHull++ = aPointb;
+  } //pConvM1 == aPointb
+} // end proc
+
 
 ///////////////////////////////////////////////////////////////////////
 int main() 
