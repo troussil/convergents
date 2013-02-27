@@ -1,5 +1,5 @@
 #ifndef RayIntersectableStraightLine_h
-  #define RayIntersectableStraightLine_h
+#define RayIntersectableStraightLine_h
 
 /**
  * Class implementing a straight line that is 'ray intersectable', 
@@ -50,7 +50,7 @@ class RayIntersectableStraightLine
      * @param aQ second point
      */
     RayIntersectableStraightLine(const Point& aP, const Point& aQ):
-      myA(aP[1]-aQ[1]), myB(aQ[0]-aP[0]), myC(myA*aP[0]+myB*aP[1]) {}
+      myA(aP[1]-aQ[1]), myB(aQ[0]-aP[0]), myC(-(myA*aP[0]+myB*aP[1])) {}
 
     /**
      * Copy constructor
@@ -124,13 +124,13 @@ class RayIntersectableStraightLine
      * @return 'true' if the ray and the straight-line instercest, 'false' otherwise 
      */
     bool dray(const Point& aStartingPoint, const Vector& aDirection, 
-             int& aQuotient, Point& aClosest) const 
+        int& aQuotient, Point& aClosest) const 
     {
-      
+
       // Initialise value
       aQuotient = 0;
       aClosest = aStartingPoint;
-      
+
 
       /**
        *  There is no intersection if aDirection and the straight-line 
