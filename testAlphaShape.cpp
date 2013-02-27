@@ -49,7 +49,7 @@ int main()
 
     std::vector<Point> boundary; 
     Vector dir(1,0); 
-    tracking( circle, circle.getConvexHullVertex(), dir, std::back_inserter(boundary) ); 
+    closedTracking( circle, circle.getConvexHullVertex(), dir, std::back_inserter(boundary) ); 
     std::cout << "Boundary" << std::endl; 
     std::copy(boundary.begin(), boundary.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
     std::cout << std::endl; 
@@ -74,7 +74,7 @@ int main()
 
     std::vector<Point> ch;
     CircumcircleRadiusPredicate<> predicate; //by default infinite radius (denominator = 0)  
-    grahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), predicate ); 
+    closedGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), predicate ); 
     std::cout << "Graham's convex hull of the boundary" << std::endl; 
     std::copy(ch.begin(), ch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
     std::cout << std::endl; 
@@ -105,7 +105,7 @@ int main()
 
     std::vector<Point> ch1;
     CircumcircleRadiusPredicate<> predicate1(1,1); //radius 1  
-    grahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch1), predicate1 ); 
+    closedGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch1), predicate1 ); 
     std::cout << "1-shape of the boundary" << std::endl; 
     std::copy(ch1.begin(), ch1.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
     std::cout << std::endl; 
@@ -145,7 +145,7 @@ int main()
 
     std::vector<Point> ch3;
     CircumcircleRadiusPredicate<> predicate3(9,1); //radius 3  
-    grahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch3), predicate3 ); 
+    closedGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch3), predicate3 ); 
     std::cout << "3-shape of the boundary" << std::endl; 
     std::copy(ch3.begin(), ch3.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
     std::cout << std::endl; 

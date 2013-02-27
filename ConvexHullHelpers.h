@@ -114,14 +114,54 @@ class Tracker
       }
 }; 
 
+// /**
+//  * @brief Procedure that retrieves the boundary of 
+//  * the Gauss digitization of a shape. 
+//  * 
+//  * @param aShape shape we want to track the boundary
+//  * of its Gauss digitization
+//  * @param aStartingPoint point belonging to the 
+//  * boundary of the Gauss digitization of @a aShape
+//  * @param aDir vector indicating the tracking orientation
+//  * @param res output iterator using to export the retrieved points
+//  * 
+//  * @tparam TShape a point functor (positive value for 
+//  * a point belonging to the shape).
+//  * @tparam Point a model of point
+//  * @tparam Vector a model of vector
+//  * @tparam OutputIterator a model of output iterator   
+//  */
+// template <typename Shape, typename Point, typename Vector, typename OutputIterator>
+// void tracking(const Shape& aShape, const Point& aStartingPoint, Vector& aDir,  
+//     OutputIterator res)
+// {
+//   Tracker<Shape> t(aShape);
+//   //get the first point
+//   Point current = aStartingPoint; 
+//   Point tmp; 
+//   do {
+//     //store the current point
+//     *res++ = current; 
+//     //get the next DIFFERENT point
+//     do {
+//       tmp = t.next(current, aDir);
+//     } while (tmp == current); 
+//     current = tmp; 
+//     //while it is not the first one
+//   } while (current != aStartingPoint); 
+// }
+
 /**
  * @brief Procedure that retrieves the boundary of 
  * the Gauss digitization of a shape. 
  * 
  * @param aShape shape we want to track the boundary
  * of its Gauss digitization
- * @param aStartingPoint point belonging to the 
- * boundary of the Gauss digitization of @a aShape
+ * @param aStartingPoint point where the tracking begins. 
+ * It belongs to the boundary of the Gauss digitization of @a aShape
+ * @param aLastPoint point where the tracking ends. 
+ * It belongs to the boundary of the Gauss digitization of @a aShape.
+ * (It may be the same as @e aStartingPoint for closed boundary)
  * @param aDir vector indicating the tracking orientation
  * @param res output iterator using to export the retrieved points
  * 
@@ -132,8 +172,9 @@ class Tracker
  * @tparam OutputIterator a model of output iterator   
  */
 template <typename Shape, typename Point, typename Vector, typename OutputIterator>
-void tracking(const Shape& aShape, const Point& aStartingPoint, Vector& aDir,  
-    OutputIterator res)
+void tracking(const Shape& aShape, 
+	      const Point& aStartingPoint, const Point& aLastPoint, 
+	      Vector& aDir, OutputIterator res)
 {
   Tracker<Shape> t(aShape);
   //get the first point
@@ -148,7 +189,24 @@ void tracking(const Shape& aShape, const Point& aStartingPoint, Vector& aDir,
     } while (tmp == current); 
     current = tmp; 
     //while it is not the first one
-  } while (current != aStartingPoint); 
+  } while (current != aLastPoint); 
+}
+
+template <typename Shape, typename Point, typename Vector, typename OutputIterator>
+void openTracking(const Shape& aShape, 
+	      const Point& aStartingPoint, const Point& aLastPoint, 
+	      Vector& aDir, OutputIterator res)
+{
+  tracking(aShape, aStartingPoint, aLastPoint, aDir, res); 
+  *res++ = aLastPoint; 
+}
+
+template <typename Shape, typename Point, typename Vector, typename OutputIterator>
+void closedTracking(const Shape& aShape, 
+		    const Point& aStartingPoint, 
+		    Vector& aDir, OutputIterator res)
+{
+  tracking(aShape, aStartingPoint, aStartingPoint, aDir, res); 
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -224,6 +282,46 @@ void updateConvexHull(Container& container, const Point& newPoint, const Predica
 }
 
 /**
+ * @brief Procedure that retrieves the vertices of 
+ * the convex hull of a range of points [@e itb , @e ite )
+ * and that stores them in an input container @e container. 
+ * @see grahamScan   
+ * 
+ * @param container (returned) stack-like container
+ * @param itb begin iterator
+ * @param ite end iterator 
+ * @param p predicate giving the orientation
+ * (true if in a counter-clockwise orientation) 
+ * 
+ * @tparam Container a model of 'back-pushable' sequence container 
+ * @tparam ForwardIterator a model of forward iterator
+ * @tparam Predicate a model of ternary predicate
+ */
+template <typename Container, typename ForwardIterator, typename Predicate>
+void buildConvexHull(Container& container, 
+		     const ForwardIterator& itb, const ForwardIterator& ite,
+		     const Predicate& p)
+{
+  //for all points
+  for(ForwardIterator it = itb; it != ite; ++it)
+  {
+    if(container.size() < 2)
+    {
+      container.push_back( *it ); 
+      //std::cout << " add (to back) " << *it << std::endl; 
+    }
+    else
+    {
+      //maintaining convexity with the new point
+      updateConvexHull(container, *it, p); 
+      //add new point
+      container.push_back( *it ); 
+      //std::cout << " add (to back) " << *it << std::endl; 
+    }
+  }//end for all points
+}
+
+/**
  * @brief Procedure that retrieves the vertices
  * of the convex hull of a sorted list of 2d points
  * (Graham's scan).  
@@ -239,7 +337,7 @@ template <typename ForwardIterator, typename OutputIterator>
 void grahamScan(const ForwardIterator& itb, const ForwardIterator& ite,  
 		OutputIterator res)
 {
-  grahamScan(itb, ite, res, StraightLinePredicate()); 
+  closedGrahamScan(itb, ite, res, StraightLinePredicate()); 
 }
 
 /**
@@ -258,29 +356,14 @@ void grahamScan(const ForwardIterator& itb, const ForwardIterator& ite,
  * @tparam Predicate a model of ternary predicate
  */
 template <typename ForwardIterator, typename OutputIterator, typename Predicate>
-void grahamScan(const ForwardIterator& itb, const ForwardIterator& ite,  
+void closedGrahamScan(const ForwardIterator& itb, const ForwardIterator& ite,  
 		OutputIterator res, const Predicate& p)
 {
   typedef typename std::iterator_traits<ForwardIterator>::value_type Point; 
   std::deque<Point> container; 
 
-  //for all points
-  for(ForwardIterator it = itb; it != ite; ++it)
-  {
-    if(container.size() < 2)
-    {
-      container.push_back( *it ); 
-      //std::cout << " add (to back) " << *it << std::endl; 
-    }
-    else
-    {
-      //maintaining convexity with the new point
-      updateConvexHull(container, *it, p); 
-      //add new point
-      container.push_back( *it ); 
-      //std::cout << " add (to back) " << *it << std::endl; 
-    }
-  }//end for all points
+  //convex hull computation
+  buildConvexHull(container, itb, ite, p); 
 
   //maintaining convexity with the starting point
   updateConvexHull(container, *itb, p); 
@@ -289,81 +372,33 @@ void grahamScan(const ForwardIterator& itb, const ForwardIterator& ite,
   std::copy(container.begin(), container.end(), res); 
 }
 
-// template <typename ForwardIterator, typename OutputIterator>
-// void melkmanConvexHull(const ForwardIterator& itb, const ForwardIterator& ite,  
-//     OutputIterator res )
-// {
-//   typedef typename std::iterator_traits<ForwardIterator>::value_type Point; 
-//   std::deque<Point> container; 
+/**
+ * @brief Procedure that retrieves the vertices
+ * of the alpha-shape of a sorted list of 2d points
+ * (based on Graham's scan).  
+ * 
+ * @param itb begin iterator
+ * @param ite end iterator 
+ * @param res output iterator using to export the retrieved points
+ * @param f predicate giving the orientation
+ * (positive if in a counter-clockwise orientation) 
+ * 
+ * @tparam ForwardIterator a model of forward iterator
+ * @tparam OutputIterator a model of output iterator   
+ * @tparam Predicate a model of ternary predicate
+ */
+template <typename ForwardIterator, typename OutputIterator, typename Predicate>
+void openGrahamScan(const ForwardIterator& itb, const ForwardIterator& ite,  
+		OutputIterator res, const Predicate& p)
+{
+  typedef typename std::iterator_traits<ForwardIterator>::value_type Point; 
+  std::deque<Point> container; 
 
-//   //for all points
-//   for(ForwardIterator it = itb; it != ite; ++it)
-//   {
-//     if(container.size() < 3)
-//     {
-//       container.push_back( *it ); 
-//       //std::cout << " add (to back) " << *it << std::endl; 
-//     }
-//     else
-//     {
-//       //front
-//       {
-//         Point P = *it; 
-//         Point Q = container.front(); 
-//         container.pop_front(); 
-//         if (container.size() != 0) 
-//         {
-//           Point R = container.front(); 
-//           //std::cout << " signed area of " << P << " " << Q << " " << R << " : " << signedArea(P,Q,R) << std::endl; 
-//           while ( ( signedArea(P,Q,R) >= 0 )&&(container.size() != 0) )
-//           {
-//             //remove Q
-//             //std::cout << " remove from front " << Q << std::endl; 
-//             Q = R; 
-//             container.pop_front(); 
-//             if (container.size() != 0) 
-//               R = container.front(); 
-//           }
-//           //add Q
-//           container.push_front(Q);
-//         }
-//       }
+  //convex hull computation
+  buildConvexHull(container, itb, ite, p); 
 
-//       //back
-//       {
-//         Point P = *it; 
-//         Point Q = container.back(); 
-//         container.pop_back(); 
-//         if (container.size() != 0) 
-//         {
-//           Point R = container.back(); 
-//           //std::cout << " signed area of " << P << " " << Q << " " << R << " : " << signedArea(P,Q,R) << std::endl; 
-//           while ( ( signedArea(P,Q,R) <= 0 )&&(container.size() != 0) )
-//           {
-//             //remove Q
-//             //std::cout << " remove from back" << Q << std::endl; 
-//             Q = R; 
-//             container.pop_back(); 
-//             if (container.size() != 0) 
-//               R = container.back(); 
-//           }
-//           //add Q
-//           container.push_back(Q); 
-//         }
-//       }
-//       //add new point
-//       if ( signedArea(container.front(), *it, container.back()) > 0 )
-//       {
-//         container.push_front(*it); 
-//         //std::cout << " add to front " << *it << std::endl; 
-//         container.push_back(*it); 
-//         //std::cout << " add to back " << *it << std::endl; 
-//       }
-//     }
-//   }//end for all points
-
-//   //copy
-//   std::copy(++container.rbegin(), container.rend(), res); 
-// }
+  //copy
+  std::copy(container.begin(), container.end(), res); 
+}
 
 #endif

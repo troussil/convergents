@@ -76,7 +76,7 @@ int main()
 
     std::vector<Point> boundary; 
     Vector dir(1,0); 
-    tracking( circle, circle.getConvexHullVertex(), dir, std::back_inserter(boundary) ); 
+    closedTracking( circle, circle.getConvexHullVertex(), dir, std::back_inserter(boundary) ); 
     std::cout << "Boundary" << std::endl; 
     std::copy(boundary.begin(), boundary.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
     std::cout << std::endl; 
@@ -107,7 +107,7 @@ int main()
 
     std::vector<Point> boundary; 
     Vector dir(1,0); 
-    tracking( circle, circle.getConvexHullVertex(), dir, std::back_inserter(boundary) ); 
+    closedTracking( circle, circle.getConvexHullVertex(), dir, std::back_inserter(boundary) ); 
 
     std::vector<Point> mch; 
     grahamScan( boundary.begin(), boundary.end(), std::back_inserter(mch) ); 
@@ -153,7 +153,7 @@ int main()
 
       std::vector<Point> boundary; 
       Vector dir(1,0); 
-      tracking( circle, circle.getConvexHullVertex(), dir, std::back_inserter(boundary) ); 
+      closedTracking( circle, circle.getConvexHullVertex(), dir, std::back_inserter(boundary) ); 
       std::vector<Point> mch; 
       grahamScan( boundary.begin(), boundary.end(), std::back_inserter(mch) ); 
       std::cout << "---Graham's convex hull of the boundary" << std::endl; 
