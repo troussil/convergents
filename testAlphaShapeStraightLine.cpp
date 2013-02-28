@@ -93,7 +93,7 @@ bool test(const ForwardIterator& itb, const ForwardIterator& ite,
   std::vector<Point> ch;
   CircumcircleRadiusPredicate<> predicate1(1,1); //CHOOSE A RADIUS (1 here)  
   openGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), predicate1 ); 
-  std::cout << "1-shape of the boundary" << std::endl; 
+  std::cout << "1-shape of the boundary --openGrahamScan" << std::endl; 
   std::copy(ch.begin(), ch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
   std::cout << std::endl; 
 
@@ -101,12 +101,22 @@ bool test(const ForwardIterator& itb, const ForwardIterator& ite,
   std::vector<Point> ch2; 
   //TODO
   convAlphaShape(predicate1, O, P, std::back_inserter(ch2) );  
-  std::cout << "1-shape of the boundary" << std::endl; 
+  std::cout << "1-shape of the boundary --convMethod" << std::endl; 
   std::copy(ch2.begin(), ch2.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
   std::cout << std::endl; 
   
   //COMPARE WITH YOUR ALGO HERE
-  return false; 
+	if (ch.size() == ch2.size())
+  {
+		if ( std::equal(ch2.begin(), ch2.end(), ch.begin()) )
+		{
+				return true; 
+		}
+	}
+	else
+	{
+		return false;
+	}
 
 }
 
@@ -182,13 +192,12 @@ void convAlphaShape(const CircumcircleRadiusPredicate& aPredicate, const Point& 
   Point pConv = pStart;
   int qk;
 
-  // qkode remember the last coefficient, it's qk-1
+	// qkode remember the last coefficient, it's qk-1
   int qkode;
 
   // pConvM2 + qkalpha * vConvM1 is the first vertex of the alpha shape
   int qkalpha;
-
-
+	
   // The convergent number is even : the convergent is below the straight line
   bool evenConv = true;
 
@@ -205,8 +214,7 @@ void convAlphaShape(const CircumcircleRadiusPredicate& aPredicate, const Point& 
     // New pConv is calculate in lineRatio.dray(), so We update vConv
     vConv = pConv - pStart;
 
-    if ( evenConv == true && (aPredicate(pStart, pConv-vConvM1, pConv) == false /*||
-          (vConv.normL22()*aPredicate.getDen2() > aPredicate.getNum2())*/ ))
+    if ( evenConv == true && (aPredicate(pStart, pConv-vConvM1, pConv) == false ))
     {
       /**
        * We test if the convergent is inside the circle with the boolean evenConv
@@ -215,19 +223,33 @@ void convAlphaShape(const CircumcircleRadiusPredicate& aPredicate, const Point& 
        * the radius.
        */ 
 
-      // Throw the dichotomous method to find qkalpha
-      qkalpha = dichotomous(aPredicate, pStart, vConvM2, vConvM1, qk);
+			if ( vConvM1.normL22() < vConvM1.normL22() )
+			{ 
+			 /**
+        * We test if vConM2 is longer than vConvM1.
+        * In that case, we add pConvM2 to the alpha-shape and continue the algo
+        * from pConvM2.
+        * In the other cas, we throw the dichotmomous method in order to find
+        * the first point in the alpha-shape.
+        */
+        
+				*aAlphaShapeHull++ = pConvM2;		
+				pStart = pConvM2;
+			}
+			else
+			{
+		    // Throw the dichotomous method to find qkalpha
+		    qkalpha = dichotomous(aPredicate, pStart, vConvM2, vConvM1, qk);
 
-      // We add all the vertex to the alpha-shape from qkalpha to qk
+		    // We add all the vertex to the alpha-shape from qkalpha to qk
+		    while (qkalpha <= qk)
+		    {
+		      *aAlphaShapeHull++ = pConvM2 + qkalpha*vConvM1;
+		      qkalpha++;
+		    }
 
-      while (qkalpha <= qk)
-      {
-        *aAlphaShapeHull++ = pConvM2 + qkalpha * vConvM1;
-        qkalpha++;
-      }
-
-      // We reset the convergent from a new start.
-      pStart = pConv;  
+				pStart = pConv;
+			}
 
       // Frist convergents
       vConvM2[0]=1; vConvM2[1]=0; 
@@ -263,7 +285,7 @@ void convAlphaShape(const CircumcircleRadiusPredicate& aPredicate, const Point& 
      * pConvM1 have reach aPointb, we might have missed some point. 
      * At least, aPointb.
      */ 
-
+std::cout<<std::endl<<"#3 - Finish -"<<std::endl; std::cout<<"pS : "<<pStart<<"| pm2 : "<<pConvM2<<vConvM2<<"| pm1 : "<<pConvM1<<vConvM1<<std::endl;
     if (evenConv == true)
     {
       int i = 0;
