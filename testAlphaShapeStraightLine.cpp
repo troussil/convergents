@@ -99,8 +99,7 @@ bool test(const ForwardIterator& itb, const ForwardIterator& ite,
 
   //output-sensitive algorithm
   std::vector<Point> ch2; 
-  //TODO
-  convAlphaShape(predicate1, O, P, std::back_inserter(ch2) );  
+  nextLeftShape(predicate1, O, P, 50, std::back_inserter(ch2) );  
   std::cout << "1-shape of the boundary --convMethod" << std::endl; 
   std::copy(ch2.begin(), ch2.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
   std::cout << std::endl; 
@@ -162,14 +161,144 @@ int dichotomous(const CircumcircleRadiusPredicate& aPredicate, const Point& aPoi
 
 
 /**
- * Given a straight line, find its alpha Hull,
+ * Given a straight line, find its right alpha Hull,
  * @param aPredicate determine the alpha shape radius
  * @param aPoint, bPoint, the starting and ending point of the straight
  * line.
  * @return the alpha-hull of the straight line in the OutputIterator.
  */
   template <typename CircumcircleRadiusPredicate, typename Point, typename OutputIterator>
-void convAlphaShape(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa,
+Point nextLeftShape(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa, const Point& aPointb, const int aMaxConv, OutputIterator aAlphaShapeHull)
+{
+  // aPoint is the first Alpha-Shape vertex
+  *aAlphaShapeHull++ = aPointa;
+
+  // Initialisation of the convergent
+  // Convergent arise from pStart
+  Point pStart = aPointa;
+  
+  // First convergents vectors : 
+  Point vConvM2;
+  Point vConvM1;
+  Point vConv;
+
+  // First convergents points :
+  Point pConvM2;
+  Point pConvM1;
+
+  // pConv is the next convergent pconv = pConvM2 + qk * vConvM1
+  Point pConv;
+  int qk;
+
+  // pConvM2 + qkalpha * vConvM1 is the first vertex of the alpha shape
+  int qkalpha;
+  
+  // True : We have add new vertex/ices in this cycle
+	bool nextVertex;
+	
+	// True : We have add all the alpha-shape vertices
+	bool allVertices = false;
+	
+  // k is the convergent number. Usefull to know if the convergent is odd or even
+  // ie : if the convergent is below or above the straight line
+  int k;
+
+  // The discrete straight-line [a, b]
+  RayIntersectableStraightLine<Point> lineRatio(aPointa, aPointb);
+
+  /**
+   * we do not have compute the candidat.
+   * We stop the computing when we reach the end of the straight-line : aPointb
+   * or if the next convergent do not intersect the straight-line
+   */
+
+  while (allVertices == false || k >= aMaxConv)
+  {
+    // Frist convergents
+    vConvM2[0]=1; vConvM2[1]=0; 
+    vConvM1[0]=0; vConvM1[1]=1; 
+      
+    pConvM2 = pStart + vConvM2;
+    pConvM1 = pStart + vConvM1;  
+    
+    k = 0;
+    nextVertex = false;
+        std::cout<<"#1 - "<<k<<pStart<<pConvM2<<pConvM1<<std::endl;
+        
+   while ( allVertices == false && (lineRatio.dray(pConvM2, vConvM1, qk, pConv) || nextVertex == false ) )
+    {
+      
+      // New pConv is calculate in lineRatio.dray(), so We update vConv
+      vConv = pConv - pStart;
+
+      if ( k % 2 != 0 )
+      {
+        /**
+         * We test if the convergent is inside the circle with the boolean evenConv
+         * We test if the circumcircle of the last triangle T(pStart, pConv-vConvM1, pConv)
+         * is lower than the radius / predicate or if the normL22 of vConv is greater than
+         * the radius.
+         */ 
+
+        if (aPredicate(pStart, pConv-vConvM1, pConv) == false)
+        {
+          // Throw the dichotomous method to find qkalpha
+		      qkalpha = dichotomous(aPredicate, pStart, vConvM2, vConvM1, qk);
+          std::cout<<"#2 - "<<k<<pStart<<pConvM2<<pConvM1<<qk<<std::endl;
+          if (qkalpha == 0)
+          {
+            *aAlphaShapeHull++ = pConvM2;
+            if (pConvM1.normL22() == 1)
+            {
+              *aAlphaShapeHull++ = (pConvM2 + vConvM1);
+              pStart = (pConvM2 + vConvM1);
+              std::cout<<"#a - "<<std::endl;
+            }
+            else
+            {
+              pStart = pConvM2;
+                            std::cout<<"#b - "<<std::endl;
+            }
+          }
+          else
+          {
+            for (qkalpha; qkalpha == qk; qkalpha++)
+		        {
+		          *aAlphaShapeHull++ = pConvM2 + qkalpha*vConvM1;    
+		        }
+		        pStart = pConv;
+		                      std::cout<<"#c - "<<std::endl;
+          }
+          nextVertex = true;
+        } // Predicate
+        
+      } // k is odd, oddConv == true
+      k++;
+      // even, odd, even...
+     
+      pConvM2 = pConvM1;
+      pConvM1 = pConv;
+      vConvM2 = vConvM1;
+      vConvM1 = pConv-pStart;
+      
+std::cout<<"#d - "<<k<<pStart<<aPointb<<pConvM2<<pConvM1<<qk<<std::endl;
+     allVertices = (pStart == aPointb);
+     
+   }
+    
+  }// found all the vertex
+}
+
+
+/**
+ * Given a straight line, find its right alpha Hull,
+ * @param aPredicate determine the alpha shape radius
+ * @param aPoint, bPoint, the starting and ending point of the straight
+ * line.
+ * @return the alpha-hull of the straight line in the OutputIterator.
+ */
+  template <typename CircumcircleRadiusPredicate, typename Point, typename OutputIterator>
+void convRightAlphaShape(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa,
     const Point aPointb, OutputIterator aAlphaShapeHull)
 {
   // aPoint is the first Alpha-Shape vertex
@@ -180,8 +309,8 @@ void convAlphaShape(const CircumcircleRadiusPredicate& aPredicate, const Point& 
   Point pStart = aPointa;
 
   // First convergents vectors : 
-  Point vConvM2(1,0);
-  Point vConvM1(0,1);
+  Point vConvM2(0,1);
+  Point vConvM1(1,0);
   Point vConv;
 
   // First convergents points :
@@ -252,8 +381,8 @@ void convAlphaShape(const CircumcircleRadiusPredicate& aPredicate, const Point& 
 			}
 
       // Frist convergents
-      vConvM2[0]=1; vConvM2[1]=0; 
-      vConvM1[0]=0; vConvM1[1]=1; 
+      vConvM2[0]=0; vConvM2[1]=1; 
+      vConvM1[0]=1; vConvM1[1]=0; 
 
       pConvM2 = pStart + vConvM2;
       pConvM1 = pStart + vConvM1;       
@@ -285,7 +414,7 @@ void convAlphaShape(const CircumcircleRadiusPredicate& aPredicate, const Point& 
      * pConvM1 have reach aPointb, we might have missed some point. 
      * At least, aPointb.
      */ 
-std::cout<<std::endl<<"#3 - Finish -"<<std::endl; std::cout<<"pS : "<<pStart<<"| pm2 : "<<pConvM2<<vConvM2<<"| pm1 : "<<pConvM1<<vConvM1<<std::endl;
+
     if (evenConv == true)
     {
       int i = 0;
