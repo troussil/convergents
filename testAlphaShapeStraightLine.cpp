@@ -225,7 +225,7 @@ Point nextLeftShape(const CircumcircleRadiusPredicate& aPredicate, const Point& 
      * We look after the intersection of the ray and the straight-line.
      * At every new vertices add, we reset the computation from a new start.
      */     
-    while ( lineRatio.dray(pConvM2, vConvM1, qk, pConv) || nextVertex == false )
+    while ( lineRatio.dray(pConvM2, vConvM1, qk, pConv) && nextVertex == false )
     {
       // pConv is calculate in lineRatio.dray(), so We update vConv
       vConv = pConv - pStart;
