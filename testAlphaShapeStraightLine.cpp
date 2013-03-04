@@ -32,17 +32,17 @@
  * @tparam ForwardIterator a model of forward iterator
  * @tparam Point a model of point
  */
-template<typename ForwardIterator, typename Point>
+  template<typename ForwardIterator, typename Point>
 Point generatePoint(const ForwardIterator& itb, const ForwardIterator& ite,
-		    Point aConv2, Point aConv1)
+    Point aConv2, Point aConv1)
 {
   Point aConv; //k-th convergent
   for (ForwardIterator it = itb; it != ite; ++it)
-    {
-      aConv = (*it)*aConv1 + aConv2;
-      aConv2 = aConv1; 
-      aConv1 = aConv; 
-    }
+  {
+    aConv = (*it)*aConv1 + aConv2;
+    aConv2 = aConv1; 
+    aConv1 = aConv; 
+  }
   return aConv; 
 }
 
@@ -64,22 +64,28 @@ Point generatePoint(const ForwardIterator& itb, const ForwardIterator& ite,
  * @tparam ForwardIterator a model of forward iterator
  * @tparam Point a model of point
  */
-template<typename ForwardIterator, typename Point>
+  template<typename ForwardIterator, typename Point, typename CircumcircleRadiusPredicate>
 bool test(const ForwardIterator& itb, const ForwardIterator& ite,
-	  const Point& O)
+    const Point& O, const CircumcircleRadiusPredicate& aPredicate)
 {
 
   typedef RayIntersectableStraightLine<Point> StraightLine; 
   typedef Point Vector; 
 
-  std::cout << "Continued fraction expansion" << std::endl; 
+  int maxConv = 50;
+  int nbPrecicate = 5;
+  int preVal[nbPrecicate+1][2];
+
+  std::cout << "#1 - Continued fraction expansion" << std::endl; 
   std::copy(itb, ite, std::ostream_iterator<int>(std::cout, ", ") ); 
   std::cout << std::endl; 
 
   Point P = generatePoint(itb, ite, Point(0,1), Point(1,0));
-  std::cout << "Direction vector : " << P << std::endl; 
+  P = P + O;
+  std::cout << "#2 - Value : Starting point : "<<O<<" | Direction vector : " << P << std::endl;
   std::cout << std::endl; 
- 
+
+
   StraightLine sl( O, P );
 
   std::vector<Point> boundary; 
@@ -90,33 +96,28 @@ bool test(const ForwardIterator& itb, const ForwardIterator& ite,
   // std::cout << std::endl; 
 
   //tracking-based algorithm
-  std::vector<Point> ch;
-  CircumcircleRadiusPredicate<> predicate1(1,1); //CHOOSE A RADIUS (1 here)  
-  openGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), predicate1 ); 
-  std::cout << "1-shape of the boundary --openGrahamScan" << std::endl; 
-  std::copy(ch.begin(), ch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
-  std::cout << std::endl; 
 
-  //output-sensitive algorithm
-  std::vector<Point> ch2; 
-  nextLeftShape(predicate1, O, P, 50, std::back_inserter(ch2) );  
-  std::cout << "1-shape of the boundary --convMethod" << std::endl; 
-  std::copy(ch2.begin(), ch2.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
-  std::cout << std::endl; 
-  
-  //COMPARE WITH YOUR ALGO HERE
-	if (ch.size() == ch2.size())
-  {
-		if ( std::equal(ch2.begin(), ch2.end(), ch.begin()) )
-		{
-				return true; 
-		}
-	}
-	else
-	{
-		return false;
-	}
+  {std::vector<Point> ch;
 
+    openGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), aPredicate ); 
+    std::cout << "#3.1 - alpha-shape of the boundary using OpenGrahamScan" << std::endl; 
+    std::copy(ch.begin(), ch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+    std::cout << std::endl; 
+
+    //output-sensitive algorithm
+    std::vector<Point> ch2; 
+    nextLeftShape(aPredicate, O, P, maxConv, std::back_inserter(ch2) );  
+    std::cout << "#3.2 - alpha-shape of the boundary using the Convergent Method" << std::endl; 
+    std::copy(ch2.begin(), ch2.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+    std::cout << std::endl; 
+
+    //COMPARE WITH YOUR ALGO HERE
+    if (ch.size() == ch2.size())
+    {
+      if ( std::equal(ch2.begin(), ch2.end(), ch.begin()) )	{return true;}
+    }
+    else {return false;}
+  }
 }
 
 /**
@@ -167,7 +168,7 @@ int dichotomous(const CircumcircleRadiusPredicate& aPredicate, const Point& aPoi
  * line.
  * @return the alpha-hull of the straight line in the OutputIterator.
  */
- template <typename CircumcircleRadiusPredicate, typename Point, typename OutputIterator>
+  template <typename CircumcircleRadiusPredicate, typename Point, typename OutputIterator>
 Point nextLeftShape(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa, const Point& aPointb, const int aMaxConv, OutputIterator aAlphaShapeHull)
 {
   // aPoint is the first Alpha-Shape vertex.
@@ -176,7 +177,7 @@ Point nextLeftShape(const CircumcircleRadiusPredicate& aPredicate, const Point& 
   // Initialisation of the convergent.
   // Convergent arise from pStart.
   Point pStart = aPointa;
-  
+
   // First convergents vectors : 
   Point vConvM2;
   Point vConvM1;
@@ -191,10 +192,10 @@ Point nextLeftShape(const CircumcircleRadiusPredicate& aPredicate, const Point& 
 
   // pConvM2 + qkalpha * vConvM1 is the first vertex in the alpha shape.
   int qkalpha;
-  
+
   // True : We have add new vertex/ices for this convergent.
-	bool nextVertex;
-		
+  bool nextVertex;
+
   // k is the convergent number. Usefull to know if the convergent is odd or even
   // ie : if the convergent is below or above the straight line
   int k;
@@ -212,57 +213,57 @@ Point nextLeftShape(const CircumcircleRadiusPredicate& aPredicate, const Point& 
     // We reset the convergents.
     vConvM2[0]=1; vConvM2[1]=0; 
     vConvM1[0]=0; vConvM1[1]=1; 
-      
+
     pConvM2 = pStart + vConvM2;
     pConvM1 = pStart + vConvM1;  
-    
+
     k = 0;
     nextVertex = false;
-   
-   /**
-    * We start searching for next vertices and convergents.
-    * We look after the intersection of the ray and the straight-line.
-    * At every new vertices add, we reset the computation from a new start.
-    */     
-   while ( lineRatio.dray(pConvM2, vConvM1, qk, pConv) || nextVertex == false )
-   {
+
+    /**
+     * We start searching for next vertices and convergents.
+     * We look after the intersection of the ray and the straight-line.
+     * At every new vertices add, we reset the computation from a new start.
+     */     
+    while ( lineRatio.dray(pConvM2, vConvM1, qk, pConv) || nextVertex == false )
+    {
       // pConv is calculate in lineRatio.dray(), so We update vConv
       vConv = pConv - pStart;
 
       if ( k % 2 != 0 )
       {
-      /**
-       * We test the parity of k :
-       * In the case, k is even, we follow searching for new convergent.
-       * In the other case, ie : k is odd, we are above the straight-line. We could  
-       * have new alpha-shape vertices.
-       */ 
+        /**
+         * We test the parity of k :
+         * In the case, k is even, we follow searching for new convergent.
+         * In the other case, ie : k is odd, we are above the straight-line. We could  
+         * have new alpha-shape vertices.
+         */ 
 
         if (aPredicate(pStart, pConv-vConvM1, pConv) == false)
         {
-        /**
-         * In the family of triangle shaped by the three points : pStart, 
-         * pConv - q*vConvM1, pConv - (q+1)*vConvM1, the triangle T(pStart, 
-         pConv-vConvM1, pConv) have the greatest circumcircle radius.
-         * If its radius is smaller than the predicate radius, we have to search
-         * for new vertices.
-         * We throw the dichotomous method in order to find the first point
-         * in the alpha-shape.
-         */
-          
+          /**
+           * In the family of triangle shaped by the three points : pStart, 
+           * pConv - q*vConvM1, pConv - (q+1)*vConvM1, the triangle T(pStart, 
+           pConv-vConvM1, pConv) have the greatest circumcircle radius.
+           * If its radius is smaller than the predicate radius, we have to search
+           * for new vertices.
+           * We throw the dichotomous method in order to find the first point
+           * in the alpha-shape.
+           */
+
           qkalpha = dichotomous(aPredicate, pStart, vConvM2, vConvM1, qk);
-		     
+
           if (qkalpha == 0)
           {
-          /**
-           * If qkalpha == 0, we have to deal with special case.
-           * In every case, pConvM2 is a new vertex.
-           */
+            /**
+             * If qkalpha == 0, we have to deal with special case.
+             * In every case, pConvM2 is a new vertex.
+             */
             *aAlphaShapeHull++ = pConvM2;
-            
+
             if (pConvM1.normL22() == 1)
             {
-            // We can have a new vertex between pConvM2 and pConv.
+              // We can have a new vertex between pConvM2 and pConv.
               *aAlphaShapeHull++ = (pConvM2 + vConvM1);
               pStart = (pConvM2 + vConvM1);
             }
@@ -273,26 +274,26 @@ Point nextLeftShape(const CircumcircleRadiusPredicate& aPredicate, const Point& 
           }
           else
           {
-          /**
-           * We add all the vertices between qkalpha and qk in the alpha-Shape.
-           * We restart from the last vertex add : pConv.
-           */
+            /**
+             * We add all the vertices between qkalpha and qk in the alpha-Shape.
+             * We restart from the last vertex add : pConv.
+             */
             while (qkalpha <= qk)
-		        {
-		          *aAlphaShapeHull++ = pConvM2 + qkalpha*vConvM1;
-		          qkalpha++;  
-		        }
-		        pStart = pConv;
-		                      
+            {
+              *aAlphaShapeHull++ = pConvM2 + qkalpha*vConvM1;
+              qkalpha++;  
+            }
+            pStart = pConv;
+
           }
           // We have to reset the convergent computation from pStart
           nextVertex = true;
         } // if new vertex. 
       } // if k is odd.
-      
+
       // Update Convergent
       k++;
-     
+
       pConvM2 = pConvM1;
       pConvM1 = pConv;
       vConvM2 = vConvM1;
@@ -375,6 +376,7 @@ int main()
     Point O(0,0); 
 
     {
+      CircumcircleRadiusPredicate<> predicate1(1,1); //radius 1
       std::vector<int> quotients; 
       quotients.push_back(1); 
       quotients.push_back(1); 
@@ -382,13 +384,14 @@ int main()
       quotients.push_back(1); 
       quotients.push_back(1); 
 
-      if (test(quotients.begin(), quotients.end(), O))
-	nbok++; 
+      if (test(quotients.begin(), quotients.end(), O, predicate1))
+        nbok++; 
       nb++; 
       std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
     }
 
     {
+      CircumcircleRadiusPredicate<> predicate1(1,1); //radius 1
       std::vector<int> quotients; 
       quotients.push_back(2); 
       quotients.push_back(2); 
@@ -396,16 +399,65 @@ int main()
       quotients.push_back(2); 
       quotients.push_back(2); 
 
-      if (test(quotients.begin(), quotients.end(), O))
-	nbok++; 
+      if (test(quotients.begin(), quotients.end(), O, predicate1))
+        nbok++; 
       nb++; 
       std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
     }
 
-    //OTHER TESTS TO DO
+    //random value
+    srand ( time(NULL) );
+    // Test number
+    int nb_test = 4;
+    // Max origin coordinate
+    int maxPoint = 20;
+    // Number of quotient
+    int maxQuotient = 5;
+    // Value of the quotient
+    int maxCoeff = 25;
+    int nbQuotient;
 
+    // Number predicate test
+    int nbPredicate = 10;
+
+
+    for (nb_test;nb_test>0;nb_test--)
+    {
+      {
+        // random origin
+        Point O =  Point((rand() % maxPoint), (rand() % maxPoint));
+
+        std::cout << std::endl; 
+        std::cout << " - II - "<<nb_test<<" - Alpha-shape on other straight lines" << std::endl; 
+        std::vector<int> quotients; 
+        nbQuotient = rand() % maxQuotient + 1;
+        while (nbQuotient >0)
+        {
+          quotients.push_back(rand() % maxQuotient + 1);
+          nbQuotient--;
+        }
+
+        for (int i = 1; i<= nbPredicate; i++)
+        {
+
+          {
+            CircumcircleRadiusPredicate<> predicate(maxPoint*i, nbPredicate);
+            std::cout << "Radius predicate : Num2 / Den2 : "<<(maxPoint*i)<<"/" 
+              << nbPredicate << std::endl;
+
+
+            if (test(quotients.begin(), quotients.end(), O, predicate))
+              nbok++; 
+            nb++; 
+            std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+            std::cout << " ----------- Next predicate ----------- " << std::endl; 
+            std::cout << std::endl;
+          }
+        }
+
+      }
+    }
   }
-
   //1 if at least one test failed
   //0 otherwise
   return (nb != nbok); 

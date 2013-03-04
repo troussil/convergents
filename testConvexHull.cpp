@@ -125,7 +125,7 @@ int main()
 
   srand ( time(NULL) );
   int max = 200;
-  int nb_test = 200;
+  int nb_test = 10;
 
   std::cout << std::endl; 
   std::cout << "3 - Convex hull on "<<nb_test<<" random circle" << std::endl; 
