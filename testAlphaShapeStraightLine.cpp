@@ -73,8 +73,6 @@ bool test(const ForwardIterator& itb, const ForwardIterator& ite,
   typedef Point Vector; 
 
   int maxConv = 50;
-  int nbPrecicate = 5;
-  int preVal[nbPrecicate+1][2];
 
   std::cout << "#1 - Continued fraction expansion" << std::endl; 
   std::copy(itb, ite, std::ostream_iterator<int>(std::cout, ", ") ); 
@@ -225,80 +223,89 @@ Point nextLeftShape(const CircumcircleRadiusPredicate& aPredicate, const Point& 
      * We look after the intersection of the ray and the straight-line.
      * At every new vertices add, we reset the computation from a new start.
      */     
-    while ( lineRatio.dray(pConvM2, vConvM1, qk, pConv) && nextVertex == false )
+    while ( nextVertex == false )
     {
-      // pConv is calculate in lineRatio.dray(), so We update vConv
-      vConv = pConv - pStart;
-
-      if ( k % 2 != 0 )
+      if (lineRatio.dray(pConvM2, vConvM1, qk, pConv) == false)
       {
-        /**
-         * We test the parity of k :
-         * In the case, k is even, we follow searching for new convergent.
-         * In the other case, ie : k is odd, we are above the straight-line. We could  
-         * have new alpha-shape vertices.
-         */ 
+        nextVertex = true;
+        *aAlphaShapeHull++ = aPointb;
+        pStart = aPointb;
+      }
+      else
+      {
+        // pConv is calculate in lineRatio.dray(), so We update vConv
+        vConv = pConv - pStart;
 
-        if (aPredicate(pStart, pConv-vConvM1, pConv) == false)
+        if ( k % 2 != 0 )
         {
           /**
-           * In the family of triangle shaped by the three points : pStart, 
-           * pConv - q*vConvM1, pConv - (q+1)*vConvM1, the triangle T(pStart, 
-           pConv-vConvM1, pConv) have the greatest circumcircle radius.
-           * If its radius is smaller than the predicate radius, we have to search
-           * for new vertices.
-           * We throw the dichotomous method in order to find the first point
-           * in the alpha-shape.
-           */
+           * We test the parity of k :
+           * In the case, k is even, we follow searching for new convergent.
+           * In the other case, ie : k is odd, we are above the straight-line. We could  
+           * have new alpha-shape vertices.
+           */ 
 
-          qkalpha = dichotomous(aPredicate, pStart, vConvM2, vConvM1, qk);
-
-          if (qkalpha == 0)
+          if (aPredicate(pStart, pConv-vConvM1, pConv) == false)
           {
             /**
-             * If qkalpha == 0, we have to deal with special case.
-             * In every case, pConvM2 is a new vertex.
+             * In the family of triangle shaped by the three points : pStart, 
+             * pConv - q*vConvM1, pConv - (q+1)*vConvM1, the triangle T(pStart, 
+             pConv-vConvM1, pConv) have the greatest circumcircle radius.
+             * If its radius is smaller than the predicate radius, we have to search
+             * for new vertices.
+             * We throw the dichotomous method in order to find the first point
+             * in the alpha-shape.
              */
-            *aAlphaShapeHull++ = pConvM2;
 
-            if (pConvM1.normL22() == 1)
+            qkalpha = dichotomous(aPredicate, pStart, vConvM2, vConvM1, qk);
+
+            if (qkalpha == 0)
             {
-              // We can have a new vertex between pConvM2 and pConv.
-              *aAlphaShapeHull++ = (pConvM2 + vConvM1);
-              pStart = (pConvM2 + vConvM1);
+              /**
+               * If qkalpha == 0, we have to deal with special case.
+               * In every case, pConvM2 is a new vertex.
+               */
+              *aAlphaShapeHull++ = pConvM2;
+
+              if (pConvM1.normL22() == 1)
+              {
+                // We can have a new vertex between pConvM2 and pConv.
+                *aAlphaShapeHull++ = (pConvM2 + vConvM1);
+                pStart = (pConvM2 + vConvM1);
+              }
+              else
+              {
+                pStart = pConvM2;
+              }
             }
             else
             {
-              pStart = pConvM2;
+              /**
+               * We add all the vertices between qkalpha and qk in the alpha-Shape.
+               * We restart from the last vertex add : pConv.
+               */
+              while (qkalpha <= qk)
+              {
+                *aAlphaShapeHull++ = pConvM2 + qkalpha*vConvM1;
+                qkalpha++;  
+              }
+              pStart = pConv;
+
             }
-          }
-          else
-          {
-            /**
-             * We add all the vertices between qkalpha and qk in the alpha-Shape.
-             * We restart from the last vertex add : pConv.
-             */
-            while (qkalpha <= qk)
-            {
-              *aAlphaShapeHull++ = pConvM2 + qkalpha*vConvM1;
-              qkalpha++;  
-            }
-            pStart = pConv;
+            // We have to reset the convergent computation from pStart
+            nextVertex = true;
+          } // if new vertex. 
+        } // if k is odd.
 
-          }
-          // We have to reset the convergent computation from pStart
-          nextVertex = true;
-        } // if new vertex. 
-      } // if k is odd.
+        // Update Convergent
+        k++;
 
-      // Update Convergent
-      k++;
-
-      pConvM2 = pConvM1;
-      pConvM1 = pConv;
-      vConvM2 = vConvM1;
-      vConvM1 = pConv-pStart;
-    } // No new convergent or new vertex
+        pConvM2 = pConvM1;
+        pConvM1 = pConv;
+        vConvM2 = vConvM1;
+        vConvM1 = pConv-pStart;
+      } // No new convergent or new vertex
+    }
   }// found all the vertices
 }
 
@@ -408,7 +415,7 @@ int main()
     //random value
     srand ( time(NULL) );
     // Test number
-    int nb_test = 4;
+    int nb_test = 10;
     // Max origin coordinate
     int maxPoint = 20;
     // Number of quotient
@@ -425,15 +432,15 @@ int main()
     {
       {
         // random origin
-        Point O =  Point((rand() % maxPoint), (rand() % maxPoint));
-
+        //Point O =  Point((rand() % maxPoint), (rand() % maxPoint));
+        Point O = Point(0,0);
         std::cout << std::endl; 
         std::cout << " - II - "<<nb_test<<" - Alpha-shape on other straight lines" << std::endl; 
         std::vector<int> quotients; 
-        nbQuotient = rand() % maxQuotient + 1;
+        nbQuotient = (rand() % maxQuotient) + 1;
         while (nbQuotient >0)
         {
-          quotients.push_back(rand() % maxQuotient + 1);
+          quotients.push_back((rand() % maxQuotient) + 1);
           nbQuotient--;
         }
 
