@@ -1,52 +1,34 @@
-CODE := $(shell pwd)
-
-# Adresse des sources, des objets et des includes :
-SRCDIR = $(CODE)/src
-INCDIR = $(CODE)/lib
-
-OBJDIR = $(CODE)/build/obj
-BINDIR = $(CODE)/build/bin
-
-
-# Shortcuts
 PV = PointVector2D
 testPV = test$(PV)
+
 testR = testRay
 
 
 #all cibles
-all: $(BINDIR)/$(testPV) $(BINDIR)/$(testR) $(BINDIR)/testConvergents $(BINDIR)/testConvexHull $(BINDIR)/testAlphaShapeStraightLine $(BINDIR)/testAlphaShape
+all: $(testPV) $(testR) testConvergents testConvexHull testAlphaShapeStraightLine testAlphaShape
 
-# PointVector2D
-$(BINDIR)/$(testPV): $(SRCDIR)/$(testPV).cpp $(INCDIR)/$(PV).h
-	g++ -c $< -o $(OBJDIR)/$(testPV).o
-	g++ $(OBJDIR)/$(testPV).o -o $(BINDIR)/$(testPV)
+$(testPV): $(testPV).cpp $(PV).h
+	g++ -c $< -o $(testPV).o
+	g++ $(testPV).o -o $(testPV)
 
-# Ray
-$(BINDIR)/$(testR): $(SRCDIR)/$(testR).cpp $(INCDIR)/RayIntersectableStraightLine.h $(INCDIR)/RayIntersectableCircle.h
-	g++ -c $< -o $(OBJDIR)/$(testR).o
-	g++ $(OBJDIR)/$(testR).o -o $(BINDIR)/$(testR)
+$(testR): $(testR).cpp RayIntersectableStraightLine.h RayIntersectableCircle.h
+	g++ -c $< -o $(testR).o
+	g++ $(testR).o -o $(testR)
 
-# Convergents
-$(BINDIR)/testConvergents: $(SRCDIR)/testConvergents.cpp $(INCDIR)/RayIntersectableStraightLine.h
+testConvergents: testConvergents.cpp RayIntersectableStraightLine.h
 	g++ $< -o $@
 
-# Convex Hull
-$(BINDIR)/testConvexHull: $(SRCDIR)/testConvexHull.cpp $(INCDIR)/RayIntersectableCircle.h $(INCDIR)/OutputSensitiveConvexHull.h $(INCDIR)/ConvexHullHelpers.h
+testConvexHull: testConvexHull.cpp RayIntersectableCircle.h OutputSensitiveConvexHull.h ConvexHullHelpers.h
 	g++ $< -o $@
 
-# Alpha-shape on straight-line
-$(BINDIR)/testAlphaShapeStraightLine: $(SRCDIR)/testAlphaShapeStraightLine.cpp $(INCDIR)/RayIntersectableStraightLine.h $(INCDIR)/ConvexHullHelpers.h
+testAlphaShapeStraightLine: testAlphaShapeStraightLine.cpp RayIntersectableStraightLine.h ConvexHullHelpers.h
 	g++ $< -o $@
 
-# Alpha-shape on circle
-$(BINDIR)/testAlphaShape: $(SRCDIR)/testAlphaShape.cpp $(INCDIR)/RayIntersectableCircle.h $(INCDIR)/OutputSensitiveAlphaShape.h $(INCDIR)/ConvexHullHelpers.h
+testAlphaShape: testAlphaShape.cpp RayIntersectableCircle.h OutputSensitiveAlphaShape.h ConvexHullHelpers.h
 	g++ $< -o $@
 
-# Testing
 test: 
-	$(BINDIR)/$(testPV) && $(BINDIR)/$(testR) && $(BINDIR)/testConvergents && $(BINDIR)/testConvexHull && $(BINDIR)/testAlphaShapeStraightLine && $(BINDIR)/testAlphaShape
+	./$(testPV) && ./$(testR) && ./testConvergents && ./testConvexHull && ./testAlphaShapeStraightLine && ./testAlphaShape
 
-# Cleaning
 clean: 
-	rm -rf $(OBJDIR)/*.o $(BINDIR)/*
+	rm $(testPV) $(testR) testConvergents testConvexHull testAlphaShapeStraightLine testAlphaShape *.o

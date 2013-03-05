@@ -1,6 +1,6 @@
 #include <iostream>
 #include <math.h>
-#include "../lib/PointVector2D.h"
+#include "PointVector2D.h"
 
 int main() 
 {

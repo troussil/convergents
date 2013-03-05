@@ -1,8 +1,8 @@
 #include <iostream>
 #include <math.h>
-#include "../lib/PointVector2D.h"
-#include "../lib/RayIntersectableStraightLine.h"
-#include "../lib/RayIntersectableCircle.h"
+#include "PointVector2D.h"
+#include "RayIntersectableStraightLine.h"
+#include "RayIntersectableCircle.h"
 
 int main() 
 {
