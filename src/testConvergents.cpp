@@ -2,8 +2,8 @@
 #include <vector>
 #include <iterator>
 
-#include "PointVector2D.h"
-#include "RayIntersectableStraightLine.h"
+#include "../lib/PointVector2D.h"
+#include "../lib/RayIntersectableStraightLine.h"
 
 template <typename Point, typename OutputIterator>
 void geometricConvergents(const Point& direction, 

@@ -3,7 +3,7 @@
 
 #include<cmath>
 
-#include"CircumcircleRadiusPredicate.h"
+#include"../lib/CircumcircleRadiusPredicate.h"
 /**
  * Class implementing an on-line and ouput-sensitive algorithm
  * that retrieves the vertices of the alpha-shape of all digital

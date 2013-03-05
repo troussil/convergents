@@ -7,10 +7,10 @@
 #include <cstdlib>
 #include <ctime>
 
-#include "PointVector2D.h"
-#include "RayIntersectableCircle.h"
-#include "OutputSensitiveConvexHull.h"
-#include "ConvexHullHelpers.h"
+#include "../lib/PointVector2D.h"
+#include "../lib/RayIntersectableCircle.h"
+#include "../lib/OutputSensitiveConvexHull.h"
+#include "../lib/ConvexHullHelpers.h"
 
 //////////////////////////////////////////////////////////////////////
 template <typename Shape, typename Point, typename OutputIterator>
