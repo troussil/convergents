@@ -4,6 +4,10 @@
 #include<cmath>
 
 #include"../lib/CircumcircleRadiusPredicate.h"
+#include "../lib/RayIntersectableStraightLine.h"
+//#include "../lib/OutputSensitiveConvexHull.h"
+#include "../lib/ConvexHullHelpers.h"
+
 /**
  * Class implementing an on-line and ouput-sensitive algorithm
  * that retrieves the vertices of the alpha-shape of all digital
@@ -19,181 +23,408 @@
 template <typename TShape, typename TPredicate>
 class OutputSensitiveAlphaShape
 {
-public:
-  /////////////////////// inner types /////////////////
-  typedef TShape Shape;
-  typedef typename Shape::Point Point;
-  typedef typename Shape::Vector Vector; //type redefinition
-  typedef TPredicate Predicate;
+  public:
+    /////////////////////// inner types /////////////////
+    typedef TShape Shape;
+    typedef typename Shape::Point Point;
+    typedef typename Shape::Vector Vector; //type redefinition
+    typedef TPredicate Predicate;
 
-private:
-  /////////////////////// members /////////////////////
-  /**
-   * const reference on a shape
-   */
-  const Shape& myShape;
-  /**
-   * Predicate that returns 'true' if the radius 
-   * of the circumcircle of three given points
-   * is greater than 1/alpha, 'false' otherwise.
-   *
-   * NB. alpha is implicitely defined by the predicate. 
-   */
-  const Predicate& myPredicate; 
+  private:
+    /////////////////////// members /////////////////////
+    /**
+     * const reference on a shape
+     */
+    const Shape& myShape;
+    /**
+     * Predicate that returns 'true' if the radius 
+     * of the circumcircle of three given points
+     * is greater than 1/alpha, 'false' otherwise.
+     *
+     * NB. alpha is implicitely defined by the predicate. 
+     */
+    const Predicate& myPredicate; 
 
-public:
-  ///////////////////// standard services /////////////
-  /**
-   * Standard constructor
-   * @param aShape any 'ray-intersectable' shape
-   * @param aPredicate any predicate
-   */
-  OutputSensitiveAlphaShape(const Shape& aShape, const Predicate& aPredicate)
-    : myShape(aShape), myPredicate(aPredicate) {}
+  public:
+    ///////////////////// standard services /////////////
+    /**
+     * Standard constructor
+     * @param aShape any 'ray-intersectable' shape
+     * @param aPredicate any predicate
+     */
+    OutputSensitiveAlphaShape(const Shape& aShape, const Predicate& aPredicate)
+      : myShape(aShape), myPredicate(aPredicate) {}
 
-private:
-  /**
-   * Copy constructor
-   * @param other other object to copy
-   */
-  OutputSensitiveAlphaShape(const OutputSensitiveAlphaShape& other) {}
+  private:
+    /**
+     * Copy constructor
+     * @param other other object to copy
+     */
+    OutputSensitiveAlphaShape(const OutputSensitiveAlphaShape& other) {}
 
-  /**
-   * Assignement operator
-   * @param other other object to copy
-   * @return reference on *this
-   */
-  OutputSensitiveAlphaShape& operator=(const OutputSensitiveAlphaShape& other)
-  { return *this; }
+    /**
+     * Assignement operator
+     * @param other other object to copy
+     * @return reference on *this
+     */
+    OutputSensitiveAlphaShape& operator=(const OutputSensitiveAlphaShape& other)
+    { return *this; }
 
-public:
-  /**
-   * Default destructor
-   */
-  ~OutputSensitiveAlphaShape() {}
+  public:
+    /**
+     * Default destructor
+     */
+    ~OutputSensitiveAlphaShape() {}
 
 
-  ///////////////////// main methods ///////////////////
-public:
-   
-<<<<<<< HEAD
-/**
-* Dichotomic search procedure to retrieve the next edge
-* of the alpha-shape in a sequence of edge-connected triangles
-* of increasing circumcircle radius. 
-* 
-* TO IMPROVE doc
-* @param aPointa is the first vertex of the triangle
-* @param Points aConvM2 and aConvM1 are the next convergents
-* @param aqk pConv = aqk*aConvM1 + aConvM2
-* @param aEven is bool which determine if the last odd convergent lie on the
-* straight line.
-* @return first convergent in the alpha shape
-*/
-Point dichotomicSearch(const Point& aPointa,
-		       const Point aConvM2, const Point aConvM1, 
-		       const int aqk)
-{
-  // Convergent vector
-  Point vConvM1 = aConvM1 - aPointa;
+    ///////////////////// main methods ///////////////////
+  public:
+    /**
+     * Dichotomous search procedure
+     * @param aPredicate determine the alpha shape radius
+     * @param aPointa is the first vertex of the triangle
+     * @param Points aConvM2 and aConvM1 are the next convergents vectors
+     * @param aqk pConv = aqk*aConvM1 + aConvM2
+     * @return coefficient of the first/ next convergent in the alpha shape
+     */
+    template <typename CircumcircleRadiusPredicate, typename Point>
+      int dichotomous(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa,
+          const Point aConvM2, const Point aConvM1, const int aqk)
+      {
+        // init search milestone
+        int qkstart = 0;
+        int qkstop  = aqk;
 
-  // init search milestone
-  int qkstart = 1;
-  int qkstop  = aqk;
-  // middle
-  int mid;
+        // middle
+        int mid;
 
-  do 
-  {
-    mid = (qkstart + qkstop)/2;
-    // lower triangle predicate
-    if (aPredicate(aPointa, aPointa + (mid-1)*vConvM1, aPointa + mid*vConvM1) == true)
-    { 
-      // the vertex is higher
-      qkstart = mid + 1;
-    }
-    else
-    { // the vertex is lower
-      qkstop = mid - 1;
-    }
-  } while( qkstop - qkstart == 0 ); 
-  // return a new point
-  return(Point(aPointa + mid*vConvM1));
-}
-public:
+        // while we finish the dichotomy 
+        while( qkstop != qkstart ) 
+        {
+          // Find the (integer) middle between qkstart and qkstop
+          mid = (qkstart + qkstop)/2;
+
+          // higher triangle predicate
+          if (aPredicate(aPointa, (aPointa + aConvM2 + (mid+1)*aConvM1), 
+                (aPointa + aConvM2 + (mid)*aConvM1)) == true)
+          { // the vertex is higher
+            qkstart = mid + 1;
+          }
+          else
+          { // the vertex is lower
+            qkstop = mid;
+          }
+        } 
+        // return the coefficient of the first vertex inside the alpha-shape.
+        return(qkstart);
+      }   
+
+    /**
+     * Given a vertex of the alpha-shape, find a serie of vertices
+     * in a counter-clockwise order
+     * 
+     * @param aPredicate determine the alpha-shape radius
+     * @param aPoint any vertex of the alpha-shape 
+     * @param aAlphaShape Output Iterator which log a serie of vertices
+     * @return the last vertex log by the output iterator
+     */
+    template <typename CircumcircleRadiusPredicate, typename Point, typename OutputIterator>
+      Point nextLeft(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa, const Point& aPointb, int aMaxConv, OutputIterator aAlphaShapeHull)
+      {
+
+        // Initialisation of the convergent.
+        // Convergent arise from pStart.
+        Point pStart = aPointa;
+
+        // First convergents vectors : 
+        int rot_pi2[4];
+        rot_pi2[0] = 0; rot_pi2[1] = -1; rot_pi2[2] = 1; rot_pi2[3] = 0;
+
+        Point vm2 = Point(1,0);
+        Point vm1 = Point(0,1);
+
+
+        // Orientation of the convergent
+        // vm2 outside and vm1 inside
+        while (myShape(aPointa + vm2) > 0 || myShape(aPointa + vm1) < 0)
+        {
+          // pi/2 counter clockwise rotation
+          vm2 = vm2.rotate(rot_pi2);
+          vm1 = vm1.rotate(rot_pi2);
+        }
+
+        Point vConvM2;
+        Point vConvM1;
+        Point vConv;
+
+        // First convergents points :
+        Point pConvM2;
+        Point pConvM1;
+        // pConv is the next convergent pconv = pConvM2 + qk * vConvM1.
+        Point pConv;
+        int qk;
+
+        // pConvM2 + qkalpha * vConvM1 is the first vertex in the alpha shape.
+        int qkalpha;
+
+        // True : We have add new vertex/ices for this convergent.
+        bool nextVertex;
+
+        // k is the convergent number. Usefull to know if the convergent is odd or even
+        // ie : if the convergent is below or above the straight line
+        int k;
+
+        // The discrete straight-line [a, b]
+        RayIntersectableStraightLine<Point> lineRatio(aPointa, aPointb);
+
+        /**
+         * Algorithm start.
+         * We stop computing when we reach the end of the straight-line : aPointb
+         * or if we reach a certain number = aMaxconv of convergent.
+         */
+        while (pStart != aPointb || k >= aMaxConv)
+        {
+          // We reset the convergents.
+          vConvM2=vm2; 
+          vConvM1=vm1; 
+
+          pConvM2 = pStart + vConvM2;
+          pConvM1 = pStart + vConvM1;  
+
+          k = 0;
+          nextVertex = false;
+
+          /**
+           * We start searching for next vertices and convergents.
+           * We look after the intersection of the ray and the straight-line.
+           * At every new vertices add, we reset the computation from a new start.
+           */     
+          while ( nextVertex == false )
+          {
+            if (lineRatio.dray(pConvM2, vConvM1, qk, pConv) == false)
+            {
+              nextVertex = true;
+              *aAlphaShapeHull++ = aPointb;
+              pStart = aPointb;
+
+            }
+            else
+            {
+              // pConv is calculate in lineRatio.dray(), so We update vConv
+              vConv = pConv - pStart;
+
+              if ( k % 2 != 0 || (pConv == aPointb && k % 2 == 0))
+              {
+          /**
+           * We test the parity of k :
+           * In the case, k is even, we follow searching for new convergent.
+           * In the other case, ie : k is odd, we are above the straight-line. We could  
+           * have new alpha-shape vertices.
+           */ 
+
+          if (aPredicate(pStart, pConv-vConvM1, pConv) == false)
+          {
+            /**
+             * In the family of triangle shaped by the three points : pStart, 
+             * pConv - q*vConvM1, pConv - (q+1)*vConvM1, the triangle T(pStart, 
+             pConv-vConvM1, pConv) have the greatest circumcircle radius.
+             * If its radius is smaller than the predicate radius, we have to search
+             * for new vertices.
+             * We throw the dichotomous method in order to find the first point
+             * in the alpha-shape.
+             */
+
+            qkalpha = dichotomous(aPredicate, pStart, vConvM2, vConvM1, qk);
+						
+						if (pConv == aPointb && k % 2 == 0)
+						{
+							int saveqkalpha = qkalpha;
+				      while ( qkalpha < qk - 1)
+				      {
+				        qkalpha++; 
+				        *aAlphaShapeHull++ = pStart + qkalpha*vConvM1;
+				      }
+				      // We can have a new vertex between in aPointb - vConvM2.
+				      if (saveqkalpha == 0 && aPredicate.getNum2() < aPredicate.getDen2())
+				      {
+				   	    *aAlphaShapeHull++ = (pConv - vConvM2);
+				      }
+						}
+						else
+						{
+		          if (qkalpha == 0)
+		          {
+		            /**
+		             * If qkalpha == 0, we have to deal with special case.
+		             * In every case, pConvM2 is a new vertex.
+		             */
+		            *aAlphaShapeHull++ = pConvM2;
+
+		            if (pConvM1.normL22() == 1)
+		            {
+		              // We can have a new vertex between pConvM2 and pConv.
+		              *aAlphaShapeHull++ = (pConvM2 + vConvM1);
+		              pStart = (pConvM2 + vConvM1);
+		            }
+		            else
+		            {
+		              pStart = pConvM2;
+		            }
+		          }
+		          else
+		          {
+		            /**
+		             * We add all the vertices between qkalpha and qk in the alpha-Shape.
+		             * We restart from the last vertex add : pConv.
+		             */
+		            while (qkalpha <= qk)
+		            {
+		              *aAlphaShapeHull++ = pConvM2 + qkalpha*vConvM1;
+		              qkalpha++;  
+		            }
+		            pStart = pConv;
+
+		          }
+		          // We have to reset the convergent computation from pStart
+		          nextVertex = true;
+            }
+            
+          } // if new vertex. 
+        } // if k is odd.
+
+              // Update Convergent
+              k++;
+
+              pConvM2 = pConvM1;
+              pConvM1 = pConv;
+              vConvM2 = vConvM1;
+              vConvM1 = pConv-pStart;
+            } // No new convergent or new vertex
+          }
+        }// found all the vertices
+      }
+
+    ///////////////////// main methods ///////////////////
     /**
      * Given a vertex of the convex hull, find the next
      * vertex in a counter-clockwise order
      * @param aPoint any vertex of the convex hull
      * @return the next vertex
      */
+
     Point next(const Point& aPoint)
     {
-      return aPoint; 
-    }
-=======
-  /**
-   * Dichotomic search procedure to retrieve the next edge
-   * of the alpha-shape in a sequence of edge-connected triangles
-   * of increasing circumcircle radius. 
-   * 
-   * @param aPoint the first vertex of the triangle
-   * @param aConvM2 (k-2)-th convergent
-   * @param aConvM1 (k-1)-th convergent
-   * @param aQk k-th quotient such that the k-th convergent
-   * is equal to aQk*aConvM1 + aConvM2
-   * @return integer mid between 0 and aQk such that
-   * aPoint and mid*aConvM1 + aConvM2 define the next edge
-   * of the alpha-shape
-   */
-  int dichotomicSearch(const Point& aPoint,
-		       const Point& aConvM2, const Point& aConvM1, 
-		       const int& aQk)
-  {
-    // Convergent vector
-    Point vConvM1 = aConvM1 - aPoint;
+      /**
+       * Initialisation
+       * 
+       */
+      Point vm2( 1, 0);
+      Point vm1( 0, 1);
 
-    // init search milestone
-    int qkstart = 0;
-    int qkstop = aQk;
-    // middle
-    int mid;
+      int rot_pi2[4];
+      rot_pi2[0] = 0; rot_pi2[1] = -1; rot_pi2[2] = 1; rot_pi2[3] = 0;
 
-    do
+      int pQuotient = 0;
+
+      Point pConv;
+      Point vConv;
+
+      // Orientation of the convergent
+      // vm2 outside and vm1 inside
+      while (myShape(aPoint + vm2) > 0 || myShape(aPoint + vm1) < 0)
       {
-	mid = (qkstart + qkstop)/2;
-	// lower triangle predicate
-	if (aPredicate(aPoint, (aConvM2 + (mid-1)*vConvM1), (aConvM2 + mid*vConvM1)) == true)
-	  {
-	    // the vertex is higher
-	    qkstart = mid + 1;
-	  }
-	else
-	  { // the vertex is lower
-	    qkstop = mid - 1;
-	  }
-      } while( qkstop - qkstart >= 0 );
-    // return the index
-    return(mid);
-  } 
+        // pi/2 counter clockwise rotation
+        vm2 = vm2.rotate(rot_pi2);
+        vm1 = vm1.rotate(rot_pi2);
+      }
+      Point pm2 = aPoint + vm2;
+      Point pm1 = aPoint + vm1;
 
-  /**
-   * Given a vertex of the alpha-shape, 
-   * find the next ones in a counter-clockwise order. 
-   * All retrieved vertices (including @e aPoint, but
-   * excluding the last one, which is returned) 
-   * are written in @e res. 
-   * @param aPoint any vertex of the alpha-shape
-   * @return the last retrieved vertex
-   */
-  template <typename OutputIterator>
-  Point nextOnes(const Point& aPoint, const OutputIterator& res)
-  {
-    //TO DO
-    
-    return aPoint; 
-  }
->>>>>>> 8654fc823b82e55c8fdb995430e80f848e826d65
+      Point pNext = pm1; 
+      Point vNext = pNext - aPoint;
 
+      // p0 exisence an iteration
+      if (myShape.dray(pm2, vm1, pQuotient, pConv) == false)
+      {
+        while(myShape(pm1+vm1) >= 0){pm1 += vm1;}
+        return (pm1);
+      }
+
+      // p0 lie on the circle
+      if (myShape(pConv) >= 0)
+      {
+        pNext = pConv;
+        vNext = pNext - aPoint;
+      }
+      //p0 outise the circle
+      else if (myShape(pConv + vm1) >= 0)
+      {
+        pNext = pConv + vm1;
+        vNext = pNext - aPoint;
+      }
+
+      /**
+       * We iterate the vectors to build the next convergent
+       * p_-1 become p_-2
+       * p_0 become p_-1
+       * and their vector vm2, vm1
+       */
+
+      vConv = pConv - aPoint;
+      pm2 = pm1;
+      pm1 = pConv;
+
+      vm2 = vm1;
+      vm1 = pm1 - aPoint;
+
+      //even or odd
+      int ite = 1;
+
+      // p1 and more
+      while (myShape.dray(pm2, vm1, pQuotient, pConv) && pQuotient != 0)
+      {
+        // New Convergent, new v_i
+        vConv = pConv - aPoint;
+        if (!(ite & 1)) // even
+        {
+          if (myShape(pConv) == 0) // if the vertex lie on the circle
+          {
+            if (vNext.det(vConv) < 0)
+            {
+              pNext = pConv;
+              vNext = vConv;
+            }
+          }
+          else if (myShape(pConv + vm1) >= 0)
+          {
+            if (vNext.det(vConv + vm1) < 0)
+            {
+              pNext = pConv+vm1;
+              vNext = vConv+vm1;
+            }
+          }
+        }
+
+        else // odd
+        {
+          if ( vNext.det(vConv)  < 0 )
+          {
+            pNext = pConv;
+            vNext = vConv;
+          }
+        }
+
+        ite++; 
+        // update pm2 and pm1
+        pm2 = pm1;
+        pm1 = pConv;
+
+        vm2 = vm1;
+        vm1 = pConv - aPoint;
+
+      }
+      while(myShape(pNext+vNext) >= 0){pNext += vNext;}
+      return pNext; 
+    }
 }; 
 #endif
