@@ -184,6 +184,10 @@ Point nextLeftShape(const CircumcircleRadiusPredicate& aPredicate, const Point& 
   // First convergents points :
   Point pConvM2;
   Point pConvM1;
+  
+  // Keep pConvM2
+  Point pLast;
+  
   // pConv is the next convergent pconv = pConvM2 + qk * vConvM1.
   Point pConv;
   int qk;
@@ -227,16 +231,19 @@ Point nextLeftShape(const CircumcircleRadiusPredicate& aPredicate, const Point& 
     {
       if (lineRatio.dray(pConvM2, vConvM1, qk, pConv) == false)
       {
-        nextVertex = true;
-        *aAlphaShapeHull++ = aPointb;
-        pStart = aPointb;
+			
+		    nextVertex = true;
+		    // end proc
+		    *aAlphaShapeHull++ = aPointb;
+		    pStart = aPointb;
+      	
       }
       else
       {
         // pConv is calculate in lineRatio.dray(), so We update vConv
         vConv = pConv - pStart;
 
-        if ( k % 2 != 0 )
+        if ( k % 2 != 0 || (pConv == aPointb && k % 2 == 0))
         {
           /**
            * We test the parity of k :
@@ -258,48 +265,66 @@ Point nextLeftShape(const CircumcircleRadiusPredicate& aPredicate, const Point& 
              */
 
             qkalpha = dichotomous(aPredicate, pStart, vConvM2, vConvM1, qk);
+						
+						if (pConv == aPointb && k % 2 == 0)
+						{
+							int saveqkalpha = qkalpha;
+				      while ( qkalpha < qk - 1)
+				      {
+				        qkalpha++; 
+				        *aAlphaShapeHull++ = pStart + qkalpha*vConvM1;
+				      }
+				      // We can have a new vertex between in aPointb - vConvM2.
+				      if (saveqkalpha == 0 && aPredicate.getNum2() < aPredicate.getDen2())
+				      {
+				   	    *aAlphaShapeHull++ = (pConv - vConvM2);
+				      }
+						}
+						else
+						{
+		          if (qkalpha == 0)
+		          {
+		            /**
+		             * If qkalpha == 0, we have to deal with special case.
+		             * In every case, pConvM2 is a new vertex.
+		             */
+		            *aAlphaShapeHull++ = pConvM2;
 
-            if (qkalpha == 0)
-            {
-              /**
-               * If qkalpha == 0, we have to deal with special case.
-               * In every case, pConvM2 is a new vertex.
-               */
-              *aAlphaShapeHull++ = pConvM2;
+		            if (pConvM1.normL22() == 1)
+		            {
+		              // We can have a new vertex between pConvM2 and pConv.
+		              *aAlphaShapeHull++ = (pConvM2 + vConvM1);
+		              pStart = (pConvM2 + vConvM1);
+		            }
+		            else
+		            {
+		              pStart = pConvM2;
+		            }
+		          }
+		          else
+		          {
+		            /**
+		             * We add all the vertices between qkalpha and qk in the alpha-Shape.
+		             * We restart from the last vertex add : pConv.
+		             */
+		            while (qkalpha <= qk)
+		            {
+		              *aAlphaShapeHull++ = pConvM2 + qkalpha*vConvM1;
+		              qkalpha++;  
+		            }
+		            pStart = pConv;
 
-              if (pConvM1.normL22() == 1)
-              {
-                // We can have a new vertex between pConvM2 and pConv.
-                *aAlphaShapeHull++ = (pConvM2 + vConvM1);
-                pStart = (pConvM2 + vConvM1);
-              }
-              else
-              {
-                pStart = pConvM2;
-              }
+		          }
+		          // We have to reset the convergent computation from pStart
+		          nextVertex = true;
             }
-            else
-            {
-              /**
-               * We add all the vertices between qkalpha and qk in the alpha-Shape.
-               * We restart from the last vertex add : pConv.
-               */
-              while (qkalpha <= qk)
-              {
-                *aAlphaShapeHull++ = pConvM2 + qkalpha*vConvM1;
-                qkalpha++;  
-              }
-              pStart = pConv;
-
-            }
-            // We have to reset the convergent computation from pStart
-            nextVertex = true;
+            
           } // if new vertex. 
         } // if k is odd.
 
         // Update Convergent
         k++;
-
+        pLast   = pConvM2;
         pConvM2 = pConvM1;
         pConvM1 = pConv;
         vConvM2 = vConvM1;
@@ -375,6 +400,7 @@ int main()
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
   }
+  
 
   ////////////////////////////////////////////////////////////////////////
   std::cout << std::endl; 
@@ -385,11 +411,11 @@ int main()
     {
       CircumcircleRadiusPredicate<> predicate1(1,1); //radius 1
       std::vector<int> quotients; 
-      quotients.push_back(1); 
-      quotients.push_back(1); 
-      quotients.push_back(1); 
-      quotients.push_back(1); 
-      quotients.push_back(1); 
+      quotients.push_back(3); 
+      //quotients.push_back(3); 
+      //quotients.push_back(1); 
+      //quotients.push_back(1); 
+      //quotients.push_back(1); 
 
       if (test(quotients.begin(), quotients.end(), O, predicate1))
         nbok++; 
@@ -415,7 +441,7 @@ int main()
     //random value
     srand ( time(NULL) );
     // Test number
-    int nb_test = 10;
+    int nb_test = 0;
     // Max origin coordinate
     int maxPoint = 20;
     // Number of quotient
@@ -464,7 +490,33 @@ int main()
 
       }
     }
-  }
+   } 
+  {
+  StraightLine sl( Point(0,0), Point(1,3));
+    std::cout << " ----------- ++++++++++++++++++++++++++++ ----------- " << std::endl; 
+  
+  std::vector<Point> boundary; 
+  // std::cout << "Boundary" << std::endl; 
+  // std::copy(boundary.begin(), boundary.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+  // std::cout << std::endl; 
+
+  //tracking-based algorithm
+
+  	std::vector<Point> ch;
+    CircumcircleRadiusPredicate<> predicate1(1,1); //radius 1
+    openGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), predicate1 ); 
+    std::cout << "#3.1 - alpha-shape of the boundary using OpenGrahamScan" << std::endl; 
+    std::copy(ch.begin(), ch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+    std::cout << std::endl; 
+
+    //output-sensitive algorithm
+    std::vector<Point> ch2; 
+    nextLeftShape(predicate1, Point(0,0), Point(1,3), 50, std::back_inserter(ch2) );  
+    std::cout << "#3.2 - alpha-shape of the boundary using the Convergent Method" << std::endl; 
+    std::copy(ch2.begin(), ch2.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+    std::cout << std::endl; 
+   } 
+  
   //1 if at least one test failed
   //0 otherwise
   return (nb != nbok); 
