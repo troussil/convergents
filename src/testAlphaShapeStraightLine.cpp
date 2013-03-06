@@ -7,12 +7,12 @@
 #include <cstdlib>
 #include <ctime>
 
-#include "PointVector2D.h"
-#include "RayIntersectableStraightLine.h"
-#include "OutputSensitiveConvexHull.h"
-#include "ConvexHullHelpers.h"
+#include "../lib/PointVector2D.h"
+#include "../lib/RayIntersectableStraightLine.h"
+#include "../lib/OutputSensitiveConvexHull.h"
+#include "../lib/ConvexHullHelpers.h"
 
-#include "OutputSensitiveAlphaShape.h"
+#include "../lib/OutputSensitiveAlphaShape.h"
 
 
 ///////////////////////////////////////////////////////////////////////
@@ -419,9 +419,9 @@ int main()
     // Max origin coordinate
     int maxPoint = 20;
     // Number of quotient
-    int maxQuotient = 5;
+    int maxQuotient = 6;
     // Value of the quotient
-    int maxCoeff = 25;
+    int maxCoeff = 9;
     int nbQuotient;
 
     // Number predicate test
