@@ -1,3 +1,6 @@
+#ifndef OutputSensitiveConvexHull_h
+  #define OutputSensitiveConvexHull_h
+
 #include<cmath>
 /**
  * Class implementing an on-line and ouput-sensitive algorithm
@@ -179,3 +182,5 @@ class OutputSensitiveConvexHull
       return pNext; 
     }
 }; 
+
+#endif

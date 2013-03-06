@@ -5,7 +5,7 @@ testR = testRay
 
 
 #all cibles
-all: $(testPV) $(testR) testConvergents testConvexHull
+all: $(testPV) $(testR) testConvergents testConvexHull testAlphaShapeStraightLine testAlphaShape
 
 $(testPV): $(testPV).cpp $(PV).h
 	g++ -c $< -o $(testPV).o
@@ -15,13 +15,20 @@ $(testR): $(testR).cpp RayIntersectableStraightLine.h RayIntersectableCircle.h
 	g++ -c $< -o $(testR).o
 	g++ $(testR).o -o $(testR)
 
-testConvergents: testConvergents.cpp
+testConvergents: testConvergents.cpp RayIntersectableStraightLine.h
 	g++ $< -o $@
 
-testConvexHull: testConvexHull.cpp OutputSensitiveConvexHull.h
+testConvexHull: testConvexHull.cpp RayIntersectableCircle.h OutputSensitiveConvexHull.h ConvexHullHelpers.h
 	g++ $< -o $@
+
+testAlphaShapeStraightLine: testAlphaShapeStraightLine.cpp RayIntersectableStraightLine.h ConvexHullHelpers.h
+	g++ $< -o $@
+
+testAlphaShape: testAlphaShape.cpp RayIntersectableCircle.h OutputSensitiveAlphaShape.h ConvexHullHelpers.h
+	g++ $< -o $@
+
 test: 
-	./$(testPV) && ./$(testR) && ./testConvergents && ./testConvexHull
+	./$(testPV) && ./$(testR) && ./testConvergents && ./testConvexHull && ./testAlphaShapeStraightLine && ./testAlphaShape
 
 clean: 
-	rm $(testPV) $(testR) testConvergents testConvexHull *.o *~
+	rm $(testPV) $(testR) testConvergents testConvexHull testAlphaShapeStraightLine testAlphaShape *.o
