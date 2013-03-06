@@ -231,50 +231,7 @@ Point nextLeftShape(const CircumcircleRadiusPredicate& aPredicate, const Point& 
     {
       if (lineRatio.dray(pConvM2, vConvM1, qk, pConv) == false)
       {
-			/**
-			 * We look if the last convergent which reach aPointb is even.
-			 * 
-			 */
-/*  			if(pConvM1 == aPointb && k % 2 != 0)
-        {
-        	// Back to previous state
-         	pConvM1 = pConvM2;
-        	pConvM2 = pLast;
-        	
-        	vConvM1 = pConvM1 - pStart;
-        	vConvM2 = pConvM2 - pStart;
-        	
-        	// Retrieve qk
-        	lineRatio.dray(pConvM2, vConvM1, qk, pConv);
-        	
-        	if (aPredicate(pStart, pConv-vConvM1, pConv) == false)
-        	{
-            /**
-             * We look for the symetric triangle 
-             * We throw the dichotomous method in order to find the last point
-             * in the alpha-shape.
-             */
-
-/*            qkalpha = dichotomous(aPredicate, pStart, vConvM2, vConvM1, qk);
-             /**
-              * We add all the vertices between 0 and qkalpha in the alpha-Shape.
-             */
-/*           int saveqkalpha = qkalpha;
-           
-           
-           while ( qkalpha < qk - 1)
-           {
-             qkalpha++; 
-             *aAlphaShapeHull++ = pStart + qkalpha*vConvM1;
-           }
-           // We can have a new vertex between in aPointb - vConvM2.
-           if (saveqkalpha == 0 && aPredicate.getNum2() < aPredicate.getDen2())
-           {
-           *aAlphaShapeHull++ = (pConv - vConvM2);
-           }
-          } // if new vertex.
-        } // end special case
-*/
+			
 		    nextVertex = true;
 		    // end proc
 		    *aAlphaShapeHull++ = aPointb;
