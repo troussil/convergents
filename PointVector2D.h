@@ -1,3 +1,5 @@
+#ifndef PointVector2D_h
+  #define PointVector2D_h
 /**
  * Class implementing 2d point or vector strutures.
  * @tparam T a model of number (for the coordinates).  
@@ -230,6 +232,14 @@ class PointVector2D
     }
 
     /**
+     * @return squared L2 norm (ie. x²+y² )
+     */
+    T normL22() const 
+    { 
+      return myX * myX + myY * myY;  
+    }
+
+    /**
      * @return Linf norm (ie. max(|x|,|y|) )
      */
     T normLinf() const 
@@ -264,3 +274,4 @@ std::ostream& operator<<( std::ostream & out, const PointVector2D<Coordinate>& o
 {
   out << "(" << object[0] << "," << object[1] << ")"; 
 }
+#endif

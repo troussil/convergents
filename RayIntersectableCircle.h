@@ -1,3 +1,6 @@
+#ifndef RayIntersectableCircle_h
+  #define RayIntersectableCircle_h
+
 #include<cmath>
 /**
  * Class implementing a circle that is 'ray intersectable', 
@@ -276,3 +279,4 @@ class RayIntersectableCircle
      else {return false;}
     }
 }; 
+#endif
