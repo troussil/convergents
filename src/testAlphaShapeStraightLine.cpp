@@ -264,24 +264,31 @@ Point nextLeftShape(const CircumcircleRadiusPredicate& aPredicate, const Point& 
              * in the alpha-shape.
              */
 
-            qkalpha = dichotomous(aPredicate, pStart, vConvM2, vConvM1, qk);
-						
 						if (pConv == aPointb && k % 2 == 0)
 						{
-							int saveqkalpha = qkalpha;
-				      while ( qkalpha < qk - 1)
+						 	qkalpha = dichotomous(aPredicate, pConvM2, -vConvM2, vConvM1, qk);
+							
+							int qks = qkalpha;
+							qkalpha = 1;
+							
+				      while ( qkalpha <= qk-qks)
 				      {
-				        qkalpha++; 
 				        *aAlphaShapeHull++ = pStart + qkalpha*vConvM1;
+				        qkalpha++;
+				        
 				      }
 				      // We can have a new vertex between in aPointb - vConvM2.
-				      if (saveqkalpha == 0 && aPredicate.getNum2() < aPredicate.getDen2())
+				      if (qks == 0 && aPredicate.getNum2() < aPredicate.getDen2())
 				      {
 				   	    *aAlphaShapeHull++ = (pConv - vConvM2);
 				      }
+				      nextVertex = true;
+              *aAlphaShapeHull++ = aPointb;
+              pStart = aPointb;
 						}
 						else
 						{
+							qkalpha = dichotomous(aPredicate, pStart, vConvM2, vConvM1, qk);
 		          if (qkalpha == 0)
 		          {
 		            /**
@@ -504,6 +511,31 @@ int main()
 
   	std::vector<Point> ch;
     CircumcircleRadiusPredicate<> predicate1(1,1); //radius 1
+    openGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), predicate1 ); 
+    std::cout << "#3.1 - alpha-shape of the boundary using OpenGrahamScan" << std::endl; 
+    std::copy(ch.begin(), ch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+    std::cout << std::endl; 
+
+    //output-sensitive algorithm
+    std::vector<Point> ch2; 
+    nextLeftShape(predicate1, Point(0,0), Point(1,3), 50, std::back_inserter(ch2) );  
+    std::cout << "#3.2 - alpha-shape of the boundary using the Convergent Method" << std::endl; 
+    std::copy(ch2.begin(), ch2.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+    std::cout << std::endl; 
+   } 
+   {
+  StraightLine sl( Point(0,0), Point(1,3));
+    std::cout << " ----------- ++++++++++++++++++++++++++++ ----------- " << std::endl; 
+  
+  std::vector<Point> boundary; 
+  // std::cout << "Boundary" << std::endl; 
+  // std::copy(boundary.begin(), boundary.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+  // std::cout << std::endl; 
+
+  //tracking-based algorithm
+
+  	std::vector<Point> ch;
+    CircumcircleRadiusPredicate<> predicate1(3,1); //radius 1
     openGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), predicate1 ); 
     std::cout << "#3.1 - alpha-shape of the boundary using OpenGrahamScan" << std::endl; 
     std::copy(ch.begin(), ch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
