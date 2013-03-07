@@ -234,24 +234,34 @@ class OutputSensitiveAlphaShape
              * in the alpha-shape.
              */
 
-            qkalpha = dichotomous(aPredicate, pStart, vConvM2, vConvM1, qk);
-						
+           
+
 						if (pConv == aPointb && k % 2 == 0)
 						{
-							int saveqkalpha = qkalpha;
-				      while ( qkalpha < qk - 1)
+						 	
+						 	qkalpha = dichotomous(aPredicate, pConvM2, -vConvM2, vConvM1, qk);
+							
+							int qks = qkalpha;
+							qkalpha = 1;
+							
+				      while ( qkalpha <= qk-qks)
 				      {
-				        qkalpha++; 
 				        *aAlphaShapeHull++ = pStart + qkalpha*vConvM1;
+				        qkalpha++;
+				        
 				      }
 				      // We can have a new vertex between in aPointb - vConvM2.
-				      if (saveqkalpha == 0 && aPredicate.getNum2() < aPredicate.getDen2())
+				      if (qks == 0 && aPredicate.getNum2() < aPredicate.getDen2())
 				      {
 				   	    *aAlphaShapeHull++ = (pConv - vConvM2);
 				      }
+				      nextVertex = true;
+              *aAlphaShapeHull++ = aPointb;
+              pStart = aPointb;
 						}
 						else
 						{
+							qkalpha = dichotomous(aPredicate, pStart, vConvM2, vConvM1, qk);
 		          if (qkalpha == 0)
 		          {
 		            /**
@@ -288,7 +298,6 @@ class OutputSensitiveAlphaShape
 		          // We have to reset the convergent computation from pStart
 		          nextVertex = true;
             }
-            
           } // if new vertex. 
         } // if k is odd.
 
