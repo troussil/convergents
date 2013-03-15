@@ -32,9 +32,9 @@ void alphaShapeNaive(const Shape& aShape, const Point& aStartingPoint,
   {
 
     //get the next convex hull vertex
-    tmp2 = ch.next(tmp1);
+    tmp2 = ch.nextCH(tmp1);
     // get the next alpha-shape vertices
-    ch.nextLeft(aPredicate, tmp1, tmp2, aMaxConv, res);
+    ch.nextSLAS(aPredicate, tmp1, tmp2, aMaxConv, res);
 
     tmp1 = tmp2;
     //while it is not the first one
@@ -58,7 +58,7 @@ void alphaShape(const Shape& aShape, const Point& aStartingPoint,
   {
 		k++;
     // get the next alpha-shape vertices
-    tmp = ch.nextLeftInc(aPredicate, tmp, aMaxConv, res);
+    tmp = ch.next(aPredicate, tmp, aMaxConv, res);
   }//while we not return to aStartingPoint
 }
 

@@ -129,7 +129,7 @@ class OutputSensitiveAlphaShape
      * @return the last vertex log by the output iterator
      */
     template <typename CircumcircleRadiusPredicate, typename Point, typename OutputIterator>
-      Point nextLeft(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa, const Point& aPointb, int aMaxConv, OutputIterator aAlphaShapeHull)
+      Point nextSLAS(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa, const Point& aPointb, int aMaxConv, OutputIterator aAlphaShapeHull)
       {
 
         // Initialisation of the convergent.
@@ -321,7 +321,7 @@ class OutputSensitiveAlphaShape
      * @return the next vertex
      */
 
-    Point next(const Point& aPoint)
+    Point nextCH(const Point& aPoint)
     {
       /**
        * Initialisation
@@ -446,7 +446,7 @@ class OutputSensitiveAlphaShape
      * @return the last vertex log by the output iterator
      */
     template <typename CircumcircleRadiusPredicate, typename Point, typename OutputIterator>
-      Point nextLeftInc(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa, int aMaxConv, OutputIterator aAlphaShapeHull)
+      Point next(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa, int aMaxConv, OutputIterator aAlphaShapeHull)
       {
         //std::cout<<std::endl;   
         //std::cout<<"#0 - Enter : pStart :"<<aPointa<<std::endl;
@@ -496,23 +496,13 @@ class OutputSensitiveAlphaShape
         {
           // We search for the next vertices in vConvM1 direction
           pConv = pConvM1;
-          // Maximum length to the next alpha-neighbour.
-          int kmax = aPredicate.getNum2()/aPredicate.getDen2();
 
           // VConvM1 translation
           while(myShape(pConv + vConvM1) >= 0)
           {
             pConv += vConvM1;
-            k++;
-            if (k == kmax)
-            {// We need an alpha-neighbour to reach the end of the straight-line.
-              *aAlphaShapeHull++ = pConv;
-              k = 0;
-            }
+            *aAlphaShapeHull++ = pConv;
           }
-          // We add the last vertex
-          if (k != 0){*aAlphaShapeHull++ = pConv;}
-          // We found at least one new vertex.
           return (pConv);
         } // end - p_0 does not exist
         // The else is not need because of the return.
