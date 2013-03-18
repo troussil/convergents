@@ -1,24 +1,30 @@
 ///////////////////////////////////////////////////////////////////////////////
+//requires STL
 #include <cmath>
 #include <iostream>
 #include <iomanip>
 #include <vector>
 #include <string>
 
+//requires C++ 0x ou 11
+#include <chrono>
+
+//requires boost
 #include <boost/program_options/options_description.hpp>
 #include <boost/program_options/parsers.hpp>
 #include <boost/program_options/variables_map.hpp>
 
+namespace po = boost::program_options;
+
+//requires DGtal
 #include "DGtal/base/Common.h"
 #include "DGtal/helpers/StdDefs.h"
-
 #include "DGtal/io/boards/Board2D.h"
 
 using namespace DGtal;
-namespace po = boost::program_options;
-
 
 ///////////////////////////////////////////////////////////////////////////////
+//our work
 #include "PointVector2D.h"
 #include "RayIntersectableCircle.h"
 #include "OutputSensitiveConvexHull.h"
@@ -44,7 +50,7 @@ void convexHull(const Shape& aShape, const Point& aStartingPoint,
 ///////////////////////////////////////////////////////////////////////////////
 template <typename ForwardIterator>
 void display(const ForwardIterator& itb, const ForwardIterator& ite, 
-	const std::string& aFilename)
+	std::string aFilename)
 {
   typedef PointVector<2,int> DGtalPoint; 
 
@@ -72,8 +78,41 @@ void display(const ForwardIterator& itb, const ForwardIterator& ite,
       //display the last edge too
       aBoard.drawArrow(prev[0], prev[1], p1[0], p1[1]); 
     }
+  
+  aFilename.insert(aFilename.size(), ".eps"); 
   aBoard.saveEPS(aFilename.c_str());
 
+}
+
+///////////////////////////////////////////////////////////////////////////////
+template<typename Circle>
+void myMainProcedure(const Circle& aCircle)
+{
+  typedef typename Circle::Point Point; 
+  typedef typename Circle::Vector Vector; 
+
+  //computation of the boundary and convex hull
+  std::chrono::time_point<std::chrono::system_clock> ta, tb;
+  ta = std::chrono::system_clock::now();
+
+  std::vector<Point> boundary; 
+  Vector dir(1,0); 
+  closedTracking( aCircle, aCircle.getConvexHullVertex(), dir, std::back_inserter(boundary) ); 
+
+  std::vector<Point> ch; 
+  grahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch) ); 
+
+  tb = std::chrono::system_clock::now();
+  std::cout << std::chrono::duration_cast<std::chrono::microseconds>(tb-ta).count() << std::endl;  
+
+
+  //display in the standard output
+  std::cout << "Graham's convex hull of the boundary" << std::endl; 
+  std::copy(ch.begin(), ch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+  std::cout << std::endl; 
+  
+  //display in an output file
+  display(ch.begin(), ch.end(), "convexHullByTracking"); 
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -123,26 +162,35 @@ int main( int argc, char** argv )
       int radius = vm["radius"].as<int>();
       std::cout << "Display disc of radius " << radius << std::endl; 
 
-
       Circle circle( Point(radius,0), Point(0,radius), Point(-radius,0) );
 
-      std::vector<Point> boundary; 
-      Vector dir(1,0); 
-      closedTracking( circle, circle.getConvexHullVertex(), dir, std::back_inserter(boundary) ); 
-
-      std::vector<Point> ch; 
-      grahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch) ); 
-      std::cout << "Graham's convex hull of the boundary" << std::endl; 
-      std::copy(ch.begin(), ch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
-      std::cout << std::endl; 
-
-      display(ch.begin(), ch.end(), "convexHullByTracking"); 
-
+      myMainProcedure( circle ); 
     }
   else 
-    { //if point options specified
-      std::cout << "Display disc of passing through 3 points " << std::endl; 
-      //TODO
+    { 
+      if ( vm.count("a") && 
+	   vm.count("b") &&
+	   vm.count("c") &&
+	   vm.count("d") && 
+	   vm.count("e") &&
+	   vm.count("f") )
+	{
+	  //if point options specified
+	  std::cout << "Display disc of passing through 3 points " << std::endl;
+	  Point p, q, r; 
+	  p[0] = vm["a"].as<int>();
+	  p[1] = vm["b"].as<int>();
+	  q[0] = vm["c"].as<int>();
+	  q[1] = vm["d"].as<int>();
+	  r[0] = vm["e"].as<int>();
+	  r[1] = vm["f"].as<int>();
+
+	  Circle circle( p, q, r );
+
+	  myMainProcedure( circle ); 
+	}
+      else
+	std::cerr << "Bad input arguments. Try option --help. " << std::endl; 
     }
 
   return 0;
