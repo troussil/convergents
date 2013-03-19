@@ -1,0 +1,129 @@
+%----------------------------------------------------------------------------------------
+%    PACKAGES AND DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass{article}
+
+%\usepackage[T1]{fontenc} %codage
+\usepackage[utf8]{inputenc} %codage
+\usepackage{lmodern}
+
+\usepackage{graphicx} %pour insertion figures
+\usepackage[french]{babel}
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs
+
+%\usepackage{times} % Uncomment to use the Times New Roman font
+
+%----------------------------------------------------------------------------------------
+%    DOCUMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\title{Équivalence de méthode pour le calcul du PGCD} % Title
+
+\author{LAFOND Thomas} % Author name
+
+\date{\today} % Date for the report
+
+\begin{document}
+
+\maketitle % Insert the title, author and date
+
+On cherche à montrer l'équivalence entre le calcul du pgcd par l'algorithme d'Euclide et par le calcul du pgcd par la méthode géométrique utilisant les convergents. Pour cela, on va montrer que les quotients $q_i$ calculés à travers l'algorithme d'Euclide et les quotients $k_i$ calculés par la méthode géométrique sont égaux.
+
+\section{La méthode d'Euclide}
+
+Soit $a \geq b$ deux entiers. On divise et décompose successivement le couple (a,b) par les couples d'entiers $(q_{i}, r_{i}$.\\
+$a = b * q_{0} + r_{0}$\\
+$b = r_{0} * q_{1} + r_{1}$\\
+$r_{i-2} = r_{i-1} * q_{i} + r_{i}$\\
+
+jusqu'à obtenir $r_{n} = 0$. Le pgcd étant le dernier reste non nul, soit $r_{n-1}$.
+
+\section{La méthode géométrique}
+
+Soit d la droite passant par l'origine (0,0) et par (b,a). On trouve son équation cartésienne d : ax - by = 0. On note $p_{-2} = (1,0)$ et $p_{-1}=(0,1)$. On calcul les convergents suivants à l'aide de la formule : $p_{i} = p_{i-2} + k_{i} * p_{i-1}$ avec $k_{i}$ le plus petit entier tel que $p_{i-2} + k_{i} * p_{i-1}$ soit du même côté de la droite que $p_{i-2}$ mais que $p_{i-2} + (k_{i}+1) * p_{i-1}$ soit de l'autre côté.\newline
+
+\subsection{Calcul des $k_{i}$}
+
+On cherche le point $M = (x_m, y_m) \in d$ à l'intersection entre la droite d et le rayon de direction $a_{d}$ issue de $a_{s}$. \\
+Par définition, on a $(\overrightarrow{a_{s} M}) = k_i*\overrightarrow{a_{d}}$ :
+
+$
+\left \{
+\begin{array}{r c l}
+  x_{m} - x_{s} = k_{i}*x_{d}\\
+  y_{m} - y_{s} = k_{i}*y_{d}\\
+\end{array}
+\right .
+\\$\newline
+$
+\left \{
+\begin{array}{r c l}
+  x_{m} = x_{s} + k_{i}*x_{d}\\
+  y_{m} = y_{s} + k_{i}*y_{d}\\
+\end{array}
+\right .
+$\newline
+
+Comme $M \in d$,\newline
+$a*x_{m} - b*y_{m} = 0 $: \\
+$a*(x_s + k_i*x_d) - b*(y_s + k_i*y_d) = 0$\\
+$k_i*(a*x_d - b*y_d) + a*x_s - b*y_s = 0$\\
+
+Si $a*x_d - b*y_d = 0$, le vecteur $a_d$ et le vecteur directeur de la droite d sont colinéaire. Les droites sont parallèles ou confondues. Il n'y a pas alors pas d'intersection entre les deux éléments\\
+
+On suppose que $a*x_d - b*y_d \ne 0$.\\
+
+$$k_i = \lfloor - \frac{a*x_s - b*y_s}{a*x_d - b*y_d} \rfloor$$
+
+\section{Preuve par récurrence que $k_{i} = q_{i}$}
+\subsection{Étapes initiales}
+
+On va vérifier l'hypothèse au rang 0 et 1. \\
+On a $a_s = p_{-2} = (1,0)$ et $a_d = p_{-1} = (0,1)$.\\
+
+$k_{0} = \lfloor \frac{a}{b} \rfloor$\\
+$k_{0} = q_{0}$\\
+
+On a $a_s = p_{-1} = (0,1)$ et $a_d = p_{0} = (1,q_0)$.\\
+
+$k_{1} = \lfloor \frac{b}{a - b * q_0} \rfloor$\\
+$k_{1} = \lfloor \frac{b}{r_0} \rfloor$\\
+$k_{1} = q_{1}$\\
+
+\subsection{Hypothèse et récurrence}
+
+On jète le rayon de $a_s = p_{i-2} = (x_{i-2},y_{i-2})$ et dans la direction de $a_d = p_{i-1} = (x_{i-1},y_{i-1})$. On suppose vrai au rang i, l'hypothèse de récurrence : $k_i = q_i$. \\
+
+$k_i = \lfloor - \frac{a*x_{i-2} - b*y_{i-2}}{a*x_{i-1} - b*y_{i-1}} \rfloor = \lfloor \frac{r_{i-2}}{r_{i-1}} \rfloor$\\
+
+On cherche maintenant à calculer $k_{i+1}$\\
+
+$k_{i+1} = \lfloor - \frac{a*x_{i-1} - b*y_{i-1}}{a*x_{i} - b*y_{i}} \rfloor$\\
+
+Or $p_{i} = p_{i-2} + k_{i} * p_{i-1}$, d'où :\\
+$
+\left \{
+\begin{array}{r c l}
+  x_{i} = x_{i-2} + k_{i} * x_{i-1}\\
+  y_{i} = y_{i-2} + k_{i} * y_{i-1}
+\end{array}
+\right .
+$\\
+
+$k_{i+1} = \lfloor - \frac{a*x_{i-1} - b*y_{i-1}}{a*(x_{i-2} + k_{i} * x_{i-1}) - b*(y_{i-2} + k_{i} * y_{i-1})} \rfloor$\\
+$k_{i+1} = \lfloor - \frac{a*x_{i-1} - b*y_{i-1}}{(a*(x_{i-2} - b*y_{i-2}) + k_{i} * (a*(x_{i-1} - b*y_{i-1})} \rfloor$\\
+$k_{i+1} = \lfloor \frac{r_{i-1}}{r_{i-2} - k_{i} * r_{i-1}} \rfloor$\\
+
+Comme $q_i = k_i$. \\
+
+$k_{i+1} = \lfloor \frac{r_{i-1}}{r_{i-2} - q_{i} * r_{i-1}} \rfloor$\\
+$k_{i+1} = \lfloor \frac{r_{i-1}}{r_{i}} \rfloor$\\
+
+$k_{i+1} = q_{i+1}$
+
+\subsection{Conclusion}
+
+L'hypothèse de récurrence a été vérifiée au rang suivant : i+1, on a bien obtenu l'égalité entre le calcul des quotients par la méthode de l'algorithme d'Euclide et par la méthode géométrique.
+\end{document}

@@ -10,32 +10,26 @@ Introduction of programming best practices in c++ through the learning of differ
 
 It will deserve a wider context in digital geometry.
 
-## Folders & Files
+## Repository Organisation
 
 ### Folders
 
-* *rapport.d/* : It's a subfolder which containing Latex and bibtex source files for the report.
-* *main* : All the files belong to programming.
+* *doc* is a folder containing Latex and bibtex source files for the report and the algorithm used durign the programmation.
+* *lib* is a folder containing all the library / .h files. 
+* *src* is a folder containing all the program test.
 
 ### Files
-
-#### System
 
 * *Makefile* : Compiling all files. (See below)
 * *.gitignore* : ignoring upload of temporary and binaries files. 
 * *README.md* : This wiki presentation
 
-#### Programming
+## Classes and Algorithms
 
-* *PointVector2D.h* : class implementing 2d point or vector strutures.
-* *RayIntersectableStraightLine.h* : class implementing a straight line that is 'ray intersectable'
-* *RayIntersectableCircle.h* : class implementing a circle that is 'ray intersectable', 
+* *PointVector2D.h* is the main class implementing point and vector in two dimensions.
+* *RayIntersectableStraightLine.h* and *RayIntersectableCircle.h* implement some 'ray intersectable' class. At the beginning, we start with straight line and circle.
+* We follow with algorithms computing the convergent of a rationnel : *testConvergents.cpp*, the convex hull of a convex shape : *OutputSensitiveConvexHull.h* and the alpha-shape of a straight-line and a convex shape : *testAlphaShapeStraightLine.cpp* and *OutputSensitiveAlphaShape.h*.
 
-#### Testing
-
-* *testPointVector2D.cpp* : Testing class PointVector2D implementation.
-* *testRay.cpp* : Testing the intersection between ray and whole : straight line and circle.
-* *testConvergents.cpp* : Testing straight line intersection with ray by implemented geometric gcd.
 
 ## Concept
 
