@@ -1,8 +1,8 @@
 #include <iostream>
 #include <math.h>
-#include "PointVector2D.h"
-#include "RayIntersectableStraightLine.h"
-#include "RayIntersectableCircle.h"
+#include "../lib/PointVector2D.h"
+#include "../lib/RayIntersectableStraightLine.h"
+#include "../lib/RayIntersectableCircle.h"
 
 int main() 
 {
@@ -229,19 +229,19 @@ int main()
     /////////////////////////////////////////////////////////////// 
     // vertex of convex hull
     if ( circle.getConvexHullVertex() == Point(0,-5) )
-        nbok++; 
+      nbok++; 
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
 
     Circle circle3(Point(0,0), Point(5,1), Point(5,3));
     if ( circle3.getConvexHullVertex() == Point(4,0) )
-        nbok++; 
+      nbok++; 
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
 
     Circle circle4(Point(0,0), Point(5,1), Point(6,3));
     if ( circle4.getConvexHullVertex() == Point(3,0) )
-        nbok++; 
+      nbok++; 
     nb++; 
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
   }

@@ -1,0 +1,93 @@
+\documentclass{article}
+
+\usepackage{graphicx}
+
+% The amssymb package provides various useful mathematical symbols
+\usepackage{amssymb}
+\usepackage{amsmath}
+%\usepackage{amsfonts}
+%
+
+
+\usepackage[linesnumbered, ruled, vlined]{algorithm2e}
+
+\graphicspath{{figures/}}
+%------------------------------------------------------------------------- 
+\begin{document}
+
+\title{Ouput-sensitive alpha-shape}
+
+
+%\maketitle
+
+\begin{algorithm}[h]
+  \KwIn{$\alpha$, $v$ any $\alpha$-shape vertex, $n$ index of the greatest convergent  }
+  \KwOut{$L$ a list of consecutive $\alpha$-shape vertices starting from $v$ }
+  %
+  $p_{-2} \leftarrow (1,0)$, $p_{-1} \leftarrow (0,1)$, $k \leftarrow 0$, stop $\leftarrow$ false \;
+  \While{$k < n$ and non stop} {
+    $p_k = q_k p_{k-1} + q_{k-2}$\; 
+    \If{$k$ is odd} {
+      \tcc{invariant $q > 0$}	
+      \tcc{$R$ returns the circumcircle radius of three points}	
+      \If{ $R(v, (q_k - 1)p_{k-1} + p_{k-2}, p_k) > -1/\alpha$ } {
+        Find the greatest integer $0 \leq q \leq q_{k} - 1$ such that 
+        $R(v, qp_{k-1} + p_{k-2}, (q+1)p_{k-1} + p_{k-2}) > -1/\alpha$ \;
+        \eIf{ $q = 0$ } {
+          $L \leftarrow L \cup v \cup p_{k-2}$ \; 
+          \tcc{$N$ is the squared norm}	
+          \If{ $N(p_{k-1}) = 1$ } {
+            $L \leftarrow L \cup p_{k-2} + p_{k-1}$ \;             
+          }
+        } {
+          $L \leftarrow L \cup v$ \; 
+          \For{$i$ from $q$ to $q_k$ } {
+            $L \leftarrow L \cup i p_{k-1} + p_{k-2} $ \;           
+          }
+        }
+        stop $\leftarrow$ true \; 
+      }
+    }
+    $k \leftarrow k + 1$ \; 
+  }
+
+
+  %
+  \caption{Algorithm for retrieving some consecutive $\alpha$-shape vertices}
+  \label{algo:1}
+\end{algorithm}
+
+\newpage
+
+%example
+\begin{algorithm}[h]
+  \KwIn{$IHull$, $OHull$, $O_f$, $O_l$, $I_f$, $I_l$ and a new inner point $N$}
+  \KwOut{a boolean, updated $IHull$, $OHull$, $O_f$, $O_l$, $I_f$, $I_l$}
+  %
+  \eIf{$N$ is outside the constrained disk touching $I_f$ and $O_l$}{
+    \Return false;\
+  }{
+    %
+    \tcc{update of the inner circular hull}	
+    \While{$N$ is outside the constrained disk touching the last two points of $IHull$} {
+      The last point of $IHull$ is removed from $IHull$\;
+    }
+    $N$ is added to $IHull$\;
+    %
+    \If{$N$ is outside the constrained disk touching $O_f$ and $I_l$}{
+      %
+      \tcc{update of the points of support}	
+      $I_l \leftarrow N$\;
+      \While{$N$ is outside the constrained disk touching the first two points of support of $OHull$} {
+	$O_f \leftarrow $ the point of $OHull$ that is just after $O_f$\;
+      }
+    }
+    \Return true;\
+  }
+  %
+  \caption{Adding of an inner point}
+  \label{algo:ex}
+\end{algorithm}
+
+
+\end{document}
