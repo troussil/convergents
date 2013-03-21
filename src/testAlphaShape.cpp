@@ -16,22 +16,73 @@
 // Alpha-shape
 #include "../inc/OutputSensitiveAlphaShape.h"
 
+///////////////////////////////////////////////////////////////////////
+/**
+ * @brief Procedure that checks whether the 
+ * output-sensitive algorithm returns the same
+ * alpha-shape as the tracking-based algorithm
+ * for a straight-line, which is described by
+ * a point @e O and the continued fractions
+ * expansion of its slope. 
+ * 
+ * @param itb quotient begin iterator
+ * @param ite quotient end iterator 
+ * @param O any digital point 
+ * 
+ * @return 'true' if the test passed, 'false' otherwise
+ * 
+ * @tparam ForwardIterator a model of forward iterator
+ * @tparam Point a model of point
+ */
+  template<typename Circle, typename CircumcircleRadiusPredicate>
+bool test(const Circle aCircle, const CircumcircleRadiusPredicate& aPredicate)
+{
+
+  typedef PointVector2D<int> Point; //type redefinition
+  typedef PointVector2D<int> Vector; //type redefinition
+
+  // Max convergents 
+  int maxConv = 50;
+
+
+  std::vector<Point> ch2;
+  alphaShape( aCircle, aCircle.getConvexHullVertex(), std::back_inserter(ch2), maxConv, aPredicate ); 
+
+  std::cout << "#2 - alpha-shape" << std::endl; 
+  std::copy(ch2.begin(), ch2.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+  std::cout << std::endl; 
+
+  /*
+  //COMPARE WITH YOUR ALGO HERE
+  if (ch0.size() == ch2.size())
+  {
+  if ( std::equal(ch2.begin(), ch2.end(), ch0.begin()) )	{return true;}
+  }
+  else {return false;}
+  */
+  return false;
+
+}
+
 //////////////////////////////////////////////////////////////////////
 template <typename Shape, typename Point, typename OutputIterator, 
-	  typename Predicate>
+  typename Predicate>
 void alphaShape(const Shape& aShape, const Point& aStartingPoint, 
-		OutputIterator res, const Predicate& aPredicate)
+    OutputIterator res, int aMaxConv, const Predicate& aPredicate)
 {
-  OutputSensitiveAlphaShape<Shape,Predicate> ch(aShape, aPredicate); 
+  OutputSensitiveAlphaShape<Shape, Predicate> ch(aShape, aPredicate);
+
   //get the first vertex
   Point tmp = aStartingPoint; 
-  do {
-    //get the next vertices
-    //(and store the vertices 
-    //except the last one)
-    tmp = ch.nextOnes(tmp, res); 
-    //while it is not the first one
-  } while (tmp != aStartingPoint); 
+  int k = 0;
+
+  *res++ = tmp; 
+  while (tmp != aStartingPoint || k == 0)
+  {
+    k++;
+    // get the next alpha-shape vertices
+    tmp = ch.next(aPredicate, tmp, aMaxConv, res);
+  }//while we not return to aStartingPoint
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -44,6 +95,7 @@ int main()
   int nbok = 0; //number of tests ok
   int nb = 0;   //total number of tests
   std::cout << std::endl; 
+
   std::cout << "I) Alpha-shape on a simple circle" << std::endl; 
   {
 
@@ -54,110 +106,306 @@ int main()
     closedTracking( circle, circle.getConvexHullVertex(), dir, std::back_inserter(boundary) ); 
     std::cout << "Boundary" << std::endl; 
     std::copy(boundary.begin(), boundary.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
-    std::cout << std::endl; 
+    std::cout << std::endl; std::cout << std::endl; 
 
     std::cout << "  A) infinite radius" << std::endl; 
-    std::vector<Point> groundTruth; 
-    groundTruth.push_back(Point(0,-5)); 
-    groundTruth.push_back(Point(3,-4)); 
-    groundTruth.push_back(Point(4,-3)); 
-    groundTruth.push_back(Point(5,0)); 
-    groundTruth.push_back(Point(4,3));
-    groundTruth.push_back(Point(3,4)); 
-    groundTruth.push_back(Point(0,5)); 
-    groundTruth.push_back(Point(-3,4)); 
-    groundTruth.push_back(Point(-4,3)); 
-    groundTruth.push_back(Point(-5,0)); 
-    groundTruth.push_back(Point(-4,-3));
-    groundTruth.push_back(Point(-3,-4)); 
-    std::cout << "Expected" << std::endl; 
-    std::copy(groundTruth.begin(), groundTruth.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
-    std::cout << std::endl; 
+    {
+      std::vector<Point> groundTruth; 
+      groundTruth.push_back(Point(0,-5)); 
+      groundTruth.push_back(Point(3,-4)); 
+      groundTruth.push_back(Point(4,-3)); 
+      groundTruth.push_back(Point(5,0)); 
+      groundTruth.push_back(Point(4,3));
+      groundTruth.push_back(Point(3,4)); 
+      groundTruth.push_back(Point(0,5)); 
+      groundTruth.push_back(Point(-3,4)); 
+      groundTruth.push_back(Point(-4,3)); 
+      groundTruth.push_back(Point(-5,0)); 
+      groundTruth.push_back(Point(-4,-3));
+      groundTruth.push_back(Point(-3,-4)); 
+      std::cout << "1 - Expected - handmade" << std::endl; 
+      std::copy(groundTruth.begin(), groundTruth.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+      std::cout << std::endl; 
 
-    std::vector<Point> ch;
-    CircumcircleRadiusPredicate<> predicate; //by default infinite radius (denominator = 0)  
-    closedGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), predicate ); 
-    std::cout << "Graham's convex hull of the boundary" << std::endl; 
-    std::copy(ch.begin(), ch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
-    std::cout << std::endl; 
+      std::vector<Point> ch;
+      CircumcircleRadiusPredicate<> predicate; //by default infinite radius (denominator = 0)  
+      closedGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), predicate ); 
+      std::cout << "2 - Graham's convex hull of the boundary" << std::endl; 
+      std::copy(ch.begin(), ch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+      std::cout << std::endl; 
 
-    if (ch.size() == groundTruth.size())
-      if ( std::equal(groundTruth.begin(), groundTruth.end(), ch.begin()) )
-        nbok++; 
-    nb++; 
-    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+      if (ch.size() == groundTruth.size())
+        if ( std::equal(groundTruth.begin(), groundTruth.end(), ch.begin()) )
+          nbok++; 
+      nb++; 
+      std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
 
-    std::vector<Point> as; 
-    alphaShape( circle, circle.getConvexHullVertex(), std::back_inserter(as), predicate ); 
-    std::cout << "Alpha shape" << std::endl; 
-    std::copy(as.begin(), as.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
-    std::cout << std::endl; 
+    }
 
-    if (as.size() == groundTruth.size())
-      if ( std::equal(groundTruth.begin(), groundTruth.end(), as.begin()) )
-        nbok++; 
-    nb++; 
-    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+    std::cout << std::endl; std::cout << "  B) radius == 1" << std::endl; 
+    {
+      std::cout << "Expected (boundary)" << std::endl; 
+      std::copy(boundary.begin(), boundary.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+      std::cout << std::endl; 
 
-    std::cout << "  B) radius == 1" << std::endl; 
+      std::vector<Point> ch;
+      CircumcircleRadiusPredicate<> predicate(1,1); //radius 1  
+      closedGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), predicate ); 
+      std::cout << "1-shape of the boundary" << std::endl; 
+      std::copy(ch.begin(), ch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+      std::cout << std::endl; 
 
-    std::cout << "Expected (boundary)" << std::endl; 
+      if (ch.size() == boundary.size())
+        if ( std::equal(boundary.begin(), boundary.end(), ch.begin()) )
+          nbok++; 
+      nb++; 
+      std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+
+    }
+
+    std::cout << std::endl; std::cout << "  B) radius == 3" << std::endl; 
+    {
+      std::vector<Point> groundTruth; 
+      groundTruth.push_back(Point(0,-5)); 
+      groundTruth.push_back(Point(2,-4)); 
+      groundTruth.push_back(Point(3,-4)); 
+      groundTruth.push_back(Point(4,-3)); 
+      groundTruth.push_back(Point(4,-2)); 
+      groundTruth.push_back(Point(5,0));
+      groundTruth.push_back(Point(4,2));  
+      groundTruth.push_back(Point(4,3));
+      groundTruth.push_back(Point(3,4)); 
+      groundTruth.push_back(Point(2,4)); 
+      groundTruth.push_back(Point(0,5)); 
+      groundTruth.push_back(Point(-2,4)); 
+      groundTruth.push_back(Point(-3,4)); 
+      groundTruth.push_back(Point(-4,3)); 
+      groundTruth.push_back(Point(-4,2)); 
+      groundTruth.push_back(Point(-5,0)); 
+      groundTruth.push_back(Point(-4,-2)); 
+      groundTruth.push_back(Point(-4,-3));
+      groundTruth.push_back(Point(-3,-4));
+      groundTruth.push_back(Point(-2,-4)); 
+      std::cout << "Expected" << std::endl; 
+      std::copy(groundTruth.begin(), groundTruth.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+      std::cout << std::endl; 
+
+      std::vector<Point> ch;
+      CircumcircleRadiusPredicate<> predicate(9,1); //radius 3  
+      closedGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), predicate ); 
+      std::cout << "3-shape of the boundary" << std::endl; 
+      std::copy(ch.begin(), ch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+      std::cout << std::endl; 
+
+      if (ch.size() == groundTruth.size())
+        if ( std::equal(groundTruth.begin(), groundTruth.end(), ch.begin()) )
+          nbok++; 
+      nb++; 
+      std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+
+    }
+  }
+  std::cout << std::endl; 
+
+  std::cout << "I) Alpha-shape on a simple circle" << std::endl; 
+  {
+
+    Circle circle( Point(5,0), Point(0,5), Point(-5,0) );
+
+    std::vector<Point> boundary; 
+    Vector dir(1,0); 
+    closedTracking( circle, circle.getConvexHullVertex(), dir, std::back_inserter(boundary) ); 
+    std::cout << "Boundary" << std::endl; 
     std::copy(boundary.begin(), boundary.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
-    std::cout << std::endl; 
+    std::cout << std::endl; std::cout << std::endl; 
 
-    std::vector<Point> ch1;
-    CircumcircleRadiusPredicate<> predicate1(1,1); //radius 1  
-    closedGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch1), predicate1 ); 
-    std::cout << "1-shape of the boundary" << std::endl; 
-    std::copy(ch1.begin(), ch1.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
-    std::cout << std::endl; 
+    std::cout << "  A) infinite radius" << std::endl; 
+    {
+      std::vector<Point> groundTruth; 
+      groundTruth.push_back(Point(0,-5)); 
+      groundTruth.push_back(Point(3,-4)); 
+      groundTruth.push_back(Point(4,-3)); 
+      groundTruth.push_back(Point(5,0)); 
+      groundTruth.push_back(Point(4,3));
+      groundTruth.push_back(Point(3,4)); 
+      groundTruth.push_back(Point(0,5)); 
+      groundTruth.push_back(Point(-3,4)); 
+      groundTruth.push_back(Point(-4,3)); 
+      groundTruth.push_back(Point(-5,0)); 
+      groundTruth.push_back(Point(-4,-3));
+      groundTruth.push_back(Point(-3,-4)); 
+      std::cout << "1 - Expected - handmade" << std::endl; 
+      std::copy(groundTruth.begin(), groundTruth.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+      std::cout << std::endl; 
 
-    if (ch1.size() == boundary.size())
-      if ( std::equal(boundary.begin(), boundary.end(), ch1.begin()) )
-        nbok++; 
-    nb++; 
-    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+      std::vector<Point> ch;
+      CircumcircleRadiusPredicate<> predicate; //by default infinite radius (denominator = 0)  
+      closedGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), predicate ); 
+      std::cout << "2 - Graham's convex hull of the boundary" << std::endl; 
+      std::copy(ch.begin(), ch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+      std::cout << std::endl; 
 
-    std::cout << "  B) radius == 3" << std::endl; 
+      if (ch.size() == groundTruth.size())
+        if ( std::equal(groundTruth.begin(), groundTruth.end(), ch.begin()) )
+          nbok++; 
+      nb++; 
+      std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
 
-    std::vector<Point> groundTruth3; 
-    groundTruth3.push_back(Point(0,-5)); 
-    groundTruth3.push_back(Point(2,-4)); 
-    groundTruth3.push_back(Point(3,-4)); 
-    groundTruth3.push_back(Point(4,-3)); 
-    groundTruth3.push_back(Point(4,-2)); 
-    groundTruth3.push_back(Point(5,0));
-    groundTruth3.push_back(Point(4,2));  
-    groundTruth3.push_back(Point(4,3));
-    groundTruth3.push_back(Point(3,4)); 
-    groundTruth3.push_back(Point(2,4)); 
-    groundTruth3.push_back(Point(0,5)); 
-    groundTruth3.push_back(Point(-2,4)); 
-    groundTruth3.push_back(Point(-3,4)); 
-    groundTruth3.push_back(Point(-4,3)); 
-    groundTruth3.push_back(Point(-4,2)); 
-    groundTruth3.push_back(Point(-5,0)); 
-    groundTruth3.push_back(Point(-4,-2)); 
-    groundTruth3.push_back(Point(-4,-3));
-    groundTruth3.push_back(Point(-3,-4));
-    groundTruth3.push_back(Point(-2,-4)); 
-    std::cout << "Expected" << std::endl; 
-    std::copy(groundTruth3.begin(), groundTruth3.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
-    std::cout << std::endl; 
+      std::vector<Point> as; 
+      alphaShape( circle, circle.getConvexHullVertex(), std::back_inserter(as), 50, predicate );
+      as.erase(as.end()); 
+      std::cout << "3 - Alpha shape" << std::endl; 
+      std::copy(as.begin(), as.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+      std::cout << std::endl; 
 
-    std::vector<Point> ch3;
-    CircumcircleRadiusPredicate<> predicate3(9,1); //radius 3  
-    closedGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch3), predicate3 ); 
-    std::cout << "3-shape of the boundary" << std::endl; 
-    std::copy(ch3.begin(), ch3.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
-    std::cout << std::endl; 
+      if (as.size() == groundTruth.size())
+        if ( std::equal(groundTruth.begin(), groundTruth.end(), as.begin()) )
+          nbok++; 
+      nb++; 
+      std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+    }
 
-    if (ch3.size() == groundTruth3.size())
-      if ( std::equal(groundTruth3.begin(), groundTruth3.end(), ch3.begin()) )
-        nbok++; 
-    nb++; 
-    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+    std::cout << std::endl; std::cout << "  B) radius == 1" << std::endl; 
+    {
+      std::cout << "Expected (boundary)" << std::endl; 
+      std::copy(boundary.begin(), boundary.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+      std::cout << std::endl; 
 
+      std::vector<Point> ch;
+      CircumcircleRadiusPredicate<> predicate(1,1); //radius 1  
+      closedGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), predicate ); 
+      std::cout << "1-shape of the boundary" << std::endl; 
+      std::copy(ch.begin(), ch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+      std::cout << std::endl; 
+
+      if (ch.size() == boundary.size())
+        if ( std::equal(boundary.begin(), boundary.end(), ch.begin()) )
+          nbok++; 
+      nb++; 
+      std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+
+      std::vector<Point> as; 
+      alphaShape( circle, circle.getConvexHullVertex(), std::back_inserter(as), 50, predicate );
+      as.erase(as.end()); 
+      std::cout << "Alpha shape" << std::endl; 
+      std::copy(as.begin(), as.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+      std::cout << std::endl; 
+
+      if (as.size() == ch.size())
+        if ( std::equal(ch.begin(), ch.end(), as.begin()) )
+          nbok++; 
+      nb++; 
+      std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+    }
+
+    std::cout << std::endl; std::cout << "  B) radius == 3" << std::endl; 
+    {
+      std::vector<Point> groundTruth; 
+      groundTruth.push_back(Point(0,-5)); 
+      groundTruth.push_back(Point(2,-4)); 
+      groundTruth.push_back(Point(3,-4)); 
+      groundTruth.push_back(Point(4,-3)); 
+      groundTruth.push_back(Point(4,-2)); 
+      groundTruth.push_back(Point(5,0));
+      groundTruth.push_back(Point(4,2));  
+      groundTruth.push_back(Point(4,3));
+      groundTruth.push_back(Point(3,4)); 
+      groundTruth.push_back(Point(2,4)); 
+      groundTruth.push_back(Point(0,5)); 
+      groundTruth.push_back(Point(-2,4)); 
+      groundTruth.push_back(Point(-3,4)); 
+      groundTruth.push_back(Point(-4,3)); 
+      groundTruth.push_back(Point(-4,2)); 
+      groundTruth.push_back(Point(-5,0)); 
+      groundTruth.push_back(Point(-4,-2)); 
+      groundTruth.push_back(Point(-4,-3));
+      groundTruth.push_back(Point(-3,-4));
+      groundTruth.push_back(Point(-2,-4)); 
+      std::cout << "Expected" << std::endl; 
+      std::copy(groundTruth.begin(), groundTruth.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+      std::cout << std::endl; 
+
+      std::vector<Point> ch;
+      CircumcircleRadiusPredicate<> predicate(9,1); //radius 3  
+      closedGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), predicate ); 
+      std::cout << "3-shape of the boundary" << std::endl; 
+      std::copy(ch.begin(), ch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+      std::cout << std::endl; 
+
+      if (ch.size() == groundTruth.size())
+        if ( std::equal(groundTruth.begin(), groundTruth.end(), ch.begin()) )
+          nbok++; 
+      nb++; 
+      std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+
+      std::vector<Point> as; 
+      alphaShape( circle, circle.getConvexHullVertex(), std::back_inserter(as), 50, predicate );
+      as.erase(as.end()); 
+      std::cout << "Alpha shape" << std::endl; 
+      std::copy(as.begin(), as.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+      std::cout << std::endl; 
+
+      if (as.size() == groundTruth.size())
+        if ( std::equal(groundTruth.begin(), groundTruth.end(), as.begin()) )
+          nbok++; 
+      nb++; 
+      std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+    }
+  }
+  std::cout << std::endl<<"II) Automatic testing -shape of the boundary" << std::endl<< std::endl; 
+
+  //random value
+  srand ( time(NULL) );
+
+  // Test number
+  int nb_test = 5000;
+
+  // Max origin coordinate
+  int maxPoint = 50;
+
+  // Number predicate test
+  int nbPredicate = 10;
+  int valuePredicate[10] = {2, 3, 10, 20, 200, 2000, 20000, 100000, 200000, 2000000};
+  // Circumcircle triangle vertices
+  Point pta, ptb, ptc;
+
+  for (nb_test;nb_test>0;nb_test--)
+  {
+    {
+      // random circumcircle 
+      pta = Point( (rand() % maxPoint)             , (rand() % maxPoint) );
+      ptb = Point( (pta[0]-1- (rand() % maxPoint) ), (pta[1]-1- (rand() % maxPoint)) );
+      ptc = Point( (ptb[0]+1+ (rand() % maxPoint) ), (ptb[1]-1- (rand() % maxPoint)) );
+
+      Circle circle( pta, ptb, ptc );
+
+      std::cout << "II - "<<nb_test<<" - Alpha-shape on the circle : " << std::endl; 
+
+      std::cout << "-- Disk[ Center : (" << circle.getCenterX() << ", " 
+        << circle.getCenterY()<< " ), Radius : " << circle.getRadius()
+        << " ] | Points : "<< pta<< ptb<< ptc<< " - First vertex : " 
+        << circle.getConvexHullVertex() << std::endl;
+
+
+      for (int i = 0; i < nbPredicate; i++)
+      {
+
+        {
+          CircumcircleRadiusPredicate<> predicate(valuePredicate[i], 2);
+          std::cout << "Radius predicate : Num2 / Den2 : "<<valuePredicate[i]<<"/" 
+            << 2 << std::endl;
+
+
+          if (test(circle, predicate))
+            nbok++; 
+          nb++; 
+          std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+          std::cout << " ----------- Next predicate ----------- " << std::endl; 
+          std::cout << std::endl;
+        }
+      }
+
+    }
   }
 
   //1 if at least one test failed
