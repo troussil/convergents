@@ -6,13 +6,15 @@
 // random
 #include <cstdlib>
 #include <ctime>
-
-#include "PointVector2D.h"
-#include "RayIntersectableStraightLine.h"
-#include "OutputSensitiveConvexHull.h"
-#include "ConvexHullHelpers.h"
-
-#include "OutputSensitiveAlphaShape.h"
+// Core geometry
+#include "../inc/PointVector2D.h"
+// Circle
+#include "../inc/RayIntersectableCircle.h"
+// Convex Hull
+#include "../inc/OutputSensitiveConvexHull.h"
+#include "../inc/ConvexHullHelpers.h"
+// Alpha-shape
+#include "../inc/OutputSensitiveAlphaShape.h"
 
 
 ///////////////////////////////////////////////////////////////////////
