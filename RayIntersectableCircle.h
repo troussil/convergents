@@ -164,26 +164,6 @@ class RayIntersectableCircle
       return (Coordinate) std::ceil( y ); 
     }
 
-    /**
-     * Returns a vertex of the convex hull of the digital points
-     * lying inside the circle, such that it has a minimal y-coordinate, 
-     * and among the digital points of minimal y-coordinate, it has
-     * a maximal x-coordinate. 
-     * @return vertex of the convex hull. 
-     */
-    Point getConvexHullVertex() const 
-    { 
-      Point pt((Coordinate) std::floor( getCenterX() ), getBottom());
-      int q = 0;  
-      Point ptRes(0,0); 
-      if ( dray(pt, Vector(1,0), q, ptRes) )
-        return ptRes; 
-      else 
-        {
-          std::cerr << "Error in getConvexHullVertex of RayIntersectableCircle" << std::endl; 
-          return Point(0,0); 
-        } 
-    }
 
     ///////////////////// main methods ///////////////////
     /**
@@ -198,7 +178,8 @@ class RayIntersectableCircle
       Integer x = aPoint[0]; 
       Integer y = aPoint[1];
       Integer z = x*x + y*y;  
-      return (myC<0 ? (myA*aPoint[0] + myB*aPoint[1] + myC*z + myD):-(myA*aPoint[0] + myB*aPoint[1] + myC*z + myD)); 
+      return (myA*aPoint[0] + myB*aPoint[1] + myC*z + myD); 
+//      return (myC<0 ? (myA*aPoint[0] + myB*aPoint[1] + myC*z + myD):-(myA*aPoint[0] + myB*aPoint[1] + myC*z + myD)); 
     }
 
     /**
@@ -278,5 +259,48 @@ class RayIntersectableCircle
      // Delta < 0 & and case where there is no solution
      else {return false;}
     }
+
+    /**
+     * Returns a vertex of the convex hull of the digital points
+     * lying inside the circle, such that it has a minimal y-coordinate, 
+     * and among the digital points of minimal y-coordinate, it has
+     * a maximal x-coordinate. 
+     * @return vertex of the convex hull. 
+     */
+    Point getConvexHullVertex() const 
+    { 
+      //computation of one integer point, 
+      //inside the circle and having min y-coordinate
+      Point startingPoint; 
+ 
+      Coordinate ymin = getBottom();
+      Coordinate x = (-myA) / (2*myC);
+      Point ptf(x, ymin);
+      if ( this->operator()( ptf ) < 0 )
+        { //if ptf is outside the circle
+          Point ptc( (x+1), ymin ); 
+          if ( this->operator()( ptc ) < 0 )
+            { //if ptc is outside the circle
+              Point pt( x, (ymin+1) );
+              startingPoint = pt; 
+            }
+          else
+            startingPoint = ptc; 
+        }
+      else 
+        startingPoint = ptf; 
+
+      //ray casting
+      int q = 0;  
+      Point ptRes(0,0); 
+      if ( dray(startingPoint, Vector(1,0), q, ptRes) )
+        return ptRes; 
+      else 
+        {
+          std::cerr << "Error in getConvexHullVertex of RayIntersectableCircle" << std::endl; 
+          return Point(0,0); 
+        } 
+    }
+
 }; 
 #endif
