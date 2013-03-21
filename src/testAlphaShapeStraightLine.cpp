@@ -8,7 +8,8 @@
 #include <ctime>
 // Core geometry
 #include "../inc/PointVector2D.h"
-// Circle
+// Straight-line and circle
+#include "../inc/RayIntersectableStraightLine.h"
 #include "../inc/RayIntersectableCircle.h"
 // Convex Hull
 #include "../inc/OutputSensitiveConvexHull.h"
