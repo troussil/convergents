@@ -44,23 +44,36 @@ bool test(const Circle aCircle, const CircumcircleRadiusPredicate& aPredicate)
   // Max convergents 
   int maxConv = 50;
 
+  Point pStart = aCircle.getConvexHullVertex();
 
-  std::vector<Point> ch2;
-  alphaShape( aCircle, aCircle.getConvexHullVertex(), std::back_inserter(ch2), maxConv, aPredicate ); 
+  std::vector<Point> ch0;
+  std::vector<Point> ch1;
+  std::vector<Point> boundary; 
 
-  std::cout << "#2 - alpha-shape" << std::endl; 
-  std::copy(ch2.begin(), ch2.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+  //tracking-based algorithm
+  Vector dir(1,0); 
+  openTracking( aCircle, pStart, pStart, dir, std::back_inserter(boundary) );
+
+  openGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch0), aPredicate ); 
+
+
+  std::cout << "#3.1 - alpha-shape of the boundary using OpenGrahamScan" << std::endl; 
+  std::copy(ch0.begin(), ch0.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
   std::cout << std::endl; 
 
-  /*
+  alphaShape( aCircle, pStart, std::back_inserter(ch1), maxConv, aPredicate ); 
+
+  std::cout << "#2 - alpha-shape" << std::endl; 
+  std::copy(ch1.begin(), ch1.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+  std::cout << std::endl; 
+
   //COMPARE WITH YOUR ALGO HERE
-  if (ch0.size() == ch2.size())
+  if (ch0.size() == ch1.size())
   {
-  if ( std::equal(ch2.begin(), ch2.end(), ch0.begin()) )	{return true;}
+    if ( std::equal(ch1.begin(), ch1.end(), ch0.begin()) )	{return true;}
   }
   else {return false;}
-  */
-  return false;
+
 
 }
 
@@ -81,7 +94,11 @@ void alphaShape(const Shape& aShape, const Point& aStartingPoint,
   {
     k++;
     // get the next alpha-shape vertices
+std::cout << tmp;
     tmp = ch.next(aPredicate, tmp, aMaxConv, res);
+
+std::cout << tmp<< std::endl;
+
   }//while we not return to aStartingPoint
 }
 
@@ -358,10 +375,10 @@ int main()
   srand ( time(NULL) );
 
   // Test number
-  int nb_test = 5000;
+  int nb_test = 10;
 
   // Max origin coordinate
-  int maxPoint = 50;
+  int maxPoint = 10;
 
   // Number predicate test
   int nbPredicate = 10;

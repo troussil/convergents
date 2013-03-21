@@ -171,12 +171,11 @@ class OutputSensitiveAlphaShape
          * p0 does not exist.
          * We can only translate in the pConvM1 direction.
          * We could add the translation in one time.
-         * ============================================= 
          */
         if (myShape.dray(pConvM2, vConvM1, qk, pConv) == false)
         {
           // We search for the next vertices in vConvM1 direction
-          pConv = pConvM1;
+          pConv = aPointa;
 
           // VConvM1 translation
           while(myShape(pConv + vConvM1) >= 0)
@@ -187,10 +186,6 @@ class OutputSensitiveAlphaShape
           return (pConv);
         } // end - p_0 does not exist
         // The else is not need because of the return.
-        /*
-         * =============================================
-         */ 
-
 
         /**
          * We start searching for next vertices and convergents.
@@ -296,7 +291,7 @@ class OutputSensitiveAlphaShape
          * We add and return the last convergent to the alpha-shape.
          */ 
 
-        if (myShape(pConvM2) > 0)
+        if (myShape(pConvM2) >= 0)
         {
         	//std::cout<<"#2 - Paire : pConvM1 : "<<k<<pConvM1<<std::endl;  
           *aAlphaShapeHull++ = pConvM1;
