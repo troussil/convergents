@@ -94,10 +94,7 @@ void alphaShape(const Shape& aShape, const Point& aStartingPoint,
   {
     k++;
     // get the next alpha-shape vertices
-std::cout << tmp;
     tmp = ch.next(aPredicate, tmp, aMaxConv, res);
-
-std::cout << tmp<< std::endl;
 
   }//while we not return to aStartingPoint
 }

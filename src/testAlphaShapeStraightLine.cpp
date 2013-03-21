@@ -451,7 +451,7 @@ int main()
     // Test number
     int nb_test = 10;
     // Max origin coordinate
-    int maxPoint = 20;
+    int maxPoint = 100;
     // Number of quotient
     int maxQuotient = 6;
     // Value of the quotient

@@ -199,11 +199,10 @@ class OutputSensitiveAlphaShape
           vConv = pConv - aPointa;
           if (k % 2 == 0 && myShape(pConv) >=0)
           {  
-
+          	
             qkalpha = dichotomous(aPredicate, pConvM2, -vConvM2, vConvM1, qk);
             int qks = qkalpha;
             qkalpha = 1;
-
             while ( qkalpha <= qk-qks)
             {
               *aAlphaShapeHull++ = aPointa + qkalpha*vConvM1;
@@ -226,7 +225,6 @@ class OutputSensitiveAlphaShape
              * In the other case, ie : k is odd, we are above the straight-line. 
              * We could have new alpha-shape vertices if pConv lie on the shape.
              */ 
-
             if (aPredicate(aPointa, pConv-vConvM1, pConv) == false)
             {
               /**
