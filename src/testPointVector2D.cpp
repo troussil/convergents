@@ -1,6 +1,7 @@
 #include <iostream>
 #include <math.h>
-#include "PointVector2D.h"
+// Core geometry
+#include "../inc/PointVector2D.h"
 
 int main() 
 {

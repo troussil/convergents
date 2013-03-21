@@ -113,6 +113,7 @@ void myMainProcedure(const Circle& aCircle)
   
   //display in an output file
   display(ch.begin(), ch.end(), "convexHullByTracking"); 
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -176,7 +177,7 @@ int main( int argc, char** argv )
 	   vm.count("f") )
 	{
 	  //if point options specified
-	  std::cout << "Display disc of passing through 3 points " << std::endl;
+	  std::cout << "Display disc passing through 3 points " << std::endl;
 	  Point p, q, r; 
 	  p[0] = vm["a"].as<int>();
 	  p[1] = vm["b"].as<int>();

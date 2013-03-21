@@ -6,11 +6,13 @@
 // random
 #include <cstdlib>
 #include <ctime>
-
-#include "PointVector2D.h"
-#include "RayIntersectableCircle.h"
-#include "OutputSensitiveConvexHull.h"
-#include "ConvexHullHelpers.h"
+// Core geometry
+#include "../inc/PointVector2D.h"
+// Circle
+#include "../inc/RayIntersectableCircle.h"
+// Convex Hull
+#include "../inc/OutputSensitiveConvexHull.h"
+#include "../inc/ConvexHullHelpers.h"
 
 //////////////////////////////////////////////////////////////////////
 template <typename Shape, typename Point, typename OutputIterator>
@@ -20,6 +22,7 @@ void convexHull(const Shape& aShape, const Point& aStartingPoint,
   OutputSensitiveConvexHull<Shape> ch(aShape); 
   //get the first vertex
   Point tmp = aStartingPoint; 
+
   do {
     //store the current vertex
     *res++ = tmp; 
@@ -97,7 +100,7 @@ int main()
   std::cout << std::endl; 
   std::cout << "2 - Convex hull on a the same circle but another triangle orientation" << std::endl; 
   {
-    Circle circle( Point(-5,0), Point(0,5), Point(5,0) );
+    Circle circle( Point(5,0), Point(0,5), Point(-5,0) );
 
     std::vector<Point> v; 
     convexHull( circle, circle.getConvexHullVertex(), std::back_inserter(v) ); 
@@ -124,8 +127,12 @@ int main()
   }
 
   srand ( time(NULL) );
-  int max = 200;
+  int max = 50;
   int nb_test = 10;
+  
+  Point pta;
+  Point ptb;
+  Point ptc;
 
   std::cout << std::endl; 
   std::cout << "3 - Convex hull on "<<nb_test<<" random circle" << std::endl; 
@@ -136,13 +143,16 @@ int main()
 
       std::cout << std::endl; 
       std::cout << " - 3."<<nb_test<<" - Convex hull on a random circle" << std::endl; 
+      
+			pta = Point( (rand() % max)             , (rand() % max) );
+      ptb = Point( (pta[0]-1- (rand() % max) ), (pta[1]-1- (rand() % max)) );
+      ptc = Point( (ptb[0]+1+ (rand() % max) ), (ptb[1]-1- (rand() % max)) );
 
-      Circle circle( Point((rand() % (2*max) -max),(rand() % (2*max) -max)), 
-          Point((rand() % (2*max) -max),(rand() % (2*max) -max)), 
-          Point((rand() % (2*max) -max),(rand() % (2*max) -max)) );
+      Circle circle(pta , ptb , ptc);
 
-      std::cout << "Disk[ (" << circle.getCenterX() << ", " << circle.getCenterY()<< " ), " 
-		<< circle.getRadius()<<" ] | aStartingPoint : "
+      std::cout << "Disk[ Center : (" << circle.getCenterX() << ", " 
+    << circle.getCenterY()<< " ), Radius : " << circle.getRadius()
+    << " ] | Points : "<< pta<< ptb<< ptc<< " - First vertex : " 
 		<< circle.getConvexHullVertex() << std::endl;
 
       std::vector<Point> v; 
