@@ -72,7 +72,7 @@ bool test(const Circle aCircle, const CircumcircleRadiusPredicate& aPredicate)
   {
     if ( std::equal(ch1.begin(), ch1.end(), ch0.begin()) )
     {
-    	return true;
+      return true;
     }
   }
   else {return false;}
@@ -414,66 +414,66 @@ int main()
 
 
           if (test(circle, predicate))
-          	nbok++;
+            nbok++;
           nb++; 
           std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
           std::cout << " ----------- Next predicate ----------- " << std::endl; 
           std::cout << std::endl;
-          
+
         }
         //if(nb != nbok){break;}
       }
 
     }
   }
-//  (0,2), (1,3), (2,4), (2,5), (2,6), (2,7), (1,8), (-1,9), (-3,8), (-4,7), (-4,6), (-4,5), (-4,4), (-4,3), (-2,2), (-1,2), (0,2), 
-//-- Disk[ Center : (-1.27273, 5.40909 ), Radius : 3.63892 ] | Points : (2,7)(-4,3)(0,2) - First vertex : (0,2)
-//10/2
-	{
-		pta = Point(2,7);
+  //  (0,2), (1,3), (2,4), (2,5), (2,6), (2,7), (1,8), (-1,9), (-3,8), (-4,7), (-4,6), (-4,5), (-4,4), (-4,3), (-2,2), (-1,2), (0,2), 
+  //-- Disk[ Center : (-1.27273, 5.40909 ), Radius : 3.63892 ] | Points : (2,7)(-4,3)(0,2) - First vertex : (0,2)
+  //10/2
+  {
+    pta = Point(2,7);
     ptb = Point(-4,3);
     ptc = Point(0,2);
     Circle circle( pta, ptb, ptc );
-    
+
     std::cout << "-- Disk[ Center : (" << circle.getCenterX() << ", " 
-        << circle.getCenterY()<< " ), Radius : " << circle.getRadius()
-        << " ] | Points : "<< pta<< ptb<< ptc<< " - First vertex : " 
-        << circle.getConvexHullVertex() << std::endl;
-        
+      << circle.getCenterY()<< " ), Radius : " << circle.getRadius()
+      << " ] | Points : "<< pta<< ptb<< ptc<< " - First vertex : " 
+      << circle.getConvexHullVertex() << std::endl;
+
     CircumcircleRadiusPredicate<> predicate(10,2);
-          std::cout << "Radius predicate : Num2 / Den2 : 10/2"<< std::endl;
+    std::cout << "Radius predicate : Num2 / Den2 : 10/2"<< std::endl;
 
 
-          if (test(circle, predicate))
-            nbok++; 
-          nb++; 
-          std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
-          std::cout << " ----------- Next predicate ----------- " << std::endl; 
-          std::cout << std::endl;
-	}
-   //(4,2)(2,1)(6,-5) - (4,2)(0,-6)(10,-14) - (7,8)(-1,-1)(3,-8) - (5,3)(2,2)(4,-7)
-	{
-		pta = Point(5,3);
+    if (test(circle, predicate))
+      nbok++; 
+    nb++; 
+    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+    std::cout << " ----------- Next predicate ----------- " << std::endl; 
+    std::cout << std::endl;
+  }
+  //(4,2)(2,1)(6,-5) - (4,2)(0,-6)(10,-14) - (7,8)(-1,-1)(3,-8) - (5,3)(2,2)(4,-7)
+  {
+    pta = Point(5,3);
     ptb = Point(2,2);
     ptc = Point(4,-7);
     Circle circle( pta, ptb, ptc );
 
     std::cout << "-- Disk[ Center : (" << circle.getCenterX() << ", " 
-        << circle.getCenterY()<< " ), Radius : " << circle.getRadius()
-        << " ] | Points : "<< pta<< ptb<< ptc<< " - First vertex : " 
-        << circle.getConvexHullVertex() << std::endl;
-        
+      << circle.getCenterY()<< " ), Radius : " << circle.getRadius()
+      << " ] | Points : "<< pta<< ptb<< ptc<< " - First vertex : " 
+      << circle.getConvexHullVertex() << std::endl;
+
     CircumcircleRadiusPredicate<> predicate(3,2);
-          std::cout << "Radius predicate : Num2 / Den2 : 10/2"<< std::endl;
+    std::cout << "Radius predicate : Num2 / Den2 : 10/2"<< std::endl;
 
 
-          if (test(circle, predicate))
-            {nbok++;} 
-          nb++; 
-          std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
-          std::cout << " ----------- Next predicate ----------- " << std::endl; 
-          std::cout << std::endl;
-	}
+    if (test(circle, predicate))
+    {nbok++;} 
+    nb++; 
+    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+    std::cout << " ----------- Next predicate ----------- " << std::endl; 
+    std::cout << std::endl;
+  }
   //1 if at least one test failed
   //0 otherwise
   return (nb != nbok); 
