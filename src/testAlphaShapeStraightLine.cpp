@@ -133,9 +133,22 @@ int dichotomous(const CircumcircleRadiusPredicate& aPredicate, const Point& aPoi
   // init search milestone
   int qkstart = 0;
   int qkstop  = aqk;
-
-  // middle
   int mid;
+
+  int plus0;
+  int plus1;
+  // middle
+  if (aPredicate.getArea(aPointa, aPointa + aConvM2, aPointa + aConvM2 + aConvM1) >= 0)
+  {
+    plus0 = 0;
+    plus1 = 1;
+  }
+  else
+  {
+    plus0 = 1;
+    plus1 = 0;
+  }
+
 
   // while we finish the dichotomy 
   while( qkstop != qkstart ) 
@@ -144,8 +157,8 @@ int dichotomous(const CircumcircleRadiusPredicate& aPredicate, const Point& aPoi
     mid = (qkstart + qkstop)/2;
 
     // higher triangle predicate
-    if (aPredicate(aPointa, (aPointa + aConvM2 + (mid+1)*aConvM1), 
-          (aPointa + aConvM2 + (mid)*aConvM1)) == true)
+    if (aPredicate(aPointa, (aPointa + aConvM2 + (mid+plus0)*aConvM1), 
+          (aPointa + aConvM2 + (mid+plus1)*aConvM1)) == true)
     { // the vertex is higher
       qkstart = mid + 1;
     }
@@ -157,7 +170,6 @@ int dichotomous(const CircumcircleRadiusPredicate& aPredicate, const Point& aPoi
   // return the coefficient of the first vertex inside the alpha-shape.
   return(qkstart);
 }
-
 
 /**
  * Given a straight line, find its right alpha Hull,
@@ -196,7 +208,9 @@ Point next(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa, 
   int qkalpha;
 
   // True : We have add new vertex/ices for this convergent.
-  bool nextVertex;
+  bool newStart = true;
+
+  bool stop = false;
 
   // k is the convergent number. Usefull to know if the convergent is odd or even
   // ie : if the convergent is below or above the straight line
@@ -210,138 +224,115 @@ Point next(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa, 
    * We stop computing when we reach the end of the straight-line : aPointb
    * or if we reach a certain number = aMaxconv of convergent.
    */
-  while (pStart != aPointb || k >= aMaxConv)
+  while (stop == false)
   {
-    // We reset the convergents.
-    vConvM2[0]=1; vConvM2[1]=0; 
-    vConvM1[0]=0; vConvM1[1]=1; 
+    if (newStart == true)
+    {
+      // We reset the convergents from pStart.
+      vConvM2[0]=1; vConvM2[1]=0; 
+      vConvM1[0]=0; vConvM1[1]=1; 
 
-    pConvM2 = pStart + vConvM2;
-    pConvM1 = pStart + vConvM1;  
+      pConvM2 = pStart + vConvM2;
+      pConvM1 = pStart + vConvM1;  
 
-    k = 0;
-    nextVertex = false;
-
+      k = 0;
+      newStart = false;
+    }
     /**
      * We start searching for next vertices and convergents.
      * We look after the intersection of the ray and the straight-line.
      * At every new vertices add, we reset the computation from a new start.
-     */     
-    while ( nextVertex == false )
+     */
+
+    lineRatio.dray(pConvM2, vConvM1, qk, pConv);
+
+    if ( k % 2 != 0 && aPredicate(pStart, pConv, pConv-vConvM1) == false)
     {
-      if (lineRatio.dray(pConvM2, vConvM1, qk, pConv) == false)
+      qkalpha = dichotomous(aPredicate, pStart, vConvM2, vConvM1, qk);
+
+      if (qkalpha == 0)
       {
-
-        nextVertex = true;
-        // end proc
-        *aAlphaShapeHull++ = aPointb;
-        pStart = aPointb;
-
+        /**
+         * If qkalpha == 0, we have to deal with special case.
+         * In every case, pConvM2 will be the next start.
+         */
+        *aAlphaShapeHull++ = pConvM2;
+        if (pConvM2.normL22() == 1)
+        {
+          // We can have a new vertex between pConvM2 and pConv.
+          *aAlphaShapeHull++ = (pConvM2 + vConvM1);
+          pStart = (pConvM2 + vConvM1);
+        }
+        else{ pStart = pConvM2; }
       }
       else
       {
-        // pConv is calculate in lineRatio.dray(), so We update vConv
-        vConv = pConv - pStart;
+        /**
+         * We add all the vertices between qkalpha and qk in the alpha-Shape.
+         * We restart from the last vertex add : pConv.
+         */
+        while (qkalpha <= qk)
+        {
+          *aAlphaShapeHull++ = pConvM2 + qkalpha*vConvM1;
+          qkalpha++;  
+        }
+        pStart = pConv;
+      }
+      // We restart from pConv.
+      newStart = true;
+    }
+    else // k is not even and in the alpha-shape.
+    {
+      // We already reach and start from aPointb -- The alpha-shape is compute
+      if (pStart == aPointb){	stop = true;} 
+      else
+      {
+        if (pConv == aPointb) // We reach aPointb
+        {
+          if (aPredicate(pStart, pConv- vConvM1, pConv ) == false)
+          {
+            qkalpha = dichotomous(aPredicate, pStart, vConvM2, vConvM1, qk);
+            int qks = qkalpha;
+            qkalpha = 1;
 
-        if ( k % 2 != 0 || (pConv == aPointb && k % 2 == 0))
+            while ( qkalpha <= qk-qks)
+            {
+              *aAlphaShapeHull++ = pStart + qkalpha*vConvM1;
+              qkalpha++;
+            }
+          }
+          *aAlphaShapeHull++ = aPointb;
+          // The alpha-shape is compute
+          stop = true;
+        }
+        else 
         {
           /**
-           * We test the parity of k :
-           * In the case, k is even, we follow searching for new convergent.
-           * In the other case, ie : k is odd, we are above the straight-line. We could  
-           * have new alpha-shape vertices.
-           */ 
-
-          if (aPredicate(pStart, pConv-vConvM1, pConv) == false)
+           * The convergent does not cross the straight line
+           * We have not compute all the vertices, we restart from pConvM1, which
+           * is the last convergent inside the alpha-hull and become the new vertex
+           * of the alpha-shape.
+           */
+          if (k > 0 && qk <= 0) 
           {
-            /**
-             * In the family of triangle shaped by the three points : pStart, 
-             * pConv - q*vConvM1, pConv - (q+1)*vConvM1, the triangle T(pStart, 
-             pConv-vConvM1, pConv) have the greatest circumcircle radius.
-             * If its radius is smaller than the predicate radius, we have to search
-             * for new vertices.
-             * We throw the dichotomous method in order to find the first point
-             * in the alpha-shape.
-             */
-
-            if (pConv == aPointb && k % 2 == 0)
-            {
-              qkalpha = dichotomous(aPredicate, pConvM2, -vConvM2, vConvM1, qk);
-
-              int qks = qkalpha;
-              qkalpha = 1;
-
-              while ( qkalpha <= qk-qks)
-              {
-                *aAlphaShapeHull++ = pStart + qkalpha*vConvM1;
-                qkalpha++;
-
-              }
-              // We can have a new vertex between in aPointb - vConvM2.
-              if (qks == 0 && aPredicate.getNum2() < aPredicate.getDen2())
-              {
-                *aAlphaShapeHull++ = (pConv - vConvM2);
-              }
-              nextVertex = true;
-              *aAlphaShapeHull++ = aPointb;
-              pStart = aPointb;
-            }
-            else
-            {
-              qkalpha = dichotomous(aPredicate, pStart, vConvM2, vConvM1, qk);
-              if (qkalpha == 0)
-              {
-                /**
-                 * If qkalpha == 0, we have to deal with special case.
-                 * In every case, pConvM2 is a new vertex.
-                 */
-                *aAlphaShapeHull++ = pConvM2;
-
-                if (pConvM1.normL22() == 1)
-                {
-                  // We can have a new vertex between pConvM2 and pConv.
-                  *aAlphaShapeHull++ = (pConvM2 + vConvM1);
-                  pStart = (pConvM2 + vConvM1);
-                }
-                else
-                {
-                  pStart = pConvM2;
-                }
-              }
-              else
-              {
-                /**
-                 * We add all the vertices between qkalpha and qk in the alpha-Shape.
-                 * We restart from the last vertex add : pConv.
-                 */
-                while (qkalpha <= qk)
-                {
-                  *aAlphaShapeHull++ = pConvM2 + qkalpha*vConvM1;
-                  qkalpha++;  
-                }
-                pStart = pConv;
-
-              }
-              // We have to reset the convergent computation from pStart
-              nextVertex = true;
-            }
-
-          } // if new vertex. 
-        } // if k is odd.
-        //else
-        //{
-        // Update Convergent
-        k++;
-        pLast   = pConvM2;
-        pConvM2 = pConvM1;
-        pConvM1 = pConv;
-        vConvM2 = vConvM1;
-        vConvM1 = pConv-pStart;
-        // }
-      } // No new convergent or new vertex
-    }
-  }// found all the vertices
-}
+            newStart = true;
+            *aAlphaShapeHull++ = pConvM1;
+            pStart = pConvM1;	
+          }
+          else // update convergent p_k-2 <- p_k-1, p_k-1 <- p_k, k++ 
+          {
+            k++;
+            pLast   = pConvM2;
+            pConvM2 = pConvM1;
+            pConvM1 = pConv;
+            vConvM2 = vConvM1;
+            vConvM1 = pConv-pStart;
+          } 
+        }
+      }
+    } //  end case where k is not even and in the alpha-shape
+  } // End of the loop, stop == true
+}//end proc
 
 
 ///////////////////////////////////////////////////////////////////////
@@ -455,7 +446,7 @@ int main()
     // Number of quotient
     int maxQuotient = 6;
     // Value of the quotient
-    int maxCoeff = 9;
+    int maxCoeff = 7;
     int nbQuotient;
 
     // Number predicate test
@@ -496,26 +487,117 @@ int main()
       }
     }
   }
-  
+
+  std::cout << "+++++++++++++++++" << std::endl; 
   {
-     //output-sensitive algorithm
-    CircumcircleRadiusPredicate<> predicate0(1,1); //radius 1
-    CircumcircleRadiusPredicate<> predicate1(3,1); //radius 3
-    
+    //output-sensitive algorithm
+    CircumcircleRadiusPredicate<> predicate0(20,1); //radius 1
+    CircumcircleRadiusPredicate<> predicate1(20,1); //radius 3
+
+    Point O = Point(0,0);
+    Point P = Point(12,5);
+    StraightLine sl( O, P );
+
+    std::vector<Point> boundary; 
+    Vector dir(1,0); 
+    openTracking( sl, O, P, dir, std::back_inserter(boundary) );
+
+    //tracking-based algorithm
+
     std::vector<Point> ch0;
-    next(predicate0, Point(0,0), Point(1,3), 50, std::back_inserter(ch0) );  
-    std::cout << "#3.2 - alpha-shape of the boundary using the Convergent Method" << std::endl; 
+
+    openGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch0), predicate1 ); 
+    std::cout << "#3.1 - alpha-shape of the boundary using OpenGrahamScan" << std::endl; 
     std::copy(ch0.begin(), ch0.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
     std::cout << std::endl; 
 
-    std::vector<Point> ch1;    
-    next(predicate1, Point(0,0), Point(1,3), 50, std::back_inserter(ch1) );  
+    //output-sensitive algorithm
+    std::vector<Point> ch1;
+    next(predicate1, O, P, 50, std::back_inserter(ch1) );  
     std::cout << "#3.2 - alpha-shape of the boundary using the Convergent Method" << std::endl; 
     std::copy(ch1.begin(), ch1.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
     std::cout << std::endl; 
-    
-  } 
-  
+
+    //COMPARE WITH YOUR ALGO HERE
+    if (ch0.size() == ch1.size())
+    {
+      if ( std::equal(ch0.begin(), ch0.end(), ch1.begin()) )	{ nbok++; }
+      nb++;
+    }
+  }
+  {
+    //output-sensitive algorithm
+    CircumcircleRadiusPredicate<> predicate0(200,1); //radius 1
+    CircumcircleRadiusPredicate<> predicate1(2,1); //radius 3
+
+    Point O = Point(0,0);
+    Point P = Point(9,4);
+    StraightLine sl( O, P );
+
+    std::vector<Point> boundary; 
+    Vector dir(1,0); 
+    openTracking( sl, O, P, dir, std::back_inserter(boundary) );
+
+    //tracking-based algorithm
+
+    std::vector<Point> ch0;
+
+    openGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch0), predicate0 ); 
+    std::cout << "#3.1 - alpha-shape of the boundary using OpenGrahamScan" << std::endl; 
+    std::copy(ch0.begin(), ch0.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+    std::cout << std::endl; 
+
+    //output-sensitive algorithm
+    std::vector<Point> ch1;
+    next(predicate0, O, P, 50, std::back_inserter(ch1) );  
+    std::cout << "#3.2 - alpha-shape of the boundary using the Convergent Method" << std::endl; 
+    std::copy(ch1.begin(), ch1.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+    std::cout << std::endl; 
+
+    //COMPARE WITH YOUR ALGO HERE
+    if (ch0.size() == ch1.size())
+    {
+      if ( std::equal(ch0.begin(), ch0.end(), ch1.begin()) )	{ nbok++; }
+      nb++;
+    }
+  }
+  {
+    //output-sensitive algorithm
+    CircumcircleRadiusPredicate<> predicate0(200,1); //radius 1
+    CircumcircleRadiusPredicate<> predicate1(2,1); //radius 3
+
+    Point O = Point(0,0);
+    Point P = Point(1,0);
+    StraightLine sl( O, P );
+
+    std::vector<Point> boundary; 
+    Vector dir(1,0); 
+    openTracking( sl, O, P, dir, std::back_inserter(boundary) );
+
+    //tracking-based algorithm
+
+    std::vector<Point> ch0;
+
+    openGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch0), predicate0 ); 
+    std::cout << "#3.1 - alpha-shape of the boundary using OpenGrahamScan" << std::endl; 
+    std::copy(ch0.begin(), ch0.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+    std::cout << std::endl; 
+
+    //output-sensitive algorithm
+    std::vector<Point> ch1;
+    next(predicate0, O, P, 50, std::back_inserter(ch1) );  
+    std::cout << "#3.2 - alpha-shape of the boundary using the Convergent Method" << std::endl; 
+    std::copy(ch1.begin(), ch1.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+    std::cout << std::endl; 
+
+    //COMPARE WITH YOUR ALGO HERE
+    if (ch0.size() == ch1.size())
+    {
+      if ( std::equal(ch0.begin(), ch0.end(), ch1.begin()) )	{ nbok++; }
+      nb++;
+    }
+  }
+
 
   //1 if at least one test failed
   //0 otherwise
