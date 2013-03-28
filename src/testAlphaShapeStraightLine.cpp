@@ -197,9 +197,6 @@ Point next(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa, 
   Point pConvM2;
   Point pConvM1;
 
-  // Keep pConvM2
-  Point pLast;
-
   // pConv is the next convergent pconv = pConvM2 + qk * vConvM1.
   Point pConv;
   int qk;
@@ -248,28 +245,23 @@ Point next(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa, 
 
     if ( k % 2 != 0 && aPredicate(pStart, pConv, pConv-vConvM1) == false)
     {
+    	// We throw the dichotomus search.
       qkalpha = dichotomous(aPredicate, pStart, vConvM2, vConvM1, qk);
 
       if (qkalpha == 0)
       {
         /**
-         * If qkalpha == 0, we have to deal with special case.
-         * In every case, pConvM2 will be the next start.
+         * If qkalpha == 0, we have to deal with a special case.
+         * We have to restart from pConvM2 in order to not missed any vertex.
          */
         *aAlphaShapeHull++ = pConvM2;
-        if (pConvM2.normL22() == 1)
-        {
-          // We can have a new vertex between pConvM2 and pConv.
-          *aAlphaShapeHull++ = (pConvM2 + vConvM1);
-          pStart = (pConvM2 + vConvM1);
-        }
-        else{ pStart = pConvM2; }
+        pStart = pConvM2; 
       }
       else
       {
         /**
          * We add all the vertices between qkalpha and qk in the alpha-Shape.
-         * We restart from the last vertex add : pConv.
+         * We have to restart from the last vertex add : pConv.
          */
         while (qkalpha <= qk)
         {
@@ -278,23 +270,29 @@ Point next(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa, 
         }
         pStart = pConv;
       }
-      // We restart from pConv.
+      // We restart from a new point.
       newStart = true;
     }
-    else // k is not even and in the alpha-shape.
+    else // k is not odd and in the alpha-shape.
     {
-      // We already reach and start from aPointb -- The alpha-shape is compute
+      // We already reach and start from aPointb -- All the alpha-shape have been computed.
       if (pStart == aPointb){	stop = true;} 
       else
       {
-        if (pConv == aPointb) // We reach aPointb
+        if (pConv == aPointb) // We reach the last point aPointb.
         {
           if (aPredicate(pStart, pConv- vConvM1, pConv ) == false)
           {
+          	// We throw the dichotomus search.
             qkalpha = dichotomous(aPredicate, pStart, vConvM2, vConvM1, qk);
+            
+            /**
+             * We add all the vertices between 1 and qk-qkalpha in the alpha-Shape.
+             * We add the last vertex : aPointb and stop the procedure after.
+             */
             int qks = qkalpha;
             qkalpha = 1;
-
+            
             while ( qkalpha <= qk-qks)
             {
               *aAlphaShapeHull++ = pStart + qkalpha*vConvM1;
@@ -302,16 +300,15 @@ Point next(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa, 
             }
           }
           *aAlphaShapeHull++ = aPointb;
-          // The alpha-shape is compute
+          // All the alpha-shape have been computed.
           stop = true;
         }
         else 
         {
           /**
-           * The convergent does not cross the straight line
-           * We have not compute all the vertices, we restart from pConvM1, which
-           * is the last convergent inside the alpha-hull and become the new vertex
-           * of the alpha-shape.
+           * The ray shooting doesn't give a new convergent but we have not yet 
+           * computed all the vertices. So we restart from pConvM1, which is the
+           * last convergent inside the alpha-hull.
            */
           if (k > 0 && qk <= 0) 
           {
@@ -319,10 +316,9 @@ Point next(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa, 
             *aAlphaShapeHull++ = pConvM1;
             pStart = pConvM1;	
           }
-          else // update convergent p_k-2 <- p_k-1, p_k-1 <- p_k, k++ 
+          else // update convergent p_k-2 = p_k-1, p_k-1 = p_k, k++ 
           {
             k++;
-            pLast   = pConvM2;
             pConvM2 = pConvM1;
             pConvM1 = pConv;
             vConvM2 = vConvM1;
@@ -440,13 +436,13 @@ int main()
     //random value
     srand ( time(NULL) );
     // Test number
-    int nb_test = 10;
+    int nb_test = 100000;
     // Max origin coordinate
     int maxPoint = 100;
     // Number of quotient
-    int maxQuotient = 6;
+    int maxQuotient = 7;
     // Value of the quotient
-    int maxCoeff = 7;
+    int maxCoeff = 10;
     int nbQuotient;
 
     // Number predicate test
