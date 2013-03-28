@@ -51,7 +51,7 @@ $(BINDIR)/testAlphaShapeStraightLine: $(SRCDIR)/testAlphaShapeStraightLine.cpp $
 
 # Alpha-shape on circle
 $(BINDIR)/testAlphaShape: $(SRCDIR)/testAlphaShape.cpp $(INCDIR)/RayIntersectableCircle.h $(INCDIR)/OutputSensitiveAlphaShape.h $(INCDIR)/ConvexHullHelpers.h
-	g++ $< -o $@
+	g++ -std=c++0x $< -o $@
 
 # Testing
 test: 
