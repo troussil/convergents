@@ -165,19 +165,13 @@ class OutputSensitiveAlphaShape
         // First convergents
         Point pConvM2 = aPointa + vConvM2;
         Point pConvM1 = aPointa + vConvM1;
-        // pConv is the next convergent pconv = pConvM2 + qk * vConvM1.
 
+        // pConv is the next convergent pconv = pConvM2 + qk * vConvM1.
         Point pConv;
         int qk;
 
-        Point pNext;
-        Point pLast;
-
         // pConvM2 + qkalpha * vConvM1 is the first vertex in the alpha shape.
         int qkalpha;
-
-        // True : We have add new vertex/ices for this convergent.
-        bool nextVertex = true;
 
         // k is the convergent number. Usefull to know if the convergent is odd or even
         // ie : if the convergent is below or above the straight line
@@ -189,19 +183,25 @@ class OutputSensitiveAlphaShape
           // pConv is calculate in lineRatio.dray(), so we update vConv
           vConv = pConv - aPointa;
 
+          /**
+           * We search for new vertices insides the alpha-hull, ie : k is odd.
+           * The circumcircle radius of the triangle formed by the new vertex 
+           * T(aPointa, pConv, pConv-vConvM1) also need to be shorter than the
+           * stored radius
+           */
           if ( k % 2 != 0 && aPredicate(aPointa, pConv, pConv-vConvM1) == false)
           {
+            // We throw the dichotomus search
             qkalpha = dichotomous(aPredicate, aPointa, vConvM2, vConvM1, qk);
 
+            /**
+             * If qkalpha == 0, we have to deal with a special case.
+             * We have to restart from pConvM2 in order to not missed any vertex.
+             */
             if (qkalpha == 0)
             {
-              /**
-               * If qkalpha == 0, we have to deal with special case.
-               * In every case, pConvM2 is a new vertex.
-               */
               *aAlphaShapeHull++ = pConvM2;
               return(pConvM2); 
-
             }
             else
             {
@@ -216,20 +216,26 @@ class OutputSensitiveAlphaShape
               }
               return(pConv);
             }
-          }//end k even and predicate
-          else // Update Convergent
+          }//end k odd and predicate ok.
+          else 
           {
-            // pConv lie on the alpha-shape
+            /**
+             * If pConv lie on the alpha-shape, we reach a vertex of the 
+             * convex-shape. 
+             */
             if (myShape(pConv) == 0)
             {
               if (aPredicate(aPointa, pConv- vConvM1, pConv ) == false)
               {
-
+                // We throw the dichotomus search
                 qkalpha = dichotomous(aPredicate, aPointa, vConvM2, vConvM1, qk);
 
+                /**
+                 * We add all the vertices between 1 and qk-qkalpha in the alpha-Shape.
+                 * We add and restart from the last vertex add : pConv.
+                 */
                 int qks = qkalpha;
                 qkalpha = 1;
-
                 while ( qkalpha <= qk-qks)
                 {
                   *aAlphaShapeHull++ = aPointa + qkalpha*vConvM1;
@@ -242,9 +248,11 @@ class OutputSensitiveAlphaShape
             }
             else 
             {
+              // The ray shooting doesn't give a new convergent ie qk = 0
               if (k > 0 && qk <= 0)
-              {
-                if (myShape(pConv) >0)	
+              { 
+                // We add and restart from the last convergent inside the alpha-hull
+                if (myShape(pConv) > 0)	
                 {
                   *aAlphaShapeHull++ = pConv;
                   return(pConv);
@@ -257,8 +265,8 @@ class OutputSensitiveAlphaShape
               }
               else 
               {
+                // Update Convergent
                 k++;
-                pLast   = pConvM2;
                 pConvM2 = pConvM1;
                 pConvM1 = pConv;
                 vConvM2 = vConvM1;
@@ -269,37 +277,18 @@ class OutputSensitiveAlphaShape
         } //end while - ray shooting
 
         /**
-         * No more intersection
-         * We add and return the last convergent inside the alpha-hull.
-         */ 
+         * No more intersection. We search for pConvM1 translation.
+         * We can't change aPointa, so we use pConv instead.
+         */
+        pConv = aPointa;
 
-        if (myShape(pConvM2) >= 0)
+        // VConvM1 translation
+        while(myShape(pConv + vConvM1) >= 0)
         {
-          // We search for the next vertices in vConvM2 direction
-          pConv = aPointa;
-
-          // VConvM2 translation
-          while(myShape(pConv + vConvM2) >= 0)
-          {
-            pConv += vConvM2;
-            *aAlphaShapeHull++ = pConv;
-          }
-          return(pConv);
+          pConv += vConvM1;
+          *aAlphaShapeHull++ = pConv;
         }
-        else
-        {
-          // We search for the next vertices in vConvM1 direction
-          pConv = aPointa;
-
-          // VConvM1 translation
-          while(myShape(pConv + vConvM1) >= 0)
-          {
-            pConv += vConvM1;
-            *aAlphaShapeHull++ = pConv;
-          }
-          return(pConv);
-        }
-
+        return(pConv);
       } // end - proc
 
 }; 
