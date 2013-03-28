@@ -436,7 +436,7 @@ int main()
     //random value
     srand ( time(NULL) );
     // Test number
-    int nb_test = 10;
+    int nb_test = -10;
     // Max origin coordinate
     int maxPoint = 100;
     // Number of quotient
