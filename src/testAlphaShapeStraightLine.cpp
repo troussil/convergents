@@ -99,15 +99,15 @@ bool test(const ForwardIterator& itb, const ForwardIterator& ite,
 
     openGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), aPredicate ); 
     std::cout << "#3.1 - alpha-shape of the boundary using OpenGrahamScan" << std::endl; 
-    std::copy(ch.begin(), ch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
-    std::cout << std::endl; 
+    //std::copy(ch.begin(), ch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+    //std::cout << std::endl; 
 
     //output-sensitive algorithm
     std::vector<Point> ch2; 
     next(aPredicate, O, P, maxConv, std::back_inserter(ch2) );  
     std::cout << "#3.2 - alpha-shape of the boundary using the Convergent Method" << std::endl; 
-    std::copy(ch2.begin(), ch2.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
-    std::cout << std::endl; 
+    //std::copy(ch2.begin(), ch2.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+    //std::cout << std::endl; 
 
     //COMPARE WITH YOUR ALGO HERE
     if (ch.size() == ch2.size())
