@@ -1,8 +1,10 @@
 #include <iostream>
 #include <math.h>
-#include "PointVector2D.h"
-#include "RayIntersectableStraightLine.h"
-#include "RayIntersectableCircle.h"
+// Core geometry
+#include "../inc/PointVector2D.h"
+// Straight-line and circle
+#include "../inc/RayIntersectableStraightLine.h"
+#include "../inc/RayIntersectableCircle.h"
 
 int main() 
 {

@@ -60,6 +60,18 @@ struct CircumcircleRadiusPredicate
 
   public: 
     /**
+     * Radius² denominateur
+     * @return myDen2
+     */
+    Integer getDen2() const { return (myDen2);  }
+
+    /**
+     * Radius² Numerator
+     * @return myNum2. 
+     */
+    Integer getNum2() const { return (myNum2);  }
+
+    /**
      * Default destructor
      */
     ~CircumcircleRadiusPredicate() {}
