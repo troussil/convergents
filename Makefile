@@ -19,7 +19,7 @@ testR = testRay
 .PHONY: clean
 
 #all cibles
-all: |target $(BINDIR)/$(testPV) $(BINDIR)/$(testR) $(BINDIR)/testConvergents $(BINDIR)/testConvexHull $(BINDIR)/testAlphaShapeStraightLine $(BINDIR)/testAlphaShape
+all: |target $(BINDIR)/$(testPV) $(BINDIR)/$(testR) $(BINDIR)/testConvergents $(BINDIR)/testConvexHull $(BINDIR)/testAlphaShapeStraightLine $(BINDIR)/testAlphaShape $(BINDIR)/toolAlphaShape
 
 # Create folders if need
 target:
@@ -51,11 +51,19 @@ $(BINDIR)/testAlphaShapeStraightLine: $(SRCDIR)/testAlphaShapeStraightLine.cpp $
 
 # Alpha-shape on circle
 $(BINDIR)/testAlphaShape: $(SRCDIR)/testAlphaShape.cpp $(INCDIR)/RayIntersectableCircle.h $(INCDIR)/OutputSensitiveAlphaShape.h $(INCDIR)/ConvexHullHelpers.h
-	g++ -std=c++0x $< -o $@
+	g++ $< -o $@
 
+# Post Processing alpha-shape on circle
+$(BINDIR)/toolAlphaShape: $(SRCDIR)/toolAlphaShape.cpp $(INCDIR)/RayIntersectableCircle.h $(INCDIR)/OutputSensitiveAlphaShape.h $(INCDIR)/ConvexHullHelpers.h
+	g++ -std=c++0x $< -o $@
+	
 # Testing
 test: 
 	$(BINDIR)/$(testPV) && $(BINDIR)/$(testR) && $(BINDIR)/testConvergents && $(BINDIR)/testConvexHull && $(BINDIR)/testAlphaShapeStraightLine && $(BINDIR)/testAlphaShape
+
+# Post Processing
+tool: 
+	$(BINDIR)/toolAlphaShape
 
 # Cleaning
 clean: 

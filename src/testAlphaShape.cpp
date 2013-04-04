@@ -1,8 +1,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-//requires C++ 0x ou 11
-#include <chrono>
+
 //containers and iterators
 #include <iterator>
 #include <vector>
@@ -17,8 +16,9 @@
 // Circle
 #include "../inc/RayIntersectableCircle.h"
 // Convex Hull
+
 #include "../inc/OutputSensitiveConvexHull.h"
-#include "../inc/ConvexHullHelpers.h"
+
 // Alpha-shape
 #include "../inc/OutputSensitiveAlphaShape.h"
 
@@ -60,9 +60,9 @@ bool test(const Circle aCircle, const CircumcircleRadiusPredicate& aPredicate)
   openGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch0), aPredicate ); 
 
 
-  std::cout << "#3.1 - alpha-shape of the boundary using OpenGrahamScan" << std::endl; 
-  std::copy(ch0.begin(), ch0.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
-  std::cout << std::endl; 
+  //std::cout << "#3.1 - alpha-shape of the boundary using OpenGrahamScan" << std::endl; 
+  //std::copy(ch0.begin(), ch0.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+  //std::cout << std::endl; 
 
   alphaShape( aCircle, pStart, std::back_inserter(ch1), maxConv, aPredicate ); 
 
@@ -80,70 +80,7 @@ bool test(const Circle aCircle, const CircumcircleRadiusPredicate& aPredicate)
   }
   else {return false;}
 }
-///////////////////////////////////////////////////////////////////////
-/**
- * @brief Procedure that checks whether the 
- * output-sensitive algorithm returns the same
- * alpha-shape as the tracking-based algorithm
- * for a given circle. 
- * 
- * @param aCircle
- * @param aPredicate  
- * 
- * @return 'true' if the test passed, 'false' otherwise
- * 
- * @tparam
- * @tparam CircumcircleRadiusPredicate
- */
-  template<typename Circle>
-void radiusTool(const Circle aCircle)
-{
-  typedef PointVector2D<int> Point; //type redefinition
-  typedef PointVector2D<int> Vector; //type redefinition
 
-  // Max convergents 
-  int maxConv = 50;	
-
-  // On prend le rayon du prédicat inversement proportionnel au rayon du cercle.
-  int myDen = 100;
-  int myNum = floor( aCircle.getRadius() * myDen );
-
-  // Predicate
-  CircumcircleRadiusPredicate<> predicate(myNum, myDen);
-
-  // On récupère les sommets de l'alpha-shape
-  std::vector<Point> ch0;
-
-  // Mesure du temps d'exécution
-  std::chrono::time_point<std::chrono::system_clock> ta, tb;
-  ta = std::chrono::system_clock::now();
-
-  alphaShape( aCircle, aCircle.getConvexHullVertex(), std::back_inserter(ch0), maxConv, predicate );
-
-  tb = std::chrono::system_clock::now();
-  
-  // On ouvre le fichier en écriture avec effacement du fichier s'il est ouvert
-  std::ofstream files("outcome/data.txt", std::ios::out | std::ios_base::app);
-
-  if(files)
-  {
-    // Circle radius
-    files << aCircle.getRadius() << "\t";
-    // Predicate
-    files << (-myDen / (double)myNum) << "\t";
-    // Temps
-    files << std::chrono::duration_cast<std::chrono::microseconds>(tb-ta).count() << "\t"; 
-    // Nombre de sommets
-    files << (ch0.size()-1) << std::endl;
-    // On ferme le fichier
-    files.close();
-  }
-  else
-  {	
-    std::cerr << "Impossible d'ouvrir le fichier !" << std::endl;
-  }
-
-}
 
 //////////////////////////////////////////////////////////////////////
 template <typename Shape, typename Point, typename OutputIterator, 
@@ -438,7 +375,7 @@ int main()
 
 
   // Test number
-  int nb_test = -10;
+  int nb_test = -1000;
 
   // Max origin coordinate
   int maxPoint = 100;
@@ -516,9 +453,11 @@ int main()
   }
   //(4,2)(2,1)(6,-5) - (4,2)(0,-6)(10,-14) - (7,8)(-1,-1)(3,-8) - (5,3)(2,2)(4,-7)
   {
-    pta = Point(4,0);
-    ptb = Point(0,4);
-    ptc = Point(-4,0);
+
+    pta = Point(1025, 0);
+    ptb = Point(0, 1025);
+    ptc = Point(-1025, 0);
+    
     Circle circle( pta, ptb, ptc );
 
     std::cout << "-- Disk[ Center : (" << circle.getCenterX() << ", " 
@@ -526,7 +465,7 @@ int main()
       << " ] | Points : "<< pta<< ptb<< ptc<< " - First vertex : " 
       << circle.getConvexHullVertex() << std::endl;
 
-    CircumcircleRadiusPredicate<> predicate(3,2);
+    CircumcircleRadiusPredicate<> predicate(20,2);
     std::cout << "Radius predicate : Num2 / Den2 : 10/2"<< std::endl;
 
 
@@ -537,57 +476,29 @@ int main()
     std::cout << " ----------- Next predicate ----------- " << std::endl; 
     std::cout << std::endl;
   }
+  
+ /* {
+  Circle circle( Point(31,21), Point(-5,-9), Point(36,-58) );
+  std::cout << "-- Disk[ Center : (" << circle.getCenterX() << ", " 
+      << circle.getCenterY()<< " ), Radius : " << circle.getRadius()
+      << " ] | Points : "<< pta<< ptb<< ptc<< " - First vertex : " 
+      << circle.getConvexHullVertex() << std::endl;
+
+    CircumcircleRadiusPredicate<> predicate(1,0);
+    std::cout << "Radius predicate : Num2 / Den2 : 10/2"<< std::endl;
+
+
+    if (test(circle, predicate))
+    {nbok++;} 
+    nb++; 
+    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+    std::cout << " ----------- Next predicate ----------- " << std::endl; 
+    std::cout << std::endl;
+  }*/
   //1 if at least one test failed
   //0 otherwise
 
-  ///////////////////////////////////////////////////////////////////////
-  std::cout << "V) Output" << std::endl; 
-
-	// On ouvre le fichier en écriture avec effacement du fichier s'il est ouvert
-  std::ofstream files("outcome/data.txt", std::ios::out | std::ios::trunc);
-
-  if(files)
-  {
-    // Circle radius
-    files << "Radius" << "\t";
-    // Predicate
-    files << "predicate" << "\t";
-    // Temps
-    files << "time" << "\t"; 
-    // Nombre de sommets
-    files << "# Vertices" << std::endl;
-    // On ferme le fichier
-    files.close();
-  }
-  else
-  {	
-    std::cerr << "Impossible d'ouvrir le fichier !" << std::endl;
-  }
-
-   // Test number
-  nb_test = 600;
-	int nb_point[nb_test];
-	nb_point[0]=1;
-	
-  // progression au carré
-  for (int i = 1; i<nb_test; i++)
-  {
-  	nb_point[i] = nb_point[i-1]+1; 
-  }
   
-
-  for (int i = 0; i<nb_test; i++)
-  {
-  // Circumcircle triangle vertices
-    pta = Point(nb_point[i], 0);
-    ptb = Point(0, nb_point[i]);
-    ptc = Point(-nb_point[i], 0);
-
-    Circle circle( pta, ptb, ptc );
-
-  	radiusTool(circle);
-  }
-
 
     return (nb != nbok); 
 }
