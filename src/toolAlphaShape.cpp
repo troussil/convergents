@@ -151,7 +151,7 @@ void rToolValue(int aTestnb)
   int R = 2;
   
 	// Circumcircle creation
-  for (int i = 0; i< aTestnb; i++)
+  for (int i = 0; i< aTestnb/2; i++)
   {
   // Circumcircle triangle vertices
   	R += 2;
