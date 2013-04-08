@@ -457,7 +457,7 @@ int main()
     pta = Point(1025, 0);
     ptb = Point(0, 1025);
     ptc = Point(-1025, 0);
-    
+
     Circle circle( pta, ptb, ptc );
 
     std::cout << "-- Disk[ Center : (" << circle.getCenterX() << ", " 
@@ -476,7 +476,7 @@ int main()
     std::cout << " ----------- Next predicate ----------- " << std::endl; 
     std::cout << std::endl;
   }
-  
+
 
   //1 if at least one test failed
   //0 otherwise
