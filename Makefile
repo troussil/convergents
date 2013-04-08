@@ -54,7 +54,7 @@ $(BINDIR)/testAlphaShape: $(SRCDIR)/testAlphaShape.cpp $(INCDIR)/RayIntersectabl
 	g++ $< -o $@
 
 # Post Processing alpha-shape on circle
-$(BINDIR)/toolAlphaShape: $(SRCDIR)/toolAlphaShape.cpp $(INCDIR)/RayIntersectableCircle.h $(INCDIR)/OutputSensitiveAlphaShape.h $(INCDIR)/ConvexHullHelpers.h
+$(BINDIR)/toolAlphaShape: $(SRCDIR)/toolAlphaShape.cpp $(INCDIR)/RayIntersectableCircle.h $(INCDIR)/OutputSensitiveAlphaShape.h $(INCDIR)/OutputSensitiveConvexHull.h $(INCDIR)/ConvexHullHelpers.h
 	g++ -std=c++0x $< -o $@
 	
 # Testing
