@@ -161,7 +161,10 @@ void rToolValue(int aTestnb)
     ptc = Point(-R, 0);
 
     Circle circle( pta, ptb, ptc );
-
+    if (std::isnan(circle.getRadius()) || std::isinf(circle.getRadius()))
+    {i = aTestnb; 
+    std::cout<<"pta, ptb, ptc = "<<pta<<ptb<<ptc<<std::endl;
+    break;}
     myNum = floor( circle.getRadius() * circle.getRadius() *100);
 
     // Predicate
@@ -230,20 +233,21 @@ void rToolMeans(int aRadiusmin, int aRadiusmax, int aTestnb)
   typedef RayIntersectableCircle<Point> Circle; 
   typedef std::chrono::time_point<std::chrono::system_clock> clock;
   typedef std::chrono::milliseconds milliseconds;
-
+  typedef long long Integer;
+  
   // Circle creation : ax + by + c(x^2 + y^2)
-  long int a, b, c, d;
+  Integer a, b, c, d;
   c =  -50;
 
   // Convergents maximum iteration (ie for irationnal).
   int maxConv = 50;
 
   // Init radius with R = 2^aRadiusmin.
-  long int R =2;
+  Integer R =2;
   for (int k = 1; k < aRadiusmin; k++)	{R *= 2;}
 
-  int myDen = 100;
-  int myNum;
+  Integer myDen;
+  Integer myNum;
 
   // Circle
   Circle circle;
@@ -266,13 +270,13 @@ void rToolMeans(int aRadiusmin, int aRadiusmax, int aTestnb)
 
   // Time
   clock ta, tb;
-  int tmptime, time_min, time_max;
+  Integer tmptime, time_min, time_max;
   double time_means;
   // Vertices number
-  int tmpnb;
-  int cv_min,  cv_max;  double cv_means;  // convex hull
-  int as0_min, as0_max;	double as0_means; // alpha-shape with infinite radius
-  int as_min,  as_max;	double as_means;  // alpha-shape
+  Integer tmpnb;
+  Integer cv_min,  cv_max;  double cv_means;  // convex hull
+  Integer as0_min, as0_max;	double as0_means; // alpha-shape with infinite radius
+  Integer as_min,  as_max;	double as_means;  // alpha-shape
 
   // We open the files from start and add a title on the first line of the table.
   std::ofstream files("outcome/data-moy.txt", std::ios::out | std::ios::trunc);
@@ -281,7 +285,7 @@ void rToolMeans(int aRadiusmin, int aRadiusmax, int aTestnb)
     // Circle radius
     files << "Radius|" << "\t";
     // Predicate
-    files << "predicate" << std::endl;
+    files << "predicate|" << "\t";
     // time : Means, min, max
     files << "time - means," << "\t"<< "time - min," << "\t"<< "time - max|" << "\t"; 
     // Concex Hull : Means, min, max
@@ -292,7 +296,7 @@ void rToolMeans(int aRadiusmin, int aRadiusmax, int aTestnb)
       << "# Alpha-shape-CV - max|" << "\t";
     // Alpha-Shape : Means, min, max
     files << "# Alpha-shape - means,"    << "\t"<< "# Alpha-shape - min,"    << "\t"
-      << "# Alpha-shape - max|" << std::endl;; 
+      << "# Alpha-shape - max" << std::endl;; 
     files.close();
   }
   else
@@ -307,7 +311,9 @@ void rToolMeans(int aRadiusmin, int aRadiusmax, int aTestnb)
      * We take a radius for the predicate proportional to the radius of 
      * tha alpha-shape. R_alpha = 100* R^2 / 100
      */ 
-    myNum = floor(R*R*100);
+     
+    myDen = 1;
+    myNum = R*R;
 
     // Predicate
     CircumcircleRadiusPredicate<> predicate(myNum, myDen);
@@ -332,7 +338,14 @@ void rToolMeans(int aRadiusmin, int aRadiusmax, int aTestnb)
 
       // Rinit circle from a, b, c, d.
       Circle circle( a, b, c, d );	
-
+      if (std::isnan(d) || std::isinf(d))
+      {i = aTestnb;j = aRadiusmin; 
+      std::cout<<"a,b,c,d = "<<a<<b<<c<<d<<std::endl;
+      break;}
+      // Test
+			//std::cout<<"a = "<<a<<", b = "<<b<<", c = "<<c<<", d = "<<d<<std::endl;   
+			//std::cout<<"j = "<<j<<", i = "<<i<<std::endl;
+			//std::cout<<"R : "<<R<<", "<<myNum /(double)myDen<<", "<< circle.getRadius()<<std::endl;
       /** 
        * Reset iterator 
        * chcv recover the number of vertices of the convex hull.
@@ -356,8 +369,8 @@ void rToolMeans(int aRadiusmin, int aRadiusmax, int aTestnb)
       tb = std::chrono::system_clock::now();
 
       // Test
-      //std::cout<<"R : "<<R<<", "<<myNum / (double)myDen<<", "<< circle.getRadius()<<std::endl;
-      //std::cout<< circle.getCenterX()<<circle.getCenterY()<<std::endl;
+			//      std::cout<<"R : "<<R<<", "<<myNum / (double)myDen<<", "<< circle.getRadius()<<std::endl;
+			//      std::cout<< circle.getCenterX()<<", "<<circle.getCenterY()<<std::endl;
 
       // time
       tmptime = (tb - ta).count();
@@ -382,6 +395,8 @@ void rToolMeans(int aRadiusmin, int aRadiusmax, int aTestnb)
       if (tmpnb < as_min || bfirst == true) {as_min = tmpnb;}
       if (tmpnb > as_max || bfirst == true) {as_max = tmpnb;}
       as_means += tmpnb/(double)aTestnb;
+      
+      bfirst = false;
     } //aTestnb loop with a fixed radius
 
     // We open the files from start and add a title on the first line of the table.
@@ -406,9 +421,8 @@ void rToolMeans(int aRadiusmin, int aRadiusmax, int aTestnb)
     {	
       std::cerr << "We can't open the files !" << std::endl;
     }
-    // Restart with a bigger radius 
+    // Restart with a radius increase by 4.
     R = R*2; 
-    bfirst = false;
   }// end loop - R reach its maximum asked aRadiusmax
 }
 
@@ -422,10 +436,11 @@ int main()
   //2^5 = 32, 2^15 = 32768
 
   // second graph
-  rToolMeans(5,15,100);
-
+  rToolMeans(5,30,100);
+  
+  std::cout << "V) Output - 1-finish - 2-start" << std::endl; 
   // First graph
-  rToolValue(36000);  
-
+  //rToolValue(36000);  
+  //std::cout << "V) Output - 2-finish" << std::endl; 
   return 0;
 }
