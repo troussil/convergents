@@ -375,7 +375,7 @@ int main()
 
 
   // Test number
-  int nb_test = -1000;
+  int nb_test = 50;
 
   // Max origin coordinate
   int maxPoint = 100;
@@ -477,28 +477,8 @@ int main()
     std::cout << std::endl;
   }
   
- /* {
-  Circle circle( Point(31,21), Point(-5,-9), Point(36,-58) );
-  std::cout << "-- Disk[ Center : (" << circle.getCenterX() << ", " 
-      << circle.getCenterY()<< " ), Radius : " << circle.getRadius()
-      << " ] | Points : "<< pta<< ptb<< ptc<< " - First vertex : " 
-      << circle.getConvexHullVertex() << std::endl;
 
-    CircumcircleRadiusPredicate<> predicate(1,0);
-    std::cout << "Radius predicate : Num2 / Den2 : 10/2"<< std::endl;
-
-
-    if (test(circle, predicate))
-    {nbok++;} 
-    nb++; 
-    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
-    std::cout << " ----------- Next predicate ----------- " << std::endl; 
-    std::cout << std::endl;
-  }*/
   //1 if at least one test failed
   //0 otherwise
-
-  
-
-    return (nb != nbok); 
+  return (nb != nbok); 
 }
