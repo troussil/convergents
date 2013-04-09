@@ -312,7 +312,7 @@ void rToolMeans(int aRadiusmin, int aRadiusmax, int aTestnb)
      * tha alpha-shape. R_alpha = 100* R^2 / 100
      */ 
      
-    myDen = 1;
+    myDen = 1000;
     myNum = R*R;
 
     // Predicate
@@ -320,8 +320,8 @@ void rToolMeans(int aRadiusmin, int aRadiusmax, int aTestnb)
 
     // Reset values
     bfirst = true;
-    time_min = 0; time_max = 0; time_means = 0.0;
-    cv_min   = 0; cv_max   = 0; cv_means   = 0.0;
+    time_min = 0; time_max = 0; time_means = 0.0; tmptime = 0;
+    cv_min   = 0; cv_max   = 0; cv_means   = 0.0; tmptime = 0;
     as0_min  = 0; as0_max  = 0; as0_means  = 0.0;
     as_min   = 0; as_max   = 0; as_means   = 0.0;
 
@@ -374,26 +374,26 @@ void rToolMeans(int aRadiusmin, int aRadiusmax, int aTestnb)
 
       // time
       tmptime = (tb - ta).count();
-      if (tmptime < time_min || bfirst == true) {time_min = tmptime;}
-      if (tmptime > time_max || bfirst == true) {time_max = tmptime;}
+      if (tmptime <= time_min || bfirst == true) {time_min = tmptime;}
+      if (tmptime >= time_max || bfirst == true) {time_max = tmptime;}
       time_means += tmptime/(double)aTestnb;
 
       // Concex Hull Vertices Number
       tmpnb = chcv.size();
-      if (tmpnb < cv_min || bfirst == true) {cv_min = tmpnb;}
-      if (tmpnb > cv_max || bfirst == true) {cv_max = tmpnb;}
+      if (tmpnb <= cv_min || bfirst == true) {cv_min = tmpnb;}
+      if (tmpnb >= cv_max || bfirst == true) {cv_max = tmpnb;}
       cv_means += tmpnb/(double)aTestnb;
 
       // Alpha-Shape with predicate = 0 - Vertices Number
       tmpnb = chas0.size()-1;
-      if (tmpnb < as0_min || bfirst == true) {as0_min = tmpnb;}
-      if (tmpnb > as0_max || bfirst == true) {as0_max = tmpnb;}
+      if (tmpnb <= as0_min || bfirst == true) {as0_min = tmpnb;}
+      if (tmpnb >= as0_max || bfirst == true) {as0_max = tmpnb;}
       as0_means += tmpnb/(double)aTestnb;
 
       // Alpha-Shape with predicate = 0 - Vertices Number
       tmpnb = chas.size()-1;
-      if (tmpnb < as_min || bfirst == true) {as_min = tmpnb;}
-      if (tmpnb > as_max || bfirst == true) {as_max = tmpnb;}
+      if (tmpnb <= as_min || bfirst == true) {as_min = tmpnb;}
+      if (tmpnb >= as_max || bfirst == true) {as_max = tmpnb;}
       as_means += tmpnb/(double)aTestnb;
       
       bfirst = false;
@@ -408,7 +408,7 @@ void rToolMeans(int aRadiusmin, int aRadiusmax, int aTestnb)
       // Predicate
       files << (myNum / (double)myDen) << "\t";
       // time : Means, min, max
-      files << time_means << "\t" << (tb-ta).count()<< "\t" << time_max << "\t"; 
+      files << time_means << "\t" << time_min<< "\t" << time_max << "\t"; 
       // Concex Hull : Means, min, max
       files << cv_means << "\t" << cv_min<< "\t" << cv_max << "\t";
       // Alpha-Shape with predicate = 0 : Means, min, max
