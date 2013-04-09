@@ -73,4 +73,4 @@ tool:
 
 # Cleaning
 clean: 
-	rm -rf $(OBJDIR)/*.o $(BINDIR)/*
+	rm -rf $(OBJDIR)/*.o $(BINDIR)/*; rm -f fit.log
