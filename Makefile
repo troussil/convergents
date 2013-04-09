@@ -4,11 +4,15 @@ CODE := $(shell pwd)
 SRCDIR = $(CODE)/src
 INCDIR = $(CODE)/inc
 
-# create bin and obj folders
+# create folders and files
 BLDDIR = $(CODE)/build
 BINDIR = $(CODE)/build/bin
 OBJDIR = $(CODE)/build/obj
- 
+DATADIR = $(CODE)/outcome
+OBJDIR = $(CODE)/build/obj
+TOOLDIR = $(CODE)/tools
+DATAFILES = $(DATADIR)/data-`date +'%y.%m.%d-%H:%M'`.txt
+DATAWORK = $(DATADIR)/data-means.txt
 # Shortcuts
 PV = PointVector2D
 testPV = test$(PV)
@@ -26,7 +30,9 @@ target:
 	test -d $(BLDDIR) || mkdir $(BLDDIR)
 	test -d $(BINDIR) || mkdir $(BINDIR)
 	test -d $(OBJDIR) || mkdir $(OBJDIR)
-
+	test -d $(DATADIR) || mkdir $(DATADIR)
+	test -d $(TOOLDIR) || mkdir $(TOOLDIR)
+	
 # PointVector2D
 $(BINDIR)/$(testPV): $(SRCDIR)/$(testPV).cpp $(INCDIR)/$(PV).h
 	g++ -c $< -o $(OBJDIR)/$(testPV).o
@@ -63,7 +69,7 @@ test:
 
 # Post Processing
 tool: 
-	$(BINDIR)/toolAlphaShape
+	$(BINDIR)/toolAlphaShape > $(DATAFILES); cp $(DATAFILES) $(DATAWORK); gnuplot -persist $(TOOLDIR)/plop2.gp
 
 # Cleaning
 clean: 

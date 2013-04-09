@@ -6,7 +6,7 @@
 
 # -- Export svg
 set terminal svg rounded size 1200,800
-set output 'outcome/sombrero.svg'
+set output 'outcome/time-100vertices-byradius.svg'
 set object 1 rect from screen 0, 0, 0 to screen 1, 1, 0 behind
 set object 1 rect fc  rgb "white"  fillstyle solid 1.0
 

@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-#include <fstream>
 //requires C++ 0x ou 11
 #include <chrono>
 #include <time.h>
@@ -89,130 +88,6 @@ void alphaShape(const Shape& aShape, const Point& aStartingPoint,
   }//while we not return to aStartingPoint
 }
 
-//////////////////////////////////////////////////////////////////////
-/**
- * @brief Procedure thar create a files with information : 
- * time, radius, predicate and alpha-shape and convex hull number of vertices
- * files is create in the folder outcome with the name of data.txt.
- * @param aTestnb
- *
- * @return 
- * 
- * @tparam
- */ 
-void rToolValue(int aTestnb)
-{
-  typedef PointVector2D<int> Point; 
-  //typedef PointVector2D<int> Vector; 
-  typedef RayIntersectableCircle<Point> Circle; 
-
-  // We open the files at first line.
-  std::ofstream files("outcome/data.txt", std::ios::out | std::ios::trunc);
-  if(files)
-  {
-    // Circle radius
-    files << "Radius" << "\t";
-    // Predicate
-    files << "predicate" << "\t";
-    // Time
-    files << "time" << "\t"; 
-    // Alpha-shape vertices number
-    files << "# Alpha-shape vertices" << "\t";
-    // Convex-hull vertices number
-    files << "# Convexe Hull vertices" << std::endl;
-    // We close the files 
-    files.close();
-  }
-  else
-  {	
-    std::cerr << "We can't open the files !" << std::endl;
-  }
-
-  // Triangle
-  Point pta, ptb, ptc;
-
-  // Circle formed by the circumcircle of the triangle formed by pta, ptb, ptc.
-  Circle circle;
-
-  // Convergents maximum iteration (ie for irationnal) 
-  int maxConv = 50;
-
-  // Predicate
-  int myDen = 100;
-  int myNum;
-
-  /** 
-   * Predicate with infinite radius :
-   * Convex Hull plus vertices whick lie on the edge.
-   */
-  CircumcircleRadiusPredicate<> predicate1(1, 0);
-
-  // First radius
-  int R = 2;
-
-  // Circumcircle creation
-  for (int i = 0; i< aTestnb/2; i++)
-  {
-    // Circumcircle triangle vertices
-    R += 2;
-
-    pta = Point(R, 0);
-    ptb = Point(0, R);
-    ptc = Point(-R, 0);
-
-    Circle circle( pta, ptb, ptc );
-    if (std::isnan(circle.getRadius()) || std::isinf(circle.getRadius()))
-    {i = aTestnb; 
-    std::cout<<"pta, ptb, ptc = "<<pta<<ptb<<ptc<<std::endl;
-    break;}
-    myNum = floor( circle.getRadius() * circle.getRadius() *100);
-
-    // Predicate
-    CircumcircleRadiusPredicate<> predicate(myNum, myDen);
-
-    /** 
-     * Reset iterator 
-     * chcv recover the number of vertices of the convex hull.
-     * chas recover the number of vertices of the alpha-shape.
-     * 
-     */
-    std::vector<Point> ch0;
-    std::vector<Point> ch1;
-
-    // Convex Hull
-    convexHull(circle, circle.getConvexHullVertex(), std::back_inserter(ch1));
-
-    // Execution time
-    std::chrono::time_point<std::chrono::system_clock> ta, tb;
-    ta = std::chrono::system_clock::now();
-    // Alpha Shape
-    alphaShape( circle, circle.getConvexHullVertex(), std::back_inserter(ch0), maxConv, predicate );
-    tb = std::chrono::system_clock::now();
-
-    // We writing at the end  the files
-    std::ofstream files("outcome/data.txt", std::ios::out | std::ios_base::app);
-    if(files)
-    {
-      // Circle radius
-      files << R << "\t";
-      // Predicate
-      files << (myNum / (double)myDen) << "\t";
-      // Time
-      files << std::chrono::duration_cast<std::chrono::microseconds>(tb-ta).count() << "\t"; 
-      // Nombre de sommets alpha-shape
-      files << (ch0.size()-1) << "\t";
-      // Alpha-Shape Vertices Number
-      files << ch1.size() << std::endl;
-      // On close the files
-      files.close();
-    }
-    else
-    {	
-      std::cerr << "We can't open the files !" << std::endl;
-    }
-  }
-}
-
 /**
  * @brief Procedure thar create a files with information : 
  * time, radius, predicate and alpha-shape and convex hull number of vertices
@@ -278,31 +153,22 @@ void rToolMeans(int aRadiusmin, int aRadiusmax, int aTestnb)
   Integer as0_min, as0_max;	double as0_means; // alpha-shape with infinite radius
   Integer as_min,  as_max;	double as_means;  // alpha-shape
 
-  // We open the files from start and add a title on the first line of the table.
-  std::ofstream files("outcome/data-moy.txt", std::ios::out | std::ios::trunc);
-  if(files)
-  {
+  
     // Circle radius
-    files << "Radius|" << "\t";
+    std::cout << "Radius|" << "\t";
     // Predicate
-    files << "predicate|" << "\t";
+    std::cout << "predicate|" << "\t";
     // time : Means, min, max
-    files << "time - means," << "\t"<< "time - min," << "\t"<< "time - max|" << "\t"; 
+    std::cout << "time - means," << "\t"<< "time - min," << "\t"<< "time - max|" << "\t"; 
     // Concex Hull : Means, min, max
-    files << "# Convexe Hull - means,"   << "\t"<< "# Convexe Hull - min,"   << "\t"
+    std::cout << "# Convexe Hull - means,"   << "\t"<< "# Convexe Hull - min,"   << "\t"
       << "# Convexe Hull - max|"   << "\t";
     // Alpha-Shape with predicate = 0 : Means, min, max
-    files << "# Alpha-shape-CV - means," << "\t"<< "# Alpha-shape-CV - min," << "\t"
+    std::cout << "# Alpha-shape-CV - means," << "\t"<< "# Alpha-shape-CV - min," << "\t"
       << "# Alpha-shape-CV - max|" << "\t";
     // Alpha-Shape : Means, min, max
-    files << "# Alpha-shape - means,"    << "\t"<< "# Alpha-shape - min,"    << "\t"
+    std::cout << "# Alpha-shape - means,"    << "\t"<< "# Alpha-shape - min,"    << "\t"
       << "# Alpha-shape - max" << std::endl;; 
-    files.close();
-  }
-  else
-  {	
-    std::cerr << "We can't open the files !" << std::endl;
-  }
 
 
   for (int j = aRadiusmin; j < aRadiusmax; j++)
@@ -400,27 +266,21 @@ void rToolMeans(int aRadiusmin, int aRadiusmax, int aTestnb)
     } //aTestnb loop with a fixed radius
 
     // We open the files from start and add a title on the first line of the table.
-    std::ofstream files("outcome/data-moy.txt", std::ios::out | std::ios::app);
-    if(files)
-    {
+
       // Circle radius
-      files << R << "\t";
+      std::cout << R << "\t";
       // Predicate
-      files << (myNum / (double)myDen) << "\t";
+      std::cout << (myNum / (double)myDen) << "\t";
       // time : Means, min, max
-      files << time_means << "\t" << time_min<< "\t" << time_max << "\t"; 
+      std::cout << time_means << "\t" << time_min<< "\t" << time_max << "\t"; 
       // Concex Hull : Means, min, max
-      files << cv_means << "\t" << cv_min<< "\t" << cv_max << "\t";
+      std::cout << cv_means << "\t" << cv_min<< "\t" << cv_max << "\t";
       // Alpha-Shape with predicate = 0 : Means, min, max
-      files << as0_means << "\t" << as0_min<< "\t" << as0_max << "\t";
+      std::cout << as0_means << "\t" << as0_min<< "\t" << as0_max << "\t";
       // Alpha-Shape : Means, min, max
-      files << as_means << "\t" << as_min<< "\t" << as_max << std::endl;
-      files.close();
-    }
-    else
-    {	
-      std::cerr << "We can't open the files !" << std::endl;
-    }
+      std::cout << as_means << "\t" << as_min<< "\t" << as_max << std::endl;
+     
+    
     // Restart with a radius increase by 4.
     R = R*2; 
   }// end loop - R reach its maximum asked aRadiusmax
@@ -430,17 +290,8 @@ void rToolMeans(int aRadiusmin, int aRadiusmax, int aTestnb)
 ///////////////////////////////////////////////////////////////////////
 int main() 
 {
-  ///////////////////////////////////////////////////////////////////////
-  std::cout << "V) Output" << std::endl; 
+  //2^5 = 32, 2^15 = 32768, 2^25 = 16777216
+  rToolMeans(5,25,100);
 
-  //2^5 = 32, 2^15 = 32768
-
-  // second graph
-  rToolMeans(5,30,100);
-  
-  std::cout << "V) Output - 1-finish - 2-start" << std::endl; 
-  // First graph
-  //rToolValue(36000);  
-  //std::cout << "V) Output - 2-finish" << std::endl; 
   return 0;
 }
