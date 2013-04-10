@@ -2,7 +2,8 @@
 
 Introduction of programming best practices in c++ through the learning of different knowledges and skills :
 
-* Oriented object programming and design patterns :
+* Generic and oriented object programming.
+* Design patterns.
 * Building Makefile.
 * Automatic testing.
 
@@ -27,7 +28,7 @@ It will deserve a wider context in digital geometry.
 
 * *PointVector2D.h* is the main class implementing point and vector in two dimensions.
 * *RayIntersectableStraightLine.h* and *RayIntersectableCircle.h* implement some 'ray intersectable' class. At the beginning, we start with straight line and circle.
-* We follow with algorithms computing the convergent of a rationnel : *testConvergents.cpp*, the convex hull of a discrete circle : *OutputSensitiveConvexHull.h* and the alpha-shape of a straight-line and a discrete circle : *testAlphaShapeStraightLine.cpp* and *OutputSensitiveAlphaShape.h*.
+* We follow with algorithms computing the convergent points of a rationnel : *testConvergents.cpp*, the convex hull of a discrete circle : *OutputSensitiveConvexHull.h* and the alpha-shape of a straight-line and a discrete circle : *testAlphaShapeStraightLine.cpp* and *OutputSensitiveAlphaShape.h*.
 * *toolAlphaShape.cpp* produce a graph witch visualize the number of vertices of the convex hull, the alpha-shape with alpha = 0, and the alpha-shape with alpha < 0 in function to the the size of the radius. We create 100 random circles with a center in [0,1]x[0,1] and a radius proportional to the predicate increasing by 2^2.
 
 
