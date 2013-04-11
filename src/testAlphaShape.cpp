@@ -60,15 +60,15 @@ bool test(const Circle aCircle, const CircumcircleRadiusPredicate& aPredicate)
   openGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch0), aPredicate ); 
 
 
-  //std::cout << "#3.1 - alpha-shape of the boundary using OpenGrahamScan" << std::endl; 
+  //std::cout << "# - alpha-shape of the boundary using OpenGrahamScan" << std::endl; 
   //std::copy(ch0.begin(), ch0.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
   //std::cout << std::endl; 
 
   alphaShape( aCircle, pStart, std::back_inserter(ch1), maxConv, aPredicate ); 
 
-  std::cout << "#2 - alpha-shape" << std::endl; 
-  std::copy(ch1.begin(), ch1.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
-  std::cout << std::endl; 
+  //std::cout << "# - alpha-shape" << std::endl; 
+  //std::copy(ch1.begin(), ch1.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+  //std::cout << std::endl; 
 
   //COMPARE WITH YOUR ALGO HERE
   if (ch0.size() == ch1.size())
@@ -375,7 +375,7 @@ int main()
 
 
   // Test number
-  int nb_test = 50;
+  int nb_test = 100;
 
   // Max origin coordinate
   int maxPoint = 100;

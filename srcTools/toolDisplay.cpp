@@ -25,10 +25,18 @@ using namespace DGtal;
 
 ///////////////////////////////////////////////////////////////////////////////
 //our work
+<<<<<<< HEAD:src/toolDisplay.cpp
 #include "../inc/PointVector2D.h"
 #include "../inc/RayIntersectableCircle.h"
 #include "../inc/OutputSensitiveConvexHull.h"
 #include "../inc/ConvexHullHelpers.h"
+=======
+#include "PointVector2D.h"
+#include "RayIntersectableCircle.h"
+#include "OutputSensitiveConvexHull.h"
+#include "ConvexHullHelpers.h"
+#include "CircumcircleRadiusPredicate.h"
+>>>>>>> 04b4e00f7cb58f4f832a870da0b7f234158f2380:srcTools/toolDisplay.cpp
 
 ///////////////////////////////////////////////////////////////////////////////
 template <typename Shape, typename Point, typename OutputIterator>
@@ -85,35 +93,47 @@ void display(const ForwardIterator& itb, const ForwardIterator& ite,
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-template<typename Circle>
-void myMainProcedure(const Circle& aCircle)
+template<typename Circle, typename I>
+void myMainProcedure(const Circle& aCircle, const I& num2, const I& den2)
 {
   typedef typename Circle::Point Point; 
   typedef typename Circle::Vector Vector; 
 
-  //computation of the boundary and convex hull
+
+  //computation of the boundary and alpha-shape
   std::chrono::time_point<std::chrono::system_clock> ta, tb;
   ta = std::chrono::system_clock::now();
 
+  //- boundary
   std::vector<Point> boundary; 
   Vector dir(1,0); 
   closedTracking( aCircle, aCircle.getConvexHullVertex(), dir, std::back_inserter(boundary) ); 
 
+  //- alpha-shape
+  CircumcircleRadiusPredicate<> predicate(num2,den2);
   std::vector<Point> ch; 
-  grahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch) ); 
+  closedGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), predicate ); 
 
   tb = std::chrono::system_clock::now();
-  std::cout << std::chrono::duration_cast<std::chrono::microseconds>(tb-ta).count() << std::endl;  
-
+  std::cout << "# Time: "
+	    << std::chrono::duration_cast<std::chrono::microseconds>(tb-ta).count() 
+	    << " ms " << std::endl;
+  std::cout << "# Numb: " 
+	    << ch.size() 
+	    << " vertices " << std::endl; 
 
   //display in the standard output
-  std::cout << "Graham's convex hull of the boundary" << std::endl; 
+  std::cout << "Graham's (" 
+	    << ( std::sqrt( (double) num2) / std::sqrt( (double) den2) )
+	    << ")-shape of the boundary" << std::endl; 
   std::copy(ch.begin(), ch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
   std::cout << std::endl; 
   
   //display in an output file
-  display(ch.begin(), ch.end(), "convexHullByTracking"); 
-
+  std::string filename = "alphaShapeByGraham"; 
+  display(ch.begin(), ch.end(), filename); 
+  std::cout << "# Display stored in file " 
+	    << filename << ".eps" << std::endl;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -123,13 +143,20 @@ int main( int argc, char** argv )
   po::options_description general_opt("Allowed options are: ");
   general_opt.add_options()
     ("help,h", "display this message")
+    ("algo", po::value<std::string>(), "algorithm ('Graham', 'Har-peled')")
+    ("numerator2,n", po::value<int>()->default_value(1), "squared numerator of 1/alpha")
+    ("denominator2,m", po::value<int>()->default_value(0), "squared denominator of 1/alpha")
     ("radius,R",  po::value<int>(), "Radius of the disc" )
-    ("a,a",  po::value<int>(), "x-coordinate of the first point" )
-    ("b,b",  po::value<int>(), "y-coordinate of the first point" )
-    ("c,c",  po::value<int>(), "x-coordinate of the second point" )
-    ("d,d",  po::value<int>(), "y-coordinate of the second point" )
-    ("e,e",  po::value<int>(), "x-coordinate of the third point" )
-    ("f,f",  po::value<int>(), "y-coordinate of the third point" );
+    ("a",  po::value<int>(), "a parameter of the disc" )
+    ("b",  po::value<int>(), "b parameter of the disc" )
+    ("c",  po::value<int>(), "c parameter of the disc" )
+    ("d",  po::value<int>(), "d parameter of the disc" )
+    ("x1",  po::value<int>(), "x-coordinate of the first point" )
+    ("y1",  po::value<int>(), "y-coordinate of the first point" )
+    ("x2",  po::value<int>(), "x-coordinate of the second point" )
+    ("y2",  po::value<int>(), "y-coordinate of the second point" )
+    ("x3",  po::value<int>(), "x-coordinate of the third point" )
+    ("y3",  po::value<int>(), "y-coordinate of the third point" );
   
   bool parseOK=true;
   po::variables_map vm;
@@ -142,7 +169,7 @@ int main( int argc, char** argv )
   po::notify(vm);    
   if(!parseOK || vm.count("help")||argc<=1)
     {
-      trace.info()<< "Display convex hull of grid points lying inside the specified disc" 
+      trace.info()<< "Display alpha-shape of grid points lying inside the specified disc" 
                   <<std::endl << "Basic usage: "<<std::endl
 		  << "\ttoolDisplay -R 15" << std::endl
 		  << general_opt << "\n";
@@ -157,41 +184,89 @@ int main( int argc, char** argv )
   // typedef PointVector<2,int> Vector; //DGtal point redefinition
   typedef RayIntersectableCircle<Point> Circle; //Circle
 
+  int num2 = vm["numerator2"].as<int>();
+  int den2 = vm["denominator2"].as<int>();
+
+  if (vm.count("algo"))
+    {
+      std::cerr << "Option not available for the moment" << std::endl; 
+      return 1; 
+    }
 
   if (vm.count("radius"))
     { //if radius option specified
       int radius = vm["radius"].as<int>();
-      std::cout << "Display disc of radius " << radius << std::endl; 
+      std::cout << "Disc of radius " << radius << std::endl; 
 
       Circle circle( Point(radius,0), Point(0,radius), Point(-radius,0) );
 
-      myMainProcedure( circle ); 
+      myMainProcedure( circle, num2, den2 ); 
     }
   else 
     { 
-      if ( vm.count("a") && 
-	   vm.count("b") &&
-	   vm.count("c") &&
-	   vm.count("d") && 
-	   vm.count("e") &&
-	   vm.count("f") )
+      if ( vm.count("x1") && 
+	   vm.count("y1") &&
+	   vm.count("x2") &&
+	   vm.count("y2") && 
+	   vm.count("x3") &&
+	   vm.count("y3") )
 	{
 	  //if point options specified
 	  std::cout << "Display disc passing through 3 points " << std::endl;
 	  Point p, q, r; 
-	  p[0] = vm["a"].as<int>();
-	  p[1] = vm["b"].as<int>();
-	  q[0] = vm["c"].as<int>();
-	  q[1] = vm["d"].as<int>();
-	  r[0] = vm["e"].as<int>();
-	  r[1] = vm["f"].as<int>();
+	  p[0] = vm["x1"].as<int>();
+	  p[1] = vm["y1"].as<int>();
+	  q[0] = vm["x2"].as<int>();
+	  q[1] = vm["y2"].as<int>();
+	  r[0] = vm["x3"].as<int>();
+	  r[1] = vm["y3"].as<int>();
+
+	  //orientation test
+	  Vector u = p-q; 
+	  Vector v = r-q; 
+	  if ( (u[0]*v[1] - u[1]*v[0]) >= 0) 
+	    {
+	      std::cerr << "Your three points should be in a counter-clockwise order (and not collinear)" << std::endl;
+	      return 1; 
+	    }
 
 	  Circle circle( p, q, r );
 
-	  myMainProcedure( circle ); 
+	  myMainProcedure( circle, num2, den2 ); 
 	}
       else
-	std::cerr << "Bad input arguments. Try option --help. " << std::endl; 
+	{
+	  if ( vm.count("a") && 
+	       vm.count("b") &&
+	       vm.count("c") &&
+	       vm.count("d") )
+	    {
+	      int a = vm["a"].as<int>();
+	      int b = vm["b"].as<int>();
+	      int c = vm["c"].as<int>();
+	      int d = vm["d"].as<int>();
+	      std::cout << "Disc of parameters " 
+			<< a << " "
+			<< b << " "
+			<< c << " " 
+			<< d << std::endl; 
+
+	      //orientation test
+	      if ( ( c >= 0 )&&( d >= c) )  
+		{
+		  std::cerr << "Parameter c should be strictly negative (0 = straight line; >0 = bad orientation)" << std::endl;
+		  return 1; 
+		}
+
+	      Circle circle( a, b, c, d );
+
+	      myMainProcedure( circle, num2, den2 ); 
+
+	    }
+	  else
+	    std::cerr << "Bad input arguments. Try option --help. " << std::endl; 
+	}
+
     }
 
   return 0;
