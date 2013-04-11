@@ -140,12 +140,16 @@ int main( int argc, char** argv )
     ("numerator2,n", po::value<int>()->default_value(1), "squared numerator of 1/alpha")
     ("denominator2,m", po::value<int>()->default_value(0), "squared denominator of 1/alpha")
     ("radius,R",  po::value<int>(), "Radius of the disc" )
-    ("a,a",  po::value<int>(), "x-coordinate of the first point" )
-    ("b,b",  po::value<int>(), "y-coordinate of the first point" )
-    ("c,c",  po::value<int>(), "x-coordinate of the second point" )
-    ("d,d",  po::value<int>(), "y-coordinate of the second point" )
-    ("e,e",  po::value<int>(), "x-coordinate of the third point" )
-    ("f,f",  po::value<int>(), "y-coordinate of the third point" );
+    ("a",  po::value<int>(), "a parameter of the disc" )
+    ("b",  po::value<int>(), "b parameter of the disc" )
+    ("c",  po::value<int>(), "c parameter of the disc" )
+    ("d",  po::value<int>(), "d parameter of the disc" )
+    ("x1",  po::value<int>(), "x-coordinate of the first point" )
+    ("y1",  po::value<int>(), "y-coordinate of the first point" )
+    ("x2",  po::value<int>(), "x-coordinate of the second point" )
+    ("y2",  po::value<int>(), "y-coordinate of the second point" )
+    ("x3",  po::value<int>(), "x-coordinate of the third point" )
+    ("y3",  po::value<int>(), "y-coordinate of the third point" );
   
   bool parseOK=true;
   po::variables_map vm;
@@ -185,7 +189,7 @@ int main( int argc, char** argv )
   if (vm.count("radius"))
     { //if radius option specified
       int radius = vm["radius"].as<int>();
-      std::cout << "Display disc of radius " << radius << std::endl; 
+      std::cout << "Disc of radius " << radius << std::endl; 
 
       Circle circle( Point(radius,0), Point(0,radius), Point(-radius,0) );
 
@@ -193,29 +197,69 @@ int main( int argc, char** argv )
     }
   else 
     { 
-      if ( vm.count("a") && 
-	   vm.count("b") &&
-	   vm.count("c") &&
-	   vm.count("d") && 
-	   vm.count("e") &&
-	   vm.count("f") )
+      if ( vm.count("x1") && 
+	   vm.count("y1") &&
+	   vm.count("x2") &&
+	   vm.count("y2") && 
+	   vm.count("x3") &&
+	   vm.count("y3") )
 	{
 	  //if point options specified
 	  std::cout << "Display disc passing through 3 points " << std::endl;
 	  Point p, q, r; 
-	  p[0] = vm["a"].as<int>();
-	  p[1] = vm["b"].as<int>();
-	  q[0] = vm["c"].as<int>();
-	  q[1] = vm["d"].as<int>();
-	  r[0] = vm["e"].as<int>();
-	  r[1] = vm["f"].as<int>();
+	  p[0] = vm["x1"].as<int>();
+	  p[1] = vm["y1"].as<int>();
+	  q[0] = vm["x2"].as<int>();
+	  q[1] = vm["y2"].as<int>();
+	  r[0] = vm["x3"].as<int>();
+	  r[1] = vm["y3"].as<int>();
+
+	  //orientation test
+	  Vector u = p-q; 
+	  Vector v = r-q; 
+	  if ( (u[0]*v[1] - u[1]*v[0]) >= 0) 
+	    {
+	      std::cerr << "Your three points should be in a counter-clockwise order (and not collinear)" << std::endl;
+	      return 1; 
+	    }
 
 	  Circle circle( p, q, r );
 
 	  myMainProcedure( circle, num2, den2 ); 
 	}
       else
-	std::cerr << "Bad input arguments. Try option --help. " << std::endl; 
+	{
+	  if ( vm.count("a") && 
+	       vm.count("b") &&
+	       vm.count("c") &&
+	       vm.count("d") )
+	    {
+	      int a = vm["a"].as<int>();
+	      int b = vm["b"].as<int>();
+	      int c = vm["c"].as<int>();
+	      int d = vm["d"].as<int>();
+	      std::cout << "Disc of parameters " 
+			<< a << " "
+			<< b << " "
+			<< c << " " 
+			<< d << std::endl; 
+
+	      //orientation test
+	      if ( ( c >= 0 )&&( d >= c) )  
+		{
+		  std::cerr << "Parameter c should be strictly negative (0 = straight line; >0 = bad orientation)" << std::endl;
+		  return 1; 
+		}
+
+	      Circle circle( a, b, c, d );
+
+	      myMainProcedure( circle, num2, den2 ); 
+
+	    }
+	  else
+	    std::cerr << "Bad input arguments. Try option --help. " << std::endl; 
+	}
+
     }
 
   return 0;
