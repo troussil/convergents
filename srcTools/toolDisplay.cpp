@@ -29,6 +29,7 @@ using namespace DGtal;
 #include "RayIntersectableCircle.h"
 #include "OutputSensitiveConvexHull.h"
 #include "ConvexHullHelpers.h"
+#include "CircumcircleRadiusPredicate.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 template <typename Shape, typename Point, typename OutputIterator>
@@ -85,35 +86,47 @@ void display(const ForwardIterator& itb, const ForwardIterator& ite,
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-template<typename Circle>
-void myMainProcedure(const Circle& aCircle)
+template<typename Circle, typename I>
+void myMainProcedure(const Circle& aCircle, const I& num2, const I& den2)
 {
   typedef typename Circle::Point Point; 
   typedef typename Circle::Vector Vector; 
 
-  //computation of the boundary and convex hull
+
+  //computation of the boundary and alpha-shape
   std::chrono::time_point<std::chrono::system_clock> ta, tb;
   ta = std::chrono::system_clock::now();
 
+  //- boundary
   std::vector<Point> boundary; 
   Vector dir(1,0); 
   closedTracking( aCircle, aCircle.getConvexHullVertex(), dir, std::back_inserter(boundary) ); 
 
+  //- alpha-shape
+  CircumcircleRadiusPredicate<> predicate(num2,den2);
   std::vector<Point> ch; 
-  grahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch) ); 
+  closedGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), predicate ); 
 
   tb = std::chrono::system_clock::now();
-  std::cout << std::chrono::duration_cast<std::chrono::microseconds>(tb-ta).count() << std::endl;  
-
+  std::cout << "# Time: "
+	    << std::chrono::duration_cast<std::chrono::microseconds>(tb-ta).count() 
+	    << " ms " << std::endl;
+  std::cout << "# Numb: " 
+	    << ch.size() 
+	    << " vertices " << std::endl; 
 
   //display in the standard output
-  std::cout << "Graham's convex hull of the boundary" << std::endl; 
+  std::cout << "Graham's (" 
+	    << ( std::sqrt( (double) num2) / std::sqrt( (double) den2) )
+	    << ")-shape of the boundary" << std::endl; 
   std::copy(ch.begin(), ch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
   std::cout << std::endl; 
   
   //display in an output file
-  display(ch.begin(), ch.end(), "convexHullByTracking"); 
-
+  std::string filename = "alphaShapeByGraham"; 
+  display(ch.begin(), ch.end(), filename); 
+  std::cout << "# Display stored in file " 
+	    << filename << ".eps" << std::endl;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -123,6 +136,9 @@ int main( int argc, char** argv )
   po::options_description general_opt("Allowed options are: ");
   general_opt.add_options()
     ("help,h", "display this message")
+    ("algo", po::value<std::string>(), "algorithm ('Graham', 'Har-peled')")
+    ("numerator2,n", po::value<int>()->default_value(1), "squared numerator of 1/alpha")
+    ("denominator2,m", po::value<int>()->default_value(0), "squared denominator of 1/alpha")
     ("radius,R",  po::value<int>(), "Radius of the disc" )
     ("a,a",  po::value<int>(), "x-coordinate of the first point" )
     ("b,b",  po::value<int>(), "y-coordinate of the first point" )
@@ -142,7 +158,7 @@ int main( int argc, char** argv )
   po::notify(vm);    
   if(!parseOK || vm.count("help")||argc<=1)
     {
-      trace.info()<< "Display convex hull of grid points lying inside the specified disc" 
+      trace.info()<< "Display alpha-shape of grid points lying inside the specified disc" 
                   <<std::endl << "Basic usage: "<<std::endl
 		  << "\ttoolDisplay -R 15" << std::endl
 		  << general_opt << "\n";
@@ -157,6 +173,14 @@ int main( int argc, char** argv )
   // typedef PointVector<2,int> Vector; //DGtal point redefinition
   typedef RayIntersectableCircle<Point> Circle; //Circle
 
+  int num2 = vm["numerator2"].as<int>();
+  int den2 = vm["denominator2"].as<int>();
+
+  if (vm.count("algo"))
+    {
+      std::cerr << "Option not available for the moment" << std::endl; 
+      return 1; 
+    }
 
   if (vm.count("radius"))
     { //if radius option specified
@@ -165,7 +189,7 @@ int main( int argc, char** argv )
 
       Circle circle( Point(radius,0), Point(0,radius), Point(-radius,0) );
 
-      myMainProcedure( circle ); 
+      myMainProcedure( circle, num2, den2 ); 
     }
   else 
     { 
@@ -188,7 +212,7 @@ int main( int argc, char** argv )
 
 	  Circle circle( p, q, r );
 
-	  myMainProcedure( circle ); 
+	  myMainProcedure( circle, num2, den2 ); 
 	}
       else
 	std::cerr << "Bad input arguments. Try option --help. " << std::endl; 
