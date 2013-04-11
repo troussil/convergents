@@ -18,4 +18,4 @@ LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
 include_directories (inc)
 # Read CMakeLists.txt in a subdirectory 
 add_subdirectory(srcTools)
->>>>>>> 04b4e00f7cb58f4f832a870da0b7f234158f2380
+
