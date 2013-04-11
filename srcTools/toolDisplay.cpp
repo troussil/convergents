@@ -28,9 +28,9 @@ using namespace DGtal;
 #include "../inc/PointVector2D.h"
 #include "../inc/RayIntersectableCircle.h"
 #include "../inc/OutputSensitiveConvexHull.h"
+#include "../inc/OutputSensitiveAlphaShape.h"
 #include "../inc/ConvexHullHelpers.h"
 #include "../inc/CircumcircleRadiusPredicate.h"
-
 
 ///////////////////////////////////////////////////////////////////////////////
 template <typename Shape, typename Point, typename OutputIterator>
@@ -88,7 +88,7 @@ void display(const ForwardIterator& itb, const ForwardIterator& ite,
 
 ///////////////////////////////////////////////////////////////////////////////
 template<typename Circle, typename I>
-void myMainProcedure(const Circle& aCircle, const I& num2, const I& den2)
+void grahamProcedure(const Circle& aCircle, const I& num2, const I& den2)
 {
   typedef typename Circle::Point Point; 
   typedef typename Circle::Vector Vector; 
@@ -131,13 +131,67 @@ void myMainProcedure(const Circle& aCircle, const I& num2, const I& den2)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+template<typename Circle, typename I>
+void outputSensitiveProcedure(const Circle& aCircle, const I& num2, const I& den2)
+{
+  typedef typename Circle::Point Point; 
+  typedef typename Circle::Vector Vector; 
+
+  std::cout << "output sensitive proc" << std::endl; 
+
+  typedef CircumcircleRadiusPredicate<> Predicate; 
+  Predicate predicate(num2, den2);
+  OutputSensitiveAlphaShape<Circle, Predicate> as(aCircle, predicate);
+
+  //computation of the alpha-shape
+  std::chrono::time_point<std::chrono::system_clock> ta, tb;
+  ta = std::chrono::system_clock::now();
+
+  std::vector<Point> ch; 
+  as.all( std::back_inserter(ch) ); 
+
+  tb = std::chrono::system_clock::now();
+  std::cout << "# Time: "
+	    << std::chrono::duration_cast<std::chrono::microseconds>(tb-ta).count() 
+	    << " ms " << std::endl;
+  std::cout << "# Numb: " 
+	    << ch.size() 
+	    << " vertices " << std::endl; 
+
+  //display in the standard output
+  std::cout << "Output-sensitive (" 
+	    << ( std::sqrt( (double) num2) / std::sqrt( (double) den2) )
+	    << ")-shape " << std::endl; 
+  std::copy(ch.begin(), ch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+  std::cout << std::endl; 
+  
+  //display in an output file
+  std::string filename = "OutputSensitiveAlphaShape"; 
+  display(ch.begin(), ch.end(), filename); 
+  std::cout << "# Display stored in file " 
+	    << filename << ".eps" << std::endl;
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+template<typename Circle, typename I>
+void mainProcedure(const Circle& aCircle, const I& num2, const I& den2, 
+		   const std::string& methodName)
+{
+  if (methodName == "Har-Peled")
+    outputSensitiveProcedure(aCircle, num2, den2); 
+  else 
+    grahamProcedure(aCircle, num2, den2); 
+}
+
+///////////////////////////////////////////////////////////////////////////////
 int main( int argc, char** argv )
 {
   // parse command line ----------------------------------------------
   po::options_description general_opt("Allowed options are: ");
   general_opt.add_options()
     ("help,h", "display this message")
-    ("algo", po::value<std::string>(), "algorithm ('Graham', 'Har-peled')")
+    ("algo", po::value<std::string>()->default_value("Har-Peled"), "algorithm: either 'Har-Peled' or 'other'(Graham)")
     ("numerator2,n", po::value<int>()->default_value(1), "squared numerator of 1/alpha")
     ("denominator2,m", po::value<int>()->default_value(0), "squared denominator of 1/alpha")
     ("radius,R",  po::value<int>(), "Radius of the disc" )
@@ -178,14 +232,9 @@ int main( int argc, char** argv )
   // typedef PointVector<2,int> Vector; //DGtal point redefinition
   typedef RayIntersectableCircle<Point> Circle; //Circle
 
+  std::string methodName = vm["algo"].as<std::string>(); 
   int num2 = vm["numerator2"].as<int>();
   int den2 = vm["denominator2"].as<int>();
-
-  if (vm.count("algo"))
-    {
-      std::cerr << "Option not available for the moment" << std::endl; 
-      return 1; 
-    }
 
   if (vm.count("radius"))
     { //if radius option specified
@@ -194,7 +243,7 @@ int main( int argc, char** argv )
 
       Circle circle( Point(radius,0), Point(0,radius), Point(-radius,0) );
 
-      myMainProcedure( circle, num2, den2 ); 
+      mainProcedure( circle, num2, den2, methodName ); 
     }
   else 
     { 
@@ -226,7 +275,7 @@ int main( int argc, char** argv )
 
 	  Circle circle( p, q, r );
 
-	  myMainProcedure( circle, num2, den2 ); 
+	  mainProcedure( circle, num2, den2, methodName ); 
 	}
       else
 	{
@@ -254,7 +303,7 @@ int main( int argc, char** argv )
 
 	      Circle circle( a, b, c, d );
 
-	      myMainProcedure( circle, num2, den2 ); 
+	      mainProcedure( circle, num2, den2, methodName ); 
 
 	    }
 	  else

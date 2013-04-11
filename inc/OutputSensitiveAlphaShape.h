@@ -136,13 +136,12 @@ class OutputSensitiveAlphaShape
      * Given a vertex of the alpha-shape, find a serie of vertices
      * in a counter-clockwise order
      * 
-     * @param aPredicate determine the alpha-shape radius
      * @param aPoint any vertex of the alpha-shape 
-     * @param aAlphaShape Output Iterator which log a serie of vertices
-     * @return the last vertex log by the output iterator
+     * @param res output iterator that stores the sequence of vertices
+     * @return the last retrieved vertex (not stored). 
      */
-    template <typename CircumcircleRadiusPredicate, typename Point, typename OutputIterator>
-      Point next(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa, int aMaxConv, OutputIterator aAlphaShapeHull)
+    template <typename OutputIterator>
+      Point next(const Point& aPoint, OutputIterator res)
       {
         // Initialisation of the convergent.
         // First convergents vectors : 
@@ -155,7 +154,7 @@ class OutputSensitiveAlphaShape
 
         // Orientation of the convergent
         // vm2 outside and vm1 inside
-        while (myShape(aPointa + vConvM2) > 0 || myShape(aPointa + vConvM1) < 0)
+        while (myShape(aPoint + vConvM2) > 0 || myShape(aPoint + vConvM1) < 0)
         {
           // pi/2 counter clockwise rotation
           vConvM2 = vConvM2.rotate(rot_pi2);
@@ -163,50 +162,56 @@ class OutputSensitiveAlphaShape
         }
 
         // First convergents
-        Point pConvM2 = aPointa + vConvM2;
-        Point pConvM1 = aPointa + vConvM1;
+        Point pConvM2 = aPoint + vConvM2;
+        Point pConvM1 = aPoint + vConvM1;
 
-        // pConv is the next convergent pconv = pConvM2 + qk * vConvM1.
-        Point pConv;
+        // k is the convergent index. Useful to know if the convergent is odd or even
+        // ie : if the convergent is below or above the shape
+        int k = 0;
+
+        // pConv is the next convergent pConv = pConvM2 + qk * vConvM1.
         int qk;
+        Point pConv;
 
         // pConvM2 + qkalpha * vConvM1 is the first vertex in the alpha shape.
         int qkalpha;
 
-        // k is the convergent number. Usefull to know if the convergent is odd or even
-        // ie : if the convergent is below or above the straight line
-        int k = 0;
-	  
         while (myShape.dray(pConvM2, vConvM1, qk, pConv) == true)
         {
-          // pConv is calculate in lineRatio.dray(), so we update vConv
-          vConv = pConv - aPointa;
+          // pConv is computed in dray, so we update vConv
+          vConv = pConv - aPoint;
 
           /**
            * We search for new vertices insides the alpha-hull, ie : k is odd.
            * The circumcircle radius of the triangle formed by the new vertex 
-           * T(aPointa, pConv, pConv-vConvM1) also need to be shorter than the
+           * T(aPoint, pConv, pConv-vConvM1) also need to be shorter than the
            * stored radius
            */
-          if ( k % 2 != 0 && aPredicate(aPointa, pConv, pConv-vConvM1) == false)
+          if ( k % 2 != 0 && myPredicate(aPoint, pConv, pConv-vConvM1) == false)
           {
             // We throw the dichotomus search
-            qkalpha = dichotomous(aPredicate, aPointa, vConvM2, vConvM1, qk);
+            qkalpha = dichotomous(myPredicate, aPoint, vConvM2, vConvM1, qk);
 
             /**
              * If qkalpha == 0, we have to deal with a special case.
              * We have to restart from pConvM2 in order to not missed any vertex.
              */
-            if (qkalpha == 0){return(pConvM2);}
+
+            if (qkalpha == 0)
+            {
+              //*res++ = pConvM2;
+              return(pConvM2); 
+            }
             else
             {
               /**
                * We add all the vertices between qkalpha and qk in the alpha-Shape.
                * We restart from the last vertex add : pConv.
                */
-              while (qkalpha < qk)
+
+              while (qkalpha < qk)//instead of <= 
               {
-                *aAlphaShapeHull++ = pConvM2 + qkalpha*vConvM1;
+                *res++ = pConvM2 + qkalpha*vConvM1;
                 qkalpha++;  
               }
               return(pConv);
@@ -220,9 +225,10 @@ class OutputSensitiveAlphaShape
              */
             if (myShape(pConv) == 0)
             {
-              if (aPredicate(aPointa, pConv- vConvM1, pConv ) == false)              {
+              if (myPredicate(aPoint, pConv- vConvM1, pConv ) == false)
+              {
                 // We throw the dichotomus search
-                qkalpha = dichotomous(aPredicate, aPointa, vConvM2, vConvM1, qk);
+                qkalpha = dichotomous(myPredicate, aPoint, vConvM2, vConvM1, qk);
 
                 /**
                  * We add all the vertices between 1 and qk-qkalpha in the alpha-Shape.
@@ -230,10 +236,14 @@ class OutputSensitiveAlphaShape
                  */
                 int qks = qkalpha;
                 qkalpha = 1;
-                for( qkalpha=1; qkalpha <= (qk-qks); qkalpha++){
-			*aAlphaShapeHull++ = aPointa + qkalpha*vConvM1;
+
+                while ( qkalpha <= qk-qks)
+                {
+                  *res++ = aPoint + qkalpha*vConvM1;
+                  qkalpha++;
                 }
               }
+              //*res++ = pConv;
               return(pConv);
             }
             else 
@@ -242,8 +252,16 @@ class OutputSensitiveAlphaShape
               if (k > 0 && qk <= 0)
               { 
                 // We add and restart from the last convergent inside the alpha-hull
-                if (myShape(pConv) > 0){return(pConv);}
-                else{ return(pConvM1);}
+                if (myShape(pConv) > 0)	
+                {
+                  //*res++ = pConv;
+                  return(pConv);
+                }
+                else	
+                {
+                  //*res++ = pConvM1;
+                  return(pConvM1);
+                }	
               }
               else 
               {
@@ -252,7 +270,7 @@ class OutputSensitiveAlphaShape
                 pConvM2 = pConvM1;
                 pConvM1 = pConv;
                 vConvM2 = vConvM1;
-                vConvM1 = pConv-aPointa;
+                vConvM1 = pConv-aPoint;
               } 
             }
           }
@@ -260,20 +278,78 @@ class OutputSensitiveAlphaShape
 
         /**
          * No more intersection. We search for pConvM1 translation.
-         * We can't change aPointa, so we use pConv instead.
+         * We can't change aPoint, so we use pConv instead.
          */
-         k = 1;
+
+      Point prevLastPoint = aPoint;
+	Point lastPoint = prevLastPoint + vConvM1; 
+	if (myShape(lastPoint) >= 0)
+	  {
+	    prevLastPoint = lastPoint; 
+	    lastPoint += vConvM1;
+	    while (myShape(lastPoint) >= 0)
+	      {
+		*res++ = prevLastPoint;
+		prevLastPoint = lastPoint; 
+		lastPoint += vConvM1;
+	      } 
+	    return(prevLastPoint);
+	  }
+	else 
+	  return lastPoint; 
+
+	/*k = 1;
          // VConvM1 translation
         
         while(myShape(aPointa + (k+1)*vConvM1) >= 0){k++;}
 	  for (int i = 1; i < k; i++){*aAlphaShapeHull++ = aPointa + i*vConvM1;}
      
 	  return(aPointa + k*vConvM1);
-	  
-         
-        
+
+	// obsolete
+        // while(myShape(pConv + vConvM1) >= 0)
+        // {
+        //   pConv += vConvM1;
+	//   std::cerr << "stored " << pConv[0] << "," << pConv[1] << std::endl; 
+        //   *res++ = pConv;
+        // }
+        // return(pConv);*/
       } // end - proc
 
+  /**
+   * Retrieves all the vertices of the alpha-shape
+   * in a counter-clockwise order from a given vertex
+   *  
+   * @param aStartingPoint a vertex of the alpha-shape
+   * @param res output iterator that stores the sequence of vertices
+   */
+  template <typename OutputIterator>
+  void all(const Point& aStartingPoint, OutputIterator res)
+  {
+    //get the first vertex
+    Point tmp = aStartingPoint; 
+
+    do 
+      {
+	//stores the last retrieved vertex
+	*res++ = tmp; 
+	// get the next alpha-shape vertices
+	tmp = next(tmp, res);
+	//while it is not the first one
+      } while (tmp != aStartingPoint); 
+  }
+
+  /**
+   * Retrieves all the vertices of the alpha-shape
+   * in a counter-clockwise order
+   *  
+   * @param res output iterator that stores the sequence of vertices
+   */
+  template <typename OutputIterator>
+  void all(OutputIterator res)
+  {
+    all(myShape.getConvexHullVertex(), res); 
+  }
 
 }; 
 #endif
