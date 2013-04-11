@@ -196,6 +196,7 @@ class OutputSensitiveAlphaShape
              * If qkalpha == 0, we have to deal with a special case.
              * We have to restart from pConvM2 in order to not missed any vertex.
              */
+
             if (qkalpha == 0)
             {
               //*res++ = pConvM2;
@@ -207,6 +208,7 @@ class OutputSensitiveAlphaShape
                * We add all the vertices between qkalpha and qk in the alpha-Shape.
                * We restart from the last vertex add : pConv.
                */
+
               while (qkalpha < qk)//instead of <= 
               {
                 *res++ = pConvM2 + qkalpha*vConvM1;
@@ -234,12 +236,12 @@ class OutputSensitiveAlphaShape
                  */
                 int qks = qkalpha;
                 qkalpha = 1;
+
                 while ( qkalpha <= qk-qks)
                 {
                   *res++ = aPoint + qkalpha*vConvM1;
                   qkalpha++;
                 }
-
               }
               //*res++ = pConv;
               return(pConv);
@@ -278,7 +280,8 @@ class OutputSensitiveAlphaShape
          * No more intersection. We search for pConvM1 translation.
          * We can't change aPoint, so we use pConv instead.
          */
-        Point prevLastPoint = aPoint;
+
+      Point prevLastPoint = aPoint;
 	Point lastPoint = prevLastPoint + vConvM1; 
 	if (myShape(lastPoint) >= 0)
 	  {
@@ -295,6 +298,14 @@ class OutputSensitiveAlphaShape
 	else 
 	  return lastPoint; 
 
+	/*k = 1;
+         // VConvM1 translation
+        
+        while(myShape(aPointa + (k+1)*vConvM1) >= 0){k++;}
+	  for (int i = 1; i < k; i++){*aAlphaShapeHull++ = aPointa + i*vConvM1;}
+     
+	  return(aPointa + k*vConvM1);
+
 	// obsolete
         // while(myShape(pConv + vConvM1) >= 0)
         // {
@@ -302,7 +313,7 @@ class OutputSensitiveAlphaShape
 	//   std::cerr << "stored " << pConv[0] << "," << pConv[1] << std::endl; 
         //   *res++ = pConv;
         // }
-        // return(pConv);
+        // return(pConv);*/
       } // end - proc
 
   /**

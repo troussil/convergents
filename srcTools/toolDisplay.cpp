@@ -25,12 +25,12 @@ using namespace DGtal;
 
 ///////////////////////////////////////////////////////////////////////////////
 //our work
-#include "PointVector2D.h"
-#include "RayIntersectableCircle.h"
-#include "OutputSensitiveConvexHull.h"
-#include "OutputSensitiveAlphaShape.h"
-#include "ConvexHullHelpers.h"
-#include "CircumcircleRadiusPredicate.h"
+#include "../inc/PointVector2D.h"
+#include "../inc/RayIntersectableCircle.h"
+#include "../inc/OutputSensitiveConvexHull.h"
+#include "../inc/OutputSensitiveAlphaShape.h"
+#include "../inc/ConvexHullHelpers.h"
+#include "../inc/CircumcircleRadiusPredicate.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 template <typename Shape, typename Point, typename OutputIterator>

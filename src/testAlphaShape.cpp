@@ -64,20 +64,20 @@ bool test(const Circle aCircle, const CircumcircleRadiusPredicate& aPredicate)
 
   //tracking-based algorithm
   Vector dir(1,0); 
-  openTracking( aCircle, pStart, pStart, dir, std::back_inserter(boundary) );
+  closedTracking( aCircle, pStart, dir, std::back_inserter(boundary) );
 
-  openGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch0), aPredicate ); 
+  closedGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch0), aPredicate ); 
 
 
-  //std::cout << "# - alpha-shape of the boundary using OpenGrahamScan" << std::endl; 
-  //std::copy(ch0.begin(), ch0.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
-  //std::cout << std::endl; 
+  std::cout << "# - alpha-shape of the boundary using closedGrahamScan" << std::endl; 
+  std::copy(ch0.begin(), ch0.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+  std::cout << std::endl; 
 
   alphaShape( aCircle, pStart, std::back_inserter(ch1), aPredicate ); 
 
-  //std::cout << "# - alpha-shape" << std::endl; 
-  //std::copy(ch1.begin(), ch1.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
-  //std::cout << std::endl; 
+  std::cout << "# - alpha-shape" << std::endl; 
+  std::copy(ch1.begin(), ch1.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+  std::cout << std::endl; 
 
   //COMPARE WITH YOUR ALGO HERE
   if (ch0.size() == ch1.size())
@@ -89,8 +89,6 @@ bool test(const Circle aCircle, const CircumcircleRadiusPredicate& aPredicate)
   }
   else {return false;}
 }
-
-
 
 
 ///////////////////////////////////////////////////////////////////////
@@ -261,7 +259,7 @@ int main()
 
       std::vector<Point> as; 
       alphaShape( circle, circle.getConvexHullVertex(), std::back_inserter(as), predicate );
-      as.erase(as.end()); 
+
       std::cout << "3 - Alpha shape" << std::endl; 
       std::copy(as.begin(), as.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
       std::cout << std::endl; 
@@ -293,8 +291,9 @@ int main()
       std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
 
       std::vector<Point> as; 
+
       alphaShape( circle, circle.getConvexHullVertex(), std::back_inserter(as), predicate );
-      as.erase(as.end()); 
+
       std::cout << "Alpha shape" << std::endl; 
       std::copy(as.begin(), as.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
       std::cout << std::endl; 
@@ -347,8 +346,9 @@ int main()
       std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
 
       std::vector<Point> as; 
+
       alphaShape( circle, circle.getConvexHullVertex(), std::back_inserter(as), predicate );
-      as.erase(as.end()); 
+
       std::cout << "Alpha shape" << std::endl; 
       std::copy(as.begin(), as.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
       std::cout << std::endl; 
@@ -366,6 +366,8 @@ int main()
   // Test number
   int nb_test = 100;
 
+  //random value
+  srand ( time(NULL) );
   // Max origin coordinate
   int maxPoint = 100;
 
