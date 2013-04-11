@@ -209,7 +209,6 @@ class OutputSensitiveAlphaShape
                */
               while (qkalpha < qk)//instead of <= 
               {
-		std::cerr << "stored " << pConvM2 + qkalpha*vConvM1 << std::endl; 
                 *res++ = pConvM2 + qkalpha*vConvM1;
                 qkalpha++;  
               }
@@ -237,7 +236,6 @@ class OutputSensitiveAlphaShape
                 qkalpha = 1;
                 while ( qkalpha <= qk-qks)
                 {
-		std::cerr << "stored " << aPoint + qkalpha*vConvM1 << std::endl; 
                   *res++ = aPoint + qkalpha*vConvM1;
                   qkalpha++;
                 }
@@ -297,6 +295,7 @@ class OutputSensitiveAlphaShape
 	else 
 	  return lastPoint; 
 
+	// obsolete
         // while(myShape(pConv + vConvM1) >= 0)
         // {
         //   pConv += vConvM1;

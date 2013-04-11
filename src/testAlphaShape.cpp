@@ -22,6 +22,15 @@
 // Alpha-shape
 #include "../inc/OutputSensitiveAlphaShape.h"
 
+//////////////////////////////////////////////////////////////////////
+template <typename Shape, typename Point, typename OutputIterator, 
+  typename Predicate>
+void alphaShape(const Shape& aShape, const Point& aStartingPoint, 
+    OutputIterator res, const Predicate& aPredicate)
+{
+  OutputSensitiveAlphaShape<Shape, Predicate> ch(aShape, aPredicate);
+  ch.all(res); 
+}
 ///////////////////////////////////////////////////////////////////////
 /**
  * @brief Procedure that checks whether the 
@@ -64,7 +73,7 @@ bool test(const Circle aCircle, const CircumcircleRadiusPredicate& aPredicate)
   //std::copy(ch0.begin(), ch0.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
   //std::cout << std::endl; 
 
-  alphaShape( aCircle, pStart, std::back_inserter(ch1), maxConv, aPredicate ); 
+  alphaShape( aCircle, pStart, std::back_inserter(ch1), aPredicate ); 
 
   //std::cout << "# - alpha-shape" << std::endl; 
   //std::copy(ch1.begin(), ch1.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
@@ -82,27 +91,7 @@ bool test(const Circle aCircle, const CircumcircleRadiusPredicate& aPredicate)
 }
 
 
-//////////////////////////////////////////////////////////////////////
-template <typename Shape, typename Point, typename OutputIterator, 
-  typename Predicate>
-void alphaShape(const Shape& aShape, const Point& aStartingPoint, 
-    OutputIterator res, int aMaxConv, const Predicate& aPredicate)
-{
-  OutputSensitiveAlphaShape<Shape, Predicate> ch(aShape, aPredicate);
 
-  //get the first vertex
-  Point tmp = aStartingPoint; 
-  int k = 0;
-
-  *res++ = tmp; 
-  while (tmp != aStartingPoint || k == 0)
-  {
-    k++;
-    // get the next alpha-shape vertices
-    tmp = ch.next(aPredicate, tmp, aMaxConv, res);
-
-  }//while we not return to aStartingPoint
-}
 
 ///////////////////////////////////////////////////////////////////////
 int main() 
@@ -271,7 +260,7 @@ int main()
       std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
 
       std::vector<Point> as; 
-      alphaShape( circle, circle.getConvexHullVertex(), std::back_inserter(as), 50, predicate );
+      alphaShape( circle, circle.getConvexHullVertex(), std::back_inserter(as), predicate );
       as.erase(as.end()); 
       std::cout << "3 - Alpha shape" << std::endl; 
       std::copy(as.begin(), as.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
@@ -304,7 +293,7 @@ int main()
       std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
 
       std::vector<Point> as; 
-      alphaShape( circle, circle.getConvexHullVertex(), std::back_inserter(as), 50, predicate );
+      alphaShape( circle, circle.getConvexHullVertex(), std::back_inserter(as), predicate );
       as.erase(as.end()); 
       std::cout << "Alpha shape" << std::endl; 
       std::copy(as.begin(), as.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
@@ -358,7 +347,7 @@ int main()
       std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
 
       std::vector<Point> as; 
-      alphaShape( circle, circle.getConvexHullVertex(), std::back_inserter(as), 50, predicate );
+      alphaShape( circle, circle.getConvexHullVertex(), std::back_inserter(as), predicate );
       as.erase(as.end()); 
       std::cout << "Alpha shape" << std::endl; 
       std::copy(as.begin(), as.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
