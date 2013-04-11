@@ -245,7 +245,7 @@ Point next(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa, 
 
     if ( k % 2 != 0 && aPredicate(pStart, pConv, pConv-vConvM1) == false)
     {
-    	// We throw the dichotomus search.
+      // We throw the dichotomus search.
       qkalpha = dichotomous(aPredicate, pStart, vConvM2, vConvM1, qk);
 
       if (qkalpha == 0)
@@ -283,16 +283,16 @@ Point next(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa, 
         {
           if (aPredicate(pStart, pConv- vConvM1, pConv ) == false)
           {
-          	// We throw the dichotomus search.
+            // We throw the dichotomus search.
             qkalpha = dichotomous(aPredicate, pStart, vConvM2, vConvM1, qk);
-            
+
             /**
              * We add all the vertices between 1 and qk-qkalpha in the alpha-Shape.
              * We add the last vertex : aPointb and stop the procedure after.
              */
             int qks = qkalpha;
             qkalpha = 1;
-            
+
             while ( qkalpha <= qk-qks)
             {
               *aAlphaShapeHull++ = pStart + qkalpha*vConvM1;

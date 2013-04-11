@@ -178,8 +178,8 @@ class RayIntersectableCircle
       Integer x = aPoint[0]; 
       Integer y = aPoint[1];
       Integer z = x*x + y*y;  
-//      return (myA*aPoint[0] + myB*aPoint[1] + myC*z + myD); 
-      return (myC<0 ? (myA*aPoint[0] + myB*aPoint[1] + myC*z + myD):-(myA*aPoint[0] + myB*aPoint[1] + myC*z + myD)); 
+      return (myA*aPoint[0] + myB*aPoint[1] + myC*z + myD); 
+//      return (myC<0 ? (myA*aPoint[0] + myB*aPoint[1] + myC*z + myD):-(myA*aPoint[0] + myB*aPoint[1] + myC*z + myD)); 
     }
 
     /**
@@ -202,47 +202,59 @@ class RayIntersectableCircle
        *
        */
 
-     Integer aEq = myC*(aDirection[0]*aDirection[0] + aDirection[1]*aDirection[1]);
-     Integer bEq = myA*aDirection[0] + myB*aDirection[1] + 
+     double aEq = myC*(aDirection[0]*aDirection[0] + aDirection[1]*aDirection[1]);
+     double bEq = myA*aDirection[0] + myB*aDirection[1] + 
        2*myC*aStartingPoint[0]*aDirection[0] + 
        2*myC*aStartingPoint[1]*aDirection[1];
 
-     Integer cEq = myA*aStartingPoint[0] + myB*aStartingPoint[1] + 
+     double cEq = myA*aStartingPoint[0] + myB*aStartingPoint[1] + 
        myC*aStartingPoint[0]*aStartingPoint[0] + 
        myC*aStartingPoint[1]*aStartingPoint[1] + myD;  
 
-     Integer Delta = bEq*bEq - 4*aEq*cEq;
-     
+		 
+     double Delta = std::sqrt(bEq*bEq - 4*aEq*cEq);
+//     Integer Delta = bEq*bEq - 4*aEq*cEq;
+//std::cout << "Delta : "<<Delta<< " ; aS, aD : "<<aStartingPoint<<aDirection<<std::endl;
+//std::cout << "a : "<<aEq<<", b : "<<bEq<<", c : "<<cEq<<" | "<<myA<<myB<<myC<<std::endl;   
      //Delta = 0 - 1 solution
      // aS+aQ*aD is a tangent to the circle
      if (Delta == 0 && -bEq/(2*aEq) >= 0)
      {
-       aQuotient = -bEq/(2*aEq);
+       aQuotient = floor(-bEq/(2*aEq));
        aClosest = aStartingPoint + aQuotient*aDirection;
        return true;
      }
 
      // Delta > 0 - 2 solutions
-     else if (Delta >= 0)
+     else if (Delta > 0)
      {
-       double x1 = (-bEq - std::sqrt(Delta))/(2*aEq);
-       double x2 = (-bEq + std::sqrt(Delta))/(2*aEq);
-        
+       double x1 = (-bEq - Delta)/(2*aEq);
+       double x2 = (-bEq + Delta)/(2*aEq);
+//std::cout << "x1, x2 : "<<x1<<" , "<<x2<<std::endl;              
        // aS lie on the circle
-       if (x1*x2 == 0.0)
+       if ( (*this)(aStartingPoint) == 0.0)
        {
          aQuotient = 0;
          aClosest = aStartingPoint;
          return true;
        }
        // aS is outside the circle
-       else if (x1*x2 > 0.0)
+       else if ( (*this)(aStartingPoint) < 0.0)
        {
-         if ( x1<0.0 ){return false;}
+         if ( -bEq/aEq < 0  ){return false;}
          else 
          { 
            // We pick the smallest solution
-           aQuotient = floor(x1<x2 ? x1:x2);
+         	 if ( bEq < 0 )
+         	 {
+         	 	aQuotient = floor(x1);
+         	 }
+         	 else
+         	 {
+         	 	aQuotient = floor(x2);
+         	 }
+        
+         	 //aQuotient = floor(x1<x2 ? x1:x2);
            aClosest = aStartingPoint + aQuotient*aDirection;
            return true;
          }
@@ -304,3 +316,4 @@ class RayIntersectableCircle
 
 }; 
 #endif
+

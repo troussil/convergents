@@ -1,4 +1,7 @@
 #include <iostream>
+#include <string>
+#include <fstream>
+
 //containers and iterators
 #include <iterator>
 #include <vector>
@@ -6,13 +9,16 @@
 // random
 #include <cstdlib>
 #include <ctime>
+
+#include <cmath>
 // Core geometry
 #include "../inc/PointVector2D.h"
 // Circle
 #include "../inc/RayIntersectableCircle.h"
 // Convex Hull
+
 #include "../inc/OutputSensitiveConvexHull.h"
-#include "../inc/ConvexHullHelpers.h"
+
 // Alpha-shape
 #include "../inc/OutputSensitiveAlphaShape.h"
 
@@ -21,18 +27,15 @@
  * @brief Procedure that checks whether the 
  * output-sensitive algorithm returns the same
  * alpha-shape as the tracking-based algorithm
- * for a straight-line, which is described by
- * a point @e O and the continued fractions
- * expansion of its slope. 
+ * for a given circle. 
  * 
- * @param itb quotient begin iterator
- * @param ite quotient end iterator 
- * @param O any digital point 
+ * @param aCircle
+ * @param aPredicate  
  * 
  * @return 'true' if the test passed, 'false' otherwise
  * 
- * @tparam ForwardIterator a model of forward iterator
- * @tparam Point a model of point
+ * @tparam
+ * @tparam CircumcircleRadiusPredicate
  */
   template<typename Circle, typename CircumcircleRadiusPredicate>
 bool test(const Circle aCircle, const CircumcircleRadiusPredicate& aPredicate)
@@ -57,13 +60,13 @@ bool test(const Circle aCircle, const CircumcircleRadiusPredicate& aPredicate)
   openGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch0), aPredicate ); 
 
 
-  std::cout << "#3.1 - alpha-shape of the boundary using OpenGrahamScan" << std::endl; 
+  //std::cout << "# - alpha-shape of the boundary using OpenGrahamScan" << std::endl; 
   //std::copy(ch0.begin(), ch0.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
   //std::cout << std::endl; 
 
   alphaShape( aCircle, pStart, std::back_inserter(ch1), maxConv, aPredicate ); 
 
-  std::cout << "#2 - alpha-shape" << std::endl; 
+  //std::cout << "# - alpha-shape" << std::endl; 
   //std::copy(ch1.begin(), ch1.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
   //std::cout << std::endl; 
 
@@ -76,9 +79,8 @@ bool test(const Circle aCircle, const CircumcircleRadiusPredicate& aPredicate)
     }
   }
   else {return false;}
-
-
 }
+
 
 //////////////////////////////////////////////////////////////////////
 template <typename Shape, typename Point, typename OutputIterator, 
@@ -371,11 +373,8 @@ int main()
   }
   std::cout << std::endl<<"II) Automatic testing -shape of the boundary" << std::endl<< std::endl; 
 
-  //random value
-  srand ( time(NULL) );
 
   // Test number
-//  int nb_test = 10000;
   int nb_test = 100;
 
   // Max origin coordinate
@@ -454,9 +453,11 @@ int main()
   }
   //(4,2)(2,1)(6,-5) - (4,2)(0,-6)(10,-14) - (7,8)(-1,-1)(3,-8) - (5,3)(2,2)(4,-7)
   {
-    pta = Point(5,3);
-    ptb = Point(2,2);
-    ptc = Point(4,-7);
+
+    pta = Point(1025, 0);
+    ptb = Point(0, 1025);
+    ptc = Point(-1025, 0);
+
     Circle circle( pta, ptb, ptc );
 
     std::cout << "-- Disk[ Center : (" << circle.getCenterX() << ", " 
@@ -464,7 +465,7 @@ int main()
       << " ] | Points : "<< pta<< ptb<< ptc<< " - First vertex : " 
       << circle.getConvexHullVertex() << std::endl;
 
-    CircumcircleRadiusPredicate<> predicate(3,2);
+    CircumcircleRadiusPredicate<> predicate(20,2);
     std::cout << "Radius predicate : Num2 / Den2 : 10/2"<< std::endl;
 
 
@@ -475,6 +476,8 @@ int main()
     std::cout << " ----------- Next predicate ----------- " << std::endl; 
     std::cout << std::endl;
   }
+
+
   //1 if at least one test failed
   //0 otherwise
   return (nb != nbok); 

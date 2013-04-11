@@ -13,7 +13,6 @@ build/*
 *.so
 *.so.*
 
-
 # Executables
 *.exe
 *.out
@@ -22,3 +21,13 @@ build/*
 # Temp
 *~
 *.swp
+
+# gnuplot log files
+fit.log
+
+# data - pictures
+*.png
+*.svg
+
+# data - table
+outcome/data*

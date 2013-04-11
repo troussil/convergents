@@ -4,11 +4,15 @@ CODE := $(shell pwd)
 SRCDIR = $(CODE)/src
 INCDIR = $(CODE)/inc
 
-# create bin and obj folders
+# create folders and files
 BLDDIR = $(CODE)/build
 BINDIR = $(CODE)/build/bin
 OBJDIR = $(CODE)/build/obj
- 
+DATADIR = $(CODE)/outcome
+OBJDIR = $(CODE)/build/obj
+TOOLDIR = $(CODE)/tools
+DATAFILES = $(DATADIR)/data-`date +'%y.%m.%d-%H:%M'`.txt
+DATAWORK = $(DATADIR)/data-means.txt
 # Shortcuts
 PV = PointVector2D
 testPV = test$(PV)
@@ -19,14 +23,16 @@ testR = testRay
 .PHONY: clean
 
 #all cibles
-all: |target $(BINDIR)/$(testPV) $(BINDIR)/$(testR) $(BINDIR)/testConvergents $(BINDIR)/testConvexHull $(BINDIR)/testAlphaShapeStraightLine $(BINDIR)/testAlphaShape
+all: |target $(BINDIR)/$(testPV) $(BINDIR)/$(testR) $(BINDIR)/testConvergents $(BINDIR)/testConvexHull $(BINDIR)/testAlphaShapeStraightLine $(BINDIR)/testAlphaShape $(BINDIR)/toolAlphaShape
 
 # Create folders if need
 target:
 	test -d $(BLDDIR) || mkdir $(BLDDIR)
 	test -d $(BINDIR) || mkdir $(BINDIR)
 	test -d $(OBJDIR) || mkdir $(OBJDIR)
-
+	test -d $(DATADIR) || mkdir $(DATADIR)
+	test -d $(TOOLDIR) || mkdir $(TOOLDIR)
+	
 # PointVector2D
 $(BINDIR)/$(testPV): $(SRCDIR)/$(testPV).cpp $(INCDIR)/$(PV).h
 	g++ -c $< -o $(OBJDIR)/$(testPV).o
@@ -53,10 +59,18 @@ $(BINDIR)/testAlphaShapeStraightLine: $(SRCDIR)/testAlphaShapeStraightLine.cpp $
 $(BINDIR)/testAlphaShape: $(SRCDIR)/testAlphaShape.cpp $(INCDIR)/RayIntersectableCircle.h $(INCDIR)/OutputSensitiveAlphaShape.h $(INCDIR)/ConvexHullHelpers.h
 	g++ $< -o $@
 
+# Post Processing alpha-shape on circle
+$(BINDIR)/toolAlphaShape: $(SRCDIR)/toolAlphaShape.cpp $(INCDIR)/RayIntersectableCircle.h $(INCDIR)/OutputSensitiveAlphaShape.h $(INCDIR)/OutputSensitiveConvexHull.h $(INCDIR)/ConvexHullHelpers.h
+	g++ -std=c++0x $< -o $@
+	
 # Testing
 test: 
 	$(BINDIR)/$(testPV) && $(BINDIR)/$(testR) && $(BINDIR)/testConvergents && $(BINDIR)/testConvexHull && $(BINDIR)/testAlphaShapeStraightLine && $(BINDIR)/testAlphaShape
 
+# Post Processing
+tool: 
+	$(BINDIR)/toolAlphaShape > $(DATAFILES); cp $(DATAFILES) $(DATAWORK); gnuplot -persist $(TOOLDIR)/plop2.gp
+
 # Cleaning
 clean: 
-	rm -rf $(OBJDIR)/*.o $(BINDIR)/*
+	rm -rf $(OBJDIR)/*.o $(BINDIR)/*; rm -f fit.log
