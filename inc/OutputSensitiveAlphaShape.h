@@ -176,8 +176,7 @@ class OutputSensitiveAlphaShape
         // k is the convergent number. Usefull to know if the convergent is odd or even
         // ie : if the convergent is below or above the straight line
         int k = 0;
-
-
+	  
         while (myShape.dray(pConvM2, vConvM1, qk, pConv) == true)
         {
           // pConv is calculate in lineRatio.dray(), so we update vConv
@@ -198,18 +197,14 @@ class OutputSensitiveAlphaShape
              * If qkalpha == 0, we have to deal with a special case.
              * We have to restart from pConvM2 in order to not missed any vertex.
              */
-            if (qkalpha == 0)
-            {
-              *aAlphaShapeHull++ = pConvM2;
-              return(pConvM2); 
-            }
+            if (qkalpha == 0){return(pConvM2);}
             else
             {
               /**
                * We add all the vertices between qkalpha and qk in the alpha-Shape.
                * We restart from the last vertex add : pConv.
                */
-              while (qkalpha <= qk)
+              while (qkalpha < qk)
               {
                 *aAlphaShapeHull++ = pConvM2 + qkalpha*vConvM1;
                 qkalpha++;  
@@ -225,8 +220,7 @@ class OutputSensitiveAlphaShape
              */
             if (myShape(pConv) == 0)
             {
-              if (aPredicate(aPointa, pConv- vConvM1, pConv ) == false)
-              {
+              if (aPredicate(aPointa, pConv- vConvM1, pConv ) == false)              {
                 // We throw the dichotomus search
                 qkalpha = dichotomous(aPredicate, aPointa, vConvM2, vConvM1, qk);
 
@@ -236,14 +230,10 @@ class OutputSensitiveAlphaShape
                  */
                 int qks = qkalpha;
                 qkalpha = 1;
-                while ( qkalpha <= qk-qks)
-                {
-                  *aAlphaShapeHull++ = aPointa + qkalpha*vConvM1;
-                  qkalpha++;
+                for( qkalpha=1; qkalpha <= (qk-qks); qkalpha++){
+			*aAlphaShapeHull++ = aPointa + qkalpha*vConvM1;
                 }
-
               }
-              *aAlphaShapeHull++ = pConv;
               return(pConv);
             }
             else 
@@ -252,16 +242,8 @@ class OutputSensitiveAlphaShape
               if (k > 0 && qk <= 0)
               { 
                 // We add and restart from the last convergent inside the alpha-hull
-                if (myShape(pConv) > 0)	
-                {
-                  *aAlphaShapeHull++ = pConv;
-                  return(pConv);
-                }
-                else	
-                {
-                  *aAlphaShapeHull++ = pConvM1;
-                  return(pConvM1);
-                }	
+                if (myShape(pConv) > 0){return(pConv);}
+                else{ return(pConvM1);}
               }
               else 
               {
@@ -280,16 +262,18 @@ class OutputSensitiveAlphaShape
          * No more intersection. We search for pConvM1 translation.
          * We can't change aPointa, so we use pConv instead.
          */
-        pConv = aPointa;
-
-        // VConvM1 translation
-        while(myShape(pConv + vConvM1) >= 0)
-        {
-          pConv += vConvM1;
-          *aAlphaShapeHull++ = pConv;
-        }
-        return(pConv);
+         k = 1;
+         // VConvM1 translation
+        
+        while(myShape(aPointa + (k+1)*vConvM1) >= 0){k++;}
+	  for (int i = 1; i < k; i++){*aAlphaShapeHull++ = aPointa + i*vConvM1;}
+     
+	  return(aPointa + k*vConvM1);
+	  
+         
+        
       } // end - proc
+
 
 }; 
 #endif
