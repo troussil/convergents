@@ -181,6 +181,41 @@ class OutputSensitiveConvexHull
       while(myShape(pNext+vNext) >= 0){pNext += vNext;}
       return pNext; 
     }
+
+  /**
+   * Retrieves all the vertices of the alpha-shape
+   * in a counter-clockwise order from a given vertex
+   *  
+   * @param aStartingPoint a vertex of the alpha-shape
+   * @param res output iterator that stores the sequence of vertices
+   */
+  template <typename OutputIterator>
+  void all(const Point& aStartingPoint, OutputIterator res)
+  {
+    //get the first vertex
+    Point tmp = aStartingPoint; 
+
+    do {
+      //store the current vertex
+      *res++ = tmp; 
+      //get the next vertex
+      tmp = ch.next(tmp); 
+      //while it is not the first one
+    } while (tmp != aStartingPoint); 
+  }
+
+  /**
+   * Retrieves all the vertices of the alpha-shape
+   * in a counter-clockwise order
+   *  
+   * @param res output iterator that stores the sequence of vertices
+   */
+  template <typename OutputIterator>
+  void all(OutputIterator res)
+  {
+    all(myShape.getConvexHullVertex(), res); 
+  }
+
 }; 
 
 #endif
