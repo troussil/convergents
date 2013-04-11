@@ -15,10 +15,14 @@ MESSAGE(STATUS "More precisely: ${Boost_PROGRAM_OPTIONS_LIBRARY} ")
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
 
+SET(CMAKE_CXX_FLAGS "-std=c++0x")
+
 SET(SRCs
-  toolDisplay)
+  src/toolDisplay.cpp)
+
 
 FOREACH(FILE ${SRCs})
   add_executable(${FILE} ${FILE})
   target_link_libraries( ${FILE} ${DGTAL_LIBRARIES} )
 ENDFOREACH(FILE)
+
