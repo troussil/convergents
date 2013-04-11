@@ -14,19 +14,6 @@ MESSAGE(STATUS "More precisely: ${Boost_PROGRAM_OPTIONS_LIBRARY} ")
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
 
-<<<<<<< HEAD
-SET(CMAKE_CXX_FLAGS "-std=c++0x")
-
-SET(SRCs
-  src/toolDisplay.cpp)
-
-
-FOREACH(FILE ${SRCs})
-  add_executable(${FILE} ${FILE})
-  target_link_libraries( ${FILE} ${DGTAL_LIBRARIES} )
-ENDFOREACH(FILE)
-
-=======
 # Make sure the compiler can find include files.
 include_directories (inc)
 # Read CMakeLists.txt in a subdirectory 
