@@ -199,7 +199,7 @@ class OutputSensitiveConvexHull
       //store the current vertex
       *res++ = tmp; 
       //get the next vertex
-      tmp = ch.next(tmp); 
+      tmp = next(tmp); 
       //while it is not the first one
     } while (tmp != aStartingPoint); 
   }
