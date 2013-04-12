@@ -22,6 +22,9 @@
 // Alpha-shape
 #include "../inc/OutputSensitiveAlphaShape.h"
 
+//uncomment to use in DEBUG_VERBOSE mode 
+//#define DEBUG_VERBOSE
+
 //////////////////////////////////////////////////////////////////////
 template <typename Shape, typename Point, typename OutputIterator, 
   typename Predicate>
@@ -68,18 +71,20 @@ bool test(const Circle aCircle, const CircumcircleRadiusPredicate& aPredicate)
 
   closedGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch0), aPredicate ); 
 
-
+  #ifdef DEBUG_VERBOSE
   std::cout << "# - alpha-shape of the boundary using closedGrahamScan" << std::endl; 
   std::copy(ch0.begin(), ch0.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
   std::cout << std::endl; 
+  #endif
 
   alphaShape( aCircle, pStart, std::back_inserter(ch1), aPredicate ); 
 
+  #ifdef DEBUG_VERBOSE
   std::cout << "# - alpha-shape" << std::endl; 
   std::copy(ch1.begin(), ch1.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
   std::cout << std::endl; 
+  #endif 
 
-  //COMPARE WITH YOUR ALGO HERE
   if (ch0.size() == ch1.size())
   {
     if ( std::equal(ch1.begin(), ch1.end(), ch0.begin()) )
@@ -87,7 +92,8 @@ bool test(const Circle aCircle, const CircumcircleRadiusPredicate& aPredicate)
       return true;
     }
   }
-  else {return false;}
+  else 
+    return false;
 }
 
 
@@ -100,9 +106,11 @@ int main()
 
   int nbok = 0; //number of tests ok
   int nb = 0;   //total number of tests
-  std::cout << std::endl; 
 
+  #ifdef DEBUG_VERBOSE
+  std::cout << std::endl; 
   std::cout << "I) Alpha-shape on a simple circle" << std::endl; 
+  #endif
   {
 
     Circle circle( Point(5,0), Point(0,5), Point(-5,0) );
@@ -110,11 +118,12 @@ int main()
     std::vector<Point> boundary; 
     Vector dir(1,0); 
     closedTracking( circle, circle.getConvexHullVertex(), dir, std::back_inserter(boundary) ); 
+    #ifdef DEBUG_VERBOSE
     std::cout << "Boundary" << std::endl; 
     std::copy(boundary.begin(), boundary.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
     std::cout << std::endl; std::cout << std::endl; 
-
     std::cout << "  A) infinite radius" << std::endl; 
+    #endif
     {
       std::vector<Point> groundTruth; 
       groundTruth.push_back(Point(0,-5)); 
@@ -129,16 +138,20 @@ int main()
       groundTruth.push_back(Point(-5,0)); 
       groundTruth.push_back(Point(-4,-3));
       groundTruth.push_back(Point(-3,-4)); 
+      #ifdef DEBUG_VERBOSE
       std::cout << "1 - Expected - handmade" << std::endl; 
       std::copy(groundTruth.begin(), groundTruth.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
       std::cout << std::endl; 
+      #endif
 
       std::vector<Point> ch;
       CircumcircleRadiusPredicate<> predicate; //by default infinite radius (denominator = 0)  
       closedGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), predicate ); 
+      #ifdef DEBUG_VERBOSE
       std::cout << "2 - Graham's convex hull of the boundary" << std::endl; 
       std::copy(ch.begin(), ch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
       std::cout << std::endl; 
+      #endif
 
       if (ch.size() == groundTruth.size())
         if ( std::equal(groundTruth.begin(), groundTruth.end(), ch.begin()) )
@@ -148,18 +161,25 @@ int main()
 
     }
 
-    std::cout << std::endl; std::cout << "  B) radius == 1" << std::endl; 
+    #ifdef DEBUG_VERBOSE
+    std::cout << std::endl; 
+    std::cout << "  B) radius == 1" << std::endl; 
+    #endif
     {
+      #ifdef DEBUG_VERBOSE
       std::cout << "Expected (boundary)" << std::endl; 
       std::copy(boundary.begin(), boundary.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
       std::cout << std::endl; 
+      #endif
 
       std::vector<Point> ch;
       CircumcircleRadiusPredicate<> predicate(1,1); //radius 1  
       closedGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), predicate ); 
+      #ifdef DEBUG_VERBOSE
       std::cout << "1-shape of the boundary" << std::endl; 
       std::copy(ch.begin(), ch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
       std::cout << std::endl; 
+      #endif
 
       if (ch.size() == boundary.size())
         if ( std::equal(boundary.begin(), boundary.end(), ch.begin()) )
@@ -169,7 +189,10 @@ int main()
 
     }
 
+    #ifdef DEBUG_VERBOSE
     std::cout << std::endl; std::cout << "  B) radius == 3" << std::endl; 
+    #endif
+
     {
       std::vector<Point> groundTruth; 
       groundTruth.push_back(Point(0,-5)); 
@@ -192,16 +215,20 @@ int main()
       groundTruth.push_back(Point(-4,-3));
       groundTruth.push_back(Point(-3,-4));
       groundTruth.push_back(Point(-2,-4)); 
+      #ifdef DEBUG_VERBOSE
       std::cout << "Expected" << std::endl; 
       std::copy(groundTruth.begin(), groundTruth.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
       std::cout << std::endl; 
+      #endif
 
       std::vector<Point> ch;
       CircumcircleRadiusPredicate<> predicate(9,1); //radius 3  
       closedGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), predicate ); 
+      #ifdef DEBUG_VERBOSE
       std::cout << "3-shape of the boundary" << std::endl; 
       std::copy(ch.begin(), ch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
       std::cout << std::endl; 
+      #endif
 
       if (ch.size() == groundTruth.size())
         if ( std::equal(groundTruth.begin(), groundTruth.end(), ch.begin()) )
@@ -211,9 +238,12 @@ int main()
 
     }
   }
-  std::cout << std::endl; 
 
-  std::cout << "I) Alpha-shape on a simple circle" << std::endl; 
+  #ifdef DEBUG_VERBOSE
+  std::cout << std::endl; 
+  std::cout << "I) Alpha-shape on a simple circle" << std::endl;
+  #endif
+
   {
 
     Circle circle( Point(5,0), Point(0,5), Point(-5,0) );
@@ -221,11 +251,12 @@ int main()
     std::vector<Point> boundary; 
     Vector dir(1,0); 
     closedTracking( circle, circle.getConvexHullVertex(), dir, std::back_inserter(boundary) ); 
+    #ifdef DEBUG_VERBOSE
     std::cout << "Boundary" << std::endl; 
     std::copy(boundary.begin(), boundary.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
     std::cout << std::endl; std::cout << std::endl; 
-
-    std::cout << "  A) infinite radius" << std::endl; 
+    std::cout << "  A) infinite radius" << std::endl;
+    #endif
     {
       std::vector<Point> groundTruth; 
       groundTruth.push_back(Point(0,-5)); 
@@ -239,17 +270,21 @@ int main()
       groundTruth.push_back(Point(-4,3)); 
       groundTruth.push_back(Point(-5,0)); 
       groundTruth.push_back(Point(-4,-3));
-      groundTruth.push_back(Point(-3,-4)); 
+      groundTruth.push_back(Point(-3,-4));
+      #ifdef DEBUG_VERBOSE
       std::cout << "1 - Expected - handmade" << std::endl; 
       std::copy(groundTruth.begin(), groundTruth.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
       std::cout << std::endl; 
+      #endif
 
       std::vector<Point> ch;
       CircumcircleRadiusPredicate<> predicate; //by default infinite radius (denominator = 0)  
       closedGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), predicate ); 
+      #ifdef DEBUG_VERBOSE
       std::cout << "2 - Graham's convex hull of the boundary" << std::endl; 
       std::copy(ch.begin(), ch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
       std::cout << std::endl; 
+      #endif
 
       if (ch.size() == groundTruth.size())
         if ( std::equal(groundTruth.begin(), groundTruth.end(), ch.begin()) )
@@ -260,9 +295,11 @@ int main()
       std::vector<Point> as; 
       alphaShape( circle, circle.getConvexHullVertex(), std::back_inserter(as), predicate );
 
+      #ifdef DEBUG_VERBOSE
       std::cout << "3 - Alpha shape" << std::endl; 
       std::copy(as.begin(), as.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
       std::cout << std::endl; 
+      #endif
 
       if (as.size() == groundTruth.size())
         if ( std::equal(groundTruth.begin(), groundTruth.end(), as.begin()) )
@@ -271,18 +308,25 @@ int main()
       std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
     }
 
+    #ifdef DEBUG_VERBOSE
     std::cout << std::endl; std::cout << "  B) radius == 1" << std::endl; 
+    #endif
+
     {
+      #ifdef DEBUG_VERBOSE
       std::cout << "Expected (boundary)" << std::endl; 
       std::copy(boundary.begin(), boundary.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
       std::cout << std::endl; 
+      #endif
 
       std::vector<Point> ch;
       CircumcircleRadiusPredicate<> predicate(1,1); //radius 1  
       closedGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), predicate ); 
+      #ifdef DEBUG_VERBOSE
       std::cout << "1-shape of the boundary" << std::endl; 
       std::copy(ch.begin(), ch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
       std::cout << std::endl; 
+      #endif
 
       if (ch.size() == boundary.size())
         if ( std::equal(boundary.begin(), boundary.end(), ch.begin()) )
@@ -293,10 +337,11 @@ int main()
       std::vector<Point> as; 
 
       alphaShape( circle, circle.getConvexHullVertex(), std::back_inserter(as), predicate );
-
+      #ifdef DEBUG_VERBOSE
       std::cout << "Alpha shape" << std::endl; 
       std::copy(as.begin(), as.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
       std::cout << std::endl; 
+      #endif
 
       if (as.size() == ch.size())
         if ( std::equal(ch.begin(), ch.end(), as.begin()) )
@@ -305,7 +350,9 @@ int main()
       std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
     }
 
+    #ifdef DEBUG_VERBOSE
     std::cout << std::endl; std::cout << "  B) radius == 3" << std::endl; 
+    #endif
     {
       std::vector<Point> groundTruth; 
       groundTruth.push_back(Point(0,-5)); 
@@ -328,30 +375,38 @@ int main()
       groundTruth.push_back(Point(-4,-3));
       groundTruth.push_back(Point(-3,-4));
       groundTruth.push_back(Point(-2,-4)); 
+
+      #ifdef DEBUG_VERBOSE
       std::cout << "Expected" << std::endl; 
       std::copy(groundTruth.begin(), groundTruth.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
       std::cout << std::endl; 
+      #endif
 
       std::vector<Point> ch;
       CircumcircleRadiusPredicate<> predicate(9,1); //radius 3  
       closedGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), predicate ); 
+      #ifdef DEBUG_VERBOSE
       std::cout << "3-shape of the boundary" << std::endl; 
       std::copy(ch.begin(), ch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
       std::cout << std::endl; 
+      #endif
 
       if (ch.size() == groundTruth.size())
         if ( std::equal(groundTruth.begin(), groundTruth.end(), ch.begin()) )
           nbok++; 
       nb++; 
+
       std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
 
       std::vector<Point> as; 
 
       alphaShape( circle, circle.getConvexHullVertex(), std::back_inserter(as), predicate );
 
+      #ifdef DEBUG_VERBOSE
       std::cout << "Alpha shape" << std::endl; 
       std::copy(as.begin(), as.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
       std::cout << std::endl; 
+      #endif
 
       if (as.size() == groundTruth.size())
         if ( std::equal(groundTruth.begin(), groundTruth.end(), as.begin()) )
@@ -360,8 +415,11 @@ int main()
       std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
     }
   }
-  std::cout << std::endl<<"II) Automatic testing -shape of the boundary" << std::endl<< std::endl; 
 
+  #ifdef DEBUG_VERBOSE
+  std::cout << std::endl; 
+  std::cout << "II) Automatic testing -shape of the boundary" << std::endl << std::endl; 
+  #endif
 
   // Test number
   int nb_test = 100;
@@ -387,32 +445,36 @@ int main()
 
       Circle circle( pta, ptb, ptc );
 
+      #ifdef DEBUG_VERBOSE
       std::cout << "II - "<<nb_test<<" - Alpha-shape on the circle : " << std::endl; 
-
       std::cout << "-- Disk[ Center : (" << circle.getCenterX() << ", " 
         << circle.getCenterY()<< " ), Radius : " << circle.getRadius()
         << " ] | Points : "<< pta<< ptb<< ptc<< " - First vertex : " 
         << circle.getConvexHullVertex() << std::endl;
-
+      #endif
 
       for (int i = 0; i < nbPredicate; i++)
       {
 
         {
+	  #ifdef DEBUG_VERBOSE
+          std::cout << " ----------- Next predicate ----------- " << std::endl; 
+          std::cout << std::endl;
+	  #endif
+
           CircumcircleRadiusPredicate<> predicate(valuePredicate[i], 2);
+
+	  #ifdef DEBUG_VERBOSE
           std::cout << "Radius predicate : Num2 / Den2 : "<<valuePredicate[i]<<"/" 
             << 2 << std::endl;
-
+	  #endif
 
           if (test(circle, predicate))
             nbok++;
           nb++; 
+	  
           std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
-          std::cout << " ----------- Next predicate ----------- " << std::endl; 
-          std::cout << std::endl;
-
         }
-        //if(nb != nbok){break;}
       }
 
     }
@@ -426,21 +488,27 @@ int main()
     ptc = Point(0,2);
     Circle circle( pta, ptb, ptc );
 
+    #ifdef DEBUG_VERBOSE
     std::cout << "-- Disk[ Center : (" << circle.getCenterX() << ", " 
       << circle.getCenterY()<< " ), Radius : " << circle.getRadius()
       << " ] | Points : "<< pta<< ptb<< ptc<< " - First vertex : " 
       << circle.getConvexHullVertex() << std::endl;
 
-    CircumcircleRadiusPredicate<> predicate(10,2);
-    std::cout << "Radius predicate : Num2 / Den2 : 10/2"<< std::endl;
+    std::cout << " ----------- Next predicate ----------- " << std::endl; 
+    std::cout << std::endl;
+    #endif
 
+    CircumcircleRadiusPredicate<> predicate(10,2);
+    
+    #ifdef DEBUG_VERBOSE
+    std::cout << "Radius predicate : Num2 / Den2 : 10/2"<< std::endl;
+    #endif
 
     if (test(circle, predicate))
       nbok++; 
     nb++; 
+
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
-    std::cout << " ----------- Next predicate ----------- " << std::endl; 
-    std::cout << std::endl;
   }
   //(4,2)(2,1)(6,-5) - (4,2)(0,-6)(10,-14) - (7,8)(-1,-1)(3,-8) - (5,3)(2,2)(4,-7)
   {
@@ -451,21 +519,27 @@ int main()
 
     Circle circle( pta, ptb, ptc );
 
+    #ifdef DEBUG_VERBOSE
     std::cout << "-- Disk[ Center : (" << circle.getCenterX() << ", " 
       << circle.getCenterY()<< " ), Radius : " << circle.getRadius()
       << " ] | Points : "<< pta<< ptb<< ptc<< " - First vertex : " 
       << circle.getConvexHullVertex() << std::endl;
 
-    CircumcircleRadiusPredicate<> predicate(20,2);
-    std::cout << "Radius predicate : Num2 / Den2 : 10/2"<< std::endl;
+    std::cout << " ----------- Next predicate ----------- " << std::endl; 
+    std::cout << std::endl;
+    #endif
 
+    CircumcircleRadiusPredicate<> predicate(20,2);
+    
+    #ifdef DEBUG_VERBOSE
+    std::cout << "Radius predicate : Num2 / Den2 : 10/2"<< std::endl;
+    #endif
 
     if (test(circle, predicate))
     {nbok++;} 
     nb++; 
+
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
-    std::cout << " ----------- Next predicate ----------- " << std::endl; 
-    std::cout << std::endl;
   }
 
 
