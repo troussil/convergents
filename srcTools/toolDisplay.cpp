@@ -139,7 +139,7 @@ void outputSensitiveProcedure(const Circle& aCircle, const I& num2, const I& den
 
   std::cout << "output sensitive proc" << std::endl; 
 
-  typedef CircumcircleRadiusPredicate<> Predicate; 
+  typedef CircumcircleRadiusPredicate<DGtal::BigInteger> Predicate; 
   Predicate predicate(num2, den2);
   OutputSensitiveAlphaShape<Circle, Predicate> as(aCircle, predicate);
 
@@ -230,7 +230,7 @@ int main( int argc, char** argv )
   // does not work (lacking operators)
   // typedef PointVector<2,int> Point; //DGtal point redefinition
   // typedef PointVector<2,int> Vector; //DGtal point redefinition
-  typedef RayIntersectableCircle<Point> Circle; //Circle
+  typedef RayIntersectableCircle<Point,DGtal::BigInteger> Circle; //Circle
 
   std::string methodName = vm["algo"].as<std::string>(); 
   int num2 = vm["numerator2"].as<int>();

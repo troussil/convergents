@@ -12,7 +12,7 @@
  * @tparam TInteger any integer type for the 
  * numerator and denominator of the squared radius
  */
-template<typename TInteger = long long>
+template<typename TInteger = long long int>
 struct CircumcircleRadiusPredicate
 {
   public: 

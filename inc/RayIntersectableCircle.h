@@ -13,7 +13,7 @@
  *
  * This class is a model of point functor and of ray intersectable shape
  */
-template <typename TPoint, typename TParameter = long long>
+template <typename TPoint, typename TParameter = long long int>
 class RayIntersectableCircle 
 {
   public: 
@@ -179,7 +179,6 @@ class RayIntersectableCircle
       Integer y = aPoint[1];
       Integer z = x*x + y*y;  
       return (myA*aPoint[0] + myB*aPoint[1] + myC*z + myD); 
-//      return (myC<0 ? (myA*aPoint[0] + myB*aPoint[1] + myC*z + myD):-(myA*aPoint[0] + myB*aPoint[1] + myC*z + myD)); 
     }
 
     /**
@@ -286,7 +285,7 @@ class RayIntersectableCircle
       Point startingPoint; 
  
       Coordinate ymin = getBottom();
-      Coordinate x = (-myA) / (2*myC);
+      Coordinate x = (Coordinate) std::floor( getCenterX() );
       Point ptf(x, ymin);
       if ( this->operator()( ptf ) < 0 )
         { //if ptf is outside the circle
