@@ -1,6 +1,8 @@
 project( toolsWithDGtal )
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
+ADD_DEFINITIONS("-std=c++0x")
+
 #Inclusion de DGtal
 FIND_PACKAGE(DGtal REQUIRED)
 MESSAGE(STATUS "Found DGtal: ${DGTAL_LIBRARIES}")
@@ -14,7 +16,11 @@ MESSAGE(STATUS "More precisely: ${Boost_PROGRAM_OPTIONS_LIBRARY} ")
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
 
+# Make sure you can run make test
+enable_testing()
+
 # Make sure the compiler can find include files.
 include_directories (inc)
 # Read CMakeLists.txt in a subdirectory 
-add_subdirectory(srcTools)
+add_subdirectory(stests)
+add_subdirectory(stools)

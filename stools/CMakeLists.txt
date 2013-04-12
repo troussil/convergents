@@ -1,5 +1,6 @@
 SET(SRCs
-  toolDisplay)
+  toolDisplay
+  toolAlphaShape)
 
 FOREACH(FILE ${SRCs})
   add_executable(${FILE} ${FILE})
