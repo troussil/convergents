@@ -72,6 +72,15 @@ private:
 
 public:
   /**
+   * Get Circle Predicate 
+   * @param aShape any 'ray-intersectable' shape
+   * @return aPredicate any predicate
+   */
+  Predicate getPredicate()
+    {
+      return ((*this).myPredicate);
+    }
+  /**
    * Default destructor
    */
   ~OutputSensitiveAlphaShape() {}
@@ -150,7 +159,7 @@ public:
    * @return the last retrieved vertex (not stored). 
    */
   template <typename OutputIterator>
-  Point next(const Point& aPoint, OutputIterator res)
+  Point next(const Point& aPoint, OutputIterator res, bool aAlphaZero)
   {
     // Initialisation of the convergents.
     Point vConvM2 = Point(1,0); //(k-2)-th convergent
@@ -195,7 +204,16 @@ public:
 	    // is the next vertex of the alpha-shape. 
 	    // Otherwise, we just update the convergents and loop.
 	    if (k > 0 && qk <= 0) 
-	      return(pConvM1);
+	    {
+	      if (aAlphaZero)
+	      {
+	        while (myShape(pConvM1 + vConvM1) >=0)
+		      {
+		        pConvM1 += vConvM1;
+		      }
+		    }
+		    return(pConvM1);
+		  }
 	  }
 	else
 	  { //If pConv is inside or on the shape
@@ -284,7 +302,10 @@ public:
 	lastPoint += vConvM1;
 	while (myShape(lastPoint) >= 0)
 	  {
-	    *res++ = prevLastPoint;
+	    if (!aAlphaZero)
+	    { 
+	      *res++ = prevLastPoint;
+	    }
 	    prevLastPoint = lastPoint; 
 	    lastPoint += vConvM1;
 	  } 
@@ -305,15 +326,21 @@ public:
   template <typename OutputIterator>
   void all(const Point& aStartingPoint, OutputIterator res)
   {
-    //get the first vertex
+    // get the first vertex
     Point tmp = aStartingPoint; 
-
+    bool alphazero = false;
+    
+    // if the denominator == 0, the radius is infinite.
+    // We don't keep colinear vertices.
+    if((*this).getPredicate().getDen2() == 0)
+      alphazero = true;
+      
     do 
       {
-	//stores the last retrieved vertex
+	// stores the last retrieved vertex
 	*res++ = tmp; 
 	// get the next alpha-shape vertices
-	tmp = next(tmp, res);
+	tmp = next(tmp, res, alphazero);
 	//while it is not the first one
       } while (tmp != aStartingPoint); 
   }
