@@ -123,11 +123,11 @@ class OutputSensitiveAlphaShape
 
       // init search bounds
       int qkstart = 0;
-      int qkstop  = aQk;
+      int qkstop  = aQk-1;
       int mid = 0;
 
       // while not yet located 
-      while( qkstop != qkstart ) 
+      while( qkstart < qkstop ) 
       {
         // middle between qkstart and qkstop
         mid = (qkstart + qkstop)/2;
@@ -137,11 +137,30 @@ class OutputSensitiveAlphaShape
               (aPoint + aConvM2 + (mid+plus0)*aConvM1), 
               (aPoint + aConvM2 + (mid+plus1)*aConvM1)) )
         { //search in the upper range
-          qkstart = mid + 1;
+          if ( !myPredicate(aPoint, 
+              (aPoint + aConvM2 + (mid+2*plus0+plus1)*aConvM1), 
+              (aPoint + aConvM2 + (mid+2*plus1+plus0)*aConvM1)) )
+              {
+                return(mid+1);
+              }
+          else
+          {
+           qkstart = mid+1;
+          }    
+
         }
         else
         { //search in the lower range
-          qkstop = mid;
+          if(myPredicate(aPoint, 
+              (aPoint + aConvM2 + (mid-2*plus0-plus1)*aConvM1), 
+              (aPoint + aConvM2 + (mid-2*plus1-plus0)*aConvM1)))
+          {
+            return(mid-1);
+          }
+          else
+          {
+            qkstop = mid;
+          }
         }
       } 
       // return the maximal integer such that the predicate is true
