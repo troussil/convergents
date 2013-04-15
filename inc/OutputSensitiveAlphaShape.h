@@ -192,7 +192,7 @@ class OutputSensitiveAlphaShape
 
         // pConvM2 + qkalpha * vConvM1 is the first vertex in the alpha shape.
         int qkalpha;
-
+        
         //Ray casting from pConvM2 in the direction vConvM1
         while (myShape.dray(pConvM2, vConvM1, qk, pConv))
         {
@@ -220,7 +220,7 @@ class OutputSensitiveAlphaShape
                 lastPoint += vConvM1;
               } 
               return(prevLastPoint);
-            }
+           }
           }
           else
           { //If pConv is inside or on the shape
@@ -301,27 +301,21 @@ class OutputSensitiveAlphaShape
         // on an edge of the alpha-shape. 
         // enable or disable the
         // retrieval of all such points  
-        // with aAlphaInf  
-        Point prevLastPoint = aPoint;
+        // with aAlphaInf 
+        Point prevLastPoint = pConvM1;
         Point lastPoint = prevLastPoint + vConvM1; 
-        if (myShape(lastPoint) >= 0)
+
+        while (myShape(lastPoint) >= 0)
         {
+          // Convex Hull case, we do not add the vertex
+          if (!aAlphaInf)
+          { 
+            *res++ = prevLastPoint;
+          }
           prevLastPoint = lastPoint; 
           lastPoint += vConvM1;
-          while (myShape(lastPoint) >= 0)
-          {
-            // Convex Hull case, we do not add the vertex
-            if (!aAlphaInf)
-            { 
-              *res++ = prevLastPoint;
-            }
-            prevLastPoint = lastPoint; 
-            lastPoint += vConvM1;
-          } 
-          return(prevLastPoint);
-        }
-        else 
-          return lastPoint; 
+        } 
+        return(prevLastPoint);
       }//end proc
 
 
