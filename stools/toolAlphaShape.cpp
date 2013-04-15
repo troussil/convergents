@@ -73,19 +73,7 @@ void alphaShape(const Shape& aShape, const Point& aStartingPoint,
     OutputIterator res, int aMaxConv, const Predicate& aPredicate)
 {
   OutputSensitiveAlphaShape<Shape, Predicate> ch(aShape, aPredicate);
-
-  //get the first vertex
-  Point tmp = aStartingPoint; 
-  int k = 0;
-
-  *res++ = tmp; 
-  while (tmp != aStartingPoint || k == 0)
-  {
-    k++;
-    // get the next alpha-shape vertices
-    tmp = ch.next(aPredicate, tmp, aMaxConv, res);
-
-  }//while we not return to aStartingPoint
+  ch.all(res); 
 }
 
 /**
