@@ -434,7 +434,8 @@ int main()
 
   // Number predicate test
   int nbPredicate = 10;
-  int valuePredicate[10] = {3, 4, 10, 20, 200, 2000, 20000, 100000, 200000, 2000000};
+  int valuePredicateNum[10] = {3, 4, 10, 20, 200, 2000, 20000, 100000, 200000, 2000000};
+  int valuePredicateDen[10] = {0, 2, 2, 2, 2, 2, 2, 2, 2, 2};  
   // Circumcircle triangle vertices
   Point pta, ptb, ptc;
 
@@ -465,11 +466,11 @@ int main()
           std::cout << std::endl;
 	  #endif
 
-          CircumcircleRadiusPredicate<> predicate(valuePredicate[i], 2);
+          CircumcircleRadiusPredicate<> predicate(valuePredicateNum[i], valuePredicateDen[i]);
 
 	  #ifdef DEBUG_VERBOSE
           std::cout << "Radius predicate : Num2 / Den2 : "<<valuePredicate[i]<<"/" 
-            << 2 << std::endl;
+            << valuePredicateDen[i] << std::endl;
 	  #endif
 
           if (test(circle, predicate))

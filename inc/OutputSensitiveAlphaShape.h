@@ -205,15 +205,22 @@ public:
 	    // Otherwise, we just update the convergents and loop.
 	    if (k > 0 && qk <= 0) 
 	    {
-	      if (aAlphaZero)
+        // pConvM1 translation
+	      Point prevLastPoint = pConvM1;
+        Point lastPoint = prevLastPoint + vConvM1;
+         
+        while (myShape(lastPoint) >= 0)
 	      {
-	        while (myShape(pConvM1 + vConvM1) >=0)
-		      {
-		        pConvM1 += vConvM1;
-		      }
-		    }
-		    return(pConvM1);
-		  }
+	        // Convex Hull case, we do not add the vertex
+	        if (!aAlphaZero)
+	        { 
+	          *res++ = prevLastPoint;
+	        }
+	        prevLastPoint = lastPoint; 
+	        lastPoint += vConvM1;
+	      } 
+	      return(prevLastPoint);
+      }
 	  }
 	else
 	  { //If pConv is inside or on the shape
@@ -302,6 +309,7 @@ public:
 	lastPoint += vConvM1;
 	while (myShape(lastPoint) >= 0)
 	  {
+	    // Convex Hull case, we do not add the vertex
 	    if (!aAlphaZero)
 	    { 
 	      *res++ = prevLastPoint;
