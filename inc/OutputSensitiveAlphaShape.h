@@ -212,7 +212,7 @@ public:
         while (myShape(lastPoint) >= 0)
 	      {
 	        // Convex Hull case, we do not add the vertex
-	        if (!aAlphaZero)
+	        if (!aAlphaInf)
 	        { 
 	          *res++ = prevLastPoint;
 	        }
@@ -368,3 +368,4 @@ public:
 
 }; 
 #endif
+
