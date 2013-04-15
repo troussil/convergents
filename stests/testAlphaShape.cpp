@@ -22,6 +22,9 @@
 // Alpha-shape
 #include "../inc/OutputSensitiveAlphaShape.h"
 
+// BigInteger
+#include <DGtal/base/Common.h>
+
 //uncomment to use in DEBUG_VERBOSE mode 
 //#define DEBUG_VERBOSE
 
@@ -422,7 +425,7 @@ int main()
   #endif
 
   // Test number
-  int nb_test = 1000;
+  int nb_test = 100;
 
   //random value
   srand ( time(NULL) );
@@ -517,7 +520,7 @@ int main()
     ptb = Point(0, 1025);
     ptc = Point(-1025, 0);
 
-    Circle circle( pta, ptb, ptc );
+    RayIntersectableCircle<Point,DGtal::BigInteger> circle( pta, ptb, ptc );
 
     #ifdef DEBUG_VERBOSE
     std::cout << "-- Disk[ Center : (" << circle.getCenterX() << ", " 
@@ -529,7 +532,7 @@ int main()
     std::cout << std::endl;
     #endif
 
-    CircumcircleRadiusPredicate<> predicate(20,2);
+    CircumcircleRadiusPredicate<DGtal::BigInteger> predicate(20,2);
     
     #ifdef DEBUG_VERBOSE
     std::cout << "Radius predicate : Num2 / Den2 : 10/2"<< std::endl;
