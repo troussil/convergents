@@ -2,7 +2,10 @@
 #define RayIntersectableCircle_h
 
 #include <cmath>
+
 #include <DGtal/kernel/NumberTraits.h>
+#include <DGtal/base/BasicFunctors.h>
+
  
 /**
  * Class implementing a circle that is 'ray intersectable', 
@@ -176,6 +179,7 @@ public:
   }
 
 
+public: 
   ///////////////////// main methods ///////////////////
   /**
    * Function operator
@@ -192,6 +196,63 @@ public:
     return (myA*aPoint[0] + myB*aPoint[1] + myC*z + myD); 
   }
 
+private:
+  /**
+   * Retrieves integer @a q such that 
+   * the point @a aPoint + @a q * @a aDir 
+   * and the points @a aPoint + (@a q+1) * @a aDir
+   * lie in either side of the circle. 
+   * @param aPoint source of the ray casting
+   * @param aDir direction of the ray casting
+   * @param qmax maximal integer bounding the 
+   * dichotomic search
+   * @return integer @a q
+   */
+  template <typename Predicate>
+  int dichotomicSearch(const Point& aPoint, const Vector& aDir, 
+		       const int& qmax, const Predicate& aPredicate) const
+  {    
+
+    ASSERT( aPredicate( (*this)(aPoint)) ); 
+    ASSERT( (!aPredicate( (*this)(aPoint + qmax * aDir))) ); 
+
+    // init search bounds
+    int qStart = 0;
+    int qStop  = qmax;
+    Point pStart = aPoint; 
+    Point pStop = aPoint + qmax * aDir; 
+
+    int qMid;
+    Point pMid, pMid1; 
+
+    // while not yet located 
+    bool isNotFound = true; 
+    while( (qStop > qStart) && (isNotFound) ) 
+      {
+	// middle between qStart and qStop
+	qMid = (qStart + qStop)/2;
+	pMid = aPoint + qMid * aDir;
+	pMid1 = aPoint + (qMid+1) * aDir;
+ 
+	// inclusion tests
+	if ( aPredicate( (*this)(pMid)) )
+	  { 
+	    if (!aPredicate( (*this)(pMid1)) )
+	      { //found!
+		isNotFound = false; 
+		qStart = qMid; 
+	      }
+	    else //search in the upper range
+	      qStart = qMid + 1;
+	  }
+	else //search in the lower range
+	  qStop = qMid;
+      }
+    // return the integer 
+    return(qStart);
+  }
+
+public: 
   /**
    * Intersection between the circle and the digital ray
    *
@@ -240,40 +301,60 @@ public:
 	  }
 	else 
 	  {  
-	    double dsDelta = std::sqrt( DGtal::NumberTraits<Integer>::castToDouble(Delta) ); 
-	    double daEq = DGtal::NumberTraits<Integer>::castToDouble(aEq); 
-	    double dbEq = DGtal::NumberTraits<Integer>::castToDouble(bEq); 
-	    double x1 = (-dbEq - dsDelta)/(2*daEq);
-	    double x2 = (-dbEq + dsDelta)/(2*daEq);
-
 	    if ( cEq < 0)
-	      { // aS is outside the circle
+	      { // aS is strictly outside the circle
 		if ( (-bEq/aEq) < 0  ){return false;}
 		else 
 		  { // If positive solutions, 
-		    // We pick the smallest one
-		    if ( bEq < 0 )
-		      aQuotient = std::floor(x1);
+		    // We pick the smallest one by dichotomic search
+		    //this predicate is true iff the input value is <= 0
+		    DGtal::Thresholder<Integer, true, true> predicate(0);
+		    int max = DGtal::NumberTraits<Integer>::castToInt64_t(-bEq/(2*aEq)); 
+		    //inclusion tests around the minimum (-bEq/(2*aEq))
+		    Point pMax = aStartingPoint + max * aDirection; 
+		    Integer pMaxValue = (*this)(pMax);  
+		    Point pMax1 = aStartingPoint + (max+1) * aDirection;
+		    Integer pMaxValue1 = (*this)(pMax1);  
+		    if ( pMaxValue < 0 ) 
+		      { //if pMax is strictly outside the shape
+			if ( pMaxValue1 < 0 )
+			  { //if pMax1 is outside the shape
+			    return false; //there is no integral solution
+			  }
+			else 
+			  {
+			    if ( pMaxValue1 == 0 ) //if on the boundary
+			      aQuotient = max + 1; 
+			    else        //if strictly inside the circle
+			      aQuotient = dichotomicSearch(aStartingPoint, aDirection, (max+1), predicate);
+			  }
+		      }
 		    else
-		      aQuotient = std::floor(x2);
-	      
+		      {
+			if ( pMaxValue == 0 ) //if on the boundary
+			  aQuotient = max; 
+			else        //if strictly inside the circle
+			  aQuotient = dichotomicSearch(aStartingPoint, aDirection, max, predicate);
+		      }
+
 		    aClosest = aStartingPoint + aQuotient*aDirection;
 		    return true;
 		  }
 	      }
 	    else
-	      { // aS is inside the circle
-		// We pick the positive solution
-		if ( myC < 0)
-		  aQuotient = std::floor(x1); 
-		else 
-		  aQuotient = std::floor(x2); 
+	      { // aS is strictly inside the circle
+		// We pick the positive solution by dichotomic search
+		//this predicate is true iff the input value is >= 0
+		DGtal::Thresholder<Integer, false, true> predicate(0); 
+		//a trivial upper bound is the circle diameter
+		int diameter = 2 * (int) std::ceil( getRadius() ) + 1; 
+		aQuotient = dichotomicSearch(aStartingPoint, aDirection, diameter, predicate); 
 		aClosest = aStartingPoint + aQuotient*aDirection;
 		return true;
 	      }
 	  }
       }
-    // Delta < 0 and case where there is no solution
+    // Delta < 0 and cases where there is no solution
     else {return false;}
   }
 

@@ -172,6 +172,7 @@ int main()
     int qMax = 0; 
     Point ptMax(0,0); 
     // No intersection
+    std::cout << "no intersection " << std::endl; 
     if ( circle.dray(Point(6,0), Vector(1,1), qMax, ptMax ) == false ) 
       nbok++; 
     nb++; 
@@ -186,6 +187,7 @@ int main()
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
 
     // Intersection, aS lie on the circle
+    std::cout << "starting point on the circle" << std::endl; 
     if ( circle.dray(Point(3,4), Vector(1,1), qMax, ptMax ) )
       if ( (qMax == 0)&&(ptMax == Point(3,4)) ) 
         nbok++; 
@@ -205,6 +207,7 @@ int main()
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
 
     // Intersection, aS inside the circle
+    std::cout << "starting point inside the circle" << std::endl; 
     if ( circle.dray(Point(2,2), Vector(1,1), qMax, ptMax ) )
       if ( (qMax == 1)&&(ptMax == Point(3,3)) ) 
         nbok++; 
@@ -217,6 +220,7 @@ int main()
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
 
     // Intersection, aS outside the circle
+    std::cout << "starting point outside the circle" << std::endl; 
     if ( circle.dray(Point(8,0), Vector(-2,0), qMax, ptMax ) )
       if ( (qMax == 1)&&(ptMax == Point(6,0)) ) 
         nbok++; 
@@ -230,6 +234,7 @@ int main()
 
     /////////////////////////////////////////////////////////////// 
     // vertex of convex hull
+    std::cout << "starting vertex of the convex hull" << std::endl; 
     if ( circle.getConvexHullVertex() == Point(0,-5) )
         nbok++; 
     nb++; 
