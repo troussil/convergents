@@ -422,7 +422,7 @@ int main()
   #endif
 
   // Test number
-  int nb_test = 100;
+  int nb_test = 1000;
 
   //random value
   srand ( time(NULL) );
