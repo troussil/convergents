@@ -1,5 +1,6 @@
 SET(SRCs
-  toolDisplay)
+  toolDisplay
+  toolAlphaShape)
 
 SET(CMAKE_CXX_FLAGS "-std=c++0x") 
 
