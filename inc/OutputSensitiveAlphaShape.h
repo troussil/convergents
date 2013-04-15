@@ -159,7 +159,7 @@ public:
    * @return the last retrieved vertex (not stored). 
    */
   template <typename OutputIterator>
-  Point next(const Point& aPoint, OutputIterator res, bool aAlphaZero)
+  Point next(const Point& aPoint, OutputIterator res, bool aAlphaInf)
   {
     // Initialisation of the convergents.
     Point vConvM2 = Point(1,0); //(k-2)-th convergent
@@ -299,8 +299,9 @@ public:
     
     // retrieval of the points lying 
     // on an edge of the alpha-shape. 
-    // TODO enable or disable the
-    // retrieval of all such points    
+    // enable or disable the
+    // retrieval of all such points  
+    // with aAlphaInf  
     Point prevLastPoint = aPoint;
     Point lastPoint = prevLastPoint + vConvM1; 
     if (myShape(lastPoint) >= 0)
@@ -310,7 +311,7 @@ public:
 	while (myShape(lastPoint) >= 0)
 	  {
 	    // Convex Hull case, we do not add the vertex
-	    if (!aAlphaZero)
+	    if (!aAlphaInf)
 	    { 
 	      *res++ = prevLastPoint;
 	    }
@@ -336,19 +337,19 @@ public:
   {
     // get the first vertex
     Point tmp = aStartingPoint; 
-    bool alphazero = false;
+    bool alphainf = false;
     
     // if the denominator == 0, the radius is infinite.
     // We don't keep colinear vertices.
     if((*this).getPredicate().getDen2() == 0)
-      alphazero = true;
+      alphainf = true;
       
     do 
       {
 	// stores the last retrieved vertex
 	*res++ = tmp; 
 	// get the next alpha-shape vertices
-	tmp = next(tmp, res, alphazero);
+	tmp = next(tmp, res, alphainf);
 	//while it is not the first one
       } while (tmp != aStartingPoint); 
   }
