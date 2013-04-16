@@ -32,10 +32,19 @@
 template <typename Shape, typename Point, typename OutputIterator, 
   typename Predicate>
 void alphaShape(const Shape& aShape, const Point& aStartingPoint, 
+    OutputIterator res, const Predicate& aPredicate, const bool aEdgeVertices)
+{
+  OutputSensitiveAlphaShape<Shape, Predicate> ch(aShape, aPredicate);
+  ch.all(res, aEdgeVertices); 
+}
+
+template <typename Shape, typename Point, typename OutputIterator, 
+  typename Predicate>
+void alphaShape(const Shape& aShape, const Point& aStartingPoint, 
     OutputIterator res, const Predicate& aPredicate)
 {
   OutputSensitiveAlphaShape<Shape, Predicate> ch(aShape, aPredicate);
-  ch.all(res); 
+  ch.all(res, true); 
 }
 ///////////////////////////////////////////////////////////////////////
 /**
@@ -53,7 +62,7 @@ void alphaShape(const Shape& aShape, const Point& aStartingPoint,
  * @tparam CircumcircleRadiusPredicate
  */
   template<typename Circle, typename CircumcircleRadiusPredicate>
-bool test(const Circle aCircle, const CircumcircleRadiusPredicate& aPredicate)
+bool test(const Circle aCircle, const CircumcircleRadiusPredicate& aPredicate, const bool aEdgeVertices)
 {
 
   typedef PointVector2D<int> Point; //type redefinition
@@ -80,7 +89,7 @@ bool test(const Circle aCircle, const CircumcircleRadiusPredicate& aPredicate)
   std::cout << std::endl; 
   #endif
 
-  alphaShape( aCircle, pStart, std::back_inserter(ch1), aPredicate ); 
+  alphaShape( aCircle, pStart, std::back_inserter(ch1), aPredicate, aEdgeVertices); 
 
   #ifdef DEBUG_VERBOSE
   std::cout << "# - alpha-shape" << std::endl; 
@@ -99,6 +108,12 @@ bool test(const Circle aCircle, const CircumcircleRadiusPredicate& aPredicate)
     return false;
 }
 
+  template<typename Circle, typename CircumcircleRadiusPredicate>
+bool test(const Circle aCircle, const CircumcircleRadiusPredicate& aPredicate)
+{
+  
+  test(aCircle, aPredicate, true);
+}
 
 ///////////////////////////////////////////////////////////////////////
 int main() 
@@ -434,7 +449,8 @@ int main()
 
   // Number predicate test
   int nbPredicate = 10;
-  int valuePredicate[10] = {3, 4, 10, 20, 200, 2000, 20000, 100000, 200000, 2000000};
+  int valuePredicateNum[10] = {3, 4, 10, 20, 200, 2000, 20000, 100000, 200000, 2000000};
+  int valuePredicateDen[10] = {2, 2, 2, 2, 2, 2, 2, 2, 2, 2};  
   // Circumcircle triangle vertices
   Point pta, ptb, ptc;
 
@@ -465,11 +481,11 @@ int main()
           std::cout << std::endl;
 	  #endif
 
-          CircumcircleRadiusPredicate<> predicate(valuePredicate[i], 2);
+          CircumcircleRadiusPredicate<> predicate(valuePredicateNum[i], valuePredicateDen[i]);
 
 	  #ifdef DEBUG_VERBOSE
           std::cout << "Radius predicate : Num2 / Den2 : "<<valuePredicate[i]<<"/" 
-            << 2 << std::endl;
+            << valuePredicateDen[i] << std::endl;
 	  #endif
 
           if (test(circle, predicate))
@@ -482,6 +498,48 @@ int main()
 
     }
   }
+  nb_test = 100;
+  for (nb_test;nb_test>0;nb_test--)
+  {
+    {
+      // random circumcircle 
+      pta = Point( (rand() % maxPoint)             , (rand() % maxPoint) );
+      ptb = Point( (pta[0]-1- (rand() % maxPoint) ), (pta[1]-1- (rand() % maxPoint)) );
+      ptc = Point( (ptb[0]+1+ (rand() % maxPoint) ), (ptb[1]-1- (rand() % maxPoint)) );
+
+      Circle circle( pta, ptb, ptc );
+
+      #ifdef DEBUG_VERBOSE
+      std::cout << "II - "<<nb_test<<" - Alpha-shape on the circle : " << std::endl; 
+      std::cout << "-- Disk[ Center : (" << circle.getCenterX() << ", " 
+        << circle.getCenterY()<< " ), Radius : " << circle.getRadius()
+        << " ] | Points : "<< pta<< ptb<< ptc<< " - First vertex : " 
+        << circle.getConvexHullVertex() << std::endl;
+      #endif
+
+      
+	    #ifdef DEBUG_VERBOSE
+      std::cout << " ----------- Next predicate ----------- " << std::endl; 
+      std::cout << std::endl;
+	    #endif
+
+      CircumcircleRadiusPredicate<> predicate(1,0);
+
+	    #ifdef DEBUG_VERBOSE
+      std::cout << "Radius predicate : Num2 / Den2 : "<<valuePredicate[i]<<"/" 
+        << valuePredicateDen[i] << std::endl;
+	    #endif
+
+      if (test(circle, predicate))
+          nbok++;
+        nb++; 
+	  
+      std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+
+    }
+  }
+  
+  
   //  (0,2), (1,3), (2,4), (2,5), (2,6), (2,7), (1,8), (-1,9), (-3,8), (-4,7), (-4,6), (-4,5), (-4,4), (-4,3), (-2,2), (-1,2), (0,2), 
   //-- Disk[ Center : (-1.27273, 5.40909 ), Radius : 3.63892 ] | Points : (2,7)(-4,3)(0,2) - First vertex : (0,2)
   //10/2
@@ -538,10 +596,10 @@ int main()
     std::cout << "Radius predicate : Num2 / Den2 : 10/2"<< std::endl;
     #endif
 
-    if (test(circle, predicate))
+/*    if (test(circle, predicate, false))
     {nbok++;} 
     nb++; 
-
+*/
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
   }
 
