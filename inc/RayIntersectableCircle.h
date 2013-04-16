@@ -209,20 +209,20 @@ private:
    * @return integer @a q
    */
   template <typename Predicate>
-  int dichotomicSearch(const Point& aPoint, const Vector& aDir, 
-		       const int& qmax, const Predicate& aPredicate) const
+  Coordinate dichotomicSearch(const Point& aPoint, const Vector& aDir, 
+			      const Coordinate& qmax, const Predicate& aPredicate) const
   {    
 
     ASSERT( aPredicate( (*this)(aPoint)) ); 
     ASSERT( (!aPredicate( (*this)(aPoint + qmax * aDir))) ); 
 
     // init search bounds
-    int qStart = 0;
-    int qStop  = qmax;
+    Coordinate qStart = 0;
+    Coordinate qStop  = qmax;
     Point pStart = aPoint; 
     Point pStop = aPoint + qmax * aDir; 
 
-    int qMid;
+    Coordinate qMid;
     Point pMid, pMid1; 
 
     // while not yet located 
@@ -266,7 +266,7 @@ public:
    * @return 'true' if the ray and the circle instercest, 'false' otherwise 
    */
   bool dray(const Point& aStartingPoint, const Vector& aDirection, 
-	    int& aQuotient, Point& aClosest) const 
+	    Coordinate& aQuotient, Point& aClosest) const 
   {
     
     //We look for the intersection between  aS + aQ * aD and the circle
@@ -389,7 +389,7 @@ public:
       startingPoint = ptf; 
 
     //ray casting
-    int q = 0;  
+    Coordinate q = 0;  
     Point ptRes(0,0); 
     if ( dray(startingPoint, Vector(1,0), q, ptRes) )
       return ptRes; 
