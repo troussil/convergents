@@ -55,7 +55,7 @@ using namespace DGtal;
  * @tparam 
  * 
  */
-  template <typename Shape, typename OutputIterator>
+template <typename Shape, typename OutputIterator>
 void convexHull(const Shape& aShape, OutputIterator res)
 {
   OutputSensitiveConvexHull<Shape> ch(aShape); 
@@ -74,22 +74,22 @@ void convexHull(const Shape& aShape, OutputIterator res)
  */
 //////////////////////////////////////////////////////////////////////
 template <typename Shape, typename OutputIterator,
-  typename Predicate>
+	  typename Predicate>
 void alphaShape(const Shape& aShape, OutputIterator res, 
-  const Predicate& aPredicate)
+		const Predicate& aPredicate)
 {
   OutputSensitiveAlphaShape<Shape, Predicate> ch(aShape, aPredicate);
   ch.all(res);
 }
 
- ("output,o", po::value<int>()->default_value(1), "Output: No hull (=0), Alpha-Shape (=1), Convexe Hull(=2), both (=3)")
-    ("time,t", po::value<bool>()->default_value(true), "Output: time (=true), or not (=false)")
-    ("edgeVertices,ev", po::value<bool>()->default_value(true), "Take (=1), or not (=0) the vertices which lie on the edge")
-    ("firstRadius,fr",  po::value<int>()->default_value(5), "First radius of the disc : rs^Rf" )
-    ("lastRadius,lr",  po::value<int>()->default_value(20), "Last radius of the disc : rs^Rl" )
-    ("stepRadius,rs",  po::value<int>()->default_value(2), "Increasing radius of disc : rs" )
-    ("alphaCoefficient,k",  po::value<int>()->default_value(1000), "1/k : Alpha coefficient" )
-    ("circleperRadius,mk",  po::value<int>()->default_value(100), "Number of circle per radius" );  
+("output,o", po::value<int>()->default_value(1), "Output: No hull (=0), Alpha-Shape (=1), Convexe Hull(=2), both (=3)")
+("time,t", po::value<bool>()->default_value(true), "Output: time (=true), or not (=false)")
+("edgeVertices,ev", po::value<bool>()->default_value(true), "Take (=1), or not (=0) the vertices which lie on the edge")
+("firstRadius,fr",  po::value<int>()->default_value(5), "First radius of the disc : rs^Rf" )
+("lastRadius,lr",  po::value<int>()->default_value(20), "Last radius of the disc : rs^Rl" )
+("stepRadius,rs",  po::value<int>()->default_value(2), "Increasing radius of disc : rs" )
+("alphaCoefficient,k",  po::value<int>()->default_value(1000), "1/k : Alpha coefficient" )
+("circleperRadius,mk",  po::value<int>()->default_value(100), "Number of circle per radius" );  
 
 /**
  * @brief Procedure thar create a files with information : 
@@ -161,152 +161,152 @@ void rToolMeans(int aHull, bool aTime, bool aEdgeVertices, int aFirstR, int aLas
   Integer as_min,  as_max;	double as_means;  // alpha-shape
 
   
-    // Circle radius
-    std::cout << "Radius|" << "\t";
-    // Predicate
-    std::cout << "predicate|" << "\t";
-    if (aTime)
+  // Circle radius
+  std::cout << "Radius|" << "\t";
+  // Predicate
+  std::cout << "predicate|" << "\t";
+  if (aTime)
     {
       // Convex Hull computation time : Means, min, max
       std::cout << "time - means," << "\t"<< "time - min," << "\t"<< "time - max|" << "\t";
     } 
-    if(aHull == 2 || aHull == 3)
+  if(aHull == 2 || aHull == 3)
     {
       // Vertices number of the convex hull : Means, min, max
       std::cout << "# Convexe Hull - means,"   << "\t"<< "# Convexe Hull - min,"   << "\t"
-            << "# Convexe Hull - max|"   << "\t";
+		<< "# Convexe Hull - max|"   << "\t";
     }
-    if(aHull == 1 || aHull == 3)
+  if(aHull == 1 || aHull == 3)
     {
       // Vertices number of the alpha-Shape : Means, min, max
       std::cout << "# Alpha-shape - means,"    << "\t"<< "# Alpha-shape - min,"    << "\t"
-        << "# Alpha-shape - max";
+		<< "# Alpha-shape - max";
     }
-    std::cout << std::endl;
+  std::cout << std::endl;
     
   // For a circle radius from aFirstR to aLastR (both include)  
   for (int j = aFirstR; j <= aLastR; j++)
-  {
-    // We take a radius for the predicate proportional to the radius of 
-    // tha alpha-shape. R_alpha = 1/akalpha * myNum / myDen = akalpha *1/R^2 
-    myDen = akalpha;
-    myNum = R*R;
-
-    // Predicate
-    typedef CircumcircleRadiusPredicate<DGtal::BigInteger> Predicate; 
-    Predicate predicate(myNum, myDen);
-
-
-    // Reset values
-    bfirst = true;
-    time_min = 0; time_max = 0; time_means = 0.0; tmptime = 0;
-    cv_min   = 0; cv_max   = 0; cv_means   = 0.0; tmpnb = 0;
-    as_min   = 0; as_max   = 0; as_means   = 0.0;
-
-    // Take a mean of aTestNb values.
-    for (int i = 0; i < aTestNb; i++)
     {
-       // We create a new circle from a, b, c, d : ax + by + c(x^2 + y^2)
-       // The circle have a random center pt_c in [0;1]*[0;1] and a fixed radius = R
-       // We fixed c = -20.  pt_c = [-a/2c ; -b/2c] and R² = (a^2 + b^2 - 4*c*d)/(4c²)
-       // so 4c²*R² = a² + b² - 4*c*d <=>  = (a² + b² - 4c²*R²)/4*c = d
+      // We take a radius for the predicate proportional to the radius of 
+      // tha alpha-shape. R_alpha = 1/akalpha * myNum / myDen = akalpha *1/R^2 
+      myDen = akalpha;
+      myNum = R*R;
+
+      // Predicate
+      typedef CircumcircleRadiusPredicate<DGtal::BigInteger> Predicate; 
+      Predicate predicate(myNum, myDen);
+
+
+      // Reset values
+      bfirst = true;
+      time_min = 0; time_max = 0; time_means = 0.0; tmptime = 0;
+      cv_min   = 0; cv_max   = 0; cv_means   = 0.0; tmpnb = 0;
+      as_min   = 0; as_max   = 0; as_means   = 0.0;
+
+      // Take a mean of aTestNb values.
+      for (int i = 0; i < aTestNb; i++)
+	{
+	  // We create a new circle from a, b, c, d : ax + by + c(x^2 + y^2)
+	  // The circle have a random center pt_c in [0;1]*[0;1] and a fixed radius = R
+	  // We fixed c = -20.  pt_c = [-a/2c ; -b/2c] and R² = (a^2 + b^2 - 4*c*d)/(4c²)
+	  // so 4c²*R² = a² + b² - 4*c*d <=>  = (a² + b² - 4c²*R²)/4*c = d
        
-      a = - rand() %(2*c);
-      b = - rand() %(2*c);  
-      d = ( a*a + b*b - 4*R*R*c*c)/(4*c);
+	  a = - rand() %(2*c);
+	  b = - rand() %(2*c);  
+	  d = ( a*a + b*b - 4*R*R*c*c)/(4*c);
 
-      // Create a circle from the Euclidian parameter a, b, c, d.
-      Circle circle( a, b, c, d );	
+	  // Create a circle from the Euclidian parameter a, b, c, d.
+	  Circle circle( a, b, c, d );	
 
-      // Test
-			//std::cout<<"a = "<<a<<", b = "<<b<<", c = "<<c<<", d = "<<d<<std::endl;   
-			//std::cout<<"R : "<<R<<", "<< circle.getRadius()<<std::endl;
+	  // Test
+	  //std::cout<<"a = "<<a<<", b = "<<b<<", c = "<<c<<", d = "<<d<<std::endl;   
+	  //std::cout<<"R : "<<R<<", "<< circle.getRadius()<<std::endl;
 
-      // Convex Hull
-      if(aHull == 2 || aHull == 3)
-      {
-        // chcv recover the number of vertices of the convex hull.
-        std::vector<Point> chcv;
+	  // Convex Hull
+	  if(aHull == 2 || aHull == 3)
+	    {
+	      // chcv recover the number of vertices of the convex hull.
+	      std::vector<Point> chcv;
         
-        if (aTime && aHull == 2) 
-        {
-          ta = std::chrono::system_clock::now();
-          convexHull(circle, std::back_inserter(chcv));
-          tb = std::chrono::system_clock::now();
+	      if (aTime && aHull == 2) 
+		{
+		  ta = std::chrono::system_clock::now();
+		  convexHull(circle, std::back_inserter(chcv));
+		  tb = std::chrono::system_clock::now();
           
-          // Computation time
-          tmptime = (tb - ta).count();
-          if (tmptime <= time_min || bfirst == true) {time_min = tmptime;}
-          if (tmptime >= time_max || bfirst == true) {time_max = tmptime;}
-          time_means += tmptime/(double)aTestNb;  
-        }
-        else
-          convexHull(circle, std::back_inserter(chcv));
+		  // Computation time
+		  tmptime = (tb - ta).count();
+		  if (tmptime <= time_min || bfirst == true) {time_min = tmptime;}
+		  if (tmptime >= time_max || bfirst == true) {time_max = tmptime;}
+		  time_means += tmptime/(double)aTestNb;  
+		}
+	      else
+		convexHull(circle, std::back_inserter(chcv));
           
-        // Convex hull vertices number
-        tmpnb = chcv.size();
-        if (tmpnb <= cv_min || bfirst == true) {cv_min = tmpnb;}
-        if (tmpnb >= cv_max || bfirst == true) {cv_max = tmpnb;}
-        cv_means += tmpnb/(double)aTestNb;             
-      }
+	      // Convex hull vertices number
+	      tmpnb = chcv.size();
+	      if (tmpnb <= cv_min || bfirst == true) {cv_min = tmpnb;}
+	      if (tmpnb >= cv_max || bfirst == true) {cv_max = tmpnb;}
+	      cv_means += tmpnb/(double)aTestNb;             
+	    }
       
-      // Alpha-Shape
-      if(aHull == 1 || aHull == 3)
-      {
-        // chas recover the number of vertices of the alpha-shape.
-        std::vector<Point> chas;
+	  // Alpha-Shape
+	  if(aHull == 1 || aHull == 3)
+	    {
+	      // chas recover the number of vertices of the alpha-shape.
+	      std::vector<Point> chas;
         
-        if (aTime)
-        { 
-          ta = std::chrono::system_clock::now();
-          alphaShape( circle, std::back_inserter(chas), predicate);
-          tb = std::chrono::system_clock::now();
+	      if (aTime)
+		{ 
+		  ta = std::chrono::system_clock::now();
+		  alphaShape( circle, std::back_inserter(chas), predicate);
+		  tb = std::chrono::system_clock::now();
           
-          // Computation time
-          tmptime = (tb - ta).count();
-          if (tmptime <= time_min || bfirst == true) {time_min = tmptime;}
-          if (tmptime >= time_max || bfirst == true) {time_max = tmptime;}
-          time_means += tmptime/(double)aTestNb;
-        }
-        else
-          alphaShape( circle, std::back_inserter(chas), predicate );
+		  // Computation time
+		  tmptime = (tb - ta).count();
+		  if (tmptime <= time_min || bfirst == true) {time_min = tmptime;}
+		  if (tmptime >= time_max || bfirst == true) {time_max = tmptime;}
+		  time_means += tmptime/(double)aTestNb;
+		}
+	      else
+		alphaShape( circle, std::back_inserter(chas), predicate );
           
           
-        // Alpha-Shape vertices number
-        tmpnb = chas.size()-1;
-        if (tmpnb <= as_min || bfirst == true) {as_min = tmpnb;}
-        if (tmpnb >= as_max || bfirst == true) {as_max = tmpnb;}
-        as_means += tmpnb/(double)aTestNb;
-      }     
+	      // Alpha-Shape vertices number
+	      tmpnb = chas.size()-1;
+	      if (tmpnb <= as_min || bfirst == true) {as_min = tmpnb;}
+	      if (tmpnb >= as_max || bfirst == true) {as_max = tmpnb;}
+	      as_means += tmpnb/(double)aTestNb;
+	    }     
 
-      // reset first min, max entries
-      bfirst = false;
-    } //aTestnb loop for a fixed radius
+	  // reset first min, max entries
+	  bfirst = false;
+	} //aTestnb loop for a fixed radius
 
-    // Circle radius
-    std::cout << R << "\t";
-    // Predicate
-    std::cout << (DGtal::NumberTraits<BigInteger>::castToDouble(myNum) / 
-      DGtal::NumberTraits<BigInteger>::castToDouble(myDen)) << "\t";
-    if (aTime)
-    {
-      // time : Means, min, max
-      std::cout << time_means << "\t" << time_min<< "\t" << time_max << "\t"; 
-    } 
-    if(aHull == 2 || aHull == 3)
-    {
-      // Concex Hull : Means, min, max
-      std::cout << cv_means << "\t" << cv_min<< "\t" << cv_max << "\t";
-    }
-    if(aHull == 1 || aHull == 3)
-    {
-      // Alpha-Shape : Means, min, max
-      std::cout << as_means << "\t" << as_min<< "\t" << as_max;
-    }
-     std::cout << std::endl;
-    // Restart with a radius increase by 4.
-    R = R*aradiusStep; 
-  }// end loop - R reach its maximum asked aRadiusmax
+      // Circle radius
+      std::cout << R << "\t";
+      // Predicate
+      std::cout << (DGtal::NumberTraits<BigInteger>::castToDouble(myNum) / 
+		    DGtal::NumberTraits<BigInteger>::castToDouble(myDen)) << "\t";
+      if (aTime)
+	{
+	  // time : Means, min, max
+	  std::cout << time_means << "\t" << time_min<< "\t" << time_max << "\t"; 
+	} 
+      if(aHull == 2 || aHull == 3)
+	{
+	  // Concex Hull : Means, min, max
+	  std::cout << cv_means << "\t" << cv_min<< "\t" << cv_max << "\t";
+	}
+      if(aHull == 1 || aHull == 3)
+	{
+	  // Alpha-Shape : Means, min, max
+	  std::cout << as_means << "\t" << as_min<< "\t" << as_max;
+	}
+      std::cout << std::endl;
+      // Restart with a radius increase by 4.
+      R = R*aradiusStep; 
+    }// end loop - R reach its maximum asked aRadiusmax
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -342,6 +342,7 @@ int main( int argc, char** argv )
       return 0;
     }
     
+  // retrieve values from boost - po
   int hull = vm["output"].as<int>();
   
   bool time = vm["time"].as<bool>();
@@ -358,8 +359,5 @@ int main( int argc, char** argv )
   //2^5 = 32, 2^15 = 32768, 2^25 = 16777216
   rToolMeans(hull, time, edgeVertices, rf, rl, rs, k, mk);
   
-  //rToolValue(16777216);
-
-
   return 0;
 }
