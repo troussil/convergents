@@ -273,5 +273,6 @@ template<typename Coordinate>
 std::ostream& operator<<( std::ostream & out, const PointVector2D<Coordinate>& object )
 {
   out << "(" << object[0] << "," << object[1] << ")"; 
+  return out; 
 }
 #endif

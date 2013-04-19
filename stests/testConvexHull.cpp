@@ -144,16 +144,18 @@ int main()
       std::cout << std::endl; 
       std::cout << " - 3."<<nb_test<<" - Convex hull on a random circle" << std::endl; 
       
-			pta = Point( (rand() % max)             , (rand() % max) );
+      pta = Point( (rand() % max)             , (rand() % max) );
       ptb = Point( (pta[0]-1- (rand() % max) ), (pta[1]-1- (rand() % max)) );
       ptc = Point( (ptb[0]+1+ (rand() % max) ), (ptb[1]-1- (rand() % max)) );
 
       Circle circle(pta , ptb , ptc);
 
       std::cout << "Disk[ Center : (" << circle.getCenterX() << ", " 
-    << circle.getCenterY()<< " ), Radius : " << circle.getRadius()
-    << " ] | Points : "<< pta<< ptb<< ptc<< " - First vertex : " 
-		<< circle.getConvexHullVertex() << std::endl;
+      		<< circle.getCenterY()<< " )"; 
+      std::cout << " Radius : " << circle.getRadius() << " ] "; 
+           std::cout << " Points : "<< pta<< ptb<< ptc; 
+      std::cout << " - First vertex : " 
+      		<< circle.getConvexHullVertex() << std::endl;
 
       std::vector<Point> v; 
       convexHull( circle, circle.getConvexHullVertex(), std::back_inserter(v) ); 
