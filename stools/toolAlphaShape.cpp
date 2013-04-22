@@ -82,15 +82,6 @@ void alphaShape(const Shape& aShape, OutputIterator res,
   ch.all(res);
 }
 
-("output,o", po::value<int>()->default_value(1), "Output: No hull (=0), Alpha-Shape (=1), Convexe Hull(=2), both (=3)")
-("time,t", po::value<bool>()->default_value(true), "Output: time (=true), or not (=false)")
-("edgeVertices,ev", po::value<bool>()->default_value(true), "Take (=1), or not (=0) the vertices which lie on the edge")
-("firstRadius,fr",  po::value<int>()->default_value(5), "First radius of the disc : rs^Rf" )
-("lastRadius,lr",  po::value<int>()->default_value(20), "Last radius of the disc : rs^Rl" )
-("stepRadius,rs",  po::value<int>()->default_value(2), "Increasing radius of disc : rs" )
-("alphaCoefficient,k",  po::value<int>()->default_value(1000), "1/k : Alpha coefficient" )
-("circleperRadius,mk",  po::value<int>()->default_value(100), "Number of circle per radius" );  
-
 /**
  * @brief Procedure thar create a files with information : 
  * time, radius, predicate and alpha-shape and convex hull number of vertices
