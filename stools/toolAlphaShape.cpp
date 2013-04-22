@@ -337,7 +337,7 @@ int main( int argc, char** argv )
     {
       trace.info()<< "Display the number of vertices depending to the radius of the disk" 
                   <<std::endl << "Basic usage: "<<std::endl
-		  << "\t toolAlphaShape -o 1 -fr 5 -lr 8 > files.txt" << std::endl
+		  << "\t toolAlphaShape -o 1 -f 5 -l 8 > files.txt" << std::endl
 		  << general_opt << "\n";
       return 0;
     }
