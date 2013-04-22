@@ -306,12 +306,12 @@ int main( int argc, char** argv )
   po::options_description general_opt("Allowed options are: ");
   general_opt.add_options()
     ("help,h", "display this message")
-    ("output,o", po::value<int>()->default_value(1), "Output: 0: No hull, 1:Alpha-Shape, 2:Convexe Hull, 3: both")
-    ("time,t", po::value<bool>()->default_value(true), "Output: True: Time, Fasle: No time")
-    ("edgeVertices,ev", po::value<bool>()->default_value(true), "Take :1, or not :0 the vertices which lie on the edge")
-    ("firstRadius,fr",  po::value<int>()->default_value(5), "First radius of the disc : 2^Rf" )
-    ("lastRadius,lr",  po::value<int>()->default_value(20), "Last radius of the disc : 2^Rl" )
-    ("stepRadius,rs",  po::value<int>()->default_value(2), "Radius of the disc : r" )
+    ("output,o", po::value<int>()->default_value(1), "Output: No hull (=0), Alpha-Shape (=1), Convexe Hull(=2), both (=3)")
+    ("time,t", po::value<bool>()->default_value(true), "Output: time (=true), or not (=false)")
+    ("edgeVertices,ev", po::value<bool>()->default_value(true), "Take (=1), or not (=0) the vertices which lie on the edge")
+    ("firstRadius,f",  po::value<int>()->default_value(5), "First radius of the disc : s^f" )
+    ("lastRadius,l",  po::value<int>()->default_value(20), "Last radius of the disc : s^l" )
+    ("stepRadius,s",  po::value<int>()->default_value(2), "Increasing radius of disc : s" )
     ("alphaCoefficient,k",  po::value<int>()->default_value(1000), "1/k : Alpha coefficient" )
     ("circleperRadius,mk",  po::value<int>()->default_value(100), "Number of circle per radius" );   
   
