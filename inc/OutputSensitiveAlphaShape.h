@@ -169,9 +169,14 @@ class OutputSensitiveAlphaShape
 
 
     /**
-     * 
-     * 
-     * @param aPoint any vertex of the alpha-shape 
+     * Given a triangle formed by aStart, aStart+aBase, aStart+aBase+qk*aSide)
+     * We add corresponding points to the alpha-shape vertices and return 
+     * the last point in aNext.
+     * @param aStart is the first, and constant vertices of the triangle.
+     * @param aBase translate aStart to the first triangle
+     * @param aSide translate aBase in aqk time to the last triangle.
+     * @param aNext is the next point to start in the alpha-shape computation.
+     * @param aqk is the coefficient to reach the last triangle vertex.
      * @param res output iterator that stores the sequence of vertices
      * @return the last retrieved vertex (not stored). 
      */
@@ -179,21 +184,28 @@ class OutputSensitiveAlphaShape
       bool getASVertex(const Point& aStart, const Point& aBase, const Point& aSide,
           Point& aNext, int aqk, OutputIterator res)
       {
+        // last triangles vertices.
         Point last = aStart + aBase + aqk * aSide;
         Point secondLast = last - aSide;
+
+        // dicotomic search result
         int qkalpha;
+        // coefficient to locate the newt vertex in the alpha-shape.
         int qkmove;
 
+        // triangle orientation,
+        // allowed to distinguished the odd or even case
+        // counter clockwise = false, clockwise = true;
         bool aTrigoAngle = (myPredicate.getArea(aStart, aStart + aBase, aStart + aBase + aSide) >= 0 );
 
-
-
+        // We looked for next vertices
         if( (aTrigoAngle && !myPredicate(aStart, secondLast, last)) ||
             (!aTrigoAngle && !myPredicate(aStart, last, secondLast)))
         {
+
           // We run the dichotomic search between 
-          // aPoint + vConvM2 and 
-          // aPoint + vConvM2 + qk * vConvM1
+          // aStart + aBase and 
+          // aStart + aBase + qk * aSide
           qkalpha = dichotomicSearch(aStart, aBase, aSide, aqk);
 
           if (!aTrigoAngle)
@@ -227,15 +239,17 @@ class OutputSensitiveAlphaShape
           return(true);
 
         } // end of predicate is false
-        return false;
+        return (false);
       }
 
     /**
-     * 
-     * 
-     * @param aPoint any vertex of the alpha-shape 
-     * @param res output iterator that stores the sequence of vertices
-     * @return the last retrieved vertex (not stored). 
+     * Change all the value which determined the next point to add in
+     * the alpha-shape.
+     * @param aqkalpha 
+     * @param aqk
+     * @param aqkmove
+     * @param aDirection determined the triangle orientation
+     * @return 
      */
     void move(int& aqkalpha, int& aqk, int& aqkmove, bool aDirection)
     {
@@ -343,11 +357,7 @@ class OutputSensitiveAlphaShape
               // then there must be vertices of the alpha-shape
               // of the form aPoint + vConvM2 + i * vConvM1
 
-              start = pConv;
-              base  = -vConvM2;
-              side  = -vConvM1;
-
-              getASVertex(start, base, side, next, qk, res);
+              getASVertex(pConv, -vConvM2, -vConvM1, next, qk, res);
               return(pConv);
 
             }
@@ -357,11 +367,8 @@ class OutputSensitiveAlphaShape
               // is NOT greater than (or equal to) 1/alpha
               // then there must be vertices of the alpha-shape
               // of the form aPoint + vConvM2 + i * vConvM1
-              start = aPoint;
-              base  = vConvM2;
-              side  = vConvM1;
 
-              if ( getASVertex(start, base, side, next, qk, res))
+              if ( getASVertex(aPoint, vConvM2, vConvM1, next, qk, res))
               {
                 return(next);
               }
@@ -444,3 +451,4 @@ class OutputSensitiveAlphaShape
 
 }; 
 #endif
+
