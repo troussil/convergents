@@ -306,20 +306,16 @@ class OutputSensitiveAlphaShape
         // pConv = pConvM2 + qk * vConvM1.
         int qk;
         Point pConv;
-        Point vConv;
 
         // pConvM2 + qkalpha * vConvM1 is the first vertex in the alpha shape.
         int qkalpha;
 
-        // Dicotomic search
-        Point start, next;
-        Point base, side;
-
+        // Next starting vertex
+        Point next;
 
         //Ray casting from pConvM2 in the direction vConvM1
         while (myShape.dray(pConvM2, vConvM1, qk, pConv))
         {
-          vConv = pConv - aPoint;
           //If pConv is outside the shape (k is odd) 
           if (myShape(pConv) < 0)
           {
