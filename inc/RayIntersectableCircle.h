@@ -308,8 +308,12 @@ public:
 		  { // If positive solutions, 
 		    // We pick the smallest one by dichotomic search
 		    //this predicate is true iff the input value is <= 0
-		    DGtal::Thresholder<Integer, true, true> predicate(0);
+		    using namespace DGtal; 
+		    Thresholder<Integer, true, true> predicate(0);
+		    
 		    int max = DGtal::NumberTraits<Integer>::castToInt64_t(-bEq/(2*aEq)); 
+		    
+
 		    //inclusion tests around the minimum (-bEq/(2*aEq))
 		    Point pMax = aStartingPoint + max * aDirection; 
 		    Integer pMaxValue = (*this)(pMax);  
@@ -345,7 +349,8 @@ public:
 	      { // aS is strictly inside the circle
 		// We pick the positive solution by dichotomic search
 		//this predicate is true iff the input value is >= 0
-		DGtal::Thresholder<Integer, false, true> predicate(0); 
+		using namespace DGtal;
+		Thresholder<Integer, false, true> predicate(0); 
 		//a trivial upper bound is the circle diameter
 		int diameter = 2 * (int) std::ceil( getRadius() ) + 1; 
 		aQuotient = dichotomicSearch(aStartingPoint, aDirection, diameter, predicate); 
