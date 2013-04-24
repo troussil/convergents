@@ -2,6 +2,44 @@
   #define OutputSensitiveConvexHull_h
 
 #include<cmath>
+
+/**
+ * Class implementing a functor...
+ * Basic usage: 
+ * @code
+  DGtal::BigInteger res; 
+  res = Determinant<DGtal::BigInteger>::get(u,v);  
+ * @endcode
+ * 
+ * @tparam TShape a model of ray-intersectable shape.  
+ *
+ */
+template <typename T = long long int>
+struct Determinant
+{
+  /**
+   * Given three points, returns their orientation. 
+   *
+   * @param a first point
+   * @param b second point
+   * @param c third point
+   * @return true if the signed area of the triangle is positive
+   *
+   * @tparam Point a model of point.   
+   */
+  template<typename Vector>
+  static T
+  get(const Vector& u, const Vector& v)
+  {
+    T u0 = u[0];
+    T u1 = u[1];
+    T v0 = v[0];
+    T v1 = v[1]; 
+//    return ( u0*v1 - ... );
+    return (u0*v1 - u1*v0); 
+  }
+};
+
 /**
  * Class implementing an on-line and ouput-sensitive algorithm
  * that retrieves the vertices of the convex hull of all digital
@@ -13,7 +51,7 @@
  * @tparam TShape a model of ray-intersectable shape.  
  *
  */
-template <typename TShape>
+template <typename TShape, typename T = long long int>
 class OutputSensitiveConvexHull 
 {
   public: 
@@ -97,7 +135,7 @@ class OutputSensitiveConvexHull
 
       Point pNext = pm1; 
       Point vNext = pNext - aPoint;
-
+  //std::cout << aPoint << "\t"<< vm1 << "\t"<< vm2<<std::endl;
       // p0 exisence an iteration
       if (myShape.dray(pm2, vm1, pQuotient, pConv) == false)
       {
@@ -133,14 +171,15 @@ class OutputSensitiveConvexHull
       vm1 = pm1 - aPoint;
 
       //even or odd
-      int ite = 1;
+      bool even = false;
 
       // p1 and more
       while (myShape.dray(pm2, vm1, pQuotient, pConv) && pQuotient != 0)
       {
+  std::cout << aPoint << "\t"<< vm1 << "\t"<< vm2<<", pConv = "<<pConv <<", qk = "<<pQuotient<<std::endl;      
         // New Convergent, new v_i
         vConv = pConv - aPoint;
-        if (!(ite & 1)) // even
+        if (even) // even
         {
           if (myShape(pConv) == 0) // if the vertex lie on the circle
           {
@@ -152,7 +191,9 @@ class OutputSensitiveConvexHull
           }
           else if (myShape(pConv + vm1) >= 0)
           {
-            if (vNext.det(vConv + vm1) < 0)
+            DGtal::BigInteger res; 
+            res = Determinant<DGtal::BigInteger>::get(vNext,vConv + vm1);  
+            if (res < 0)
             {
               pNext = pConv+vm1;
               vNext = vConv+vm1;
@@ -162,6 +203,8 @@ class OutputSensitiveConvexHull
 
         else // odd
         {
+          DGtal::BigInteger res; 
+          res = Determinant<DGtal::BigInteger>::get(vNext,vConv);  
           if ( vNext.det(vConv)  < 0 )
           {
             pNext = pConv;
@@ -169,7 +212,7 @@ class OutputSensitiveConvexHull
           }
         }
 
-        ite++; 
+        even = (even == false); 
         // update pm2 and pm1
         pm2 = pm1;
         pm1 = pConv;
