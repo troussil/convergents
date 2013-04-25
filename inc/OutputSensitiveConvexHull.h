@@ -148,8 +148,8 @@ class OutputSensitiveConvexHull
       // p0 exisence an iteration
       if (myShape.dray(pConvM2, vConvM1, qk, pConv) == false)
       {
-        while(myShape(pConvM1+vConvM1) >= 0){pConvM1 += vConvM1;}
-        return (pConvM1);
+        myShape.dray(pConvM1, vConvM1, qk, pConv);    
+        return (pConv);
       }
 
       // p0 lie on the circle
