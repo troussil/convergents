@@ -41,8 +41,9 @@ int main()
 {
   typedef PointVector2D<int> Point; //type redefinition
   typedef PointVector2D<int> Vector; //type redefinition
-  typedef RayIntersectableCircle<Point,  DGtal::BigInteger> Circle; 
-
+  typedef RayIntersectableCircle<Point,  DGtal::BigInteger> CircleBig;
+  typedef RayIntersectableCircle<Point> Circle;
+  
   int nbok = 0; //number of tests ok
   int nb = 0;   //total number of tests
   
@@ -151,14 +152,26 @@ int main()
 
   }
 
+  // Random Initialisation
   srand ( time(NULL) );
-  int max = 50;
-  int nb_test = 500;
   
-  Point pta;
-  Point ptb;
-  Point ptc;
+  // Max radius size
+  int maxRadius = 500;
   
+  // Test number
+  int nb_test = 200;
+  
+  // Circle parameter : ax + by + c(x^2 + y^2)   
+  int a; 
+  int b;
+  int c;
+  int d;
+  c =  -25;
+  
+  // We fixed c = -20.  pt_c = [-a/2c ; -b/2c] and R² = (a^2 + b^2 - 4*c*d)/(4c²)
+	// so 4c²*R² = a² + b² - 4*c*d <=>  = (a² + b² - 4c²*R²)/4*c = d
+  int R;
+
   #ifdef DEBUG_VERBOSE
   std::cout << std::endl; 
   std::cout << "3 - Convex hull on "<<nb_test<<" random circle" << std::endl; 
@@ -173,17 +186,20 @@ int main()
       std::cout << " - 3."<<nb_test<<" - Convex hull on a random circle" << std::endl; 
       #endif      
 
-      pta = Point( (rand() % max)             , (rand() % max) );
-      ptb = Point( (pta[0]-1- (rand() % max) ), (pta[1]-1- (rand() % max)) );
-      ptc = Point( (ptb[0]+1+ (rand() % max) ), (ptb[1]-1- (rand() % max)) );
+      // random radius between 1 and maxRadius
+      R = 1 + rand() % maxRadius;
 
-      Circle circle(pta , ptb , ptc);
+      a = - rand() %(2*c);
+	    b = - rand() %(2*c);  
+	    d = ( a*a + b*b - 4*R*R*c*c)/(4*c);
+
+	    // Create a circle from the Euclidian parameter a, b, c, d.
+	    Circle circle( a, b, c, d );	
 
       #ifdef DEBUG_VERBOSE
       std::cout << "Disk[ Center : (" << circle.getCenterX() << ", " 
       		<< circle.getCenterY()<< " )"; 
       std::cout << " Radius : " << circle.getRadius() << " ] "; 
-           std::cout << " Points : "<< pta<< ptb<< ptc; 
       std::cout << " - First vertex : " 
       		<< circle.getConvexHullVertex() << std::endl;
       #endif
@@ -222,7 +238,8 @@ int main()
 
       std::cout << std::endl; 
       std::cout << " - 4 - Convex hull on a big circle" << std::endl; 
-      
+
+      // Circle parameter : ax + by + c(x^2 + y^2)      
       DGtal::BigInteger a; 
       DGtal::BigInteger b;
       DGtal::BigInteger c;
@@ -237,13 +254,13 @@ int main()
       
       // 2**24 = 16777216; 2**25 = 33554432;
       DGtal::BigInteger R = 33554432;
-         
+
 	    a = - rand() %(2*c);
 	    b = - rand() %(2*c);  
 	    d = ( a*a + b*b - 4*R*R*c*c)/(4*c);
 
 	    // Create a circle from the Euclidian parameter a, b, c, d.
-	    Circle circle( a, b, c, d );	
+	    CircleBig circle( a, b, c, d );	
 
 
       std::cout << "Disk[ Center : (" << circle.getCenterX() << ", " 
@@ -251,7 +268,7 @@ int main()
       std::cout << " Radius : " << circle.getRadius() << " ] "; 
       std::cout << " - First vertex : " 
       		<< circle.getConvexHullVertex() << std::endl;
-
+      std::cout << "<-- Computation Time : 2 min -->"  << std::endl;
       std::vector<Point> v; 
       convexHull( circle, circle.getConvexHullVertex(), std::back_inserter(v) ); 
       std::cout << "---Get :" << std::endl; 

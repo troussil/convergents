@@ -145,11 +145,11 @@ class OutputSensitiveConvexHull
       Point vNext = pNext - aPoint;
       
 
-      // p0 exisence an iteration
+      // p0 do not exist
       if (myShape.dray(pConvM2, vConvM1, qk, pConv) == false)
       {
-        myShape.dray(pConvM1, vConvM1, qk, pConv);    
-        return (pConv);
+        while(myShape(pConvM1+vConvM1) >= 0){pConvM1 += vConvM1;}
+        return (pConvM1);
       }
 
       // p0 lie on the circle
@@ -186,6 +186,9 @@ class OutputSensitiveConvexHull
         // New Convergent, 
         vConv = pConv - aPoint;
         
+        // Standart Output -- debug
+        //std::cout << aPoint << vConvM2 << vConvM1<< qk << std::endl;         
+
         if (even) // even
         {
           // if the vertex lie on the circle
@@ -236,8 +239,8 @@ class OutputSensitiveConvexHull
       // translation in vNext direction, 
       // in order to not keep the vertices 
       // on the convex hull edges
-      myShape.dray(pNext, vNext, qk, pConv);
-      return(pConv);
+      while(myShape(pNext+vNext) >= 0){pNext += vNext;}
+      return pNext; 
 
     }
 
