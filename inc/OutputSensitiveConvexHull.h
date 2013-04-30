@@ -4,26 +4,26 @@
 #include<cmath>
 
 /**
- * Class implementing a functor...
+ * Class implementing a determinant between
+ * two vectors. 
  * Basic usage: 
  * @code
   DGtal::BigInteger res; 
   res = Determinant<DGtal::BigInteger>::get(u,v);  
  * @endcode
  * 
- * @tparam TShape a model of ray-intersectable shape.  
+ * @tparam T .  
  *
  */
 template <typename T = long long int>
 struct Determinant
 {
   /**
-   * Given three points, returns their orientation. 
+   * Given two vectors, return their orientation. 
    *
-   * @param a first point
-   * @param b second point
-   * @param c third point
-   * @return true if the signed area of the triangle is positive
+   * @param u first vector
+   * @param v second vector
+   * @return the determinant value
    *
    * @tparam Point a model of point.   
    */
@@ -35,7 +35,7 @@ struct Determinant
     T u1 = u[1];
     T v0 = v[0];
     T v1 = v[1]; 
-//    return ( u0*v1 - ... );
+
     return (u0*v1 - u1*v0); 
   }
 };
@@ -58,7 +58,7 @@ class OutputSensitiveConvexHull
     /////////////////////// inner types /////////////////
     typedef TShape Shape; 
     typedef typename Shape::Point Point; 
-
+    typedef Determinant<DGtal::BigInteger> Orientation; 
   private: 
     /////////////////////// members /////////////////////
     /**
@@ -195,7 +195,7 @@ class OutputSensitiveConvexHull
           if (myShape(pConv) == 0) 
           {
             // We keep the smallest angle
-            res = Determinant<DGtal::BigInteger>::get(vNext,vConv);  
+            res = Orientation::get(vNext,vConv);  
             if (res < 0)
             {
               pNext = pConv;
@@ -205,7 +205,7 @@ class OutputSensitiveConvexHull
           else if (myShape(pConv + vConvM1) >= 0)
           {
             // We keep the smallest angle
-            res = Determinant<DGtal::BigInteger>::get(vNext,vConv + vConvM1);  
+            res = Orientation::get(vNext,vConv + vConvM1);  
             if (res < 0)
             {
               pNext = pConv+vConvM1;
@@ -216,7 +216,7 @@ class OutputSensitiveConvexHull
         else // odd
         {
           // We keep the smallest angle
-          res = Determinant<DGtal::BigInteger>::get(vNext,vConv);  
+          res = Orientation::get(vNext,vConv);  
           if ( res  < 0 )
           {
             pNext = pConv;
