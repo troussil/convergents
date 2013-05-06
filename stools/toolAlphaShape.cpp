@@ -42,19 +42,8 @@ using namespace DGtal;
 #include "../inc/ConvexHullHelpers.h"
 #include "../inc/CircumcircleRadiusPredicate.h"
 
-
-
-///////////////////////////////////////////////////////////////////////
-/**
- * @brief Procedure thar return the circle convex hull
- * 
- * @param aCircle
- * @param res  
- * 
- * @return
- * @tparam 
- * 
- */
+ 
+ 
   template <typename Shape, typename OutputIterator>
 void convexHull(const Shape& aShape, OutputIterator res)
 {
@@ -117,7 +106,7 @@ void rToolMeans(int aHull, bool aTime, bool aEdgeVertices, int aFirstR, int aLas
   c =  -25;
 
   // Init radius with R = aradiusStep^aRadiusmin.
-  DGtal::BigInteger R =aradiusStep;
+  DGtal::BigInteger R = aradiusStep;
   for (int k = 1; k < aFirstR; k++)	{R *= aradiusStep;}
 
   DGtal::BigInteger myDen;
