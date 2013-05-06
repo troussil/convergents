@@ -121,7 +121,6 @@ int main()
   
   {
   int R = 10;
-  
   //random value
   srand ( time(NULL) );
   
@@ -151,18 +150,22 @@ int main()
     std::cout << std::endl;
     #endif
 	  
-    CircumcircleRadiusPredicate<DGtal::BigInteger> predicate5(110,1);
-    
-    #ifdef DEBUG_VERBOSE
-    std::cout << "Radius predicate : Num2 / Den2 : 110/1"<< std::endl;
-    #endif
+	  for (int k=0; k<10; k++)
+	  {
+      CircumcircleRadiusPredicate<DGtal::BigInteger> predicate5(R+(k*10),1);
+      
+      #ifdef DEBUG_VERBOSE
+      std::cout << "Radius predicate : Num2 / Den2 : 110/1"<< std::endl;
+      #endif
 
-    if (test(circle, predicate5))
-    {nbok++;} 
-    nb++; 
+     test(circle, predicate5);
 
-    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
     }
+    
+	  }  
+  	  
+	  
+    
 
   //1 if at least one test failed
   //0 otherwise
