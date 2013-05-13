@@ -12,15 +12,15 @@
 
 #include <cmath>
 // Core geometry
-#include "../inc/PointVector2D.h"
+#include "PointVector2D.h"
 // Circle
-#include "../inc/RayIntersectableCircle.h"
+#include "RayIntersectableCircle.h"
 // Convex Hull
 
-#include "../inc/OutputSensitiveConvexHull.h"
+#include "OutputSensitiveConvexHull.h"
 
 // Alpha-shape
-#include "../inc/PositiveAlphaShape.h"
+#include "PositiveAlphaShape.h"
 
 // BigInteger
 #include <DGtal/base/Common.h>
@@ -55,17 +55,50 @@ void PositiveAlpha(const Shape& aShape, Container& container, const Predicate& a
  * @tparam
  * @tparam CircumcircleRadiusPredicate
  */
-  template<typename Circle, typename CircumcircleRadiusPredicate>
-bool test(const Circle aCircle, const CircumcircleRadiusPredicate& aPredicate)
+template<typename Circle, typename CircumcircleRadiusPositivePredicate>
+bool test(const Circle aCircle, const CircumcircleRadiusPositivePredicate& aPredicate)
 {
 
+  // Computed Alpha-Shape
   Container container; 
   PositiveAlpha( aCircle, container, aPredicate ); 
   
-  std::cout << "Get" << std::endl; 
+  
+#ifdef DEBUG_VERBOSE
+  std::cout << "# - alpha-shape" << std::endl; 
   std::copy(container.begin(), container.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
   std::cout << std::endl; 
-  return false;
+#endif 
+  
+  
+/*  // Computed Alpha-Shape with GrahamScan
+  std::vector<Point> boundary;
+  std::vector<Point> ch0;
+  
+  //tracking-based algorithm
+  Point pStart = aCircle.getConvexHullVertex();
+  Vector dir(1,0); 
+  closedTracking( aCircle, pStart, dir, std::back_inserter(boundary) );
+  
+  closedGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch0), aPredicate ); 
+  
+#ifdef DEBUG_VERBOSE
+  std::cout << "# - alpha-shape of the boundary using closedGrahamScan" << std::endl; 
+  std::copy(ch0.begin(), ch0.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+  std::cout << std::endl; 
+#endif
+  
+  if (ch0.size() == container.size())
+    {
+      if ( std::equal(container.begin(), container.end(), ch0.begin()) )
+	{
+	  return true;
+	}
+    }
+  else */
+    return false;
+  
+
 }
 
 
@@ -79,10 +112,10 @@ int main()
   int nbok = 0; //number of tests ok
   int nb = 0;   //total number of tests
 
-  #ifdef DEBUG_VERBOSE
+#ifdef DEBUG_VERBOSE
   std::cout << std::endl; 
   std::cout << "I) Alpha-shape on a simple circle" << std::endl; 
-  #endif
+#endif
   
   //  (0,2), (1,3), (2,4), (2,5), (2,6), (2,7), (1,8), (-1,9), (-3,8), (-4,7), (-4,6), (-4,5), (-4,4), (-4,3), (-2,2), (-1,2), (0,2), 
   //-- Disk[ Center : (-1.27273, 5.40909 ), Radius : 3.63892 ] | Points : (2,7)(-4,3)(0,2) - First vertex : (0,2)
@@ -90,24 +123,24 @@ int main()
   {
     Point pta = Point(0,6);
     Point ptb = Point(-4,3);
-    Point ptc = Point(0,2);
+    Point ptc = Point(5,-3);
     Circle circle( pta, ptb, ptc );
 
-    #ifdef DEBUG_VERBOSE
+#ifdef DEBUG_VERBOSE
     std::cout << "-- Disk[ Center : (" << circle.getCenterX() << ", " 
-      << circle.getCenterY()<< " ), Radius : " << circle.getRadius()
-      << " ] | Points : "<< pta<< ptb<< ptc<< " - First vertex : " 
-      << std::endl;
+	      << circle.getCenterY()<< " ), Radius : " << circle.getRadius()
+	      << " ] | Points : "<< pta<< ptb<< ptc<< " - First vertex : " 
+	      << std::endl;
 
     std::cout << " ----------- Next predicate ----------- " << std::endl; 
     std::cout << std::endl;
-    #endif
+#endif
 
-    CircumcircleRadiusPredicate<> predicate(10,2);
+    CircumcircleRadiusPositivePredicate<> predicate(10,2);
     
-    #ifdef DEBUG_VERBOSE
+#ifdef DEBUG_VERBOSE
     std::cout << "Radius predicate : Num2 / Den2 : 10/2"<< std::endl;
-    #endif
+#endif
 
     if (test(circle, predicate))
       nbok++; 
@@ -120,49 +153,56 @@ int main()
   
   
   {
-  int R = 10;
-  //random value
-  srand ( time(NULL) );
+    /*int R = 10;
+    //random value
+    srand ( time(NULL) );
   
-  int c = -25;
+    int c = -25;
   
-  //int a = - rand() %(2*c);
-  //int b = - rand() %(2*c);
+    //int a = - rand() %(2*c);
+    //int b = - rand() %(2*c);
   
-  int a = 20;
-  int b = 32;  
+    int a = 20;
+    int b = 32;  
   
-  int d = ( a*a + b*b - 4*R*R*c*c)/(4*c);;
+    int d = ( a*a + b*b - 4*R*R*c*c)/(4*c);;
 
   
-  // We fixed c = -20.  pt_c = [-a/2c ; -b/2c] and R² = (a^2 + b^2 - 4*c*d)/(4c²)
-	// so 4c²*R² = a² + b² - 4*c*d <=>  = (a² + b² - 4c²*R²)/4*c = d
+    // We fixed c = -20.  pt_c = [-a/2c ; -b/2c] and R² = (a^2 + b^2 - 4*c*d)/(4c²)
+    // so 4c²*R² = a² + b² - 4*c*d <=>  = (a² + b² - 4c²*R²)/4*c = d
 
-	    // Create a circle from the Euclidian parameter a, b, c, d.
-	  Circle circle( a, b, c, d );	
-	  
-	   #ifdef DEBUG_VERBOSE
+    // Create a circle from the Euclidian parameter a, b, c, d.
+    Circle circle( a, b, c, d );	
+    */
+    Point pta = Point(0,5);
+    Point ptb = Point(-3,3);
+    Point ptc = Point(4,-3);
+    Circle circle( pta, ptb, ptc );
+    	  
+#ifdef DEBUG_VERBOSE
     std::cout << "-- Disk[ Center : (" << circle.getCenterX() << ", " 
-      << circle.getCenterY()<< " ), Radius : " << circle.getRadius()
-      << std::endl;
+	      << circle.getCenterY()<< " ), Radius : " << circle.getRadius()
+	      << std::endl;
 
     std::cout << " ----------- Next predicate ----------- " << std::endl; 
     std::cout << std::endl;
-    #endif
+#endif
 	  
-	  for (int k=0; k<10; k++)
-	  {
-      CircumcircleRadiusPredicate<DGtal::BigInteger> predicate5(R+(k*10),1);
-      
-      #ifdef DEBUG_VERBOSE
-      std::cout << "Radius predicate : Num2 / Den2 : 110/1"<< std::endl;
-      #endif
+    for (int k=0; k<10; k++)
+      {
+	CircumcircleRadiusPositivePredicate<DGtal::BigInteger> predicate5(10+(k*10),1);
+	std::cout << (10+(k*10)) << " /"<<1<<std::endl;  
+	if (test(circle, predicate5))
+	  nbok++;
+	nb++; 
+	  
+	std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
 
-     test(circle, predicate5);
 
-    }
+
+      }
     
-	  }  
+  }  
   	  
 	  
     

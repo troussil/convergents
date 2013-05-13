@@ -3,7 +3,7 @@
 
 #include<cmath>
 
-#include"CircumcircleRadiusPredicate.h"
+#include"CircumcircleRadiusPositivePredicate.h"
 #include "RayIntersectableStraightLine.h"
 
 #include "ConvexHullHelpers.h"
@@ -111,9 +111,9 @@ template <typename Container, typename Point>
         std::vector<Point> it;
         ch.all(aPointa, std::back_inserter(it));
         
-    std::cout << "Convex Hull" << std::endl; 
-    std::copy(it.begin(), it.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
-    std::cout << std::endl;
+//    std::cout << "Convex Hull" << std::endl; 
+//    std::copy(it.begin(), it.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+//    std::cout << std::endl;
     
         int i = 0;
 
@@ -173,29 +173,6 @@ std::cout <<"PUSH --> " << pFol1 << aContainer.front()<<std::endl;
         }
              
       }//end proc
-
-/*template <typename Container, typename Point, typename Predicate>
-void updateConvexHull(Container& container, const Point& newPoint, const Predicate& p)
-{
-  Point Q = container.back(); 
-  container.pop_back(); 
-  if (container.size() != 0) 
-    {
-      Point R = container.back(); 
-      //std::cout << " signed area of " << newPoint << " " << Q << " " << R << " : " << signedArea(newPoint,Q,R) << std::endl; 
-      while ( ( p(newPoint,Q,R) )&&(container.size() != 0) )
-	{
-	  //remove Q
-	  //std::cout << " remove from back" << Q << std::endl; 
-	  Q = R; 
-	  container.pop_back(); 
-	  if (container.size() != 0) 
-	    R = container.back(); 
-	}
-      //add Q
-      container.push_back(Q); 
-    }
-}*/
 
 
 }; 
