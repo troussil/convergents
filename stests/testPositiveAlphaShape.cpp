@@ -40,6 +40,25 @@ void PositiveAlpha(const Shape& aShape, const Point& aStart, Container& containe
   PositiveAlphaShape<Shape, Predicate> ch(aShape, aPredicate);
   ch.all(container, aStart); 
 }
+
+//////////////////////////////////////////////////////////////////////
+template <typename Shape, typename Point, typename OutputIterator>
+void convexHull(const Shape& aShape, const Point& aStartingPoint, 
+    OutputIterator res)
+{
+  OutputSensitiveConvexHull<Shape> ch(aShape); 
+  //get the first vertex
+  Point tmp = aStartingPoint; 
+
+  do {
+    //store the current vertex
+    *res++ = tmp; 
+    //get the next vertex
+    tmp = ch.next(tmp); 
+    //while it is not the first one
+  } while (tmp != aStartingPoint); 
+}
+
 ///////////////////////////////////////////////////////////////////////
 /**
  * @brief Procedure that checks whether the 
@@ -144,7 +163,7 @@ int main()
   #endif 	  
 	  
 // Test number
-  int nb_test = 20;
+  int nb_test = -20;
 
   //random value
   srand ( time(NULL) );
@@ -202,6 +221,43 @@ int main()
     }
   }
   
+  #ifdef DEBUG_VERBOSE
+    std::cout << " #1 -  Circle " << std::endl;
+#endif
+    {
+      Point pta = Point(0,-38);
+      Point ptb = Point(38,-19);
+      Point ptc = Point(-38,-19);
+      Circle circle( pta, ptb, ptc );
+      	  
+  #ifdef DEBUG_VERBOSE
+      std::cout << "-- Disk[ Center : (" << circle.getCenterX() << ", " 
+	        << circle.getCenterY()<< " ), Radius : " << circle.getRadius()
+	        << std::endl;
+
+      std::cout << " ----------- Next predicate ----------- " << std::endl; 
+      std::cout << std::endl;
+  #endif
+
+      std::vector<Point> v; 
+      convexHull( circle, circle.getConvexHullVertex(), std::back_inserter(v) ); 
+#ifdef DEBUG_VERBOSE
+  std::cout << "# - Convex Hull" << std::endl; 
+  std::copy(v.begin(), v.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+  std::cout << std::endl;
+#endif 
+
+	      CircumcirclePositiveRadiusPredicate<> predicate5(2400,1);
+	      std::cout <<"Predicate = "<< 2400<< " /"<<1<<std::endl;  
+	      if (test(circle, predicate5, pta))
+	        nbok++;
+	      nb++; 
+	        
+	      std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
+        std::cout << std::endl;   
+
+   }  
+     
   
   //1 if at least one test failed
   //0 otherwise
