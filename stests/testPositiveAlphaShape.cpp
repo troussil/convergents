@@ -144,7 +144,7 @@ int main()
   #endif 	  
 	  
 // Test number
-  int nb_test = 10;
+  int nb_test = 20;
 
   //random value
   srand ( time(NULL) );
@@ -153,8 +153,7 @@ int main()
 
   // Number predicate test
   int nbPredicate = 10;
-  int valuePredicateNum[10] = {3, 4, 10, 20, 200, 2000, 20000, 100000, 200000, 2000000};
-  int valuePredicateDen[10] = {0, 2, 2, 2, 2, 2, 2, 2, 2, 2};  
+
   // Circumcircle triangle vertices
   Point pta, ptb, ptc;
 
@@ -168,6 +167,7 @@ int main()
 
       Circle circle( pta, ptb, ptc );
 
+      int Rint = ceil(circle.getCenterX());
       #ifdef DEBUG_VERBOSE
       std::cout << "II - "<<nb_test<<" - Alpha-shape on the circle : " << std::endl; 
       std::cout << "-- Disk[ Center : (" << circle.getCenterX() << ", " 
@@ -184,11 +184,11 @@ int main()
           std::cout << std::endl;
 	  #endif
 
-          CircumcirclePositiveRadiusPredicate<> predicate(valuePredicateNum[i], valuePredicateDen[i]);
+          CircumcirclePositiveRadiusPredicate<> predicate(Rint*Rint + 5*i, 1);
 
 	  #ifdef DEBUG_VERBOSE
-          std::cout << "Radius predicate : Num2 / Den2 : "<<valuePredicateNum[i]<<"/" 
-            << valuePredicateDen[i] << std::endl;
+          std::cout << "Radius predicate : Num2 / Den2 : "<<Rint*Rint + 5*i<<"/" 
+            << 1 << std::endl;
 	  #endif
 
           if (test(circle, predicate, ptc))
