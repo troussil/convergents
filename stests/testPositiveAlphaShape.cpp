@@ -96,7 +96,32 @@ bool test(const Circle aCircle, const CircumcirclePositiveRadiusPredicate& aPred
   
   //tracking-based algorithm
   //Point pStart = aCircle.getConvexHullVertex();
-  Vector dir(1,0); 
+  Vector dir;
+    
+  if( aCircle(aStart+Point(0,1)) > 0)
+  {
+    if (aCircle(aStart+Point(1,0)) > 0 )
+    {
+      dir[0] = 0; dir[1] = -1;  
+    }
+    else
+    {
+      dir[0] = 1; dir[1] = 0;    
+    }
+  }
+  else
+  {
+    if (aCircle(aStart+Point(1,0)) > 0 )
+    {
+      dir[0] = -1; dir[1] = 0; 
+    }
+    else
+    {
+      dir[0] = 0; dir[1] = 1; 
+    }
+  }
+  
+
   closedTracking( aCircle, aStart, dir, std::back_inserter(boundary) );
   closedGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch0), aPredicate ); 
   
@@ -133,7 +158,7 @@ int main()
     {
       Point pta = Point(0,5);
       Point ptb = Point(-3,3);
-      Point ptc = Point(4,-3);
+      Point ptc = Point(4,-3); 
       Circle circle( pta, ptb, ptc );
       	  
   #ifdef DEBUG_VERBOSE
@@ -145,7 +170,7 @@ int main()
       std::cout << std::endl;
   #endif
 	    
-      for (int k=0; k<10; k++)
+      for (int k=1; k<=10; k++)
       {
 	      CircumcirclePositiveRadiusPredicate<> predicate5(20+(3*k),1);
 	      std::cout <<"Predicate = "<< 20+(3*k) << " /"<<1<<std::endl;  
@@ -163,7 +188,7 @@ int main()
   #endif 	  
 	  
 // Test number
-  int nb_test = -20;
+  int nb_test = 100;
 
   //random value
   srand ( time(NULL) );
@@ -180,9 +205,9 @@ int main()
   {
     {
       // random circumcircle 
-      pta = Point(0,  -2*k);
-      ptb = Point( 2*k, -k);
-      ptc = Point(-2*k, -k);
+      pta = Point( (rand() % maxPoint)             , (rand() % maxPoint) );
+      ptb = Point( (pta[0]-1- (rand() % maxPoint) ), (pta[1]-1- (rand() % maxPoint)) );
+      ptc = Point( (ptb[0]+1+ (rand() % maxPoint) ), (ptb[1]-1- (rand() % maxPoint)) );
 
       Circle circle( pta, ptb, ptc );
 
