@@ -175,7 +175,7 @@ int main()
         << " | Points : "<< pta<< ptb<< ptc << std::endl;
       #endif
 
-      for (int i = 0; i < nbPredicate; i++)
+      for (int i = 1; i <= nbPredicate; i++)
       {
 
         {
@@ -184,14 +184,14 @@ int main()
           std::cout << std::endl;
 	  #endif
 
-          CircumcirclePositiveRadiusPredicate<> predicate(Rint*Rint + (Rint*(i+1))/Rint, 1);
+          CircumcirclePositiveRadiusPredicate<> predicate(Rint*Rint + 2*i*Rint, 1);
 
 	  #ifdef DEBUG_VERBOSE
-          std::cout << "Radius predicate : Num2 / Den2 : "<<(Rint*Rint + 5*i)<<"/" 
+          std::cout << "Radius predicate : Num2 / Den2 : "<<(Rint*Rint + 2*i*Rint)<<"/" 
             << 1 << std::endl;
 	  #endif
 
-          if (test(circle, predicate, ptc))
+          if (test(circle, predicate, pta))
             {nbok++;}
           nb++; 
 	  
