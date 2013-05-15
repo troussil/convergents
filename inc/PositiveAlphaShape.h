@@ -3,7 +3,7 @@
 
 #include<cmath>
 
-#include"CircumcircleRadiusPositivePredicate.h"
+#include"CircumcirclePositiveRadiusPredicate.h"
 #include "RayIntersectableStraightLine.h"
 
 #include "ConvexHullHelpers.h"
@@ -133,14 +133,14 @@ template <typename Container, typename Point>
         
         while( !cycle )
         {
-std::cout <<"Enter : " <<i<<pStart<< pFol1 <<pFol2 << std::endl; 
+//std::cout <<"Enter : " <<i<<pStart<< pFol1 <<pFol2 << std::endl; 
           // Add second point in the container
           aContainer.push_back(pFol1);        
           
           // TRUE -- R_T(a,b1,b2)>R_alpha -- b1 not in the alpha-shape
-          if (myPredicate(pStart, pFol1, pFol2))
+          if (myPredicate(pFol2, pFol1, pStart))
           {
-std::cout <<"POP --> " << pFol1 << aContainer.front()<<std::endl;
+//std::cout <<"POP --> " << pFol1 << aContainer.front()<<std::endl;
 
             // remove b1
             if (pFol1 == aContainer.front())
@@ -153,7 +153,7 @@ std::cout <<"POP --> " << pFol1 << aContainer.front()<<std::endl;
           // FALSE --  R_T(a,b1,b2)<R_alpha -- b1 in the alpha-shape
           else
           {
-std::cout <<"PUSH --> " << pFol1 << aContainer.front()<<std::endl;
+//std::cout <<"PUSH --> " << pFol1 << aContainer.front()<<std::endl;
             // New start
             if (pFol1 == aContainer.front())
             {

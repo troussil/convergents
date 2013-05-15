@@ -110,21 +110,21 @@ public:
   bool
   operator()(const Point& a, const Point& b, const Point& c) const
   {
+    
+    Integer area = getArea(a,b,c);
+    if (area >= 0)
+      {return true;}
+
     Point ab = (b-a); 
     Point bc = (c-b); 
     Point ac = (c-a);
     Integer nab = ab.normL22(); 	
     Integer nbc = bc.normL22(); 
     Integer nac = ac.normL22(); 
-    Integer rightPart = nab*nbc*nac*myDen2;
+    Integer rightPart = nab*nbc*nac*myDen2;  
+    Integer leftPart = (4*area*area*myNum2);
 
-    Integer area = getArea(a,b,c);
-    int signArea;
-    if (area <= 0) signArea = 1;
-    else signArea = -1;
-    Integer leftPart = (4*area*area*signArea*myNum2);
-
-std::cout << a<<b<<c<< "result : "<<(leftPart >= rightPart) << std::endl; 
+//std::cout << a<<b<<c<< "| result : "<<(leftPart <= rightPart) << " - aire : "<<area<<std::endl; 
 
     return leftPart <= rightPart;
   }

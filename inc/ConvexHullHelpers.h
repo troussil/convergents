@@ -266,16 +266,16 @@ void updateConvexHull(Container& container, const Point& newPoint, const Predica
   if (container.size() != 0) 
     {
       Point R = container.back(); 
-      //std::cout << " signed area of " << newPoint << " " << Q << " " << R << " : " << signedArea(newPoint,Q,R) << std::endl; 
+      //std::cout << " signed area of " << newPoint << " " << Q << " " << R << " : " <<  std::endl; 
       while ( ( p(newPoint,Q,R) )&&(container.size() != 0) )
-	{
-	  //remove Q
-	  //std::cout << " remove from back" << Q << std::endl; 
-	  Q = R; 
-	  container.pop_back(); 
-	  if (container.size() != 0) 
-	    R = container.back(); 
-	}
+	    {
+	      //remove Q
+	      //std::cout << " remove from back" << Q << std::endl; 
+	      Q = R; 
+	      container.pop_back(); 
+	      if (container.size() != 0) 
+	        R = container.back(); 
+	    }
       //add Q
       container.push_back(Q); 
     }
@@ -320,6 +320,7 @@ void buildConvexHull(Container& container,
     }
   }//end for all points
 }
+
 
 /**
  * @brief Procedure that retrieves the vertices
@@ -371,6 +372,7 @@ void closedGrahamScan(const ForwardIterator& itb, const ForwardIterator& ite,
   //copy
   std::copy(container.begin(), container.end(), res); 
 }
+
 
 /**
  * @brief Procedure that retrieves the vertices
