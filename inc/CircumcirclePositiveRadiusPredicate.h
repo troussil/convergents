@@ -1,5 +1,5 @@
-#ifndef CircumcircleRadiusPositivePredicate_h
-#define CircumcircleRadiusPositivePredicate_h
+#ifndef CircumcirclePositiveRadiusPredicate_h
+#define CircumcirclePositiveRadiusPredicate_h
 /**
  * @brief Class implementing a point predicate,
  * which compares a stored radius with the radius 
@@ -13,7 +13,7 @@
  * numerator and denominator of the squared radius
  */
 template<typename TInteger = long long int>
-struct CircumcircleRadiusPositivePredicate
+struct CircumcirclePositiveRadiusPredicate
 {
 public: 
   /* type of parameters */
@@ -38,14 +38,14 @@ public:
    *
    * NB: Default values stands for an infinite radius. 
    */
-  CircumcircleRadiusPositivePredicate(const Integer& aNum2 = 1, const Integer& aDen2 = 0)
+  CircumcirclePositiveRadiusPredicate(const Integer& aNum2 = 1, const Integer& aDen2 = 0)
     : myNum2(aNum2), myDen2(aDen2) {}
 
   /**
    * Copy constructor
    * @param other other object to copy
    */
-  CircumcircleRadiusPositivePredicate(const CircumcircleRadiusPositivePredicate& other)
+  CircumcirclePositiveRadiusPredicate(const CircumcirclePositiveRadiusPredicate& other)
     : myNum2(other.myNum2), myDen2(other.myDen2) {}
 
 private:
@@ -55,7 +55,7 @@ private:
    * @param other other object to copy
    * @return reference on *this
    */
-  CircumcircleRadiusPositivePredicate& operator=(const CircumcircleRadiusPositivePredicate& other) 
+  CircumcirclePositiveRadiusPredicate& operator=(const CircumcirclePositiveRadiusPredicate& other) 
   { return *this; }
 
 public: 
@@ -74,7 +74,7 @@ public:
   /**
    * Default destructor
    */
-  ~CircumcircleRadiusPositivePredicate() {}
+  ~CircumcirclePositiveRadiusPredicate() {}
 
 
   ///////////////////// main methods ///////////////////
