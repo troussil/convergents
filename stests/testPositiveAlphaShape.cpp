@@ -90,8 +90,8 @@ bool test(const Circle aCircle, const CircumcirclePositiveRadiusPredicate& aPred
   if (ch0.size() == container.size())
     if ( std::equal(container.begin(), container.end(), ch0.begin()) )
 	    return true;
-  else 
-    return false;
+
+  return false;
   
 
 }
@@ -157,22 +157,22 @@ int main()
   // Circumcircle triangle vertices
   Point pta, ptb, ptc;
 
-  for (nb_test;nb_test>0;nb_test--)
+  for (int k = 1; k<= nb_test ;k++)
   {
     {
       // random circumcircle 
-      pta = Point( (rand() % maxPoint)             , (rand() % maxPoint) );
-      ptb = Point( (pta[0]-1- (rand() % maxPoint) ), (pta[1]-1- (rand() % maxPoint)) );
-      ptc = Point( (ptb[0]+1+ (rand() % maxPoint) ), (ptb[1]-1- (rand() % maxPoint)) );
+      pta = Point(0,  -2*k);
+      ptb = Point( 2*k, -k);
+      ptc = Point(-2*k, -k);
 
       Circle circle( pta, ptb, ptc );
 
-      int Rint = ceil(circle.getCenterX());
+      int Rint = ceil(circle.getRadius());
+      
       #ifdef DEBUG_VERBOSE
       std::cout << "II - "<<nb_test<<" - Alpha-shape on the circle : " << std::endl; 
-      std::cout << "-- Disk[ Center : (" << circle.getCenterX() << ", " 
-        << circle.getCenterY()<< " ), Radius : " << circle.getRadius()
-        << " ] | Points : "<< pta<< ptb<< ptc << std::endl;
+      std::cout << "-- Disk - R : " << circle.getRadius() << ", "
+        << " | Points : "<< pta<< ptb<< ptc << std::endl;
       #endif
 
       for (int i = 0; i < nbPredicate; i++)
@@ -184,15 +184,15 @@ int main()
           std::cout << std::endl;
 	  #endif
 
-          CircumcirclePositiveRadiusPredicate<> predicate(Rint*Rint + 5*i, 1);
+          CircumcirclePositiveRadiusPredicate<> predicate(Rint*Rint + (Rint*(i+1))/Rint, 1);
 
 	  #ifdef DEBUG_VERBOSE
-          std::cout << "Radius predicate : Num2 / Den2 : "<<Rint*Rint + 5*i<<"/" 
+          std::cout << "Radius predicate : Num2 / Den2 : "<<(Rint*Rint + 5*i)<<"/" 
             << 1 << std::endl;
 	  #endif
 
           if (test(circle, predicate, ptc))
-            nbok++;
+            {nbok++;}
           nb++; 
 	  
           std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
