@@ -154,8 +154,11 @@ void rToolMeans(int aHull, bool aTime, bool aEdgeVertices, int aFirstR, int aLas
   
   // Circle radius
   std::cout << "Radius|" << "\t";
-  // Predicate
-  std::cout << "predicate|" << "\t";
+  if(aHull == 1 || aHull == 3)
+  {
+    // Predicate
+    std::cout << "predicate|" << "\t";
+  }
   if (aTime)
     {
       // Convex Hull computation time : Means, min, max
@@ -276,9 +279,11 @@ void rToolMeans(int aHull, bool aTime, bool aEdgeVertices, int aFirstR, int aLas
 
       // Circle radius
       std::cout << R << "\t";
-      // Predicate
+     if(aHull == 1 || aHull == 3)
+  {   // Predicate
       std::cout << (DGtal::NumberTraits<BigInteger>::castToDouble(myNum) / 
 		    DGtal::NumberTraits<BigInteger>::castToDouble(myDen)) << "\t";
+	}
       if (aTime)
 	{
 	  // time : Means, min, max
