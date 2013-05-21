@@ -1,5 +1,5 @@
 #ifndef OutputSensitiveConvexHull_h
-#define OutputSensitiveConvexHull_h
+  #define OutputSensitiveConvexHull_h
 
 #include<cmath>
 
@@ -8,8 +8,8 @@
  * two vectors. 
  * Basic usage: 
  * @code
- DGtal::BigInteger res; 
- res = Determinant<DGtal::BigInteger>::get(u,v);  
+  DGtal::BigInteger res; 
+  res = Determinant<DGtal::BigInteger>::get(u,v);  
  * @endcode
  * 
  * @tparam T .  
@@ -105,83 +105,83 @@ class OutputSensitiveConvexHull
      * @return the next vertex
      */
 
-    Point next(const Point& aPoint)
+    Point next(const Point& aPoint, bool aVertOnEdges)
     {
       
-    // Initialisation of the convergents.
-    Point vConvM2 = Point(1,0); //(k-2)-th convergent
-    Point vConvM1 = Point(0,1); //(k-1)-th convergent
+      // Initialisation of the convergents.
+      Point vConvM2 = Point(1,0); //(k-2)-th convergent
+      Point vConvM1 = Point(0,1); //(k-1)-th convergent
 
-    // pConv is the k-th convergent such that 
-    // pConv = pConvM2 + qk * vConvM1.
-    int qk = 0;
+      // pConv is the k-th convergent such that 
+      // pConv = pConvM2 + qk * vConvM1.
+      int qk = 0;
 
-    Point pConv;
-    Point vConv;
+      Point pConv;
+      Point vConv;
 
-    // determinant result
-    DGtal::BigInteger res; 
+      // determinant result
+      DGtal::BigInteger res; 
 
-    // Orientation of the convergent
-    // vConvM2 outside and vConvM1 inside
+      // Orientation of the convergent
+      // vConvM2 outside and vConvM1 inside
       
-    int rot_pi2[4];
-    rot_pi2[0] = 0; rot_pi2[1] = -1; rot_pi2[2] = 1; rot_pi2[3] = 0;
+      int rot_pi2[4];
+      rot_pi2[0] = 0; rot_pi2[1] = -1; rot_pi2[2] = 1; rot_pi2[3] = 0;
       
-    while (myShape(aPoint + vConvM2) > 0 || myShape(aPoint + vConvM1) < 0)
+      while (myShape(aPoint + vConvM2) > 0 || myShape(aPoint + vConvM1) < 0)
       {
         // pi/2 counter clockwise rotation
         vConvM2 = vConvM2.rotate(rot_pi2);
         vConvM1 = vConvM1.rotate(rot_pi2);
       }
 
-    // First convergent points      
-    Point pConvM2 = aPoint + vConvM2;
-    Point pConvM1 = aPoint + vConvM1;
+      // First convergent points      
+      Point pConvM2 = aPoint + vConvM2;
+      Point pConvM1 = aPoint + vConvM1;
 
-    // The best "next vertex" candidate
-    // with the smallest angle
-    Point pNext = pConvM1; 
-    Point vNext = pNext - aPoint;
+      // The best "next vertex" candidate
+      // with the smallest angle
+      Point pNext = pConvM1; 
+      Point vNext = pNext - aPoint;
       
 
-    // p0 do not exist
-    if (myShape.dray(pConvM2, vConvM1, qk, pConv) == false)
+      // p0 do not exist
+      if (myShape.dray(pConvM2, vConvM1, qk, pConv) == false)
       {
         while(myShape(pConvM1+vConvM1) >= 0){pConvM1 += vConvM1;}
         return (pConvM1);
       }
 
-    // p0 lie on the circle
-    if (myShape(pConv) >= 0)
+      // p0 lie on the circle
+      if (myShape(pConv) >= 0)
       {
         pNext = pConv;
         vNext = pNext - aPoint;
       }
-    //p0 outise the circle
-    else if (myShape(pConv + vConvM1) >= 0)
+      //p0 outise the circle
+      else if (myShape(pConv + vConvM1) >= 0)
       {
         pNext = pConv + vConvM1;
         vNext = pNext - aPoint;
       }
 
-    // We iterate the vectors to build the next convergent
-    // p_-1 become p_-2
-    // p_0 become p_-1
-    // and their vector vConvM2, vConvM1
+       // We iterate the vectors to build the next convergent
+       // p_-1 become p_-2
+       // p_0 become p_-1
+       // and their vector vConvM2, vConvM1
 
-    vConv = pConv - aPoint;
-    pConvM2 = pConvM1;
-    pConvM1 = pConv;
+      vConv = pConv - aPoint;
+      pConvM2 = pConvM1;
+      pConvM1 = pConv;
 
-    vConvM2 = vConvM1;
-    vConvM1 = pConvM1 - aPoint;
+      vConvM2 = vConvM1;
+      vConvM1 = pConvM1 - aPoint;
 
-    //even or odd
-    bool even = false;
+      //even or odd
+      bool even = false;
 
-    // The ray shooting is efficient.
-    while (myShape.dray(pConvM2, vConvM1, qk, pConv) && qk != 0)
+      // The ray shooting is efficient.
+      while (myShape.dray(pConvM2, vConvM1, qk, pConv) && qk != 0)
       {
         // New Convergent, 
         vConv = pConv - aPoint;
@@ -236,13 +236,13 @@ class OutputSensitiveConvexHull
 
       }
       
-    // translation in vNext direction, 
-    // in order to not keep the vertices 
-    // on the convex hull edges
-    while(myShape(pNext+vNext) >= 0){pNext += vNext;}
-    return pNext; 
+      // translation in vNext direction, 
+      // in order to not keep the vertices 
+      // on the convex hull edges
+      while(myShape(pNext+vNext) >= 0){pNext += vNext;}
+      return pNext; 
 
-  }
+    }
 
   /**
    * Retrieves all the vertices of the alpha-shape
@@ -252,7 +252,7 @@ class OutputSensitiveConvexHull
    * @param res output iterator that stores the sequence of vertices
    */
   template <typename OutputIterator>
-  void all(const Point& aStartingPoint, OutputIterator res)
+  void all(const Point& aStartingPoint, OutputIterator res, bool aVertOnEdges)
   {
     //get the first vertex
     Point tmp = aStartingPoint; 
@@ -261,10 +261,25 @@ class OutputSensitiveConvexHull
       //store the current vertex
       *res++ = tmp; 
       //get the next vertex
-      tmp = next(tmp); 
+      tmp = next(tmp, aVertOnEdges); 
       //while it is not the first one
     } while (tmp != aStartingPoint); 
   }
+
+
+  /**
+   * Retrieves all the vertices of the alpha-shape
+   * in a counter-clockwise order
+   *  
+   * @param res output iterator that stores the sequence of vertices
+   */
+  template <typename OutputIterator>
+  void all(OutputIterator res, bool aVertOnEdges )
+  {
+    all(myShape.getConvexHullVertex(), res, aVertOnEdges); 
+  }
+  
+
 
   /**
    * Retrieves all the vertices of the alpha-shape
@@ -275,8 +290,12 @@ class OutputSensitiveConvexHull
   template <typename OutputIterator>
   void all(OutputIterator res)
   {
-    all(myShape.getConvexHullVertex(), res); 
+    all(myShape.getConvexHullVertex(), res, true); 
   }
+  
+  
+  
+  
 
 }; 
 
