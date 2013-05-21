@@ -178,7 +178,7 @@ class OutputSensitiveAlphaShape
      * @return the last retrieved vertex (not stored). 
      */
     template <typename OutputIterator>
-      Point next(const Point& aPoint, OutputIterator res, bool aAlphaInf)
+      Point next(const Point& aPoint, OutputIterator res, bool aAllVertices)
       {
         // Initialisation of the convergents.
         Point vConvM2 = Point(1,0); //(k-2)-th convergent
@@ -231,7 +231,7 @@ class OutputSensitiveAlphaShape
               while (myShape(lastPoint) >= 0)
               {
                 // Convex Hull case, we do not add the vertex
-                if (!aAlphaInf)
+                if (aAllVertices)
                 { 
                   *res++ = prevLastPoint;
                 }
@@ -327,7 +327,7 @@ class OutputSensitiveAlphaShape
         while (myShape(lastPoint) >= 0)
         {
           // Convex Hull case, we do not add the vertex
-          if (!aAlphaInf)
+          if (aAllVertices)
           { 
             *res++ = prevLastPoint;
           }
@@ -346,23 +346,21 @@ class OutputSensitiveAlphaShape
      * @param res output iterator that stores the sequence of vertices
      */
     template <typename OutputIterator>
-      void all(const Point& aStartingPoint, OutputIterator res)
+      void all(const Point& aStartingPoint, OutputIterator res, bool aAllVertices)
       {
         // get the first vertex
         Point tmp = aStartingPoint; 
-        bool alphainf = false;
+        bool allvertices = true;
 
         // if the denominator == 0, the radius is infinite.
         // We don't keep colinear vertices.
-        if((*this).getPredicate().getDen2() == 0)
-          alphainf = true;
-
+       
         do 
         {
           // stores the last retrieved vertex
           *res++ = tmp; 
           // get the next alpha-shape vertices
-          tmp = next(tmp, res, alphainf);
+          tmp = next(tmp, res, aAllVertices);
           //while it is not the first one
         } while (tmp != aStartingPoint); 
       }
@@ -374,9 +372,21 @@ class OutputSensitiveAlphaShape
      * @param res output iterator that stores the sequence of vertices
      */
     template <typename OutputIterator>
+      void all(OutputIterator res, bool aAllVertices)
+      {
+        all(myShape.getConvexHullVertex(), res, aAllVertices); 
+      }
+      
+    /**
+     * Retrieves all the vertices of the alpha-shape
+     * in a counter-clockwise order
+     *  
+     * @param res output iterator that stores the sequence of vertices
+     */
+    template <typename OutputIterator>
       void all(OutputIterator res)
       {
-        all(myShape.getConvexHullVertex(), res); 
+        all(myShape.getConvexHullVertex(), res, true); 
       }
 
 }; 
