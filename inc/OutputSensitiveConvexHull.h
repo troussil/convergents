@@ -148,7 +148,9 @@ class OutputSensitiveConvexHull
       // p0 do not exist
       if (myShape.dray(pConvM2, vConvM1, qk, pConv) == false)
       {
-        while(myShape(pConvM1+vConvM1) >= 0){pConvM1 += vConvM1;}
+        if (!aVertOnEdges) 
+          while(myShape(pConvM1+vConvM1) >= 0){pConvM1 += vConvM1;}
+          
         return (pConvM1);
       }
 
@@ -239,7 +241,9 @@ class OutputSensitiveConvexHull
       // translation in vNext direction, 
       // in order to not keep the vertices 
       // on the convex hull edges
-      while(myShape(pNext+vNext) >= 0){pNext += vNext;}
+      if (!aVertOnEdges) 
+        while(myShape(pNext+vNext) >= 0){pNext += vNext;}
+      
       return pNext; 
 
     }
@@ -290,7 +294,7 @@ class OutputSensitiveConvexHull
   template <typename OutputIterator>
   void all(OutputIterator res)
   {
-    all(myShape.getConvexHullVertex(), res, true); 
+    all(myShape.getConvexHullVertex(), res, false); 
   }
   
   

@@ -45,10 +45,10 @@ using namespace DGtal;
  
  
   template <typename Shape, typename OutputIterator>
-void convexHull(const Shape& aShape, OutputIterator res)
+void convexHull(const Shape& aShape, OutputIterator res, bool aVertOnEdges)
 {
   OutputSensitiveConvexHull<Shape> ch(aShape); 
-  ch.all(res);
+  ch.all(res, aVertOnEdges);
 }
 
 /**
@@ -97,6 +97,7 @@ void rToolMeans(int aHull, bool aTime, bool aEdgeVertices, int aFirstR, int aLas
   typedef std::chrono::time_point<std::chrono::system_clock> clock;
   typedef std::chrono::milliseconds milliseconds;
   typedef long long Integer;
+
 
   // Circle parameter : ax + by + c(x^2 + y^2)
   DGtal::BigInteger a; 
@@ -232,7 +233,7 @@ void rToolMeans(int aHull, bool aTime, bool aEdgeVertices, int aFirstR, int aLas
         if (aTime && aHull == 2) 
         {
           ta = std::chrono::system_clock::now();
-          convexHull(circle, std::back_inserter(chcv));
+          convexHull(circle, std::back_inserter(chcv), aEdgeVertices);
           tb = std::chrono::system_clock::now();
 
           // Computation time
@@ -242,7 +243,7 @@ void rToolMeans(int aHull, bool aTime, bool aEdgeVertices, int aFirstR, int aLas
           time_average += tmptime/((double)aTestNb * 1000);
         }
         else
-          convexHull(circle, std::back_inserter(chcv));
+          convexHull(circle, std::back_inserter(chcv), aEdgeVertices);
 
         // Convex hull vertices number
         tmpnb = chcv.size();
@@ -334,7 +335,7 @@ int main( int argc, char** argv )
     ("help,h", "display this message")
     ("output,o", po::value<int>()->default_value(1), "Alpha-Shape (=1), Convexe Hull (=2), both (=3)")
     ("time,t", po::value<bool>()->default_value(true), "Output: time (=true), or not (=false)")
-    ("edgeVertices,ev", po::value<bool>()->default_value(true), "Take (=1), or not (=0) the vertices which lie on the edge")
+    ("edgeVertices,ev", po::value<bool>()->default_value(false), "Take (true), or not (true) the vertices which lie on the edge")
     ("firstRadius,f",  po::value<int>()->default_value(5), "First radius of the disc : s^f" )
     ("lastRadius,l",  po::value<int>()->default_value(20), "Last radius of the disc : s^l" )
     ("stepRadius,s",  po::value<int>()->default_value(2), "Increasing radius of disc : s" )

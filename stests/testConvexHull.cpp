@@ -17,22 +17,11 @@
 //uncomment to use in DEBUG_VERBOSE mode 
 //#define DEBUG_VERBOSE
 
-//////////////////////////////////////////////////////////////////////
-template <typename Shape, typename Point, typename OutputIterator>
-void convexHull(const Shape& aShape, const Point& aStartingPoint, 
-    OutputIterator res)
+  template <typename Shape, typename OutputIterator>
+void convexHull(const Shape& aShape, OutputIterator res, bool aVertOnEdges)
 {
   OutputSensitiveConvexHull<Shape> ch(aShape); 
-  //get the first vertex
-  Point tmp = aStartingPoint; 
-
-  do {
-    //store the current vertex
-    *res++ = tmp; 
-    //get the next vertex
-    tmp = ch.next(tmp); 
-    //while it is not the first one
-  } while (tmp != aStartingPoint); 
+  ch.all(res, aVertOnEdges);
 }
 
 
@@ -75,7 +64,7 @@ int main()
     #endif
 
     std::vector<Point> v; 
-    convexHull( circle, circle.getConvexHullVertex(), std::back_inserter(v) ); 
+    convexHull( circle, std::back_inserter(v), false ); 
     
     #ifdef DEBUG_VERBOSE
     std::cout << "Get" << std::endl; 
@@ -123,7 +112,7 @@ int main()
     Circle circle( Point(5,0), Point(0,5), Point(-5,0) );
 
     std::vector<Point> v; 
-    convexHull( circle, circle.getConvexHullVertex(), std::back_inserter(v) ); 
+    convexHull( circle, std::back_inserter(v), false ); 
  
     #ifdef DEBUG_VERBOSE
     std::cout << "Get" << std::endl; 
@@ -205,7 +194,7 @@ int main()
       #endif
       
       std::vector<Point> v; 
-      convexHull( circle, circle.getConvexHullVertex(), std::back_inserter(v) ); 
+      convexHull( circle, std::back_inserter(v), false ); 
 
       #ifdef DEBUG_VERBOSE
       std::cout << "---Get :" << std::endl; 
