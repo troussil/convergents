@@ -105,7 +105,7 @@ public:
    * @return the next vertex
    */
 
-  Point next(const Point& aPoint, bool aVertOnEdges)
+  Point next(const Point& aPoint, bool aVertOnEdges = false)
   {
       
     // Initialisation of the convergents.
