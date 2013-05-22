@@ -15,21 +15,24 @@ It will deserve a wider context in digital geometry.
 
 * *doc* is a folder containing Latex and bibtex source files for the report and the algorithm used during the programming.
 * *inc* is a folder containing the .h files.
-* *src* is a folder containing all the program test.
+* *stests* is a folder containing all the program test.
+* *stools* is a folder containing the display tool.
 * *tools* is a folder containing all the GNUPlot plot
 
 ### Files
 
-* *Makefile* : Compiling all files. (See below)
+* *Makefile* : Compiling all files. ( --depreciated -- see CMakeLists.txt)
+* *CMakeLists* : Building project.
 * *.gitignore* : ignoring upload of temporary and binaries files.
 * *README.md* : This wiki presentation
 
 ## Classes and Algorithms
 
 * *PointVector2D.h* is the main class implementing point and vector in two dimensions.
-* *RayIntersectableStraightLine.h* and *RayIntersectableCircle.h* implement some 'ray intersectable' class. At the beginning, we start with straight line and circle.
+* *RayIntersectableStraightLine.h* and *RayIntersectableCircle.h* implement some 'ray intersectable' class. We try to used some generic concept in order to computed the same way on different shape. At the beginning, we start with the straight line then the circle.
 * We follow with algorithms computing the convergent points of a rationnel : *testConvergents.cpp*, the convex hull of a discrete circle : *OutputSensitiveConvexHull.h* and the alpha-shape of a straight-line and a discrete circle : *testAlphaShapeStraightLine.cpp* and *OutputSensitiveAlphaShape.h*.
 * *toolAlphaShape.cpp* produce a graph witch visualize the number of vertices of the convex hull, the alpha-shape with alpha = 0, and the alpha-shape with alpha < 0 in function to the the size of the radius. We create 100 random circles with a center in [0,1]x[0,1] and a radius proportional to the predicate increasing by 2^2.
+* *toolDisplay.cpp* used DGtal librairie to print the shape on a board.
 
 
 ## Structure
@@ -58,9 +61,19 @@ We provide some programming conveniences :
 Compile and execute the test files by launching this command in a terminal :
 
 ```
-make # Compiling sources
-make test # Testing sources
-make tool # Produce a plot.
+# Create build folder and go inside
+mkdir build; cd build
+# Generate files
+cmake ..
+# Compile files
+make
+# Execute all the test
+make test
+# Specific testing
+./stests/test*
+# For post-processing
+./stools/tool*
+
 ```
 
 ### Unitary and automatic testing
