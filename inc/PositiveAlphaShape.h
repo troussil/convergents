@@ -30,7 +30,7 @@ class PositiveAlphaShape
     typedef typename Shape::Vector Vector; //type redefinition
     typedef TPredicate Predicate;
     typedef std::deque<Point> Container;
-  
+
   private:
     /////////////////////// members /////////////////////
     /**
@@ -89,7 +89,7 @@ class PositiveAlphaShape
 
     ///////////////////// main methods ///////////////////
   public:
-       
+
     /**
      * Given a vertex of the alpha-shape, find the next
      * vertex in a counter-clockwise order
@@ -99,38 +99,38 @@ class PositiveAlphaShape
 
     void next(const Point& aPoint, Container& aContainer)
     {
-    /**
-     * Given a vertex of the alpha-shape, 
-     * retrieves a sequence of consecutive 
-     * vertices of the alpha-shape
-     * in a counter-clockwise order. 
-     * 
-     * @param aPoint any vertex of the alpha-shape 
-     * @param res output iterator that stores the sequence of vertices
-     * @return the last retrieved vertex (not stored). 
-     */
-     
-     
-     //for( auto it = resCH.begin(); it != resCH.end(); ++it)
-       
-        if(aContainer.size() < 2)
-        {
-          aContainer.push_back( aPoint ); 
-          //std::cout << " add (to back) " << *it << std::endl; 
-        }
-        else
-        {
-          //maintaining convexity with the new point
-          updateConvexHull(aContainer, aPoint, myPredicate); 
-          //add new point
-          aContainer.push_back( aPoint ); 
-          //std::cout << " add (to back) " << *it << std::endl; 
-        }
-     
-     }
-     
-     
-template <typename Container, typename Point>
+      /**
+       * Given a vertex of the alpha-shape, 
+       * retrieves a sequence of consecutive 
+       * vertices of the alpha-shape
+       * in a counter-clockwise order. 
+       * 
+       * @param aPoint any vertex of the alpha-shape 
+       * @param res output iterator that stores the sequence of vertices
+       * @return the last retrieved vertex (not stored). 
+       */
+
+
+      //for( auto it = resCH.begin(); it != resCH.end(); ++it)
+
+      if(aContainer.size() < 2)
+      {
+        aContainer.push_back( aPoint ); 
+        //std::cout << " add (to back) " << *it << std::endl; 
+      }
+      else
+      {
+        //maintaining convexity with the new point
+        updateConvexHull(aContainer, aPoint, myPredicate); 
+        //add new point
+        aContainer.push_back( aPoint ); 
+        //std::cout << " add (to back) " << *it << std::endl; 
+      }
+
+    }
+
+
+    template <typename Container, typename Point>
       void all(Container& aContainer, Point aPointa)
       {
         // Retrieve Convex Hull vertices
@@ -141,13 +141,10 @@ template <typename Container, typename Point>
 
         auto it = resCH.begin();
         Point tmp = *it;
-                
-        //std::cout << " add (to back) " << (it != resCH.end()) <<std::endl;
-        //it++;
-        
-        
+
+
         do{
-          
+
           // add the next alpha-shape vertices
           next(tmp, aContainer);
 
@@ -158,7 +155,7 @@ template <typename Container, typename Point>
 
         //maintaining convexity with the starting point
         updateConvexHull(aContainer, aPointa, myPredicate);     
-        
+
       }//end proc
 
 
