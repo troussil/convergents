@@ -425,7 +425,7 @@ int main()
   #endif
 
   // Test number
-  int nb_test = 100;
+  int nb_test = 50;
 
   //random value
   srand ( time(NULL) );
@@ -469,7 +469,7 @@ int main()
           CircumcircleRadiusPredicate<> predicate(valuePredicateNum[i], valuePredicateDen[i]);
 
 	  #ifdef DEBUG_VERBOSE
-          std::cout << "Radius predicate : Num2 / Den2 : "<<valuePredicate[i]<<"/" 
+          std::cout << "Radius predicate : Num2 / Den2 : "<<valuePredicateNum[i]<<"/" 
             << valuePredicateDen[i] << std::endl;
 	  #endif
 
@@ -515,36 +515,48 @@ int main()
     std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
   }
   //(4,2)(2,1)(6,-5) - (4,2)(0,-6)(10,-14) - (7,8)(-1,-1)(3,-8) - (5,3)(2,2)(4,-7)
-  {
+  /*{
+  
+    typedef RayIntersectableCircle<Point,  DGtal::BigInteger> Circle; 
+  // 2**24 = 16777216 , 2**25 = 33554432 
+   DGtal::BigInteger R = 33554432;
+   
+    // Circle parameter : ax + by + c(x^2 + y^2)
+    DGtal::BigInteger a =  4; 
+    DGtal::BigInteger b =  7;
+    DGtal::BigInteger c = -5;
+    DGtal::BigInteger d = ( a*a + b*b - 4*R*R*c*c)/(4*c);;
 
-    pta = Point(1025, 0);
-    ptb = Point(0, 1025);
-    ptc = Point(-1025, 0);
 
-    RayIntersectableCircle<Point,DGtal::BigInteger> circle( pta, ptb, ptc );
+   
+     // Create a circle from the Euclidian parameter a, b, c, d.
+    std::cout << "-- Ray -- : (" << std::endl;
+    RayIntersectableCircle<Point,DGtal::BigInteger> circle( a, b, c, d );
 
     #ifdef DEBUG_VERBOSE
     std::cout << "-- Disk[ Center : (" << circle.getCenterX() << ", " 
       << circle.getCenterY()<< " ), Radius : " << circle.getRadius()
-      << " ] | Points : "<< pta<< ptb<< ptc<< " - First vertex : " 
-      << circle.getConvexHullVertex() << std::endl;
+      << std::endl;
 
     std::cout << " ----------- Next predicate ----------- " << std::endl; 
     std::cout << std::endl;
     #endif
 
-    CircumcircleRadiusPredicate<DGtal::BigInteger> predicate(20,2);
+    CircumcircleRadiusPredicate<DGtal::BigInteger> predicate(R,10);
     
     #ifdef DEBUG_VERBOSE
-    std::cout << "Radius predicate : Num2 / Den2 : 10/2"<< std::endl;
+    std::cout << "Radius predicate : Big circle"<< std::endl;
     #endif
-
-    if (test(circle, predicate))
-    {nbok++;} 
-    nb++; 
-
-    std::cout << "(" << nbok << " tests passed / " << nb << " tests)" << std::endl;
-  }
+    
+    std::vector<Point> ch1;
+    
+    alphaShape( circle, circle.getConvexHullVertex(), std::back_inserter(ch1), predicate ); 
+  
+    std::cout << "# - alpha-shape" << std::endl; 
+    std::copy(ch1.begin(), ch1.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
+    std::cout << std::endl; 
+  
+  }*/
 
 
   //1 if at least one test failed
