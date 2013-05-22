@@ -26,7 +26,7 @@
 #include <DGtal/base/Common.h>
 
 //uncomment to use in DEBUG_VERBOSE mode 
-#define DEBUG_VERBOSE
+//#define DEBUG_VERBOSE
 
 typedef PointVector2D<int> Point; //type redefinition
 typedef PointVector2D<int> Vector; //type redefinition

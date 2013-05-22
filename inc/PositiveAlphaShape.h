@@ -111,69 +111,16 @@ template <typename Container, typename Point>
         std::vector<Point> it;
         ch.all(aPointa, std::back_inserter(it));
 
-	closedGrahamScan( it.begin(), it.end(), std::back_inserter(aContainer), myPredicate );         
+        //convex hull computation
+        buildConvexHull(aContainer, it.begin(), it.end(), myPredicate); 
 
-// //    std::cout << "Convex Hull" << std::endl; 
-// //    std::copy(it.begin(), it.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
-// //    std::cout << std::endl;
-    
-//         int i = 0;
+        //maintaining convexity with the starting point
+        updateConvexHull(aContainer, *it.begin(), myPredicate); 
 
-//         // Init point
-//         Point pStart = it[i++];
-//         Point pFol1  = it[i++];
-//         Point pFol2  = it[i++];       
-       
-//         it.push_back(pStart);
-        
-//         // Init Container
-//         aContainer.push_back(pStart);
-//         bool cycle = false;
+        //copy
+        //std::copy(container.begin(), container.end(), res); 
      
-     
-// //std::cout <<"IN : "<<it.size()<< std::endl;
-        
-//         while( !cycle )
-//         {
-// //std::cout <<"Enter : " <<i<<pStart<< pFol1 <<pFol2 << std::endl; 
-//           // Add second point in the container
-//           aContainer.push_back(pFol1);        
-          
-//           // TRUE -- R_T(a,b1,b2)>R_alpha -- b1 not in the alpha-shape
-//           if (myPredicate(pFol2, pFol1, pStart))
-//           {
-// //std::cout <<"POP --> " << pFol1 << aContainer.front()<<std::endl;
 
-//             // remove b1
-//             if (pFol1 == aContainer.front())
-//             {
-//               aContainer.pop_front();
-//               cycle = true;
-//             }
-//             aContainer.pop_back();
-//           }
-//           // FALSE --  R_T(a,b1,b2)<R_alpha -- b1 in the alpha-shape
-//           else
-//           {
-// //std::cout <<"PUSH --> " << pFol1 << aContainer.front()<<std::endl;
-//             // New start
-//             if (pFol1 == aContainer.front())
-//             {
-//               cycle = true;
-//               aContainer.pop_back();
-//             }
-//             else
-//             {
-//               pStart = pFol1;
-//               it.push_back(pFol1);
-//             }
-//           }
-//           // update Points
-//           pFol1 = pFol2;
-//           pFol2 = it[i++];    
-// //std::cout <<"OUT ; "<<i<<pStart<< pFol1 <<pFol2 << std::endl;    
-//         }
-             
       }//end proc
 
 
