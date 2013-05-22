@@ -23,132 +23,132 @@
 template <typename TShape, typename TPredicate>
 class OutputSensitiveAlphaShape
 {
-  public:
-    /////////////////////// inner types /////////////////
-    typedef TShape Shape;
-    typedef typename Shape::Point Point;
-    typedef typename Shape::Vector Vector; //type redefinition
-    typedef TPredicate Predicate;
+public:
+  /////////////////////// inner types /////////////////
+  typedef TShape Shape;
+  typedef typename Shape::Point Point;
+  typedef typename Shape::Vector Vector; //type redefinition
+  typedef TPredicate Predicate;
+  typedef typename Point::Coordinate Coordinate;
 
-  private:
-    /////////////////////// members /////////////////////
-    /**
-     * const reference on a shape
-     */
-    const Shape& myShape;
-    /**
-     * Predicate that returns 'true' if the radius 
-     * of the circumcircle of three given points
-     * is greater than 1/alpha, 'false' otherwise.
-     *
-     * NB. alpha is implicitely defined by the predicate. 
-     */
-    const Predicate& myPredicate; 
+private:
+  /////////////////////// members /////////////////////
+  /**
+   * const reference on a shape
+   */
+  const Shape& myShape;
+  /**
+   * Predicate that returns 'true' if the radius 
+   * of the circumcircle of three given points
+   * is greater than 1/alpha, 'false' otherwise.
+   *
+   * NB. alpha is implicitely defined by the predicate. 
+   */
+  const Predicate& myPredicate; 
 
-  public:
-    ///////////////////// standard services /////////////
-    /**
-     * Standard constructor
-     * @param aShape any 'ray-intersectable' shape
-     * @param aPredicate any predicate
-     */
-    OutputSensitiveAlphaShape(const Shape& aShape, const Predicate& aPredicate)
-      : myShape(aShape), myPredicate(aPredicate) {}
+public:
+  ///////////////////// standard services /////////////
+  /**
+   * Standard constructor
+   * @param aShape any 'ray-intersectable' shape
+   * @param aPredicate any predicate
+   */
+  OutputSensitiveAlphaShape(const Shape& aShape, const Predicate& aPredicate)
+    : myShape(aShape), myPredicate(aPredicate) {}
 
-  private:
-    /**
-     * Copy constructor
-     * @param other other object to copy
-     */
-    OutputSensitiveAlphaShape(const OutputSensitiveAlphaShape& other) {}
+private:
+  /**
+   * Copy constructor
+   * @param other other object to copy
+   */
+  OutputSensitiveAlphaShape(const OutputSensitiveAlphaShape& other) {}
 
-    /**
-     * Assignement operator
-     * @param other other object to copy
-     * @return reference on *this
-     */
-    OutputSensitiveAlphaShape& operator=(const OutputSensitiveAlphaShape& other)
-    { return *this; }
+  /**
+   * Assignement operator
+   * @param other other object to copy
+   * @return reference on *this
+   */
+  OutputSensitiveAlphaShape& operator=(const OutputSensitiveAlphaShape& other)
+  { return *this; }
 
-  public:
-    /**
-     * Get Circle Predicate 
-     * @param aShape any 'ray-intersectable' shape
-     * @return aPredicate any predicate
-     */
-    Predicate getPredicate()
-    {
-      return ((*this).myPredicate);
-    }
-    /**
-     * Default destructor
-     */
-    ~OutputSensitiveAlphaShape() {}
+public:
+  /**
+   * Get Circle Predicate 
+   * @param aShape any 'ray-intersectable' shape
+   * @return aPredicate any predicate
+   */
+  Predicate getPredicate()
+  {
+    return ((*this).myPredicate);
+  }
+  /**
+   * Default destructor
+   */
+  ~OutputSensitiveAlphaShape() {}
 
 
-    ///////////////////// main methods ///////////////////
-  public:
-    /**
-     * Dichotomic search procedure to retrieve the maximal integer q
-     * such that @e myPredicate is true, ie. 
-     * the circumcircle of @e aPoint,  
-     * @e aPoint + q * @e aConvM1 + @e aConvM2
-     * and @e aPoint + @e aQk * @e aConvM1 + @e aConvM2
-     * is greater than 1/alpha.
+  ///////////////////// main methods ///////////////////
+public:
+  /**
+   * Dichotomic search procedure to retrieve the maximal integer q
+   * such that @e myPredicate is true, ie. 
+   * the circumcircle of @e aPoint,  
+   * @e aPoint + q * @e aConvM1 + @e aConvM2
+   * and @e aPoint + @e aQk * @e aConvM1 + @e aConvM2
+   * is greater than 1/alpha.
 
-     * @param aPoint origin of the local domain of computation
-     * @param aConvM2 (k-2)-th convergent
-     * @param aConvM1 (k-1)-th convergent
-     * @param aQk integer such that the k-th convergent is
-     * equal to aQk*aConvM1 + aConvM2
-     * @return maximal integer such that the predicate is true
-     */
-    int dichotomicSearch(const Point& aPoint,
-        const Point aConvM2, const Point aConvM1, const int aQk)
-    {
+   * @param aPoint origin of the local domain of computation
+   * @param aConvM2 (k-2)-th convergent
+   * @param aConvM1 (k-1)-th convergent
+   * @param aQk integer such that the k-th convergent is
+   * equal to aQk*aConvM1 + aConvM2
+   * @return maximal integer such that the predicate is true
+   */
+  int dichotomicSearch(const Point& aPoint,
+		       const Point aConvM2, const Point aConvM1, const int aQk)
+  {
 
-      // orientation test
-      int plus0;
-      int plus1;
-      if (myPredicate.getArea(aPoint, aPoint + aConvM2, aPoint + aConvM2 + aConvM1) >= 0)
+    // orientation test
+    int plus0;
+    int plus1;
+    if (myPredicate.getArea(aPoint, aPoint + aConvM2, aPoint + aConvM2 + aConvM1) >= 0)
       {
         plus0 = 0;
         plus1 = 1;
       }
-      else
+    else
       {
         plus0 = 1;
         plus1 = 0;
       }
 
-      // init search bounds
-      int qkstart = 0;
-      int qkstop  = aQk-1;
-      int mid = 0;
+    // init search bounds
+    Coordinate qkstart = 0;
+    Coordinate qkstop  = aQk-1;
+    Coordinate mid = 0;
 
-      // while not yet located 
-      while( qkstart < qkstop ) 
+    // while not yet located 
+    while( qkstart < qkstop ) 
       {
         // middle between qkstart and qkstop
         mid = (qkstart + qkstop)/2;
 
         // radius test
         if ( myPredicate(aPoint, 
-              (aPoint + aConvM2 + (mid+plus0)*aConvM1), 
-              (aPoint + aConvM2 + (mid+plus1)*aConvM1)) )
-        { //search in the upper range
-          if ( !myPredicate(aPoint, 
-                (aPoint + aConvM2 + (mid+2*plus0+plus1)*aConvM1), 
-                (aPoint + aConvM2 + (mid+2*plus1+plus0)*aConvM1)) )
-          {
-            return(mid+1);
-          }
-          else
-          {
-            qkstart = mid+1;
-          }    
-
-        }
+			 (aPoint + aConvM2 + (mid+plus0)*aConvM1), 
+			 (aPoint + aConvM2 + (mid+plus1)*aConvM1)) )
+	  { //search in the upper range
+	    if ( !myPredicate(aPoint, 
+			      (aPoint + aConvM2 + (mid+2*plus0+plus1)*aConvM1), 
+			      (aPoint + aConvM2 + (mid+2*plus1+plus0)*aConvM1)) )
+              {
+                return(mid+1);
+              }
+	    else
+	      {
+		qkstart = mid+1;
+	      }    
+	  }
         else
         { //search in the lower range
           if(myPredicate(aPoint, 
@@ -342,7 +342,7 @@ class OutputSensitiveAlphaShape
               return(prevLastPoint);
             }
           }
-          else
+	else
           { //If pConv is inside or on the shape
             // NB: we return at least pConv as a vertex of the alpha-shape.
             // but possibly several other vertices before pConv. 
@@ -370,81 +370,83 @@ class OutputSensitiveAlphaShape
               }
 
             }//end of k is even
+
           }// end of not ouside
 
-          //If pConv is outside the shape and different from pConvM2
-          //or pConv is inside the shape but without being a vertex, 
-          //we have to updade the convergents
-          k++;
-          pConvM2 = pConvM1;
-          pConvM1 = pConv;
-          vConvM2 = vConvM1;
-          vConvM1 = pConv-aPoint;  
-        }// end ray-shooting and loop	
+	//If pConv is outside the shape and different from pConvM2
+	//or pConv is inside the shape but without being a vertex, 
+	//we have to updade the convergents
+	k++;
+	pConvM2 = pConvM1;
+	pConvM1 = pConv;
+	vConvM2 = vConvM1;
+	vConvM1 = pConv-aPoint;  
+      }// end ray-shooting and loop	
 
-        // retrieval of the points lying 
-        // on an edge of the alpha-shape. 
-        // enable or disable the
-        // retrieval of all such points  
-        // with aAlphaInf 
-        Point prevLastPoint = pConvM1;
-        Point lastPoint = prevLastPoint + vConvM1; 
+    // retrieval of the points lying 
+    // on an edge of the alpha-shape. 
+    // enable or disable the
+    // retrieval of all such points  
+    // with aAlphaInf 
+    Point prevLastPoint = pConvM1;
+    Point lastPoint = prevLastPoint + vConvM1; 
 
-        while (myShape(lastPoint) >= 0)
-        {
-          // Convex Hull case, we do not add the vertex
-          if (!aAlphaInf)
+    while (myShape(lastPoint) >= 0)
+      {
+	// Convex Hull case, we do not add the vertex
+	if (!aAlphaInf)
           { 
             *res++ = prevLastPoint;
           }
-          prevLastPoint = lastPoint; 
-          lastPoint += vConvM1;
-        } 
-        return(prevLastPoint);
-      }//end proc
+	prevLastPoint = lastPoint; 
+	lastPoint += vConvM1;
+      } 
+    return(prevLastPoint);
+  }//end proc
 
 
-    /**
-     * Retrieves all the vertices of the alpha-shape
-     * in a counter-clockwise order from a given vertex
-     *  
-     * @param aStartingPoint a vertex of the alpha-shape
-     * @param res output iterator that stores the sequence of vertices
-     */
-    template <typename OutputIterator>
-      void all(const Point& aStartingPoint, OutputIterator res)
+  /**
+   * Retrieves all the vertices of the alpha-shape
+   * in a counter-clockwise order from a given vertex
+   *  
+   * @param aStartingPoint a vertex of the alpha-shape
+   * @param res output iterator that stores the sequence of vertices
+   */
+  template <typename OutputIterator>
+  void all(const Point& aStartingPoint, OutputIterator res)
+  {
+    // get the first vertex
+    Point tmp = aStartingPoint; 
+    bool alphainf = false;
+
+    // if the denominator == 0, the radius is infinite.
+    // We don't keep colinear vertices.
+    if((*this).getPredicate().getDen2() == 0)
+      alphainf = true;
+
+    do 
       {
-        // get the first vertex
-        Point tmp = aStartingPoint; 
-        bool alphainf = false;
+	// stores the last retrieved vertex
+	*res++ = tmp; 
+	// get the next alpha-shape vertices
+	tmp = next(tmp, res, alphainf);
+	//while it is not the first one
+      } while (tmp != aStartingPoint); 
+  }
 
-        // if the denominator == 0, the radius is infinite.
-        // We don't keep colinear vertices.
-        if((*this).getPredicate().getDen2() == 0)
-          alphainf = true;
-
-        do 
-        {
-          // stores the last retrieved vertex
-          *res++ = tmp; 
-          // get the next alpha-shape vertices
-          tmp = next(tmp, res, alphainf);
-          //while it is not the first one
-        } while (tmp != aStartingPoint); 
-      }
-
-    /**
-     * Retrieves all the vertices of the alpha-shape
-     * in a counter-clockwise order
-     *  
-     * @param res output iterator that stores the sequence of vertices
-     */
-    template <typename OutputIterator>
-      void all(OutputIterator res)
-      {
-        all(myShape.getConvexHullVertex(), res); 
-      }
+  /**
+   * Retrieves all the vertices of the alpha-shape
+   * in a counter-clockwise order
+   *  
+   * @param res output iterator that stores the sequence of vertices
+   */
+  template <typename OutputIterator>
+  void all(OutputIterator res)
+  {
+    all(myShape.getConvexHullVertex(), res); 
+  }
 
 }; 
 #endif
+
 

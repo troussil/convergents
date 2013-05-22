@@ -52,7 +52,7 @@ void convexHull(const Shape& aShape, const Point& aStartingPoint,
 ///////////////////////////////////////////////////////////////////////////////
 template <typename ForwardIterator>
 void display(const ForwardIterator& itb, const ForwardIterator& ite, 
-	std::string aFilename)
+	     std::string aFilename)
 {
   typedef PointVector<2,int> DGtalPoint; 
 

@@ -1,5 +1,5 @@
 #ifndef CircumcircleRadiusPredicate_h
-   #define CircumcircleRadiusPredicate_h
+#define CircumcircleRadiusPredicate_h
 /**
  * @brief Class implementing a point predicate,
  * which compares a stored radius with the radius 
@@ -15,66 +15,66 @@
 template<typename TInteger = long long int>
 struct CircumcircleRadiusPredicate
 {
-  public: 
-    /* type of parameters */
-    typedef TInteger Integer;
+public: 
+  /* type of parameters */
+  typedef TInteger Integer;
  
-  private: 
-    /////////////////////// members /////////////////////
-    /**
-     * The radius R is viewed as the fraction of two squares, 
-     * R = myNum2 / myDen2
-     */
+private: 
+  /////////////////////// members /////////////////////
+  /**
+   * The radius R is viewed as the fraction of two squares, 
+   * R = myNum2 / myDen2
+   */
   Integer myNum2; 
   Integer myDen2; 
 
 
-  public:
-    ///////////////////// standard services /////////////
-    /**
-     * Standard constructor
-     * @param aNum2 squared numerator of the radius (default 1)
-     * @param aDen2 squared denominator of the radius (default 0)
-     *
-     * NB: Default values stands for an infinite radius. 
-     */
+public:
+  ///////////////////// standard services /////////////
+  /**
+   * Standard constructor
+   * @param aNum2 squared numerator of the radius (default 1)
+   * @param aDen2 squared denominator of the radius (default 0)
+   *
+   * NB: Default values stands for an infinite radius. 
+   */
   CircumcircleRadiusPredicate(const Integer& aNum2 = 1, const Integer& aDen2 = 0)
     : myNum2(aNum2), myDen2(aDen2) {}
 
-    /**
-     * Copy constructor
-     * @param other other object to copy
-     */
-    CircumcircleRadiusPredicate(const CircumcircleRadiusPredicate& other)
+  /**
+   * Copy constructor
+   * @param other other object to copy
+   */
+  CircumcircleRadiusPredicate(const CircumcircleRadiusPredicate& other)
     : myNum2(other.myNum2), myDen2(other.myDen2) {}
 
-  private:
+private:
 
-    /**
-     * Assignement operator
-     * @param other other object to copy
-     * @return reference on *this
-     */
-    CircumcircleRadiusPredicate& operator=(const CircumcircleRadiusPredicate& other) 
-    { return *this; }
+  /**
+   * Assignement operator
+   * @param other other object to copy
+   * @return reference on *this
+   */
+  CircumcircleRadiusPredicate& operator=(const CircumcircleRadiusPredicate& other) 
+  { return *this; }
 
-  public: 
-    /**
-     * Radius² denominateur
-     * @return myDen2
-     */
-    Integer getDen2() const { return (myDen2);  }
+public: 
+  /**
+   * Radius² denominateur
+   * @return myDen2
+   */
+  Integer getDen2() const { return (myDen2);  }
 
-    /**
-     * Radius² Numerator
-     * @return myNum2. 
-     */
-    Integer getNum2() const { return (myNum2);  }
+  /**
+   * Radius² Numerator
+   * @return myNum2. 
+   */
+  Integer getNum2() const { return (myNum2);  }
 
-    /**
-     * Default destructor
-     */
-    ~CircumcircleRadiusPredicate() {}
+  /**
+   * Default destructor
+   */
+  ~CircumcircleRadiusPredicate() {}
 
 
   ///////////////////// main methods ///////////////////
@@ -92,7 +92,11 @@ struct CircumcircleRadiusPredicate
   Integer 
   getArea(const Point& a, const Point& b, const Point& c) const
   {
-    return a[0]*(b[1] - c[1]) - b[0]*(a[1] - c[1]) + c[0]*(a[1] - b[1]);
+    Integer a0 = a[0]; Integer a1 = a[1];
+    Integer b0 = b[0]; Integer b1 = b[1];
+    Integer c0 = c[0]; Integer c1 = c[1];
+    
+    return a0*(b1 - c1) - b0*(a1 - c1) + c0*(a1 - b1);
   }
 
   /**
@@ -113,10 +117,16 @@ struct CircumcircleRadiusPredicate
     Point ab = (b-a); 
     Point bc = (c-b); 
     Point ac = (c-a);
-    Integer nab = ab.normL22(); 	
-    Integer nbc = bc.normL22(); 
-    Integer nac = ac.normL22(); 
-    Integer rightPart = nab*nbc*nac*myDen2;
+    
+    //myX * myX + myY * myY
+    
+    Integer ab0 = ab[0]; 	Integer ab1 = ab[1];
+    Integer bc0 = bc[0]; 	Integer bc1 = bc[1];
+    Integer ac0 = ac[0]; 	Integer ac1 = ac[1];
+    
+    Integer rightPart = (ab0*ab0 + ab1*ab1)*(bc0*bc0 + bc1*bc1)*
+      (ac0*ac0 + ac1*ac1)*myDen2; 
+
 
     Integer area = getArea(a,b,c);
     int signArea;
