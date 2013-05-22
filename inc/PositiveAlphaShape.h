@@ -94,68 +94,59 @@ class PositiveAlphaShape
      * Given a vertex of the alpha-shape, find the next
      * vertex in a counter-clockwise order
      * @param aPoint any vertex of the alpha-shape
-     * @return the next vertex
+     * @param res which contained the alpha-shape vertices
+     * @return
      */
 
-    void next(const Point& aPoint, Container& aContainer)
+    void next(const Point& aPoint, Container& res)
     {
-      /**
-       * Given a vertex of the alpha-shape, 
-       * retrieves a sequence of consecutive 
-       * vertices of the alpha-shape
-       * in a counter-clockwise order. 
-       * 
-       * @param aPoint any vertex of the alpha-shape 
-       * @param res output iterator that stores the sequence of vertices
-       * @return the last retrieved vertex (not stored). 
-       */
-
-
-      //for( auto it = resCH.begin(); it != resCH.end(); ++it)
-
-      if(aContainer.size() < 2)
+      
+      //we hav not enough vertices to test predicate with a triangle
+      if(res.size() < 2)
       {
-        aContainer.push_back( aPoint ); 
-        //std::cout << " add (to back) " << *it << std::endl; 
+        res.push_back( aPoint ); 
       }
       else
       {
         //maintaining convexity with the new point
-        updateConvexHull(aContainer, aPoint, myPredicate); 
+        updateConvexHull(res, aPoint, myPredicate); 
         //add new point
-        aContainer.push_back( aPoint ); 
-        //std::cout << " add (to back) " << *it << std::endl; 
+        res.push_back( aPoint ); 
       }
 
     }
 
+     /**
+     * Retrieves all the vertices of the alpha-shape
+     * in a counter-clockwise order from a given vertex
+     *  
+     * @param aStartingPoint a vertex of the alpha-shape
+     * @param res output iterator that stores the sequence of vertices
+     */
 
     template <typename Container, typename Point>
-      void all(Container& aContainer, Point aPointa)
+      void all(Container& res, Point aStartingPoint)
       {
-        // Retrieve Convex Hull vertices
-        OutputSensitiveConvexHull<TShape> ch(myShape); 
-
+        // Retrieve the convex hull vertices
+        OutputSensitiveConvexHull<TShape> ch(myShape);
         std::vector<Point> resCH;
-        ch.all(aPointa, std::back_inserter(resCH));
+        ch.all(aStartingPoint, std::back_inserter(resCH), false);
 
+        //template std::vector<Point>::iterator it= resCH.begin();
         auto it = resCH.begin();
         Point tmp = *it;
-
-
+                
         do{
-
+          
           // add the next alpha-shape vertices
-          next(tmp, aContainer);
-
+          next(tmp, res);
           tmp = *it;
 
           //while it is not the first one
         }while (it++ != resCH.end());
 
         //maintaining convexity with the starting point
-        updateConvexHull(aContainer, aPointa, myPredicate);     
-
+        updateConvexHull(res, aStartingPoint, myPredicate);
       }//end proc
 
 
