@@ -108,18 +108,28 @@ template <typename Container, typename Point>
         // Retrieve Convex Hull vertices
         OutputSensitiveConvexHull<TShape> ch(myShape); 
 
-        std::vector<Point> it;
-        ch.all(aPointa, std::back_inserter(it));
+        std::vector<Point> resCH;
+        ch.all(aPointa, std::back_inserter(resCH));
 
-        //convex hull computation
-        buildConvexHull(aContainer, it.begin(), it.end(), myPredicate); 
+        for( auto it = resCH.begin(); it != resCH.end(); ++it)
+        {
+          if(aContainer.size() < 2)
+          {
+            aContainer.push_back( *it ); 
+            //std::cout << " add (to back) " << *it << std::endl; 
+          }
+          else
+          {
+            //maintaining convexity with the new point
+            updateConvexHull(aContainer, *it, myPredicate); 
+            //add new point
+            aContainer.push_back( *it ); 
+            //std::cout << " add (to back) " << *it << std::endl; 
+          }
+        }//end for all points
 
         //maintaining convexity with the starting point
-        updateConvexHull(aContainer, *it.begin(), myPredicate); 
-
-        //copy
-        //std::copy(container.begin(), container.end(), res); 
-     
+        updateConvexHull(aContainer, *resCH.begin(), myPredicate);     
 
       }//end proc
 
