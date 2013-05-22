@@ -270,15 +270,16 @@ public:
   {
     
     //We look for the intersection between  aS + aQ * aD and the circle
-    Integer aEq = myC*(aDirection[0]*aDirection[0] + aDirection[1]*aDirection[1]);
-
-    Integer bEq = myA*aDirection[0] + myB*aDirection[1] + 
-      2*myC*aStartingPoint[0]*aDirection[0] + 
-      2*myC*aStartingPoint[1]*aDirection[1];
-
-    Integer cEq = myA*aStartingPoint[0] + myB*aStartingPoint[1] + 
-      myC*aStartingPoint[0]*aStartingPoint[0] + 
-      myC*aStartingPoint[1]*aStartingPoint[1] + myD;  
+    Integer aD0 = aDirection[0];
+    Integer aD1 = aDirection[1];
+    
+    Integer aS0 = aStartingPoint[0];
+    Integer aS1 = aStartingPoint[1];    
+    
+    
+    Integer aEq = myC*(aD0*aD0 + aD1*aD1);
+    Integer bEq = myA*aD0 + myB*aD1 + 2*myC*aS0*aD0 + 2*myC*aS1*aD1;
+    Integer cEq = myA*aS0 + myB*aS1 + myC*aS0*aS0 + myC*aS1*aS1 + myD;  
 
     Integer Delta = bEq*bEq - 4*aEq*cEq;
 
@@ -311,7 +312,7 @@ public:
 		    using namespace DGtal; 
 		    Thresholder<Integer, true, true> predicate(0);
 		    
-		    int max = DGtal::NumberTraits<Integer>::castToInt64_t(-bEq/(2*aEq)); 
+		    Coordinate max = DGtal::NumberTraits<Integer>::castToInt64_t(-bEq/(2*aEq)); 
 		    
 
 		    //inclusion tests around the minimum (-bEq/(2*aEq))
@@ -352,7 +353,7 @@ public:
 		using namespace DGtal;
 		Thresholder<Integer, false, true> predicate(0); 
 		//a trivial upper bound is the circle diameter
-		int diameter = 2 * (int) std::ceil( getRadius() ) + 1; 
+		Coordinate diameter = 2 * (Coordinate) std::ceil( getRadius() ) + 1; 
 		aQuotient = dichotomicSearch(aStartingPoint, aDirection, diameter, predicate); 
 		aClosest = aStartingPoint + aQuotient*aDirection;
 		return true;
