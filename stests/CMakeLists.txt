@@ -5,6 +5,7 @@ SET(SRCs
   testConvexHull
   testAlphaShapeStraightLine
   testAlphaShape
+  testPositiveAlphaShape  
 )
 
 FOREACH(FILE ${SRCs})
