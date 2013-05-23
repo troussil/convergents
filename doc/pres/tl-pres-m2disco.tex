@@ -1,0 +1,213 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Beamer Presentation
+% LaTeX Template
+% Version 1.0 (10/11/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass{beamer}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage[english,francais]{babel}
+\usefonttheme{professionalfonts}
+
+\usepackage[]{beamerthemeliris} % paquet theme, options: nogradient,nobackground
+
+
+\usepackage{graphicx} %paquet graphiques
+\usepackage{epsfig}
+
+
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage[utf8]{inputenc} %codage
+\usepackage{lmodern}
+%\usepackage[french]{babel}
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title[Présentation M2Disco]{Structure d'un cercle discret en dimension deux} % The short title appears at the bottom of every slide, the full title is only on the title page
+
+\author{\bsc{Lafond} Thomas} % Your name
+\institute[LIRIS] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
+{
+Laboratoire d'InfoRmatique en Image et Syst\`{e}mes d'information \\ % Your institution for the title page
+\medskip
+\textit{-- Présentation d'équipe : M2Disco --}\\
+\medskip
+Encadrant : \bsc{Roussillon} Tristan 
+}
+\date{10 Juin 2013} % Date, can be changed to a custom date
+
+\begin{document}
+
+\begin{frame}
+\titlepage % Print the title page as the first slide
+\end{frame}
+
+\begin{frame}
+\frametitle{Tables des matières} % Table of contents slide, comment this block out to remove it
+\setcounter{tocdepth}{1}
+\tableofcontents % Throughout your presentation, if you choose to use \section{} and \subsection{} commands, these will automatically be printed on this slide as an overview of your presentation
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+
+%------------------------------------------------
+\section{Parcours} 
+%------------------------------------------------
+
+\subsection{Parcours} 
+\begin{frame}
+%\frametitle{Parcours}
+\begin{block}{Licence de Mathématiques et d'Informatique}
+\begin{itemize}
+\item Mathématiques : L1, L2, L3.
+\item Informatique : L1, L2.
+\item Domaine Scientifique : Science Physique, Chimie et Biologie.
+\end{itemize}
+\end{block}
+
+\begin{block}{Master Statistiques, Informatique et Techniques Numériques}
+\begin{columns}[t]
+
+\begin{column}{5.5cm}
+Trois composantes principales
+\begin{itemize}
+\item Probalités et Statistiques 
+\item EDP et Calcul scientifique
+\item Developpement Informatique
+\end{itemize}
+\end{column}
+
+\begin{column}{4.5cm}
+Une certaine ouverture  
+\begin{itemize}
+\item \alert{Stages}
+\item Calcul parallèle
+\item Mécanique des fluides
+\end{itemize}
+\end{column}
+\end{columns}  
+\end{block}
+
+\begin{block}{Stages précédents}
+\begin{itemize}
+\item Modélisation Hydrologique - Irstea - 5 Mois
+\item Décomposition de domaine - MmodD / Lyon 1 - 2 Mois
+\end{itemize}
+\end{block}
+
+\end{frame}
+
+%------------------------------------------------
+\section{Motivation} 
+%------------------------------------------------
+
+\subsection{Géométrie Discrète} 
+\begin{frame}
+\frametitle{Géométrie Discrète}
+Une discipline à la croisée de bien de domaines scientifiques entre les mathématiques et l'informatique. Il s'agit principalement d'étudier la géométrie et la topologie d'objets sur une grille régulière. Dans notre cas, on s'intéresse à $Z^2$.
+\end{frame}
+
+\subsection{Approche Constructive}
+\begin{frame}
+\frametitle{Approche Constructive}
+Exemple : Disque Discret : L'ensemble des points aux coordonnées entières tel que $Ax^2+By^2 + Cx + Dy + E \leq 0$ soit à l'intérieur et $Ax^2+By^2 + Cx + Dy + E \geq 0$ soit à l'extérieur.\\
+Construit un modèle géométrique uniquement avec des entiers.\\
++ Permet le calcul exact en évitant tous les problèmes d'approximations et d'arrondis.
++ Adapté à l'analyse d'images.
++ Optimisation possible.
+- Plusieurs représentations sont possibles pour construire un même objet. Si les différences graphiques seront faibles, les calculs seront eux bien différents et souvent icompatibles.
+\end{frame}
+
+\subsection{Modélisation de contours/ bords discrets} 
+\begin{frame}
+\frametitle{Modélisation de contours/ bords discrets}
+\end{frame}
+
+%------------------------------------------------
+\section{Existant} 
+%------------------------------------------------
+
+\subsection{Suivi de Bord} 
+\begin{frame}
+\frametitle{Suivi de Bord}
+\end{frame}
+
+\subsection{Enveloppe convexe} 
+\begin{frame}
+\frametitle{Enveloppe convexe}
+\end{frame}
+
+\subsection{CGAL - Alpha-shape}  % ?? là / pas là ??
+\begin{frame}
+\frametitle{CGAL - Alpha-shape}
+\end{frame}
+
+%------------------------------------------------
+\section{Contributions} 
+%------------------------------------------------
+
+\subsection{Généralisation de Har-Peled - $\alpha \leq 0$} 
+\begin{frame}
+\frametitle{Généralisation de Har-Peled - $\alpha \leq 0$}
+\end{frame}
+
+\subsection{$\alpha \geq 0$} 
+\begin{frame}
+\frametitle{$\alpha \geq 0$}
+\end{frame}
+
+\subsection{Protocole} 
+\begin{frame}
+\frametitle{Protocole}
+\end{frame}
+
+%------------------------------------------------
+\section{Résultats} 
+%------------------------------------------------
+
+\subsection{Enveloppe convexe} 
+\begin{frame}
+\frametitle{Enveloppe convexe}
+\end{frame}
+
+\subsection{$\alpha \leq 0$} 
+\begin{frame}
+\frametitle{$\alpha \leq 0$}
+\end{frame}
+
+\subsection{$\alpha \geq 0$} 
+\begin{frame}
+\frametitle{$\alpha \geq 0$}
+\end{frame}
+
+%------------------------------------------------
+\section{Suite} 
+%------------------------------------------------
+
+\subsection{Poursuite du projet} 
+\begin{frame}
+\frametitle{Poursuite du projet}
+\end{frame}
+
+\subsection{Poursuite personnelle} 
+\begin{frame}
+\frametitle{Poursuite personnelle}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\end{document} 
