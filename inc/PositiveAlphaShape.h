@@ -132,8 +132,8 @@ class PositiveAlphaShape
         std::vector<Point> resCH;
         ch.all(aStartingPoint, std::back_inserter(resCH), false);
 
-        //template std::vector<Point>::iterator it= resCH.begin();
-        auto it = resCH.begin();
+        typename std::vector<Point>::iterator it = resCH.begin();
+        //auto it = resCH.begin(); // c++ 11
         Point tmp = *it;
                 
         do{
