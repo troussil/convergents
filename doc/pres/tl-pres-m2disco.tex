@@ -1,21 +1,9 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Beamer Presentation
-% LaTeX Template
-% Version 1.0 (10/11/12)
-%
-% This template has been downloaded from:
-% http://www.LaTeXTemplates.com
-%
-% License:
-% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %----------------------------------------------------------------------------------------
 %	PACKAGES AND THEMES
 %----------------------------------------------------------------------------------------
 
 \documentclass{beamer}
+
 \usepackage{times}
 \usepackage[T1]{fontenc}
 \usepackage[english,francais]{babel}
@@ -27,11 +15,11 @@
 \usepackage{graphicx} %paquet graphiques
 \usepackage{epsfig}
 
-
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
 \usepackage[utf8]{inputenc} %codage
 \usepackage{lmodern}
 %\usepackage[french]{babel}
+
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
 %----------------------------------------------------------------------------------------
@@ -119,7 +107,8 @@ Une certaine ouverture
 \subsection{Géométrie Discrète} 
 \begin{frame}
 \frametitle{Géométrie Discrète}
-Une discipline à la croisée de bien de domaines scientifiques entre les mathématiques et l'informatique. Il s'agit principalement d'étudier la géométrie et la topologie d'objets sur une grille régulière. Dans notre cas, on s'intéresse à $Z^2$.
+Une discipline à la croisée de bien de domaines scientifiques entre les mathématiques et l'informatique.\\
+Il s'agit principalement d'étudier la géométrie et la topologie d'objets sur une grille régulière. Dans notre cas, on s'intéresse à $Z^2$.
 \end{frame}
 
 \subsection{Approche Constructive}
@@ -127,9 +116,9 @@ Une discipline à la croisée de bien de domaines scientifiques entre les mathé
 \frametitle{Approche Constructive}
 Exemple : Disque Discret : L'ensemble des points aux coordonnées entières tel que $Ax^2+By^2 + Cx + Dy + E \leq 0$ soit à l'intérieur et $Ax^2+By^2 + Cx + Dy + E \geq 0$ soit à l'extérieur.\\
 Construit un modèle géométrique uniquement avec des entiers.\\
-+ Permet le calcul exact en évitant tous les problèmes d'approximations et d'arrondis.
-+ Adapté à l'analyse d'images.
-+ Optimisation possible.
++ Permet le calcul exact en évitant tous les problèmes d'approximations et d'arrondis.\\
++ Adapté à l'analyse d'images.\\
++ Optimisation possible.\\
 - Plusieurs représentations sont possibles pour construire un même objet. Si les différences graphiques seront faibles, les calculs seront eux bien différents et souvent icompatibles.
 \end{frame}
 
@@ -142,19 +131,16 @@ Construit un modèle géométrique uniquement avec des entiers.\\
 \section{Existant} 
 %------------------------------------------------
 
-\subsection{Suivi de Bord} 
+\subsection{Enveloppe convexe - Har-Peled} 
 \begin{frame}
-\frametitle{Suivi de Bord}
+\frametitle{Enveloppe convexe - Har-Peled}
+Notion de convergents, de parité...
 \end{frame}
 
-\subsection{Enveloppe convexe} 
+\subsection{Triangulation de Delaunay}  % ?? là / pas là ??
 \begin{frame}
-\frametitle{Enveloppe convexe}
-\end{frame}
-
-\subsection{CGAL - Alpha-shape}  % ?? là / pas là ??
-\begin{frame}
-\frametitle{CGAL - Alpha-shape}
+\frametitle{Triangulation de Delaunay}
+On parle un peu de triangulationsde delaunay, de leur lien au alpha-hull, au alpha shape.
 \end{frame}
 
 %------------------------------------------------
@@ -164,6 +150,7 @@ Construit un modèle géométrique uniquement avec des entiers.\\
 \subsection{Généralisation de Har-Peled - $\alpha \leq 0$} 
 \begin{frame}
 \frametitle{Généralisation de Har-Peled - $\alpha \leq 0$}
+
 \end{frame}
 
 \subsection{$\alpha \geq 0$} 
