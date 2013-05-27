@@ -74,8 +74,8 @@ void convexHull(const Shape& aShape, const Point& aStartingPoint,
  * @tparam
  * @tparam CircumcircleRadiusPredicate
  */
-  template<typename Circle, typename CircumcirclePositiveRadiusPredicate, typename Point>
-bool test(const Circle aCircle, const CircumcirclePositiveRadiusPredicate& aPredicate, const Point aStart)
+  template<typename Circle, typename CircumcircleRadiusPredicate, typename Point>
+bool test(const Circle aCircle, const CircumcircleRadiusPredicate& aPredicate, const Point aStart)
 {
 
   // Computed Alpha-Shape
@@ -172,7 +172,7 @@ int main()
 
     for (int k=1; k<=10; k++)
     {
-      CircumcirclePositiveRadiusPredicate<> predicate5(20+(3*k),1);
+      CircumcircleRadiusPredicate<> predicate5(20+(3*k),1);
       std::cout <<"Predicate = "<< 20+(3*k) << " /"<<1<<std::endl;  
       if (test(circle, predicate5, ptc))
         nbok++;
@@ -228,7 +228,7 @@ int main()
           std::cout << std::endl;
 #endif
 
-          CircumcirclePositiveRadiusPredicate<> predicate(Rint*Rint + 2*i*Rint, 1);
+          CircumcircleRadiusPredicate<> predicate(Rint*Rint + 2*i*Rint, 1);
 
 #ifdef DEBUG_VERBOSE
           std::cout << "Radius predicate : Num2 / Den2 : "<<(Rint*Rint + 2*i*Rint)<<"/" 
@@ -272,7 +272,7 @@ int main()
     std::cout << std::endl;
 #endif 
 
-    CircumcirclePositiveRadiusPredicate<> predicate5(2400,1);
+    CircumcircleRadiusPredicate<> predicate5(2400,1);
     std::cout <<"Predicate = "<< 2400<< " /"<<1<<std::endl;  
     if (test(circle, predicate5, pta))
       nbok++;
