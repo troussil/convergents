@@ -364,7 +364,7 @@ int main()
     std::cout << std::endl; 
 
     std::vector<Point> ch;
-    CircumcircleRadiusPredicate<> predicate; //by default infinite radius (denominator = 0)  
+    CircumcircleRadiusPredicate<> predicate(1,0,false); //by default infinite radius (denominator = 0)  
     openGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), predicate ); 
     std::cout << "Graham's convex hull of the boundary" << std::endl; 
     std::copy(ch.begin(), ch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
@@ -383,7 +383,7 @@ int main()
     std::cout << std::endl; 
 
     std::vector<Point> ch1;
-    CircumcircleRadiusPredicate<> predicate1(1,1); //radius 1  
+    CircumcircleRadiusPredicate<> predicate1(1,1,false); //radius 1  
     openGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch1), predicate1 ); 
     std::cout << "1-shape of the boundary" << std::endl; 
     std::copy(ch1.begin(), ch1.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
@@ -404,7 +404,7 @@ int main()
     Point O(0,0); 
 
     {
-      CircumcircleRadiusPredicate<> predicate1(1,1); //radius 1
+      CircumcircleRadiusPredicate<> predicate1(1,1,false); //radius 1
       std::vector<int> quotients; 
       quotients.push_back(3); 
       //quotients.push_back(3); 
@@ -419,7 +419,7 @@ int main()
     }
 
     {
-      CircumcircleRadiusPredicate<> predicate1(1,1); //radius 1
+      CircumcircleRadiusPredicate<> predicate1(1,1,false); //radius 1
       std::vector<int> quotients; 
       quotients.push_back(2); 
       quotients.push_back(2); 
@@ -468,7 +468,7 @@ int main()
         for (int i = 1; i<= nbPredicate; i++)
         {
           {
-            CircumcircleRadiusPredicate<> predicate(maxPoint*i, nbPredicate);
+            CircumcircleRadiusPredicate<> predicate(maxPoint*i, nbPredicate,false);
             std::cout << "Radius predicate : Num2 / Den2 : "<<(maxPoint*i)<<"/" 
               << nbPredicate << std::endl;
 
@@ -487,8 +487,8 @@ int main()
   std::cout << "+++++++++++++++++" << std::endl; 
   {
     //output-sensitive algorithm
-    CircumcircleRadiusPredicate<> predicate0(20,1); //radius 1
-    CircumcircleRadiusPredicate<> predicate1(20,1); //radius 3
+    CircumcircleRadiusPredicate<> predicate0(20,1,false); //radius 1
+    CircumcircleRadiusPredicate<> predicate1(20,1,false); //radius 3
 
     Point O = Point(0,0);
     Point P = Point(12,5);
@@ -523,8 +523,8 @@ int main()
   }
   {
     //output-sensitive algorithm
-    CircumcircleRadiusPredicate<> predicate0(200,1); //radius 1
-    CircumcircleRadiusPredicate<> predicate1(2,1); //radius 3
+    CircumcircleRadiusPredicate<> predicate0(200,1,false); //radius 1
+    CircumcircleRadiusPredicate<> predicate1(2,1,false); //radius 3
 
     Point O = Point(0,0);
     Point P = Point(9,4);
@@ -559,8 +559,8 @@ int main()
   }
   {
     //output-sensitive algorithm
-    CircumcircleRadiusPredicate<> predicate0(200,1); //radius 1
-    CircumcircleRadiusPredicate<> predicate1(2,1); //radius 3
+    CircumcircleRadiusPredicate<> predicate0(200,1,false); //radius 1
+    CircumcircleRadiusPredicate<> predicate1(2,1,false); //radius 3
 
     Point O = Point(0,0);
     Point P = Point(1,0);

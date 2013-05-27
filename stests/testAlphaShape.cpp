@@ -26,7 +26,7 @@
 #include <DGtal/base/Common.h>
 
 //uncomment to use in DEBUG_VERBOSE mode 
-//#define DEBUG_VERBOSE
+#define DEBUG_VERBOSE
 
 //////////////////////////////////////////////////////////////////////
 template <typename Shape, typename Point, typename OutputIterator, 
@@ -148,7 +148,7 @@ int main()
       #endif
 
       std::vector<Point> ch;
-      CircumcircleRadiusPredicate<> predicate; //by default infinite radius (denominator = 0)  
+      CircumcircleRadiusPredicate<> predicate(1,0,false); //by default infinite radius (denominator = 0)  
       closedGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), predicate ); 
       #ifdef DEBUG_VERBOSE
       std::cout << "2 - Graham's convex hull of the boundary" << std::endl; 
@@ -176,7 +176,7 @@ int main()
       #endif
 
       std::vector<Point> ch;
-      CircumcircleRadiusPredicate<> predicate(1,1); //radius 1  
+      CircumcircleRadiusPredicate<> predicate(1,1,false); //radius 1  
       closedGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), predicate ); 
       #ifdef DEBUG_VERBOSE
       std::cout << "1-shape of the boundary" << std::endl; 
@@ -225,7 +225,7 @@ int main()
       #endif
 
       std::vector<Point> ch;
-      CircumcircleRadiusPredicate<> predicate(9,1); //radius 3  
+      CircumcircleRadiusPredicate<> predicate(9,1,false); //radius 3  
       closedGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), predicate ); 
       #ifdef DEBUG_VERBOSE
       std::cout << "3-shape of the boundary" << std::endl; 
@@ -281,7 +281,7 @@ int main()
       #endif
 
       std::vector<Point> ch;
-      CircumcircleRadiusPredicate<> predicate; //by default infinite radius (denominator = 0)  
+      CircumcircleRadiusPredicate<> predicate(1,0,false); //by default infinite radius (denominator = 0)  
       closedGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), predicate ); 
       #ifdef DEBUG_VERBOSE
       std::cout << "2 - Graham's convex hull of the boundary" << std::endl; 
@@ -323,7 +323,7 @@ int main()
       #endif
 
       std::vector<Point> ch;
-      CircumcircleRadiusPredicate<> predicate(1,1); //radius 1  
+      CircumcircleRadiusPredicate<> predicate(1,1,false); //radius 1  
       closedGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), predicate ); 
       #ifdef DEBUG_VERBOSE
       std::cout << "1-shape of the boundary" << std::endl; 
@@ -386,7 +386,7 @@ int main()
       #endif
 
       std::vector<Point> ch;
-      CircumcircleRadiusPredicate<> predicate(9,1); //radius 3  
+      CircumcircleRadiusPredicate<> predicate(9,1,false); //radius 3  
       closedGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), predicate ); 
       #ifdef DEBUG_VERBOSE
       std::cout << "3-shape of the boundary" << std::endl; 
@@ -466,7 +466,7 @@ int main()
           std::cout << std::endl;
 	  #endif
 
-          CircumcircleRadiusPredicate<> predicate(valuePredicateNum[i], valuePredicateDen[i]);
+          CircumcircleRadiusPredicate<> predicate(valuePredicateNum[i], valuePredicateDen[i],false);
 
 	  #ifdef DEBUG_VERBOSE
           std::cout << "Radius predicate : Num2 / Den2 : "<<valuePredicateNum[i]<<"/" 
@@ -502,7 +502,7 @@ int main()
     std::cout << std::endl;
     #endif
 
-    CircumcircleRadiusPredicate<> predicate(10,2);
+    CircumcircleRadiusPredicate<> predicate(10,2,false);
     
     #ifdef DEBUG_VERBOSE
     std::cout << "Radius predicate : Num2 / Den2 : 10/2"<< std::endl;
@@ -542,7 +542,7 @@ int main()
     std::cout << std::endl;
     #endif
 
-    CircumcircleRadiusPredicate<DGtal::BigInteger> predicate(R,10);
+    CircumcircleRadiusPredicate<DGtal::BigInteger> predicate(R,10,false);
     
     #ifdef DEBUG_VERBOSE
     std::cout << "Radius predicate : Big circle"<< std::endl;

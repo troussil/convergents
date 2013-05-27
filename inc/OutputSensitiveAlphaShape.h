@@ -216,7 +216,7 @@ public:
     //Ray casting from pConvM2 in the direction vConvM1
     while (myShape.dray(pConvM2, vConvM1, qk, pConv))
       {
-	std::cout << k << " - aP : "<<aPoint<<" | vm2, vm1 : "<<vConvM2<<vConvM1<<"| pC, qk :"<<pConv<<qk<<std::endl;           
+	//std::cout << k << " - aP : "<<aPoint<<" | vm2, vm1 : "<<vConvM2<<vConvM1<<"| pC, qk :"<<pConv<<qk<<std::endl;           
 	//If pConv is outside the shape (k is odd) 
 	if (myShape(pConv) < 0)
           {
@@ -234,9 +234,8 @@ public:
 		  {
 		    // Convex Hull case, we do not add the vertex
 		    if (!aAlphaInf)
-		      { 
-			*res++ = prevLastPoint;
-		      }
+			    *res++ = prevLastPoint;
+		      
 		    prevLastPoint = lastPoint; 
 		    lastPoint += vConvM1;
 		  } 
@@ -330,9 +329,8 @@ public:
       {
 	// Convex Hull case, we do not add the vertex
 	if (!aAlphaInf)
-          { 
-            *res++ = prevLastPoint;
-          }
+    *res++ = prevLastPoint;
+  
 	prevLastPoint = lastPoint; 
 	lastPoint += vConvM1;
       } 

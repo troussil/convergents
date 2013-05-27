@@ -3,7 +3,7 @@
 
 #include<cmath>
 
-#include"CircumcirclePositiveRadiusPredicate.h"
+#include"CircumcircleRadiusPredicate.h"
 #include "RayIntersectableStraightLine.h"
 
 #include "ConvexHullHelpers.h"
