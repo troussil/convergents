@@ -1,17 +1,16 @@
 LOG=evince
 TEX=tl-pres-m2disco
 
-#FIGSRC = $(wildcard fig/*.ipe)
-#FIGOBJ = $(FIGSRC:.ipe=.pdf)
+FIGSRC = $(wildcard img/*.ipe)
+FIGOBJ = $(FIGSRC:.ipe=.pdf)
  
 all: paper show 
 
 #fig: $(FIGOBJ)
+#fig/%.pdf: img/%.ipe
+#  ipetoipe -pdf $<
 
-#fig/%.pdf: fig/%.ipe
-#	ipetoipe -pdf $<
-
-paper:  
+paper:
 	pdflatex $(TEX).tex
 #	bibtex $(TEX)
 #	pdflatex $(TEX).tex
@@ -23,7 +22,7 @@ show:
 proper:
 	rm -f *.log *.toc *.aux *.nav *.snm *.out *.bbl *.blg *.dvi
 	rm -f *.backup *~
-#	rm -f fig/*.pdf
+	rm -f fig/*.pdf
 
 clean:	proper
 	rm -f $(TEX).ps $(TEX).pdf
