@@ -27,26 +27,29 @@
 \title[Présentation M2Disco]{Structure d'un cercle discret en dimension deux} % The short title appears at the bottom of every slide, the full title is only on the title page
 
 \author{\bsc{Lafond} Thomas} % Your name
+\date{10 Juin 2013}
 \institute[LIRIS] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
 {
-Laboratoire d'InfoRmatique en Image et Syst\`{e}mes d'information \\ % Your institution for the title page
-\medskip
-\textit{-- Présentation d'équipe : M2Disco --}\\
-\medskip
-Encadrant : \bsc{Roussillon} Tristan 
+  Laboratoire d'InfoRmatique en Image et Syst\`{e}mes d'information \\ % Your institution for the title page
+  \medskip
+  \textit{-- Présentation d'équipe : M2Disco --}\\
+  \medskip
+  Encadrant : \bsc{Roussillon} Tristan 
 }
 \date{10 Juin 2013} % Date, can be changed to a custom date
 
 \begin{document}
 
+% titre
 \begin{frame}
-\titlepage % Print the title page as the first slide
+  \titlepage % Print the title page as the first slide
 \end{frame}
 
+% table des matières
 \begin{frame}
-\frametitle{Tables des matières} % Table of contents slide, comment this block out to remove it
-\setcounter{tocdepth}{1}
-\tableofcontents % Throughout your presentation, if you choose to use \section{} and \subsection{} commands, these will automatically be printed on this slide as an overview of your presentation
+  \frametitle{Tables des matières} % Table of contents slide, comment this block out to remove it
+  \setcounter{tocdepth}{1}
+  \tableofcontents % 
 \end{frame}
 
 %----------------------------------------------------------------------------------------
@@ -57,69 +60,134 @@ Encadrant : \bsc{Roussillon} Tristan
 \section{Parcours} 
 %------------------------------------------------
 
-\subsection{Parcours} 
+\subsection{Parcours}
+ 
 \begin{frame}
 %\frametitle{Parcours}
-\begin{block}{Licence de Mathématiques et d'Informatique}
-\begin{itemize}
-\item Mathématiques : L1, L2, L3.
-\item Informatique : L1, L2.
-\item Domaine Scientifique : Science Physique, Chimie et Biologie.
-\end{itemize}
-\end{block}
+  \begin{block}{Licence de Mathématiques et d'Informatique}
+    \begin{itemize}
+      \item Mathématiques : L1, L2, L3.
+      \item Informatique : L1, L2.
+      \item Domaine Scientifique : Science Physique, Chimie et Biologie.
+    \end{itemize}
+  \end{block}
 
-\begin{block}{Master Statistiques, Informatique et Techniques Numériques}
-\begin{columns}[t]
+  \begin{block}{Master Statistiques, Informatique et Techniques Numériques}
+    \begin{columns}[t]
 
-\begin{column}{5.5cm}
-Trois composantes principales
-\begin{itemize}
-\item Probalités et Statistiques 
-\item EDP et Calcul scientifique
-\item Developpement Informatique
-\end{itemize}
-\end{column}
+      \begin{column}{5.5cm}
+        Trois composantes principales :
+        \begin{itemize}
+          \item Probalités et Statistiques 
+          \item EDP et Calcul scientifique
+          \item Developpement Informatique
+        \end{itemize}
+      \end{column}
 
-\begin{column}{4.5cm}
-Une certaine ouverture  
-\begin{itemize}
-\item \alert{Stages}
-\item Calcul parallèle
-\item Mécanique des fluides
-\end{itemize}
-\end{column}
-\end{columns}  
-\end{block}
+      \begin{column}{4.5cm}
+        Une certaine ouverture  
+        \begin{itemize}
+          \item \alert{Stages}
+          \item Calcul parallèle
+          \item Mécanique des fluides
+        \end{itemize}
+      \end{column}
+    \end{columns}  
+  \end{block}
 
-\begin{block}{Stages précédents}
-\begin{itemize}
-\item Modélisation Hydrologique - Irstea - 5 Mois
-\item Décomposition de domaine - MmodD / Lyon 1 - 2 Mois
-\end{itemize}
-\end{block}
+    \begin{block}{Stages précédents}
+      \begin{itemize}
+        \item Modélisation Hydrologique - Irstea - 5 Mois
+        \item Décomposition de domaine - MmodD / Lyon 1 - 2 Mois
+      \end{itemize}
+  \end{block}
 
 \end{frame}
 
 %------------------------------------------------
-\section{Motivation} 
+\section{Contexte et Motivations} 
 %------------------------------------------------
 
 \subsection{Géométrie Discrète} 
 \begin{frame}
-\frametitle{Géométrie Discrète}
-Une discipline à la croisée de bien de domaines scientifiques entre les mathématiques et l'informatique.\\
-Il s'agit principalement d'étudier la géométrie et la topologie d'objets sur une grille régulière. Dans notre cas, on s'intéresse à $Z^2$.
+  \frametitle{Géométrie Discrète}
+
+  \begin{columns}[t]
+    \begin{column}{6cm}
+      \begin{block}{}
+        Une discipline au croisement de bien des domaines scientifiques située entre les Mathématiques et l'Informatique.
+      \end{block}
+      \begin{center}  
+        \alert{Etude d'objets sur des structures régulières.} 
+      \end{center}
+    \end{column}
+
+    \begin{column}{4cm}
+      \begin{figure}[h!]
+      \centering
+         \includegraphics[width= 4cm]{img/mot-geodiscete.png}
+      \caption{Digital Geometry --D. CoeurJolly}
+      \end{figure}
+
+    \end{column}
+  \end{columns}  
+
+  \begin{columns}[t]
+    \begin{column}{6cm}
+      \begin{block}{}
+        Les \alert{cerles discrèts} sur $Z^2$. Pour cela, on a choisi l'études des \alert{$\alpha-shape$}.
+      \end{block}
+    \end{column}
+    \begin{column}{4cm}
+
+      \begin{figure}[h!]
+      \centering
+        \includegraphics[width=4cm]{img/mot-geo.pdf}
+        \caption{Lattice}
+      \end{figure}
+    \end{column}
+  \end{columns}  
+
 \end{frame}
 
-\subsection{Approche Constructive}
+\subsection{Disque discrèt}
 \begin{frame}
-\frametitle{Approche Constructive}
-Exemple : Disque Discret : L'ensemble des points aux coordonnées entières tel que $Ax^2+By^2 + Cx + Dy + E \leq 0$ soit à l'intérieur et $Ax^2+By^2 + Cx + Dy + E \geq 0$ soit à l'extérieur.\\
-Construit un modèle géométrique uniquement avec des entiers.\\
-+ Permet le calcul exact en évitant tous les problèmes d'approximations et d'arrondis.\\
-+ Adapté à l'analyse d'images.\\
-+ Optimisation possible.\\
-- Plusieurs représentations sont possibles pour construire un même objet. Si les différences graphiques seront faibles, les calculs seront eux bien différents et souvent icompatibles.
+\frametitle{Disque Discret}
+\begin{block}{}
+
+  $$\mathcal{D} =  \left\{ pt : (x,y) \in \mathcal{Z}^{2} |  ax + by + c(x^2 + y^2) + d \leq 0. \right\}$$
+
+\end{block}
+
+\begin{block}{Représentation cartésienne}
+  \begin{itemize}
+    \item Modèle géométrique uniquement avec des entiers.
+    \item Disque de centre et rayon rationnels
+  \end{itemize}
+\end{block}
+
+\begin{columns}[t]
+
+\begin{column}{5cm}
+
+\begin{exampleblock}{}
+\begin{itemize}
+\item Permet le calcul exact en évitant tous les problèmes d'approximations et d'arrondis.
+\item Adapté à l'analyse d'images.
+\item Optimisation possible.
+\end{itemize}
+\end{block}
+\end{column}
+
+\begin{column}{5cm}
+\begin{exampleblock}{}
+\begin{itemize}
+\item Plusieurs représentations possibles.
+\item Peu de différences graphiques...
+\item Mais des calculs différents et souvent icompatibles entre eux.
+\end{block}
+\end{column}
+\end{columns}  
 \end{frame}
 
 \subsection{Modélisation de contours/ bords discrets} 
@@ -128,7 +196,7 @@ Construit un modèle géométrique uniquement avec des entiers.\\
 \end{frame}
 
 %------------------------------------------------
-\section{Existant} 
+\section{E  xistant} 
 %------------------------------------------------
 
 \subsection{Enveloppe convexe - Har-Peled} 
