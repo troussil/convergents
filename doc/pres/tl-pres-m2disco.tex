@@ -114,36 +114,39 @@
 
   \begin{columns}[t]
     \begin{column}{6cm}
-      \begin{block}{}
-        Une discipline au croisement de bien des domaines scientifiques située entre les Mathématiques et l'Informatique.
+      \begin{block}{Géométrie Discrète}
+        Une discipline à l'intersection de nombreux domaines scientifiques compris dans les Mathématiques et l'Informatique.
       \end{block}
-      \begin{center}  
-        \alert{Etude d'objets sur des structures régulières.}
-      \end{center}
-      \begin{block}{}
-        Les \alert{cerles discrèts} sur $Z^2$. Pour cela, on a choisi l'étude des \alert{$\alpha-shape$}.
+      
+      \begin{block}{Définition \textit{simple}}
+       Étude d'objets disposés sur des structures régulières.
+      \end{block}
+      
+      \begin{block}{Objet d'étude}
+        Les \alert{cerles discrèts} sur la grille $Z^2$.
       \end{block}
     \end{column}
 
     \begin{column}{4cm}
+      \vspace{-0.7cm}
       \begin{figure}[h!]
       \centering
          \includegraphics[width= 4cm]{img/mot-geodiscete.png}
-      \caption{Digital Geometry --D. CoeurJolly}
+      \caption{Digital Geometry --D. CoeurJolly / Lattice}
     \end{figure}
-      
+    
+    \vspace{-1cm}
     \begin{figure}[h!]
       \centering
         \includegraphics[width=4cm]{img/mot-geo.pdf}
-        \caption{Lattice}
       \end{figure}
     \end{column}
   \end{columns}  
 \end{frame}
 
-\subsection{Disque discrèt}
+\subsection{Disque discret}
 \begin{frame}
-  \frametitle{Disque Discret}
+  \frametitle{Disque fermé Discret}
   \begin{block}{}
     $$\mathcal{D} =  \left\{ pt : (x,y) \in \mathcal{Z}^{2} |  ax + by + c(x^2 + y^2) + d \leq 0. \right\}$$
   \end{block}
@@ -172,14 +175,59 @@
 
 \end{frame}
 
-\subsection{Modélisation de contours/ bords discrets}
+\subsection{Cercle discret}
 \begin{frame}
-\frametitle{Le problème du bord}
+\frametitle{Le passage du disque discret au cercle discret}
 
-      \begin{figure}[h!]
-      \centering
-        \includegraphics[width=4cm]{img/mot-cercle.pdf}
-      \end{figure}
+  \begin{block}{Comment représenter un cercle ?}
+    Pas d'équivalent Euclidien : 
+    \vspace{-0.4cm}
+    $$\mathcal{D} =  \left\{ pt : (x,y) \in \mathcal{Z}^{2} |  ax + by + c(x^2 + y^2) + d = 0 \right\} \alert{?} $$ 
+  \end{block}
+  
+  \begin{columns}[t]
+    \begin{column}{6cm}
+      \only<1,4>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=4cm]{img/mot-cercle.pdf}
+        \end{figure}
+      }
+      \only<2>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=4cm]{img/mot-cercle-int.pdf}
+        \end{figure}
+      }
+      \only<3>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=4cm]{img/mot-cercle-ext.pdf}
+        \end{figure}
+      }
+    \end{column}
+
+    \begin{column}{5cm}
+      \begin{exampleblock}{Notions éxistantes}
+       
+        \begin{itemize}
+          \item Intérieur / Extérieur.
+          \item Bordure.
+          \item  $\Rightarrow$ Enveloppes.
+        \end{itemize}
+      \end{exampleblock} 
+      \only<4>
+      {
+        \begin{center}  
+          \alert{Etude des $\alpha$-shape de cercles discrets sur $\mathcal{Z}^{2}$.}
+        \end{center}
+      }
+    \end{column}
+  \end{columns} 
+  
 
 \end{frame}
 
@@ -190,7 +238,71 @@
 \subsection{Enveloppe convexe - Har-Peled}
 \begin{frame}
 \frametitle{Enveloppe convexe - Har-Peled}
-Notion de convergents, de parité...
+
+  \only<1>
+  {
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=4cm]{img/har-1-0.pdf}
+    \end{figure}
+  }
+  \only<2>
+  {
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=4cm]{img/har-1-1.pdf}
+    \end{figure}
+  }
+  \only<3>
+  {
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=4cm]{img/har-1-2.pdf}
+    \end{figure}
+  }
+  \only<4>
+  {
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=4cm]{img/har-1-3.pdf}
+    \end{figure}
+  }
+  \only<5>
+  {
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=4cm]{img/har-1-4.pdf}
+    \end{figure}
+  }
+  \only<6>
+  {
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=4cm]{img/har-1-5.pdf}
+    \end{figure}
+  }
+  \only<7>
+  {
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=4cm]{img/har-1-6.pdf}
+    \end{figure}
+  }
+  \only<8>
+  {
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=4cm]{img/har-1-7.pdf}
+    \end{figure}
+  }
+  \only<9>
+  {
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=4cm]{img/har-1-8.pdf}
+    \end{figure}
+  }   
+
 \end{frame}
 
 \subsection{Triangulation de Delaunay}  % ?? là / pas là ??
