@@ -1,5 +1,5 @@
 %----------------------------------------------------------------------------------------
-%	PACKAGES AND THEMES
+%    PACKAGES AND THEMES
 %----------------------------------------------------------------------------------------
 
 \documentclass{beamer}
@@ -21,7 +21,7 @@
 %\usepackage[french]{babel}
 
 %----------------------------------------------------------------------------------------
-%	TITLE PAGE
+%    TITLE PAGE
 %----------------------------------------------------------------------------------------
 
 \title[Présentation M2Disco]{Structure d'un cercle discret en dimension deux} % The short title appears at the bottom of every slide, the full title is only on the title page
@@ -34,7 +34,7 @@
   \medskip
   \textit{-- Présentation d'équipe : M2Disco --}\\
   \medskip
-  Encadrant : \bsc{Roussillon} Tristan 
+  Encadrant : \bsc{Roussillon} Tristan
 }
 \date{10 Juin 2013} % Date, can be changed to a custom date
 
@@ -49,15 +49,15 @@
 \begin{frame}
   \frametitle{Tables des matières} % Table of contents slide, comment this block out to remove it
   \setcounter{tocdepth}{1}
-  \tableofcontents % 
+  \tableofcontents %
 \end{frame}
 
 %----------------------------------------------------------------------------------------
-%	PRESENTATION SLIDES
+%    PRESENTATION SLIDES
 %----------------------------------------------------------------------------------------
 
 %------------------------------------------------
-\section{Parcours} 
+\section{Parcours}
 %------------------------------------------------
 
 \subsection{Parcours}
@@ -78,9 +78,9 @@
       \begin{column}{5.5cm}
         Trois composantes principales :
         \begin{itemize}
-          \item Probalités et Statistiques 
+          \item Probabilités et Statistiques
           \item EDP et Calcul scientifique
-          \item Developpement Informatique
+          \item Développement Informatique
         \end{itemize}
       \end{column}
 
@@ -105,10 +105,10 @@
 \end{frame}
 
 %------------------------------------------------
-\section{Contexte et Motivations} 
+\section{Contexte et Motivations}
 %------------------------------------------------
 
-\subsection{Géométrie Discrète} 
+\subsection{Géométrie Discrète}
 \begin{frame}
   \frametitle{Géométrie Discrète}
 
@@ -118,8 +118,11 @@
         Une discipline au croisement de bien des domaines scientifiques située entre les Mathématiques et l'Informatique.
       \end{block}
       \begin{center}  
-        \alert{Etude d'objets sur des structures régulières.} 
+        \alert{Etude d'objets sur des structures régulières.}
       \end{center}
+      \begin{block}{}
+        Les \alert{cerles discrèts} sur $Z^2$. Pour cela, on a choisi l'étude des \alert{$\alpha-shape$}.
+      \end{block}
     \end{column}
 
     \begin{column}{4cm}
@@ -127,79 +130,64 @@
       \centering
          \includegraphics[width= 4cm]{img/mot-geodiscete.png}
       \caption{Digital Geometry --D. CoeurJolly}
-      \end{figure}
-
-    \end{column}
-  \end{columns}  
-
-  \begin{columns}[t]
-    \begin{column}{6cm}
-      \begin{block}{}
-        Les \alert{cerles discrèts} sur $Z^2$. Pour cela, on a choisi l'études des \alert{$\alpha-shape$}.
-      \end{block}
-    \end{column}
-    \begin{column}{4cm}
-
-      \begin{figure}[h!]
+    \end{figure}
+      
+    \begin{figure}[h!]
       \centering
         \includegraphics[width=4cm]{img/mot-geo.pdf}
         \caption{Lattice}
       \end{figure}
     \end{column}
   \end{columns}  
-
 \end{frame}
 
 \subsection{Disque discrèt}
 \begin{frame}
-\frametitle{Disque Discret}
-\begin{block}{}
+  \frametitle{Disque Discret}
+  \begin{block}{}
+    $$\mathcal{D} =  \left\{ pt : (x,y) \in \mathcal{Z}^{2} |  ax + by + c(x^2 + y^2) + d \leq 0. \right\}$$
+  \end{block}
 
-  $$\mathcal{D} =  \left\{ pt : (x,y) \in \mathcal{Z}^{2} |  ax + by + c(x^2 + y^2) + d \leq 0. \right\}$$
+  \begin{block}{Représentation cartésienne}
+    \begin{itemize}
+      \item Modèle géométrique uniquement avec des entiers.
+      \item Disque de centre et rayon rationnels
+    \end{itemize}
+  \end{block}
+  \begin{exampleblock}{}
+    \begin{itemize}
+      \item Calcul exact permettant d'éviter tous les problèmes d'approximations et d'arrondis.
+      \item Adapté à l'analyse d'images.
+      \item Optimisation possible.
+    \end{itemize}
+  \end{exampleblock}
 
-\end{block}
+  \begin{exampleblock}{}
+    \begin{itemize}
+      \item Plusieurs représentations possibles.
+      \item Peu de différences graphiques...
+      \item Mais des calculs et algorithmes différents.
+    \end{itemize}
+  \end{exampleblock}
 
-\begin{block}{Représentation cartésienne}
-  \begin{itemize}
-    \item Modèle géométrique uniquement avec des entiers.
-    \item Disque de centre et rayon rationnels
-  \end{itemize}
-\end{block}
-
-\begin{columns}[t]
-
-\begin{column}{5cm}
-
-\begin{exampleblock}{}
-\begin{itemize}
-\item Permet le calcul exact en évitant tous les problèmes d'approximations et d'arrondis.
-\item Adapté à l'analyse d'images.
-\item Optimisation possible.
-\end{itemize}
-\end{block}
-\end{column}
-
-\begin{column}{5cm}
-\begin{exampleblock}{}
-\begin{itemize}
-\item Plusieurs représentations possibles.
-\item Peu de différences graphiques...
-\item Mais des calculs différents et souvent icompatibles entre eux.
-\end{block}
-\end{column}
-\end{columns}  
 \end{frame}
 
-\subsection{Modélisation de contours/ bords discrets} 
+\subsection{Modélisation de contours/ bords discrets}
 \begin{frame}
-\frametitle{Modélisation de contours/ bords discrets}
+\frametitle{Le problème du bord}
+
+      \begin{figure}[h!]
+      \centering
+        \includegraphics[width=4cm]{img/mot-cercle.pdf}
+      \end{figure}
+
 \end{frame}
 
 %------------------------------------------------
-\section{E  xistant} 
+\section{Existant}
 %------------------------------------------------
 
-\subsection{Enveloppe convexe - Har-Peled} 
+\subsection{Enveloppe convexe - Har-Peled}
 \begin{frame}
 \frametitle{Enveloppe convexe - Har-Peled}
 Notion de convergents, de parité...
@@ -208,58 +196,58 @@ Notion de convergents, de parité...
 \subsection{Triangulation de Delaunay}  % ?? là / pas là ??
 \begin{frame}
 \frametitle{Triangulation de Delaunay}
-On parle un peu de triangulationsde delaunay, de leur lien au alpha-hull, au alpha shape.
+On parle un peu de triangulations de Delaunay, de leur lien au alpha-hull, au alpha shape.
 \end{frame}
 
 %------------------------------------------------
-\section{Contributions} 
+\section{Contributions}
 %------------------------------------------------
 
-\subsection{Généralisation de Har-Peled - $\alpha \leq 0$} 
+\subsection{Généralisation de Har-Peled - $\alpha \leq 0$}
 \begin{frame}
 \frametitle{Généralisation de Har-Peled - $\alpha \leq 0$}
 
 \end{frame}
 
-\subsection{$\alpha \geq 0$} 
+\subsection{$\alpha \geq 0$}
 \begin{frame}
 \frametitle{$\alpha \geq 0$}
 \end{frame}
 
-\subsection{Protocole} 
+\subsection{Protocole}
 \begin{frame}
 \frametitle{Protocole}
 \end{frame}
 
 %------------------------------------------------
-\section{Résultats} 
+\section{Résultats}
 %------------------------------------------------
 
-\subsection{Enveloppe convexe} 
+\subsection{Enveloppe convexe}
 \begin{frame}
 \frametitle{Enveloppe convexe}
 \end{frame}
 
-\subsection{$\alpha \leq 0$} 
+\subsection{$\alpha \leq 0$}
 \begin{frame}
 \frametitle{$\alpha \leq 0$}
 \end{frame}
 
-\subsection{$\alpha \geq 0$} 
+\subsection{$\alpha \geq 0$}
 \begin{frame}
 \frametitle{$\alpha \geq 0$}
 \end{frame}
 
 %------------------------------------------------
-\section{Suite} 
+\section{Suite}
 %------------------------------------------------
 
-\subsection{Poursuite du projet} 
+\subsection{Poursuite du projet}
 \begin{frame}
 \frametitle{Poursuite du projet}
 \end{frame}
 
-\subsection{Poursuite personnelle} 
+\subsection{Poursuite personnelle}
 \begin{frame}
 \frametitle{Poursuite personnelle}
 \end{frame}
