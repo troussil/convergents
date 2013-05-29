@@ -1,0 +1,319 @@
+% **************************************************************************
+% Beamer template for the LIRIS laboratory
+%
+%%%%% Written by
+% Christian Wolf (cw)
+% 	christian.wolf@liris.cnrs.fr
+% Olivier Kuhn (ok)
+% 	olivier.kuhn@liris.cnrs.fr
+% 
+% Please inform autors if you modify LIRIS beamer style
+%
+% **************************************************************************
+% Changelog:
+% 1.00 29.11.2006 cw:	- First version
+% 2.00 10.12.2007 ok: 	- Second version
+%			- Scalable logo and item
+%		   	- Background image
+%		    	- Enumaration style changed (number instead of bubbles)
+%  		    	- Color shade in frame title background (shadow theme)
+%		    	- Overfull badboxes warning removed
+%		     	- Remove shadow on blocks (not nice with background picture)
+%			- modifications on footers
+% 2.10 09.01.2008 ok	- Addition of 2 options:
+% 				- nobackground: remove background picture
+%				- nogradient: remove gradient in frame title and in the background if no background picture
+% **************************************************************************
+% \ProvidesPackage{beamerthemeliris}
+
+
+\ProcessOptionsBeamer
+\mode<presentation>
+
+% **************************************************************************
+% Options
+% **************************************************************************
+\DeclareOptionBeamer{nogradient}{
+\def\nogradient{}
+}
+
+\DeclareOptionBeamer{nobackground}{
+\def\nobackground{}
+}
+
+\ProcessOptionsBeamer
+
+\useoutertheme{split}
+
+% **************************************************************************
+% The colors
+% **************************************************************************
+
+% Define colors
+\definecolor{darkred}{rgb}{1,0,0}
+\definecolor{lirisdarkblue1}{RGB}{23,74,124}
+\definecolor{lirisdarkblue2}{RGB}{0,73,89}
+\definecolor{lirisdarkblue3}{RGB}{0,60,75}
+\definecolor{lirislightblue1}{RGB}{197,198,213}
+\definecolor{lirislightblue2}{RGB}{156,161,189}
+\definecolor{lirislightblue3}{RGB}{30,76,124}
+\definecolor{liristextcolor}{RGB}{0,73,89}
+\definecolor{lirisstructure}{RGB}{121,20,32}
+\definecolor{lirisalert}{RGB}{180,9,29}
+
+
+% Color palettes
+\ifdefined \nogradient
+	\setbeamercolor*{palette primary}{fg=white,bg=green} % notused
+	\setbeamercolor*{palette secondary}{fg=lirislightblue1,bg=lirisdarkblue2} % frame title color
+	\setbeamercolor*{palette tertiary}{fg=lirislightblue1,bg=lirisdarkblue3} % frame menu colors
+	\setbeamercolor*{palette quaternary}{fg=white,bg=lirislightblue2} % main title color
+\else
+	\useoutertheme{shadow} % enable shade in title background
+	\setbeamercolor*{palette primary}{fg=white,bg=green} % notused
+	\setbeamercolor*{palette secondary}{fg=lirislightblue1,bg=lirisdarkblue3} % frame title colors
+	\setbeamercolor*{palette tertiary}{fg=lirislightblue1,bg=lirisdarkblue3} % frame title colors
+	\setbeamercolor*{palette quaternary}{fg=white,bg=lirislightblue2} % main title color
+
+\fi
+
+\setbeamercolor{section in toc}{fg=liristextcolor}
+\setbeamercolor{alerted text}{fg=lirisalert}
+\setbeamercolor{structure}{fg=lirisstructure}
+\setbeamercolor{normal text}{fg=liristextcolor}
+\setbeamercolor{item}{fg=lirisdarkblue1,bg=lirisdarkblue2}
+\setbeamercolor{description item}{fg=lirisstructure}
+
+\setbeamercolor{section in head/foot}{fg=white}
+\setbeamercolor{titlelike}{parent=palette quaternary}
+\setbeamercolor{frametitle}{parent=palette secondary} 
+
+\setbeamercolor{header}{parent=palette tertiary}
+\setbeamercolor{footer}{parent=normal text}
+\setbeamercolor{footer sep}{fg=liristextcolor,bg=liristextcolor,parent=author in head/foot}
+\setbeamercolor{titlefooter}{fg=lirislightblue1,bg=liristextcolor}
+
+
+% **************************************************************************
+% Change background
+% **************************************************************************
+
+\ifdefined \nobackground
+%put a colored gradient background if no background picture
+	\ifdefined \nogradient
+		\usebackgroundtemplate{}
+	\else
+		\setbeamertemplate{background canvas}[vertical shading][bottom=lirislightblue2!60,top=white]
+	\fi
+\else
+	\usebackgroundtemplate{\includegraphics[width=\paperwidth]{theme_img/fond.jpg}}	%
+\fi
+
+
+% **************************************************************************
+% Various settings
+% **************************************************************************
+
+\useinnertheme[shadow=false]{rounded} % shadow dont render well with a picture in background
+\setbeamercovered{transparent}
+\usefonttheme[onlymath]{serif}
+\setbeamertemplate{navigation symbols}{}
+\setbeamersize{text margin left=0.7cm}
+\setbeamertemplate{sections/subsections in toc}[square]
+\setbeamertemplate{items}[default] 
+
+%blocks
+\setbeamercolor*{block body}{bg=lirislightblue3!10} 
+\setbeamercolor*{block body alerted}{bg=red!10}
+\setbeamercolor*{block body example}{bg=green!10}
+\setbeamercolor*{block title}{fg=white, bg=lirisdarkblue1}
+\setbeamercolor*{block title alerted}{fg=white, bg=lirisalert}
+\setbeamercolor*{block title example}{fg=white, bg=green!70!black}
+
+% **************************************************************************
+% Change the bullets
+% **************************************************************************
+
+\useitemizeitemtemplate{%
+    \tiny\raise1.5pt\hbox{\color{beamerstructure}\includegraphics[height=2.2ex]{theme_img/liris_item.pdf}}%
+}
+\usesubitemizeitemtemplate{%
+    \tiny\raise1.5pt\hbox{\color{red}{\large$\bullet$}}%
+}
+\usesubsubitemizeitemtemplate{%
+    \tiny\raise1.5pt\hbox{\color{liristextcolor}{\large$\bullet$}}%
+}
+
+
+% **************************************************************************
+% This section contains the definitions which are normally declared by 
+% the outer theme, but which we do manually.
+% **************************************************************************
+
+\newif\ifbeamer@theme@subsection
+\beamer@theme@subsectiontrue
+
+\DeclareOptionBeamer{footline}{\csname beamer@theme@footline@#1\endcsname}
+\DeclareOptionBeamer{subsection}[true]{\csname beamer@theme@subsection#1\endcsname}
+
+% \ProcessOptionsBeamer
+\mode<presentation>
+
+% **************************************************************************
+% The header
+% **************************************************************************
+
+\setbeamertemplate{section in head/foot shaded}[default][0]
+
+\defbeamertemplate*{headline}{liris theme}
+{%
+  \begin{beamercolorbox}[colsep=1.5pt]{upper separation line head}
+  \end{beamercolorbox}
+  \begin{beamercolorbox}{header}    
+   \vskip2pt\insertsectionnavigationhorizontal{\paperwidth}{}{}\vskip4pt
+  \end{beamercolorbox}%  
+}
+
+% **************************************************************************
+% The footer
+% **************************************************************************
+
+\setbeamertemplate{footline}
+{
+  	\leavevmode
+	\hbox{  		
+  		\hspace{0.882\paperwidth}
+  		\includegraphics[width=0.1\paperwidth]{theme_img/logo_liris.pdf}
+  		\hspace{-1.05\paperwidth}
+  		\begin{beamercolorbox}
+		[wd=1.1\paperwidth,ht=0.1ex,dp=0.1ex]
+		{footer sep}
+  		\end{beamercolorbox} 
+  	}
+
+% keep blank line
+  	\hbox{
+		\hspace{-0.6em}
+		\begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex,center,ignorebg]
+{footer}
+    		\usebeamerfont{footer}\insertshortauthor
+  		\end{beamercolorbox} 
+		\hspace{-0.8em}
+  		\begin{beamercolorbox}[wd=.4\paperwidth,ht=2.5ex,dp=1.125ex,ignorebg]
+{footer}
+    		\usebeamerfont{footer}\insertshorttitle
+  		\end{beamercolorbox}
+		\hspace{-0.6em}
+		\begin{beamercolorbox}[wd=.1\paperwidth,ht=2.5ex,dp=1.125ex,ignorebg]
+{footer}
+    		\usebeamerfont{footer}\insertframenumber{} / \inserttotalframenumber
+  		\end{beamercolorbox}
+	}
+  	\vskip0pt
+}
+
+% **************************************************************************
+% end declarations for the outer theme
+% **************************************************************************
+
+
+% **************************************************************************
+% The title page
+% **************************************************************************
+
+\setbeamertemplate{title page}
+{
+  % -----------------------------------------------
+  % ---- If the user chose a plain frame, we will create
+  % ---- the full LIRIS title 
+  
+  \ifbeamer@plainframe
+  	\hbox{
+		\includegraphics[width=0.3\paperwidth]{theme_img/logo_liris.pdf}
+  		\hspace{0.4\paperwidth}
+  		\vspace{-2ex}
+  		\includegraphics[width=0.2\paperwidth]{theme_img/LogoCNRSGrand.png}
+		\hspace{-0.6\paperwidth}
+		\vspace{-4ex}
+		\begin{beamercolorbox}[wd=0.7\paperwidth,ht=0.1ex,dp=0.1ex,leftskip=.3cm plus1fill,rightskip=.3cm]{titlefooter}    		
+  		\end{beamercolorbox} 
+  		\vspace{1cm}
+	}
+	\vbox{}
+	\vfill
+	\begin{centering}
+		\begin{beamerboxesrounded}[upper=titlelike,lower=titlelike,sep=8pt,center]{}
+		\begin{centering}
+		\usebeamerfont{title}\inserttitle\par%
+		\ifx\insertsubtitle\@empty%
+		\else%
+			\vskip0.25em%
+			{\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}%
+		\fi%     
+		\end{centering}
+		\end{beamerboxesrounded}%
+		\vskip1em\par
+		\begin{beamercolorbox}[sep=8pt,center]{author}
+		\usebeamerfont{author}\insertauthor
+		\end{beamercolorbox}
+		\begin{beamercolorbox}[sep=8pt,center]{institute}
+		\usebeamerfont{institute}\insertinstitute
+		\end{beamercolorbox}	
+		{\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic\par}		
+	\end{centering}
+	
+	% ---- Create the bar at the bottom
+	% ---- Create the bar at the bottom
+	\vskip0pt plus 1filll	
+	
+	\hbox{
+		\hspace{-0.55em}
+		\begin{beamercolorbox}[wd=\paperwidth,ht=2ex,dp=0.1ex,leftskip=.3cm plus1fill,rightskip=.3cm]{titlefooter}    		
+  		\end{beamercolorbox} 		
+	}
+	\vspace{-4ex}
+	\hbox{
+		\hspace{0.5\paperwidth}
+		\begin{beamerboxesrounded}[width=0.4\paperwidth,upper=titlefooter,lower=titlefooter]{}
+		\begin{center}
+		\insertdate
+		\end{center}
+		\end{beamerboxesrounded}
+	}
+	
+	\vfill	
+  
+  % -----------------------------------------------  
+  % ---- If the user chose a normal frame we 
+  % ---- render just the normal title
+  
+  \else    
+	\vbox{}
+	\vfill
+	\begin{centering}
+		\begin{beamercolorbox}[sep=8pt,center]{title}
+		\usebeamerfont{title}\inserttitle\par%
+		\ifx\insertsubtitle\@empty%
+		\else%
+			\vskip0.25em%
+			{\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}%
+		\fi%     
+		\end{beamercolorbox}%
+		\vskip1em\par
+		\begin{beamercolorbox}[sep=8pt,center]{author}
+		\usebeamerfont{author}\insertauthor
+		\end{beamercolorbox}
+		\begin{beamercolorbox}[sep=8pt,center]{institute}
+		\usebeamerfont{institute}\insertinstitute
+		\end{beamercolorbox}
+		\begin{beamercolorbox}[sep=8pt,center]{date}
+		\usebeamerfont{date}\insertdate
+		\end{beamercolorbox}\vskip0.5em
+		{\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic\par}
+	\end{centering}
+	\vfill
+  \fi
+}
+
+\mode
+<all>
