@@ -4,7 +4,7 @@ TEX=tl-pres-m2disco
 FIGSRC = $(wildcard fig/*.ipe)
 FIGOBJ = $(FIGSRC:.ipe=.pdf)
  
-all: paper show 
+all: fig paper show 
 
 fig: $(FIGOBJ)
 

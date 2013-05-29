@@ -237,8 +237,21 @@
 
 \subsection{Enveloppe convexe - Har-Peled}
 \begin{frame}
-\frametitle{Enveloppe convexe - Har-Peled}
+\frametitle{Geometric-GCD - Har-Peled}
 
+\begin{columns}[t]
+  \begin{column}{5cm}
+    \begin{block}{Calcul du Geometric GCD}
+      point $\rightarrow$ convergent\\
+      $p_{-2} = (1,0), p_{-1} = (0,1)$\\
+      $p_{k} = p_{k-2} + q_{k}*p_{k-1}$\\
+      avec $q_{k}$ le plus grand entier tq $p_{k}$ soit du même côté que $p_{k-2}$ de la courbe.
+      
+    \end{block}
+  \end{column}
+
+  \begin{column}{5cm}
+    
   \only<1>
   {
     \begin{figure}[h!]
@@ -302,6 +315,25 @@
       \includegraphics[width=4cm]{fig/har-1-8.pdf}
     \end{figure}
   }   
+  \end{column}
+\end{columns} 
+\end{frame}
+
+\begin{frame}
+\frametitle{Calcul de l'enveloppe convexe}
+\begin{columns}[t]
+  \begin{column}{5cm}
+  
+  \begin{block}{}
+    Passage du calcul du pgcd par la méthode géométrique à calcul de l'enveloppe convexe d'un cercle
+  \end{block}
+    
+  \end{column}
+
+  \begin{column}{4cm}
+     PICS !
+  \end{column}
+\end{columns} 
 
 \end{frame}
 
