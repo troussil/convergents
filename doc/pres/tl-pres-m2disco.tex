@@ -18,15 +18,15 @@
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
 \usepackage[utf8]{inputenc} %codage
 \usepackage{lmodern}
-%\usepackage[french]{babel}
-
+\usepackage{amssymb}
+\usepackage{amsmath}
 %----------------------------------------------------------------------------------------
 %    TITLE PAGE
 %----------------------------------------------------------------------------------------
 
 \title[Présentation M2Disco]{Structure d'un cercle discret en dimension deux} % The short title appears at the bottom of every slide, the full title is only on the title page
 
-\author{\bsc{Lafond} Thomas} % Your name
+\author{Thomas \bsc{Lafond}} % Your name
 \date{10 Juin 2013}
 \institute[LIRIS] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
 {
@@ -34,7 +34,7 @@
   \medskip
   \textit{-- Présentation d'équipe : M2Disco --}\\
   \medskip
-  Encadrant : \bsc{Roussillon} Tristan
+  Encadrant : Tristan \bsc{Roussillon}
 }
 \date{10 Juin 2013} % Date, can be changed to a custom date
 
@@ -43,13 +43,6 @@
 % titre
 \begin{frame}
   \titlepage % Print the title page as the first slide
-\end{frame}
-
-% table des matières
-\begin{frame}
-  \frametitle{Tables des matières} % Table of contents slide, comment this block out to remove it
-  \setcounter{tocdepth}{1}
-  \tableofcontents %
 \end{frame}
 
 %----------------------------------------------------------------------------------------
@@ -104,51 +97,22 @@
 
 \end{frame}
 
-%------------------------------------------------
-\section{Contexte et Motivations}
-%------------------------------------------------
-
-\subsection{Géométrie Discrète}
+% table des matières
 \begin{frame}
-  \frametitle{Géométrie Discrète}
-
-  \begin{columns}[t]
-    \begin{column}{6cm}
-      \begin{block}{Géométrie Discrète}
-        Une discipline à l'intersection de nombreux domaines scientifiques compris dans les Mathématiques et l'Informatique.
-      \end{block}
-      
-      \begin{block}{Définition \textit{simple}}
-       Étude d'objets disposés sur des structures régulières.
-      \end{block}
-      
-      \begin{block}{Objet d'étude}
-        Les \alert{cerles discrèts} sur la grille $Z^2$.
-      \end{block}
-    \end{column}
-
-    \begin{column}{4cm}
-      \vspace{-0.7cm}
-      \begin{figure}[h!]
-      \centering
-         \includegraphics[width= 4cm]{fig/mot-geodiscete.png}
-      \caption{Digital Geometry --D. CoeurJolly / Lattice}
-    \end{figure}
-    
-    \vspace{-1cm}
-    \begin{figure}[h!]
-      \centering
-        \includegraphics[width=4cm]{fig/mot-geo.pdf}
-      \end{figure}
-    \end{column}
-  \end{columns}  
+  \frametitle{Tables des matières} % Table of contents slide, comment this block out to remove it
+  \setcounter{tocdepth}{1}
+  \tableofcontents %
 \end{frame}
+
+%------------------------------------------------
+\section{Motivations}
+%------------------------------------------------
 
 \subsection{Disque discret}
 \begin{frame}
   \frametitle{Disque fermé Discret}
   \begin{block}{}
-    $$\mathcal{D} =  \left\{ pt : (x,y) \in \mathcal{Z}^{2} |  ax + by + c(x^2 + y^2) + d \leq 0. \right\}$$
+    $$\mathcal{D} =  \left\{ (x,y) \in \mathbb{Z}^{2} |  ax + by + c(x^2 + y^2) + d \leq 0. \right\}$$
   \end{block}
 
   \begin{block}{Représentation cartésienne}
@@ -182,7 +146,7 @@
   \begin{block}{Comment représenter un cercle ?}
     Pas d'équivalent Euclidien : 
     \vspace{-0.4cm}
-    $$\mathcal{D} =  \left\{ pt : (x,y) \in \mathcal{Z}^{2} |  ax + by + c(x^2 + y^2) + d = 0 \right\} \alert{?} $$ 
+    $$\mathcal{D} =  \left\{(x,y) \in \mathbb{Z}^{2} |  ax + by + c(x^2 + y^2) + d = 0 \right\} \alert{?} $$ 
   \end{block}
   
   \begin{columns}[t]
@@ -211,18 +175,24 @@
     \end{column}
 
     \begin{column}{5cm}
-      \begin{exampleblock}{Notions éxistantes}
-       
+      \vspace{-0.4cm}
+      \begin{exampleblock}{Notions importantes}
         \begin{itemize}
           \item Intérieur / Extérieur.
           \item Bordure.
-          \item  $\Rightarrow$ Enveloppes.
         \end{itemize}
-      \end{exampleblock} 
+      \end{exampleblock}
+      \begin{block}{Implications}
+        \begin{itemize}
+          \item Placement d'un point.
+          \item Enveloppes.
+        \end{itemize}
+      \end{block}
+
       \only<4>
       {
         \begin{center}  
-          \alert{Etude des $\alpha$-shape de cercles discrets sur $\mathcal{Z}^{2}$.}
+          \alert{Etude des $\alpha$-shape de cercles discrets sur $\mathbb{Z}^{2}$.}
         \end{center}
       }
     \end{column}
@@ -251,9 +221,9 @@
       Calcul récursif des suivants :
       \vspace{-0.2cm} 
       \alert{$$ p_{k} = p_{k-2} + q_{k}*p_{k-1}$$}
-      avec le plus grand $q_{k} \in \mathcal{Z}$ tq $p_{k}$ et $p_{k-2}$ soient du même côté.\\
+      avec le plus grand $q_{k} \in \mathbb{Z}$ tq $p_{k}$ et $p_{k-2}$ soient du même côté.\\
       \vspace{0.2cm}
-      | Tant que $ p_{k} \in d$
+      | Tant que $ p_{k} \in d$.
     \end{block}
     \begin{alertblock}{}
       \vspace{-0.2cm} 
@@ -334,20 +304,37 @@
 \begin{frame}
 \frametitle{Calcul de l'enveloppe convexe d'un cercle}
 \begin{columns}[t]
-  \begin{column}{5cm}
+  \begin{column}{4cm}
   
-  \begin{block}{}
-    Passage du calcul du pgcd par la méthode géométrique à calcul de l'enveloppe convexe d'un cercle
+  \begin{block}{Différences}
+    \begin{itemize}
+      \item $a\ne (0, 0)$.
+      \item $b$ inconnu.
+    \end{itemize}
+  \end{block}
+  
+    \begin{block}{Algorithme}
+    Trouver $a_0$
+    Calculer les convergents.\\
+    Récolter les candidats :
+    \begin{itemize}
+      \item Intérieur : $k / 2 \equiv 1 [2]$ 
+      \item Sur le bord
+    \end{itemize}
+    Choisir le meilleurs :\\
+    \alert{Déterminant$(\leftarrow{u}, \leftarrow{v})$}\\
+    | Tant que $ a_{i} \ne a_0$.
+ 
   \end{block}
     
   \end{column}
 
-  \begin{column}{4cm}
+  \begin{column}{6cm}
 \only<1>
 {
   \begin{figure}[h!]
     \centering
-    \includegraphics[width=4cm]{fig/cercle-0.pdf}
+    \includegraphics[width=6cm]{fig/cercle-0.pdf}
     \caption{Départ de $a_{0}$}
 \end{figure}
 }
@@ -355,15 +342,15 @@
 {
   \begin{figure}[h!]
     \centering
-    \includegraphics[width=4cm]{fig/cercle-1.pdf}
-    \caption{$p_{-2}$, $p_{-1}=(0,1)$}
+    \includegraphics[width=6cm]{fig/cercle-1.pdf}
+    \caption{$p_{-2}, p_{-1}$}
 \end{figure}
 }
 \only<3>
 {
   \begin{figure}[h!]
     \centering
-    \includegraphics[width=4cm]{fig/cercle-2.pdf}
+    \includegraphics[width=6cm]{fig/cercle-2.pdf}
     \caption{$p_{-1}$ candidat}
 \end{figure}
 }
@@ -371,7 +358,7 @@
 {
   \begin{figure}[h!]
     \centering
-    \includegraphics[width=4cm]{fig/cercle-3.pdf}
+    \includegraphics[width=6cm]{fig/cercle-3.pdf}
     \caption{$p_{0} = p_{-2}$}
 \end{figure}
 }
@@ -379,7 +366,7 @@
 {
   \begin{figure}[h!]
     \centering
-    \includegraphics[width=4cm]{fig/cercle-4.pdf}
+    \includegraphics[width=6cm]{fig/cercle-4.pdf}
     \caption{Calcul de $p_{1}$}
 \end{figure}
 }
@@ -387,7 +374,7 @@
 {
   \begin{figure}[h!]
     \centering
-    \includegraphics[width=4cm]{fig/cercle-5.pdf}
+    \includegraphics[width=6cm]{fig/cercle-5.pdf}
     \caption{$p_{1}$ candidat}
 \end{figure}
 }
@@ -395,7 +382,7 @@
 {
   \begin{figure}[h!]
     \centering
-    \includegraphics[width=4cm]{fig/cercle-6.pdf}
+    \includegraphics[width=6cm]{fig/cercle-6.pdf}
     \caption{Calcul de $p_{2}$}
 \end{figure}
 }
@@ -403,23 +390,23 @@
 {
   \begin{figure}[h!]
     \centering
-    \includegraphics[width=4cm]{fig/cercle-7.pdf}
-    \caption{$p_{2}$ sur le cercle}
+    \includegraphics[width=6cm]{fig/cercle-7.pdf}
+    \caption{$p_{2}$}
 \end{figure}
 }
 \only<9>
 {
   \begin{figure}[h!]
     \centering
-    \includegraphics[width=4cm]{fig/cercle-8.pdf}
-    \caption{$p_{2}$ candidat}
+    \includegraphics[width=6cm]{fig/cercle-8.pdf}
+    \caption{$p_{2}$ candidat ?}
 \end{figure}
 }
 \only<10>
 {
   \begin{figure}[h!]
     \centering
-    \includegraphics[width=4cm]{fig/cercle-9.pdf}
+    \includegraphics[width=6cm]{fig/cercle-9.pdf}
     \caption{Calcul de $p_{3}$}
 \end{figure}
 }
@@ -427,7 +414,7 @@
 {
   \begin{figure}[h!]
     \centering
-    \includegraphics[width=4cm]{fig/cercle-10.pdf}
+    \includegraphics[width=6cm]{fig/cercle-10.pdf}
     \caption{$p_{3}$ candidat}
 \end{figure}
 }
@@ -435,7 +422,7 @@
 {
   \begin{figure}[h!]
     \centering
-    \includegraphics[width=4cm]{fig/cercle-11.pdf}
+    \includegraphics[width=6cm]{fig/cercle-11.pdf}
     \caption{Calcul de $p_{4}$ ?}
 \end{figure}
 }
@@ -443,7 +430,7 @@
 {
   \begin{figure}[h!]
     \centering
-    \includegraphics[width=4cm]{fig/cercle-12.pdf}
+    \includegraphics[width=6cm]{fig/cercle-12.pdf}
     \caption{$p_{4}$ n'existe pas}
 \end{figure}
 }
@@ -451,26 +438,19 @@
 {
   \begin{figure}[h!]
     \centering
-    \includegraphics[width=4cm]{fig/cercle-13.pdf}
-    \caption{Les candidats}
+    \includegraphics[width=6cm]{fig/cercle-13.pdf}
+    \caption{Prochain départ}
 \end{figure}
 }
 \only<15>
 {
   \begin{figure}[h!]
     \centering
-    \includegraphics[width=4cm]{fig/cercle-14.pdf}
-    \caption{Le meilleurs}
+    \includegraphics[width=6cm]{fig/cercle-14.pdf}
+    \caption{On recommence}
 \end{figure}
 }
-\only<16>
-{
-  \begin{figure}[h!]
-    \centering
-    \includegraphics[width=4cm]{fig/cercle-15.pdf}
-    \caption{départ de $a_1$...}
-\end{figure}
-}
+
 
 
   \end{column}

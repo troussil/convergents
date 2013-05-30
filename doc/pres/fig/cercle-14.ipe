@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70005" creator="Ipe 7.1.1">
-<info created="D:20130530101932" modified="D:20130530113733"/>
+<info created="D:20130530101932" modified="D:20130530164417"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -294,12 +294,24 @@ h
 208 176 l
 </path>
 <use name="mark/disk(sx)" pos="240 160" size="normal" stroke="black"/>
-<text layer="alpha" matrix="1 0 0 1 -16 0" transformations="translations" pos="240 160" stroke="black" type="label" valign="baseline">$a_0$</text>
+<text layer="alpha" matrix="1 0 0 1 -16 0" transformations="translations" pos="240 160" stroke="black" type="label" width="9.736" height="4.294" depth="1.49" valign="baseline">$a_0$</text>
 <path layer="beta" stroke="black">
 220.409 144.002 m
 299.795 0 0 299.795 82.776 410.337 339.737 255.907 a
 </path>
-<use name="mark/disk(sx)" pos="288 192" size="normal" stroke="black"/>
-<text transformations="translations" pos="291.655 185.145" stroke="black" type="label" valign="baseline">$a_1$</text>
+<use matrix="1 0 0 1 16 16" name="mark/disk(sx)" pos="288 192" size="normal" stroke="black"/>
+<text matrix="1 0 0 1 10.9803 13.6736" transformations="translations" pos="291.655 185.145" stroke="black" type="label" width="9.736" height="4.294" depth="1.49" valign="baseline">$a_1$</text>
+<path matrix="1 0 0 1 16 16" stroke="darkblue" arrow="normal/normal">
+288 192 m
+304 192 l
+</path>
+<path matrix="1 0 0 1 16 16" stroke="darkblue" arrow="normal/normal">
+288 192 m
+288 208 l
+</path>
+<use matrix="1 0 0 1 16 16" name="mark/cross(sx)" pos="304 192" size="large" stroke="darkblue"/>
+<use matrix="1 0 0 1 16 16" name="mark/cross(sx)" pos="288 208" size="large" stroke="darkblue"/>
+<text matrix="1 0 0 1 12.8924 12.8449" transformations="translations" pos="306.36 185.846" stroke="darkblue" type="label" width="15.708" height="4.294" depth="2.32" valign="baseline">$p_{-2}$</text>
+<text matrix="1 0 0 1 8.85679 -1.02345" transformations="translations" pos="275.549 216.657" stroke="darkblue" type="label" width="15.708" height="4.294" depth="2.32" valign="baseline">$p_{-1}$</text>
 </page>
 </ipe>

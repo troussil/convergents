@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70005" creator="Ipe 7.1.1">
-<info created="D:20130530101932" modified="D:20130530113645"/>
+<info created="D:20130530101932" modified="D:20130530163401"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -313,9 +313,9 @@ h
 256 160 l
 </path>
 <use name="mark/cross(sx)" pos="256 160" size="large" stroke="darkblue"/>
-<use name="mark/cross(sx)" pos="240 176" size="large" stroke="red"/>
+<use name="mark/cross(sx)" pos="240 176" size="large" stroke="darkblue"/>
 <text transformations="translations" pos="257.721 154.023" stroke="darkblue" type="label" valign="baseline">$p_{-2}, p_{0}$</text>
-<text transformations="translations" pos="231.596 183.919" stroke="red" type="label" valign="baseline">$p_{-1}$</text>
+<text transformations="translations" pos="231.596 183.919" stroke="darkblue" type="label" valign="baseline">$p_{-1}$</text>
 <use name="mark/cross(sx)" pos="256 176" size="large" stroke="red"/>
 <path stroke="darkblue" arrow="normal/normal">
 240 160 m

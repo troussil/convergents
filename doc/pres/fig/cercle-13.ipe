@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70005" creator="Ipe 7.1.1">
-<info created="D:20130530101932" modified="D:20130530113728"/>
+<info created="D:20130530101932" modified="D:20130530164458"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -294,18 +294,12 @@ h
 208 176 l
 </path>
 <use name="mark/disk(sx)" pos="240 160" size="normal" stroke="black"/>
-<text layer="alpha" matrix="1 0 0 1 -16 0" transformations="translations" pos="240 160" stroke="black" type="label" valign="baseline">$a_0$</text>
-<use layer="beta" name="mark/cross(sx)" pos="240 176" size="large" stroke="red"/>
-<text transformations="translations" pos="231.596 183.919" stroke="red" type="label" valign="baseline">$p_{-1}$</text>
-<use name="mark/cross(sx)" pos="256 176" size="large" stroke="red"/>
-<text matrix="1 0 0 1 -2.15463 -2.15463" transformations="translations" pos="255.836 184.996" stroke="red" type="label" valign="baseline">$p_{1}$</text>
-<use name="mark/cross(sx)" pos="288 192" size="large" stroke="red"/>
-<text transformations="translations" pos="291.56 188.071" stroke="red" type="label" valign="baseline">$p_{2}$</text>
-<text matrix="1 0 0 1 9.96518 -0.269329" transformations="translations" pos="278.633 211.772" stroke="red" type="label" valign="baseline">$p_{3}$</text>
-<use name="mark/cross(sx)" pos="304 208" size="large" stroke="red"/>
-<path stroke="black">
+<text layer="alpha" matrix="1 0 0 1 -16 0" transformations="translations" pos="240 160" stroke="black" type="label" width="9.736" height="4.294" depth="1.49" valign="baseline">$a_0$</text>
+<path layer="beta" stroke="black">
 220.409 144.002 m
 299.795 0 0 299.795 82.776 410.337 339.737 255.907 a
 </path>
+<use matrix="1 0 0 1 16 16" name="mark/disk(sx)" pos="288 192" size="normal" stroke="black"/>
+<text matrix="1 0 0 1 10.9803 13.6736" transformations="translations" pos="291.655 185.145" stroke="black" type="label" width="9.736" height="4.294" depth="1.49" valign="baseline">$a_1$</text>
 </page>
 </ipe>

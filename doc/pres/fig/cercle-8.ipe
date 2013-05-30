@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70005" creator="Ipe 7.1.1">
-<info created="D:20130530101932" modified="D:20130530113655"/>
+<info created="D:20130530101932" modified="D:20130530163504"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -294,7 +294,7 @@ h
 208 176 l
 </path>
 <use name="mark/disk(sx)" pos="240 160" size="normal" stroke="black"/>
-<text layer="alpha" matrix="1 0 0 1 -16 0" transformations="translations" pos="240 160" stroke="black" type="label" valign="baseline">$a_0$</text>
+<text layer="alpha" matrix="1 0 0 1 -16 0" transformations="translations" pos="240 160" stroke="black" type="label" width="9.736" height="4.294" depth="1.49" valign="baseline">$a_0$</text>
 <path layer="beta" stroke="darkblue">
 240 160 m
 256 160 l
@@ -313,21 +313,21 @@ h
 256 160 l
 </path>
 <use name="mark/cross(sx)" pos="256 160" size="large" stroke="darkblue"/>
-<use name="mark/cross(sx)" pos="240 176" size="large" stroke="red"/>
-<text transformations="translations" pos="257.721 154.023" stroke="darkblue" type="label" valign="baseline">$p_{-2}, p_{0}$</text>
-<text transformations="translations" pos="231.596 183.919" stroke="red" type="label" valign="baseline">$p_{-1}$</text>
+<use name="mark/cross(sx)" pos="240 176" size="large" stroke="darkblue"/>
+<text transformations="translations" pos="257.721 154.023" stroke="darkblue" type="label" width="29.618" height="4.294" depth="2.32" valign="baseline">$p_{-2}, p_{0}$</text>
+<text transformations="translations" pos="231.596 183.919" stroke="darkblue" type="label" width="15.708" height="4.294" depth="2.32" valign="baseline">$p_{-1}$</text>
 <use name="mark/cross(sx)" pos="256 176" size="large" stroke="red"/>
 <path stroke="darkblue" arrow="normal/normal">
 240 160 m
 256 176 l
 </path>
-<text matrix="1 0 0 1 -2.15463 -2.15463" transformations="translations" pos="255.836 184.996" stroke="red" type="label" valign="baseline">$p_{1}$</text>
-<use name="mark/cross(sx)" pos="288 192" size="large" stroke="red"/>
+<text matrix="1 0 0 1 -2.15463 -2.15463" transformations="translations" pos="255.836 184.996" stroke="red" type="label" width="9.482" height="4.297" depth="1.93" valign="baseline">$p_{1}$</text>
+<use name="mark/cross(sx)" pos="288 192" size="large" stroke="seagreen"/>
 <path stroke="darkblue" arrow="normal/normal">
 240 160 m
 288 192 l
 </path>
-<text transformations="translations" pos="291.56 188.071" stroke="red" type="label" valign="baseline">$p_{2}$</text>
+<text transformations="translations" pos="291.56 188.071" stroke="seagreen" type="label" width="9.482" height="4.297" depth="1.93" valign="baseline">$p_{2}$</text>
 <path stroke="black">
 220.409 144.002 m
 299.795 0 0 299.795 82.776 410.337 339.737 255.907 a
