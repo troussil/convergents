@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70005" creator="Ipe 7.1.1">
-<info created="D:20130524143309" modified="D:20130529140316"/>
+<info created="D:20130524143309" modified="D:20130530174823"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -235,8 +235,31 @@ h
 <layer name="beta"/>
 <layer name="alpha"/>
 <layer name="gamma"/>
-<view layers="dot circle gamma" active="gamma"/>
+<view layers="dot circle" active="gamma"/>
 <path layer="circle" stroke="lightgray">
+384 544 m
+384 544 l
+384 704 l
+368 704 l
+368 544 l
+352 544 l
+352 704 l
+336 704 l
+336 544 l
+320 544 l
+320 704 l
+304 704 l
+304 544 l
+288 544 l
+288 704 l
+272 704 l
+272 544 l
+256 544 l
+256 704 l
+240 704 l
+240 544 l
+</path>
+<path stroke="lightgray">
 240 704 m
 384 704 l
 384 688 l
@@ -260,40 +283,12 @@ h
 240 544 l
 384 544 l
 </path>
-<path stroke="lightgray">
-384 544 m
-384 544 l
-384 704 l
-368 704 l
-368 544 l
-352 544 l
-352 704 l
-336 704 l
-336 544 l
-320 544 l
-320 704 l
-304 704 l
-304 544 l
-288 544 l
-288 704 l
-272 704 l
-272 544 l
-256 544 l
-256 704 l
-240 704 l
-240 544 l
-</path>
-<path stroke="red" pen="heavier">
-66.163 0 0 66.163 314.363 622.823 e
-</path>
-<use layer="dot" name="mark/disk(sx)" pos="256 688" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="256 672" size="normal" stroke="black"/>
+<use layer="dot" name="mark/disk(sx)" pos="256 672" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="256 656" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="256 640" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="256 624" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="256 608" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="256 608" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="256 592" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="256 576" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="272 576" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="272 592" size="normal" stroke="black"/>
@@ -302,8 +297,6 @@ h
 <use name="mark/disk(sx)" pos="272 640" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="272 656" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="272 672" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="272 688" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="288 688" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="288 672" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="288 656" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="288 640" size="normal" stroke="black"/>
@@ -318,8 +311,6 @@ h
 <use name="mark/disk(sx)" pos="304 640" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="304 656" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="304 672" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="304 688" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="320 688" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="320 672" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="320 656" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="320 640" size="normal" stroke="black"/>
@@ -327,8 +318,6 @@ h
 <use name="mark/disk(sx)" pos="320 608" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="320 592" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="320 576" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="336 688" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="336 688" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="336 656" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="336 640" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="336 624" size="normal" stroke="black"/>
@@ -341,7 +330,6 @@ h
 <use name="mark/disk(sx)" pos="352 640" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="352 656" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="352 672" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="352 688" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="336 672" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="352 624" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="336 592" size="normal" stroke="black"/>
@@ -355,68 +343,14 @@ h
 <use name="mark/disk(sx)" pos="368 672" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="368 672" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="368 656" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="368 688" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="384 688" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="384 656" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="384 624" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="384 608" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="384 608" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="384 592" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="384 576" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="384 624" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="384 640" size="normal" stroke="black"/>
-<use matrix="1 0 0 1 -0.269329 -0.269329" name="mark/disk(sx)" pos="384 672" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="384 560" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="352 560" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="336 560" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="320 560" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="288 560" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="288 560" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="272 560" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="256 560" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="304 560" size="normal" stroke="black"/>
-<use name="mark/circle(sx)" pos="240 688" size="normal" stroke="black"/>
-<use name="mark/circle(sx)" pos="240 672" size="normal" stroke="black"/>
-<use name="mark/circle(sx)" pos="240 672" size="normal" stroke="black"/>
-<use name="mark/circle(sx)" pos="240 688" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="240 656" size="normal" stroke="white"/>
-<use name="mark/disk(sx)" pos="240 656" size="normal" stroke="white"/>
-<use name="mark/disk(sx)" pos="240 672" size="normal" stroke="white"/>
-<use name="mark/disk(sx)" pos="240 688" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="240 672" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="240 656" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="240 640" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="240 624" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="240 608" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="240 576" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="240 592" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="240 560" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="240 704" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="256 704" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="352 704" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="368 704" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="384 704" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="336 704" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="304 704" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="288 704" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="288 704" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="272 704" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="320 704" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="240 544" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="256 544" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="272 544" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="288 544" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="304 544" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="320 544" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="336 544" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="352 544" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="384 544" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="368 544" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="368 560" size="normal" stroke="black"/>
-<use name="mark/fsquare(sfx)" pos="320 688" size="large" stroke="red" fill="white"/>
-<use name="mark/fsquare(sfx)" pos="304 688" size="large" stroke="red" fill="white"/>
-<use name="mark/fsquare(sfx)" pos="256 592" size="large" stroke="red" fill="white"/>
-<use name="mark/fsquare(sfx)" pos="336 560" size="large" stroke="red" fill="white"/>
 <use name="mark/disk(sx)" pos="288 656" size="normal" stroke="blue"/>
 <use name="mark/disk(sx)" pos="272 672" size="normal" stroke="blue"/>
 <use name="mark/disk(sx)" pos="288 672" size="normal" stroke="blue"/>
@@ -469,6 +403,69 @@ h
 <use name="mark/disk(sx)" pos="272 576" size="normal" stroke="blue"/>
 <use name="mark/disk(sx)" pos="304 560" size="normal" stroke="blue"/>
 <use name="mark/disk(sx)" pos="320 560" size="normal" stroke="blue"/>
+<use layer="circle" name="mark/cross(sx)" pos="313.578 622.758" size="normal" stroke="purple"/>
+<path stroke="darkblue" pen="heavier">
+66.163 0 0 66.163 314.363 622.823 e
+</path>
+<use layer="dot" name="mark/disk(sx)" pos="256 688" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="272 688" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="288 688" size="normal" stroke="black"/>
+<use name="mark/fsquare(sfx)" pos="304 688" size="large" stroke="red" fill="white"/>
+<use name="mark/fsquare(sfx)" pos="320 688" size="large" stroke="red" fill="white"/>
+<use name="mark/disk(sx)" pos="336 688" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="336 688" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="352 688" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="368 688" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="384 688" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="384 656" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="384 624" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="384 608" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="384 608" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="384 592" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="384 576" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="384 624" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="384 640" size="normal" stroke="black"/>
+<use matrix="1 0 0 1 -0.269329 -0.269329" name="mark/disk(sx)" pos="384 672" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="384 560" size="normal" stroke="black"/>
+<use name="mark/circle(sx)" pos="240 688" size="normal" stroke="black"/>
+<use name="mark/circle(sx)" pos="240 672" size="normal" stroke="black"/>
+<use name="mark/circle(sx)" pos="240 672" size="normal" stroke="black"/>
+<use name="mark/circle(sx)" pos="240 688" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="240 656" size="normal" stroke="white"/>
+<use name="mark/disk(sx)" pos="240 656" size="normal" stroke="white"/>
+<use name="mark/disk(sx)" pos="240 672" size="normal" stroke="white"/>
+<use name="mark/disk(sx)" pos="240 688" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="240 672" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="240 656" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="240 640" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="240 624" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="240 608" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="240 576" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="240 592" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="240 560" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="240 704" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="256 704" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="352 704" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="368 704" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="384 704" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="336 704" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="304 704" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="288 704" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="288 704" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="272 704" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="320 704" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="240 544" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="256 544" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="272 544" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="288 544" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="304 544" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="320 544" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="336 544" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="352 544" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="384 544" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="368 544" size="normal" stroke="black"/>
+<use name="mark/fsquare(sfx)" pos="320 688" size="large" stroke="red" fill="white"/>
+<use name="mark/fsquare(sfx)" pos="304 688" size="large" stroke="red" fill="white"/>
 <path layer="beta" stroke="red" pen="heavier" arrow="normal/normal">
 256.211 591.516 m
 320.581 687.667 l
@@ -483,7 +480,6 @@ h
 328.661 624.644 m
 199.113 607.945 l
 </path>
-<use layer="circle" name="mark/cross(sx)" pos="313.578 622.758" size="normal" stroke="purple"/>
 <path layer="alpha" stroke="blue">
 304 688 m
 320 688 l
@@ -523,5 +519,15 @@ h
 272 688 l
 304 688 l
 </path>
+<path layer="circle" stroke="darkblue" arrow="normal/normal">
+313.578 622.758 m
+367.057 662.834 l
+</path>
+<text matrix="1 0 0 1 0.359564 -5.11657" transformations="translations" pos="310.533 617.408" stroke="darkblue" type="label" valign="baseline">C</text>
+<text matrix="1 0 0 1 4.61441 -5.43712" transformations="translations" pos="352 648.112" stroke="darkblue" type="label" valign="baseline">R</text>
+<use layer="dot" name="mark/fsquare(sfx)" pos="336 560" size="large" stroke="red" fill="white"/>
+<use name="mark/fsquare(sfx)" pos="336 560" size="large" stroke="red" fill="white"/>
+<use name="mark/fsquare(sfx)" pos="256 592" size="large" stroke="red" fill="white"/>
+<use name="mark/fsquare(sfx)" pos="256 592" size="large" stroke="red" fill="white"/>
 </page>
 </ipe>

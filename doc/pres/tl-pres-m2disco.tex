@@ -108,96 +108,66 @@
 \section{Motivations}
 %------------------------------------------------
 
-\subsection{Disque discret}
+\subsection{Disque}
 \begin{frame}
-  \frametitle{Disque fermé Discret}
-  \begin{block}{}
-    $$\mathcal{D} =  \left\{ (x,y) \in \mathbb{Z}^{2} |  ax + by + c(x^2 + y^2) + d \leq 0. \right\}$$
-  \end{block}
-
-  \begin{block}{Représentation cartésienne}
-    \begin{itemize}
-      \item Modèle géométrique uniquement avec des entiers.
-      \item Disque de centre et rayon rationnels
-    \end{itemize}
-  \end{block}
-  \begin{exampleblock}{}
-    \begin{itemize}
-      \item Calcul exact permettant d'éviter tous les problèmes d'approximations et d'arrondis.
-      \item Adapté à l'analyse d'images.
-      \item Optimisation possible.
-    \end{itemize}
-  \end{exampleblock}
-
-  \begin{exampleblock}{}
-    \begin{itemize}
-      \item Plusieurs représentations possibles.
-      \item Peu de différences graphiques...
-      \item Mais des calculs et algorithmes différents.
-    \end{itemize}
-  \end{exampleblock}
-
-\end{frame}
-
-\subsection{Cercle discret}
-\begin{frame}
-\frametitle{Le passage du disque discret au cercle discret}
-
-  \begin{block}{Comment représenter un cercle ?}
-    Pas d'équivalent Euclidien : 
-    \vspace{-0.4cm}
-    $$\mathcal{D} =  \left\{(x,y) \in \mathbb{Z}^{2} |  ax + by + c(x^2 + y^2) + d = 0 \right\} \alert{?} $$ 
-  \end{block}
-  
+  %\frametitle{Disque}
+  \only<1>
+  {
+    \begin{block}{Équation cartésienne du disque Eucliden}
+      $$\mathcal{D} =  \left\{ (x,y) \in \mathbb{R}^{2} |  ax + by + c(x^2 + y^2) + d \leq 0. \right\}$$
+    \end{block}
+  }
+  \only<2->
+  {
+    \begin{block}{Équation cartésienne du disque discret}
+      $$\mathcal{D} =  \left\{ (x,y) \in \alert{\mathbb{Z}^{2}} |  ax + by + c(x^2 + y^2) + d \leq 0. \right\}$$
+    \end{block}
+  }
   \begin{columns}[t]
     \begin{column}{6cm}
-      \only<1,4>
+      \only<1>
       {
         \begin{figure}[h!]
           \centering
-          \includegraphics[width=4cm]{fig/mot-cercle.pdf}
+          \includegraphics[width=4cm]{fig/mot-cercle-euc.pdf}
         \end{figure}
       }
-      \only<2>
+      \only<2->
       {
         \begin{figure}[h!]
           \centering
-          \includegraphics[width=4cm]{fig/mot-cercle-int.pdf}
+          \includegraphics[width=4cm]{fig/mot-cercle-dis.pdf}
         \end{figure}
       }
-      \only<3>
-      {
-        \begin{figure}[h!]
-          \centering
-          \includegraphics[width=4cm]{fig/mot-cercle-ext.pdf}
-        \end{figure}
-      }
-    \end{column}
+      \end{column}
+      \begin{column}{5cm}
+        \vspace{-0.4cm}
+        \begin{exampleblock}{Placement d'un point}
+          \begin{itemize}
+            \item Intérieur
+            \item Extérieur
+            \item Bord
+          \end{itemize}
+        \end{exampleblock}
 
-    \begin{column}{5cm}
-      \vspace{-0.4cm}
-      \begin{exampleblock}{Notions importantes}
-        \begin{itemize}
-          \item Intérieur / Extérieur.
-          \item Bordure.
-        \end{itemize}
-      \end{exampleblock}
-      \begin{block}{Implications}
-        \begin{itemize}
-          \item Placement d'un point.
-          \item Enveloppes.
-        \end{itemize}
-      \end{block}
+        \only<3>
+        {
+          \begin{block}{Question}
+            \begin{center}  
+              \alert{Comment sont représenter les contours de disques discrets dans $\mathbb{Z}^{2}$ ?}
+            \end{center}
+          \end{block}
+        }
+      \end{column}
+    \end{columns} 
+\end{frame}
 
-      \only<4>
-      {
-        \begin{center}  
-          \alert{Etude des $\alpha$-shape de cercles discrets sur $\mathbb{Z}^{2}$.}
-        \end{center}
-      }
-    \end{column}
-  \end{columns} 
-  
+\subsection{$\alpha$-shape}
+\begin{frame}
+\frametitle{Les $\alpha$-shape}
+
+  utilisation d'alpha-shape pour récuperer les bords 4 / 8 connexes, l'enveloppe convexe\\
+  superposition -> delaunay...
 
 \end{frame}
 
