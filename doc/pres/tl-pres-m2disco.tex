@@ -113,13 +113,13 @@
   %\frametitle{Disque}
   \only<1>
   {
-    \begin{block}{Équation cartésienne du disque Eucliden}
+    \begin{block}{Définition du disque Eucliden}
       $$\mathcal{D} =  \left\{ (x,y) \in \mathbb{R}^{2} |  ax + by + c(x^2 + y^2) + d \leq 0. \right\}$$
     \end{block}
   }
   \only<2->
   {
-    \begin{block}{Équation cartésienne du disque discret}
+    \begin{block}{Définition du disque discret}
       $$\mathcal{D} =  \left\{ (x,y) \in \alert{\mathbb{Z}^{2}} |  ax + by + c(x^2 + y^2) + d \leq 0. \right\}$$
     \end{block}
   }
@@ -142,7 +142,7 @@
       \end{column}
       \begin{column}{5cm}
         \vspace{-0.4cm}
-        \begin{exampleblock}{Placement d'un point}
+        \begin{exampleblock}{Placement d'un point :}
           \begin{itemize}
             \item Intérieur
             \item Extérieur
@@ -152,7 +152,7 @@
 
         \only<3>
         {
-          \begin{block}{Question}
+          \begin{block}{Question :}
             \begin{center}  
               \alert{Comment sont représenter les contours de disques discrets dans $\mathbb{Z}^{2}$ ?}
             \end{center}
@@ -164,10 +164,113 @@
 
 \subsection{$\alpha$-shape}
 \begin{frame}
-\frametitle{Les $\alpha$-shape}
+%\frametitle{Les $\alpha$-shape}
+  \begin{block}{$\alpha$-shape de $\mathcal{D}$}
+    \begin{itemize}
+      \item $\alpha$-hull : Intersection de tous les disques généralisés de rayon $1/\alpha$ qui contiennent tous les points de $\mathcal{D}$.
+      \item $\alpha$-extreme : Point appartenant au bord de l'$\alpha$-hull.
+      \item $\alpha$-shape : Enveloppe reliant tous les $\alpha$-extreme voisins entre eux.
+    \end{itemize}
+  \end{block}
 
-  utilisation d'alpha-shape pour récuperer les bords 4 / 8 connexes, l'enveloppe convexe\\
-  superposition -> delaunay...
+  \only<1>
+  {
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=6cm]{fig/as-0.pdf}
+      \caption{}
+    \end{figure}
+  }
+  \only<2>
+  {
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=6cm]{fig/as-1.pdf}
+      \caption{}
+    \end{figure}
+  }
+  \only<3>
+  {
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=6cm]{fig/as-2.pdf}
+      \caption{}
+    \end{figure}
+  }
+  \only<4>
+  {
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=6cm]{fig/as-3.pdf}
+      \caption{}
+    \end{figure}
+  }
+  \only<5>
+  {
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=6cm]{fig/as-4.pdf}
+      \caption{}
+    \end{figure}
+  }
+  \only<6>
+  {
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=6cm]{fig/as-5.pdf}
+      \caption{}
+    \end{figure}
+  }
+  \only<7>
+  {
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=6cm]{fig/as-6.pdf}
+      \caption{}
+    \end{figure}
+  }
+  \only<8>
+  {
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=6cm]{fig/as-7.pdf}
+      \caption{}
+    \end{figure}
+  }
+  \only<9>
+  {
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=6cm]{fig/as-8.pdf}
+      \caption{}
+    \end{figure}
+  }
+  \only<10>
+  {
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=6cm]{fig/as-9.pdf}
+      \caption{}
+    \end{figure}
+  }
+  \only<11>
+  {
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=6cm]{fig/as-10.pdf}
+      \caption{}
+    \end{figure}
+  }
+  \only<12>
+  {
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=6cm]{fig/as-11.pdf}
+      \caption{}
+    \end{figure}
+  }
+
+
 
 \end{frame}
 
@@ -197,7 +300,7 @@
     \end{block}
     \begin{alertblock}{}
       \vspace{-0.2cm} 
-      $$ PGCD(x, y) = x/ x_{k} = y/ y_{k}$$
+      $$ PGCD(x, y) = x/ x_{n} = y/ y_{n}$$
       \vspace{-0.2cm} 
     \end{alertblock}
   \end{column}
@@ -432,6 +535,7 @@
 \begin{frame}
 \frametitle{Triangulation de Delaunay}
 On parle un peu de triangulations de Delaunay, de leur lien au alpha-hull, au alpha shape.
+
 \end{frame}
 
 %------------------------------------------------

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70005" creator="Ipe 7.1.1">
-<info created="D:20130524143309" modified="D:20130530174709"/>
+<info created="D:20130524143309" modified="D:20130531134200"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -259,7 +259,11 @@ h
 240 704 l
 240 544 l
 </path>
-<path stroke="lightgray">
+<use layer="dot" name="mark/disk(sx)" pos="304 688" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="320 688" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="320 688" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="304 688" size="normal" stroke="black"/>
+<path layer="circle" stroke="lightgray">
 240 704 m
 384 704 l
 384 688 l
@@ -411,12 +415,7 @@ h
 <path stroke="black" fill="lightblue" pen="heavier">
 66.163 0 0 66.163 314.363 622.823 e
 </path>
-<use layer="dot" name="mark/disk(sx)" pos="256 688" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="272 688" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="288 688" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="304 688" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="320 688" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="336 688" size="normal" stroke="black"/>
+<use layer="dot" name="mark/disk(sx)" pos="336 688" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="336 688" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="352 688" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="368 688" size="normal" stroke="black"/>
@@ -468,8 +467,9 @@ h
 <use name="mark/disk(sx)" pos="352 544" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="384 544" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="368 544" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="320 688" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="304 688" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="256 688" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="272 688" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="288 688" size="normal" stroke="black"/>
 <path layer="beta" stroke="red" pen="heavier" arrow="normal/normal">
 256.211 591.516 m
 320.581 687.667 l
