@@ -23,8 +23,8 @@ fig/cercle/%.pdf: fig/cercle/%.ipe
 
 paper:
 	pdflatex $(TEX).tex
-#	bibtex $(TEX)
-#	pdflatex $(TEX).tex
+	bibtex $(TEX)
+	pdflatex $(TEX).tex
 	pdflatex $(TEX).tex
 
 show:

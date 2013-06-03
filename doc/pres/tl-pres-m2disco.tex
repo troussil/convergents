@@ -20,7 +20,11 @@
 \usepackage{lmodern}
 \usepackage{amssymb}
 \usepackage{amsmath}
-%----------------------------------------------------------------------------------------
+
+\usepackage{bibentry}
+\nobibliography*
+
+ %----------------------------------------------------------------------------------------
 %    TITLE PAGE
 %----------------------------------------------------------------------------------------
 
@@ -334,11 +338,11 @@
 
 \subsection{Enveloppe convexe - Har-Peled}
 \begin{frame}
-\frametitle{Geometric-$GCD(x, y)$ - Har-Peled}
-
+\frametitle{Geometric-$GCD(x, y)$ - Har-Peled }
 \begin{columns}[t]
   \begin{column}{6cm}
     \begin{block}{}
+
       Calcul des convergents :
       \begin{itemize}
         \item $a = (0,0), b = (y, x)$
@@ -587,12 +591,26 @@
     
 \subsection{Triangulation de Delaunay}  
 \begin{frame}
-\frametitle{Triangulation de Delaunay}
-Aucun point de S n'appartient à un cercle circonscrit issue de la triangulation de Delaunay.
+%\frametitle{Triangulation de Delaunay - \cite{EdeKirSei83}}
+  \begin{block}{Triangulation de Delaunay - \cite{EdeKirSei83}}
+    \alert{Closest :} \\
+    \hspace{0.5cm}Aucun point de S n'appartient à un cercle circonscrit issue de la triangulation closest de Delaunay.\\
+    \alert{Furthest :} \\
+    \hspace{0.5cm}Tous les points de S appartiennent à tous les cercles circonscrits issue de la triangulation furthest de Delaunay.
+      
+  \end{block}
 
-Tous les points de S appartiennent à tous les cercles circonscrits issue de la triangulation Furthest de Delaunay.
+  \begin{exampleblock}{Passage aux $\alpha$-shape}
+    Les $\alpha$-shape sont des sous-graphes de la triangulation de Delaunay.
+    \textbf{Algorithme de construction :} (CGAL)
+    \begin{itemize}
+      \item Construire la triangulation ($DT_c$ ou $DT_f$).
+      \item Chercher les $\alpha$-extrême.
+      \item Construires les polygônes.
+    \end{itemize}
+  \end{exampleblock}
+  
 
-Toutes les $\alpha$-shape sont des sous-graphes de la triangulation de Delaunay.
 
 \end{frame}
 
@@ -603,7 +621,10 @@ Toutes les $\alpha$-shape sont des sous-graphes de la triangulation de Delaunay.
 \subsection{Généralisation de Har-Peled - $\alpha \leq 0$}
 \begin{frame}
 \frametitle{Généralisation de Har-Peled - $\alpha \leq 0$}
+\begin{block}{}
 
+\end{block}
+ 
 \end{frame}
 
 \subsection{$\alpha \geq 0$}
@@ -647,6 +668,8 @@ Toutes les $\alpha$-shape sont des sous-graphes de la triangulation de Delaunay.
 \subsection{Poursuite personnelle}
 \begin{frame}
 \frametitle{Poursuite personnelle}
+\bibliographystyle{alpha}
+\bibliography{tl_bibliographie.bib}
 \end{frame}
 
 %----------------------------------------------------------------------------------------
