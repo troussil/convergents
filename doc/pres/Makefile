@@ -1,12 +1,15 @@
 LOG=evince
 TEX=tl-pres-m2disco
 
-FIGSRC = $(wildcard fig/as/*.ipe fig/har/*.ipe fig/cercle/*.ipe)
+FIGSRC = $(wildcard fig/*.ipe fig/as/*.ipe fig/har/*.ipe fig/cercle/*.ipe)
 FIGOBJ = $(FIGSRC:.ipe=.pdf)
  
 all: fig paper show 
 
 fig: $(FIGOBJ)
+
+fig/%.pdf: fig/%.ipe 
+	ipetoipe -pdf $<
 
 fig/as/%.pdf: fig/as/%.ipe 
 	ipetoipe -pdf $<

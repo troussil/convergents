@@ -117,7 +117,13 @@
       $$\mathcal{D} =  \left\{ (x,y) \in \mathbb{R}^{2} |  ax + by + c(x^2 + y^2) + d \leq 0. \right\}$$
     \end{block}
   }
-  \only<2->
+  \only<2>
+  {
+    \begin{block}{Définition du bord du disque Eucliden}
+      $$\mathcal{D} =  \left\{ (x,y) \in \mathbb{R}^{2} |  ax + by + c(x^2 + y^2) + d \alert{=} 0. \right\}$$
+    \end{block}
+  }  
+  \only<3->
   {
     \begin{block}{Définition du disque discret}
       $$\mathcal{D} =  \left\{ (x,y) \in \alert{\mathbb{Z}^{2}} |  ax + by + c(x^2 + y^2) + d \leq 0. \right\}$$
@@ -125,14 +131,14 @@
   }
   \begin{columns}[t]
     \begin{column}{6cm}
-      \only<1>
+      \only<1,2>
       {
         \begin{figure}[h!]
           \centering
           \includegraphics[width=4cm]{fig/mot-cercle-euc.pdf}
         \end{figure}
       }
-      \only<2->
+      \only<3->
       {
         \begin{figure}[h!]
           \centering
@@ -150,7 +156,7 @@
           \end{itemize}
         \end{exampleblock}
 
-        \only<3>
+        \only<4>
         {
           \begin{block}{Question :}
             \begin{center}  
@@ -231,11 +237,6 @@
       {
         $\alpha = 1/\sqrt{260}$\\
          Nb Sommets : 6\\
-      }
-      \only<12>
-      {
-        $\alpha = 1/\sqrt{250}$\\
-         Nb Sommets : 3\\
       }
     \end{exampleblock}
 
@@ -319,13 +320,6 @@
       \begin{figure}[h!]
         \centering
         \includegraphics[width=5.5cm]{fig/as/as-10.pdf}
-      \end{figure}
-    }
-    \only<12>
-    {
-      \begin{figure}[h!]
-        \centering
-        \includegraphics[width=5.5cm]{fig/as/as-11.pdf}
       \end{figure}
     }
 
@@ -591,10 +585,14 @@
 
 \end{frame}
     
-\subsection{Triangulation de Delaunay}  % ?? là / pas là ??
+\subsection{Triangulation de Delaunay}  
 \begin{frame}
 \frametitle{Triangulation de Delaunay}
-On parle un peu de triangulations de Delaunay, de leur lien au alpha-hull, au alpha shape.
+Aucun point de S n'appartient à un cercle circonscrit issue de la triangulation de Delaunay.
+
+Tous les points de S appartiennent à tous les cercles circonscrits issue de la triangulation Furthest de Delaunay.
+
+Toutes les $\alpha$-shape sont des sous-graphes de la triangulation de Delaunay.
 
 \end{frame}
 
