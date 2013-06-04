@@ -1,0 +1,66 @@
+%%%%%%%%%%%%%%%%%%%%% chapter.tex %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% sample chapter
+%
+% Use this file as a template for your own input.
+%
+%%%%%%%%%%%%%%%%%%%%%%%% Springer-Verlag %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\chapter{Environnement de travail}
+\label{pt2-ch1-et} % Always give a unique label
+% use \chaptermark{}
+% to alter or adjust the chapter heading in the running head
+
+\section{Environnement matériel et logiciel}
+\label{pt2-ch1-sec:1}
+
+\section{Paradigme de Programmation}
+\label{pt2-ch1-sec:2}
+
+\section{Espace de collaboration}
+\label{pt2-ch1-sec:3}
+
+\chapter{Structure du code}
+\label{pt2-ch2-sd} % Always give a unique label
+
+\section{Principaux concepts}
+\label{pt2-ch2-sec:1}
+
+\section{Installation et utilisation}
+\label{pt2-ch2-sec:2}
+
+\subsection{Librairies et licence}
+\label{pt2-ch2-sec:2:1}
+
+Le code source de ce présent projet est disponible sous les conditions de la licence GPLv3 \cite{GPLv3}. Néanmoins, il convient de remarquer que deux librairies sont utilisées directement : Boost (licence Boost  - \cite{boost-licence})) et DGtal (Licence GPLv3 - \cite{GPLv3}).
+
+\subsubsection{Boost}
+
+Boost \cite{boost} est une grosse librairie C++. \\
+On remarque qu'elle est également utilisé par la libraire DGtal.\\
+
+Son utilisation directe dans le cadre de ce projet est relativement parcimonieuse. En effet, son utilisation a été limité à \bsc{Program Options} pour la création d'une interface légère à base de paramètres à ajouter pour l’exécution des programmes commandant les sorties.
+
+
+\subsubsection{DGtal}
+
+DGtal \cite{DGtal} est une librairie developpé en partie en interne par des membres de l'équipe M2Disco en plus d'autres partenaires. Son objectif principal est de proposer des outils permettant de traiter de géométrie discrète. \\
+
+Son utlisation est intervenu sur plusieurs plans. \\
+
+(?? Utilisation de liste pour alléger un peu la partie ??)
+
+L'avantage indéniable de faire des calculs avec seulement des entiers est de calculer de manière exacte. Néanmoins, une contrainte peut "vite" apparaitre en augmentant la taille des rayons. En effet le type int peut alors être débordé en trouvant un entier plus grand que le plus grand entier alors compréhensible par notre système. L'utilisation de la librairie DGtal a alors permis par l'intermédiaire de gmp d’utiliser de très grands entiers.\\
+
+DGtal a également été utilisé dans le postprocessing pour tirer partie du tableau permettant d'obtenir des traces de nos enveloppes de cercles.
+
+\subsection{Installation}
+\label{pt2-ch2-sec:2:2}
+
+\subsection{Utilisation}
+\label{pt2-ch2-sec:2:3}
+
+
+
+
