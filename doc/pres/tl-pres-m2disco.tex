@@ -1,0 +1,965 @@
+%----------------------------------------------------------------------------------------
+%    PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass{beamer}
+
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage[english,francais]{babel}
+\usefonttheme{professionalfonts}
+
+\usepackage[]{beamerthemeliris} % paquet theme, options: nogradient,nobackground
+
+
+\usepackage{graphicx} %paquet graphiques
+\usepackage{epsfig}
+
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage[utf8]{inputenc} %codage
+\usepackage{lmodern}
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+\usepackage{bibentry}
+\nobibliography*
+
+ %----------------------------------------------------------------------------------------
+%    TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title[Présentation M2Disco]{Structure d'un cercle discret en dimension deux} % The short title appears at the bottom of every slide, the full title is only on the title page
+
+\author{Thomas \bsc{Lafond}} % Your name
+\date{10 Juin 2013}
+\institute[LIRIS] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
+{
+  Laboratoire d'InfoRmatique en Image et Syst\`{e}mes d'information \\ % Your institution for the title page
+  \medskip
+  \textit{-- Présentation d'équipe : M2Disco --}\\
+  \medskip
+  Encadrant : Tristan \bsc{Roussillon}
+}
+\date{10 Juin 2013} % Date, can be changed to a custom date
+
+\begin{document}
+
+% titre
+\begin{frame}
+  \titlepage % Print the title page as the first slide
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%    PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+
+%------------------------------------------------
+\section{Parcours}
+%------------------------------------------------
+
+\subsection{Parcours}
+ 
+\begin{frame}
+%\frametitle{Parcours}
+  \begin{block}{Licence de Mathématiques et d'Informatique}
+    \begin{itemize}
+      \item Mathématiques : L1, L2, L3.
+      \item Informatique : L1, L2.
+      \item Domaine Scientifique : Science Physique, Chimie et Biologie.
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Master Statistiques, Informatique et Techniques Numériques}
+    \begin{columns}[t]
+
+      \begin{column}{5.5cm}
+        Trois composantes principales :
+        \begin{itemize}
+          \item Probabilités et Statistiques
+          \item EDP et Calcul scientifique
+          \item Développement Informatique
+        \end{itemize}
+      \end{column}
+
+      \begin{column}{4.5cm}
+        Une certaine ouverture  
+        \begin{itemize}
+          \item \alert{Stages}
+          \item Calcul parallèle
+          \item Mécanique des fluides
+        \end{itemize}
+      \end{column}
+    \end{columns}  
+  \end{block}
+
+    \begin{block}{Stages précédents}
+      \begin{itemize}
+        \item Modélisation Hydrologique - Irstea - 5 Mois
+        \item Décomposition de domaine - MmodD / Lyon 1 - 2 Mois
+      \end{itemize}
+  \end{block}
+
+\end{frame}
+
+% table des matières
+\begin{frame}
+  \frametitle{Tables des matières} % Table of contents slide, comment this block out to remove it
+  \setcounter{tocdepth}{1}
+  \tableofcontents %
+\end{frame}
+
+%------------------------------------------------
+\section{Motivations}
+%------------------------------------------------
+
+\subsection{Disque}
+\begin{frame}
+  %\frametitle{Disque}
+  \only<1>
+  {
+    \begin{block}{Définition du disque Eucliden}
+      $$\mathcal{D} =  \left\{ (x,y) \in \mathbb{R}^{2} |  ax + by + c(x^2 + y^2) + d \leq 0. \right\}$$
+    \end{block}
+  }
+  \only<2>
+  {
+    \begin{block}{Définition du bord du disque Eucliden}
+      $$\mathcal{D} =  \left\{ (x,y) \in \mathbb{R}^{2} |  ax + by + c(x^2 + y^2) + d \alert{=} 0. \right\}$$
+    \end{block}
+  }  
+  \only<3->
+  {
+    \begin{block}{Définition du disque discret}
+      $$\mathcal{D} =  \left\{ (x,y) \in \alert{\mathbb{Z}^{2}} |  ax + by + c(x^2 + y^2) + d \leq 0. \right\}$$
+    \end{block}
+  }
+  \begin{columns}[t]
+    \begin{column}{6cm}
+      \only<1,2>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=4cm]{fig/mot-cercle-euc.pdf}
+        \end{figure}
+      }
+      \only<3->
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=4cm]{fig/mot-cercle-dis.pdf}
+        \end{figure}
+      }
+      \end{column}
+      \begin{column}{5cm}
+        \vspace{-0.4cm}
+        \begin{exampleblock}{Placement d'un point :}
+          \begin{itemize}
+            \item Intérieur
+            \item Extérieur
+            \item Bord
+          \end{itemize}
+        \end{exampleblock}
+
+        \only<4>
+        {
+          \begin{block}{Question :}
+            \begin{center}  
+              \alert{Comment sont représenter les contours de disques discrets dans $\mathbb{Z}^{2}$ ?}
+            \end{center}
+          \end{block}
+        }
+      \end{column}
+    \end{columns} 
+\end{frame}
+
+\subsection{$\alpha$-shape}
+\begin{frame}
+%\frametitle{Les $\alpha$-shape}
+  \begin{block}{$\alpha$-shape de $\mathcal{D}$}
+    \begin{itemize}
+      \item $\alpha$-hull : Intersection de tous les disques généralisés de rayon $1/\alpha$ qui contiennent tous les points de $\mathcal{D}$.
+      \item $\alpha$-extreme : Point appartenant au bord de l'$\alpha$-hull.
+      \item $\alpha$-shape : Enveloppe reliant tous les $\alpha$-extreme voisins entre eux.
+    \end{itemize}
+  \end{block}
+\begin{columns}[t]
+  \begin{column}{4cm}
+    \begin{exampleblock}{Cercle}
+      $\mathcal{C} \left( (24,-8), (16,1), (0,0) \right)$\\
+       
+      \only<1>
+      {
+        Centre : (8.86, -13.4)\\
+        R : 16.06
+      }
+      \only<2>
+      {
+        $\alpha = -1$\\
+         Nb Sommets : 126\\
+      }
+      \only<3>
+      {
+        $\alpha = -1/\sqrt{2}$\\
+        Nb Sommets : 89\\
+      }
+      \only<4>
+      {
+        $\alpha = -1/\sqrt{10}$\\
+         Nb Sommets : 71\\
+      }
+      \only<5>
+      {
+        $\alpha = -1/\sqrt{20}$\\
+         Nb Sommets : 64\\
+      }
+      \only<6>
+      {
+        $\alpha = -1/\sqrt{80}$\\
+         Nb Sommets : 61\\
+      }
+      \only<7>
+      {
+        $\alpha = 0$\\
+         Nb Sommets : 23\\
+      }
+      \only<8>
+      {
+        $\alpha = 1/\sqrt{600}$\\
+         Nb Sommets : 21\\
+      }
+      \only<9>
+      {
+        $\alpha = 1/\sqrt{400}$\\
+         Nb Sommets : 19\\
+      }
+      \only<10>
+      {
+        $\alpha = 1/\sqrt{300}$\\
+         Nb Sommets : 11\\
+      }
+      \only<11>
+      {
+        $\alpha = 1/\sqrt{260}$\\
+         Nb Sommets : 6\\
+      }
+    \end{exampleblock}
+
+    
+  \end{column}
+
+  \begin{column}{6cm}
+    \vspace{-0.8cm}     
+    \only<1>
+    {
+      \begin{figure}[h!]
+        \centering
+        \includegraphics[width=5.5cm]{fig/as/as-0.pdf}
+      \end{figure}
+    }
+    \only<2>
+    {
+      \begin{figure}[h!]
+        \centering
+        \includegraphics[width=5.5cm]{fig/as/as-1.pdf}
+      \end{figure}
+    }
+    \only<3>
+    {
+      \begin{figure}[h!]
+        \centering
+        \includegraphics[width=5.5cm]{fig/as/as-2.pdf}
+      \end{figure}
+    }
+    \only<4>
+    {
+      \begin{figure}[h!]
+        \centering
+        \includegraphics[width=5.5cm]{fig/as/as-3.pdf}
+      \end{figure}
+    }
+    \only<5>
+    {
+      \begin{figure}[h!]
+        \centering
+        \includegraphics[width=5.5cm]{fig/as/as-4.pdf}
+      \end{figure}
+    }
+    \only<6>
+    {
+      \begin{figure}[h!]
+        \centering
+        \includegraphics[width=5.5cm]{fig/as/as-5.pdf}
+      \end{figure}
+    }
+    \only<7>
+    {
+      \begin{figure}[h!]
+        \centering
+        \includegraphics[width=5.5cm]{fig/as/as-6.pdf}
+      \end{figure}
+    }
+    \only<8>
+    {
+      \begin{figure}[h!]
+        \centering
+        \includegraphics[width=5.5cm]{fig/as/as-7.pdf}
+      \end{figure}
+    }
+    \only<9>
+    {
+      \begin{figure}[h!]
+        \centering
+        \includegraphics[width=5.5cm]{fig/as/as-8.pdf}
+      \end{figure}
+    }
+    \only<10>
+    {
+      \begin{figure}[h!]
+        \centering
+        \includegraphics[width=5.5cm]{fig/as/as-9.pdf}
+      \end{figure}
+    }
+    \only<11>
+    {
+      \begin{figure}[h!]
+        \centering
+        \includegraphics[width=5.5cm]{fig/as/as-10.pdf}
+      \end{figure}
+    }
+
+  \end{column}
+\end{columns} 
+
+\end{frame}
+
+%------------------------------------------------
+\section{Existant}
+%------------------------------------------------
+
+\subsection{Enveloppe convexe - Har-Peled}
+\begin{frame}
+\frametitle{Geometric-$GCD(x, y)$ - Har-Peled }
+\begin{columns}[t]
+  \begin{column}{6cm}
+    \begin{block}{}
+
+      Calcul des convergents :
+      \begin{itemize}
+        \item $a = (0,0), b = (y, x)$
+        \item $p_{-2} = (1,0), p_{-1} = (0,1)$
+      \end{itemize}
+
+      Calcul récursif des suivants :
+      \vspace{-0.2cm} 
+      \alert{$$ p_{k} = p_{k-2} + q_{k}*p_{k-1}$$}
+      avec le plus grand $q_{k} \in \mathbb{Z}$ tq $p_{k}$ et $p_{k-2}$ soient du même côté.\\
+      \vspace{0.2cm}
+      | Tant que $ p_{k} \in d$.
+    \end{block}
+    \begin{alertblock}{}
+      \vspace{-0.2cm} 
+      $$ PGCD(x, y) = x/ x_{n} = y/ y_{n}$$
+      \vspace{-0.2cm} 
+    \end{alertblock}
+  \end{column}
+
+  \begin{column}{4cm}
+    
+  \only<1>
+  {
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=3.5cm]{fig/har/har-1-0.pdf}
+    \end{figure}
+  }
+  \only<2>
+  {
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=3.5cm]{fig/har/har-1-1.pdf}
+    \end{figure}
+  }
+  \only<3>
+  {
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=3.5cm]{fig/har/har-1-2.pdf}
+    \end{figure}
+  }
+  \only<4>
+  {
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=3.5cm]{fig/har/har-1-3.pdf}
+    \end{figure}
+  }
+  \only<5>
+  {
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=3.5cm]{fig/har/har-1-4.pdf}
+    \end{figure}
+  }
+  \only<6>
+  {
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=3.5cm]{fig/har/har-1-5.pdf}
+    \end{figure}
+  }
+  \only<7>
+  {
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=3.5cm]{fig/har/har-1-6.pdf}
+    \end{figure}
+  }
+  \only<8>
+  {
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=3.5cm]{fig/har/har-1-7.pdf}
+    \end{figure}
+  }
+  \only<9>
+  {
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=3.5cm]{fig/har/har-1-8.pdf}
+    \end{figure}
+  }   
+  \end{column}
+\end{columns} 
+\end{frame}
+
+\begin{frame}
+\frametitle{Calcul de l'enveloppe convexe d'un cercle}
+\begin{columns}[t]
+  \begin{column}{4cm}
+  
+  \begin{block}{Différences}
+    \begin{itemize}
+      \item $a\ne (0, 0)$.
+      \item $b$ inconnu.
+    \end{itemize}
+  \end{block}
+  
+    \begin{block}{Algorithme}
+    Trouver $a_0$
+    Calculer les convergents.\\
+    Récolter les candidats :
+    \begin{itemize}
+      \item Intérieur : $k / 2 \equiv 1 [2]$ 
+      \item Sur le bord
+    \end{itemize}
+    Choisir le meilleurs :\\
+    \alert{Déterminant$(\leftarrow{u}, \leftarrow{v})$}\\
+    | Tant que $ a_{i} \ne a_0$.
+ 
+  \end{block}
+    
+  \end{column}
+
+  \begin{column}{6cm}
+    \only<1>
+    {
+      \begin{figure}[h!]
+        \centering
+        \includegraphics[width=6cm]{fig/cercle/cercle-0.pdf}
+        \caption{Départ de $a_{0}$}
+    \end{figure}
+    }
+    \only<2>
+    {
+      \begin{figure}[h!]
+        \centering
+        \includegraphics[width=6cm]{fig/cercle/cercle-1.pdf}
+        \caption{$p_{-2}, p_{-1}$}
+    \end{figure}
+    }
+    \only<3>
+    {
+      \begin{figure}[h!]
+        \centering
+        \includegraphics[width=6cm]{fig/cercle/cercle-2.pdf}
+        \caption{$p_{-1}$ candidat}
+    \end{figure}
+    }
+    \only<4>
+    {
+      \begin{figure}[h!]
+        \centering
+        \includegraphics[width=6cm]{fig/cercle/cercle-3.pdf}
+        \caption{$p_{0} = p_{-2}$}
+    \end{figure}
+    }
+    \only<5>
+    {
+      \begin{figure}[h!]
+        \centering
+        \includegraphics[width=6cm]{fig/cercle/cercle-4.pdf}
+        \caption{Calcul de $p_{1}$}
+    \end{figure}
+    }
+    \only<6>
+    {
+      \begin{figure}[h!]
+        \centering
+        \includegraphics[width=6cm]{fig/cercle/cercle-5.pdf}
+        \caption{$p_{1}$ candidat}
+    \end{figure}
+    }
+    \only<7>
+    {
+      \begin{figure}[h!]
+        \centering
+        \includegraphics[width=6cm]{fig/cercle/cercle-6.pdf}
+        \caption{Calcul de $p_{2}$}
+    \end{figure}
+    }
+    \only<8>
+    {
+      \begin{figure}[h!]
+        \centering
+        \includegraphics[width=6cm]{fig/cercle/cercle-7.pdf}
+        \caption{$p_{2}$}
+    \end{figure}
+    }
+    \only<9>
+    {
+      \begin{figure}[h!]
+        \centering
+        \includegraphics[width=6cm]{fig/cercle/cercle-8.pdf}
+        \caption{$p_{2}$ candidat ?}
+    \end{figure}
+    }
+    \only<10>
+    {
+      \begin{figure}[h!]
+        \centering
+        \includegraphics[width=6cm]{fig/cercle/cercle-9.pdf}
+        \caption{Calcul de $p_{3}$}
+    \end{figure}
+    }
+    \only<11>
+    {
+      \begin{figure}[h!]
+        \centering
+        \includegraphics[width=6cm]{fig/cercle/cercle-10.pdf}
+        \caption{$p_{3}$ candidat}
+    \end{figure}
+    }
+    \only<12>
+    {
+      \begin{figure}[h!]
+        \centering
+        \includegraphics[width=6cm]{fig/cercle/cercle-11.pdf}
+        \caption{Calcul de $p_{4}$ ?}
+    \end{figure}
+    }
+    \only<13>
+    {
+      \begin{figure}[h!]
+        \centering
+        \includegraphics[width=6cm]{fig/cercle/cercle-12.pdf}
+        \caption{$p_{4}$ n'existe pas}
+    \end{figure}
+    }
+    \only<14>
+    {
+      \begin{figure}[h!]
+        \centering
+        \includegraphics[width=6cm]{fig/cercle/cercle-13.pdf}
+        \caption{Prochain départ}
+    \end{figure}
+    }
+    \only<15>
+    {
+      \begin{figure}[h!]
+        \centering
+        \includegraphics[width=6cm]{fig/cercle/cercle-14.pdf}
+        \caption{On recommence}
+    \end{figure}
+    }
+
+  \end{column}
+\end{columns} 
+
+\end{frame}
+    
+\subsection{Triangulation de Delaunay}  
+\begin{frame}
+%\frametitle{Triangulation de Delaunay - \cite{EdeKirSei83}}
+  \begin{block}{Triangulation de Delaunay - \cite{EdeKirSei83}}
+    \alert{Closest :} \\
+    \hspace{0.5cm}Aucun point de S n'appartient à un cercle circonscrit issue de la triangulation closest de Delaunay.\\
+    \alert{Furthest :} \\
+    \hspace{0.5cm}Tous les points de S appartiennent à tous les cercles circonscrits issue de la triangulation furthest de Delaunay.
+      
+  \end{block}
+
+  \begin{exampleblock}{Passage aux $\alpha$-shape}
+    Les $\alpha$-shape sont des sous-graphes de la triangulation de Delaunay.
+    \textbf{Algorithme de construction :} (CGAL)
+    \begin{itemize}
+      \item Construire la triangulation ($DT_c$ ou $DT_f$).
+      \item Chercher les $\alpha$-extrême.
+      \item Construires les polygônes.
+    \end{itemize}
+  \end{exampleblock}
+  
+
+
+\end{frame}
+
+%------------------------------------------------
+\section{Contributions}
+%------------------------------------------------
+
+\subsection{Généralisation de Har-Peled - $\alpha \leq 0$}
+\begin{frame}
+\frametitle{Généralisation de Har-Peled - $\alpha \leq 0$}
+  
+  \begin{columns}[t]
+  \begin{column}{7cm}
+      \only<1>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 2cm, clip, width=7cm]{fig/as-algo/as-algo-1.pdf}
+      \end{figure}
+      }
+      \only<2>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 2cm, clip, width=7cm]{fig/as-algo/as-algo-2.pdf}
+      \end{figure}
+      }
+      \only<3>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 2cm, clip, width=7cm]{fig/as-algo/as-algo-3.pdf}
+      \end{figure}
+      }
+      \only<4>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 2cm, clip, width=7cm]{fig/as-algo/as-algo-4.pdf}
+      \end{figure}
+      }
+      \only<5>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 2cm, clip, width=7cm]{fig/as-algo/as-algo-10.pdf}
+      \end{figure}
+      }
+      \only<6>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 2cm, clip, width=7cm]{fig/as-algo/as-algo-11.pdf}
+      \end{figure}
+      }
+      \only<7>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 2cm, clip, width=7cm]{fig/as-algo/as-algo-12.pdf}
+      \end{figure}
+      }
+      \only<8>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 2cm, clip, width=7cm]{fig/as-algo/as-algo-12a.pdf}
+      \end{figure}
+      }
+      \only<9>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 2cm, clip, width=7cm]{fig/as-algo/as-algo-13.pdf}
+      \end{figure}
+      }
+      \only<10>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 2cm, clip, width=7cm]{fig/as-algo/as-algo-15.pdf}
+      \end{figure}
+      }
+      \only<11>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 2cm, clip, width=7cm]{fig/as-algo/as-algo-20.pdf}
+      \end{figure}
+      }
+      \only<12>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 2cm, clip, width=7cm]{fig/as-algo/as-algo-21.pdf}
+      \end{figure}
+      }
+      \only<13>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=7cm]{fig/as-algo/dicho.pdf}
+      \end{figure}
+      }
+      
+      \only<14>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 2cm, clip, width=7cm]{fig/as-algo/as-algo-22.pdf}
+      \end{figure}
+      }
+      \only<15>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 2cm, clip, width=7cm]{fig/as-algo/as-algo-23.pdf}
+      \end{figure}
+      }
+      \only<16>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 2cm, clip, width=7cm]{fig/as-algo/as-algo-24.pdf}
+      \end{figure}
+      }
+      \only<17>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 2cm, clip, width=7cm]{fig/as-algo/as-algo-25.pdf}
+      \end{figure}
+      }
+      \only<18>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 2cm, clip, width=7cm]{fig/as-algo/as-algo-26.pdf}
+      \end{figure}
+      }
+      \only<19>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 2cm, clip, width=7cm]{fig/as-algo/as-algo-27.pdf}
+      \end{figure}
+      }
+      \only<20>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 2cm, clip, width=7cm]{fig/as-algo/as-algo-28.pdf}
+      \end{figure}
+      }
+      \only<21>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 2cm, clip, width=7cm]{fig/as-algo/as-algo-29.pdf}
+      \end{figure}
+      }
+      \only<22>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 2cm, clip, width=7cm]{fig/as-algo/as-algo-30.pdf}
+      \end{figure}
+      }
+      \only<23>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 2cm, clip, width=7cm]{fig/as-algo/as-algo-31.pdf}
+      \end{figure}
+      }
+      \only<24>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 2cm, clip, width=7cm]{fig/as-algo/as-algo-32.pdf}
+      \end{figure}
+      }
+    \end{column}
+    \begin{column}{3cm}
+      \begin{block}{}
+        \only<1>
+        {
+          On cherche le premier point.\\
+          À l'extrémité inférieur droite. 
+        }
+        \only<2,3>
+        {
+          $p_{-2} = (1, 0)$\\
+          $p_{-1} = (0, 1)$\\
+        }
+        \only<3,4,5,6>
+        {
+          $p_{0} = (1, 0)$\\
+          $p_{1} = (5, 1)$\\
+        }
+        \only<4,5>
+        {
+          Triangle : \\
+          $T(a, p_{1}, p_{1}-p_{0})$\\
+          On s'intéresse à son rayon.\\
+        }
+        \only<5>
+        {
+          On a :\\
+          $R_{\alpha} > R_T$
+        }
+        \only<6>
+        {
+          On continue la recherche de convergent.\\
+          $p_{2}$ n'existe pas.\\
+          On reprends à partir de de $p_1$.\\
+        }
+        \only<7>
+        {
+          Nouveau point de départ.\\
+          $p_{-2} = (1, 0)$\\
+          $p_{-1} = (0, 1)$\\
+          $p_{0} = (1, 0)$\\
+          $p_{1} = (3, 1)$\\
+        }
+        \only<8>
+        {
+          On a encore:\\
+          $R_{\alpha} > R_T$
+        }
+        \only<9>
+        {
+          D'où des nouveaux sommets.\\
+        }
+        \only<10>
+        {
+          On retrouve le calcul de l'enveloppe Convexe.\\
+        }
+        \only<11, 12>
+        {
+          Supposons maintentant que :
+          $R_{\alpha} < R_T$\\
+        }
+        \only<12>
+        {
+          L'enveloppe ne peut atteindre $p_{1}$ directement sans passer par au moins un autre point.\\
+        }
+        \only<13>
+        {
+          Comme les rayons sont ordonnés et strictement croissant.\\
+          On cherche par dichotomie le premier rayon plus grand que le prédicat.\\
+        }        
+        \only<14>
+        {
+          Si $R_{\alpha} < R_T$\\
+          On va chercher en aval.
+        }
+        \only<15>
+        {
+          Si $R_{\alpha} > R_T$\\
+          On va chercher en amont.
+        }
+        \only<16, 17>
+        {
+          Jusqu'à trouver le premier point dans l'enveloppe...\\          
+        }
+        \only<17>
+        {
+          et tous les suivants jusqu'à $p_1$.     
+        }
+        \only<18>
+        {
+          $p_1$ qui devient le nouveau point de départ.
+        }
+        \only<19>
+        {
+          On recommence la méthode next avec la recherche de convergent.\\
+          $p_{-2} = (1, 0)$\\
+          $p_{-1} = (0, 1)$\\
+          $p_{0} = (1, 0)$\\
+          $p_{1} = (3, 1)$\\
+        }
+        \only<20>
+        {
+          $R_{\alpha} < R_T$\\
+          On lance la méthode dichotomique. 
+        }
+        \only<21>
+        {
+          Si $R_{\alpha} > R_T$\\
+          On va chercher en amont...
+        }
+        \only<23,24>
+        {
+          Pour finalement ajouter les points à notre $\alpha$-shape.\\
+        }
+        \only<25>
+        {
+          Et poursuivre la méthode jusqu'à retrouver le premier point.
+        }        
+      \end{block}     
+    \end{column}
+  \end{columns} 
+
+ 
+\end{frame}
+
+\subsection{$\alpha \geq 0$}
+\begin{frame}
+\frametitle{$\alpha \geq 0$}
+\end{frame}
+
+\subsection{Protocole}
+\begin{frame}
+\frametitle{Protocole}
+\end{frame}
+
+%------------------------------------------------
+\section{Résultats}
+%------------------------------------------------
+
+\subsection{Enveloppe convexe}
+\begin{frame}
+\frametitle{Enveloppe convexe}
+\end{frame}
+
+\subsection{$\alpha \leq 0$}
+\begin{frame}
+\frametitle{$\alpha \leq 0$}
+\end{frame}
+
+\subsection{$\alpha \geq 0$}
+\begin{frame}
+\frametitle{$\alpha \geq 0$}
+\end{frame}
+
+%------------------------------------------------
+\section{Suite}
+%------------------------------------------------
+
+\subsection{Poursuite du projet}
+\begin{frame}
+\frametitle{Poursuite du projet}
+\end{frame}
+
+\subsection{Poursuite personnelle}
+\begin{frame}
+\frametitle{Poursuite personnelle}
+\bibliographystyle{alpha}
+\bibliography{tl_bibliographie.bib}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\end{document} 
