@@ -1,26 +1,25 @@
 LOG=evince
 TEX=tl-pres-m2disco
 
-FIGSRC = $(wildcard fig/*.ipe fig/as/*.ipe fig/har/*.ipe fig/cercle/*.ipe)
+FIGSRC = $(wildcard fig/as-algo/*.ipe fig/*.ipe fig/as/*.ipe fig/har/*.ipe fig/cercle/*.ipe )
 FIGOBJ = $(FIGSRC:.ipe=.pdf)
  
 all: fig paper show 
 
 fig: $(FIGOBJ)
 
-fig/%.pdf: fig/%.ipe 
+fig/%.pdf: fig/%.ipe
 	ipetoipe -pdf $<
-
-fig/as/%.pdf: fig/as/%.ipe 
+fig/as/%.pdf: fig/as/%.ipe
 	ipetoipe -pdf $<
-	
 fig/har/%.pdf: fig/har/%.ipe
 	ipetoipe -pdf $<
-
 fig/cercle/%.pdf: fig/cercle/%.ipe
 	ipetoipe -pdf $<
-
-
+fig/as-algo/%.pdf: fig/as-algo/%.ipe
+	ipetoipe -pdf $<
+	
+	
 paper:
 	pdflatex $(TEX).tex
 	bibtex $(TEX)
@@ -36,6 +35,8 @@ proper:
 	rm -f fig/as/*.pdf
 	rm -f fig/har/*.pdf
 	rm -f fig/cercle/*.pdf
+	rm -f fig/as-algo/*.pdf
+	
 
 clean:	proper
 	rm -f $(TEX).ps $(TEX).pdf
