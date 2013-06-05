@@ -28,6 +28,16 @@ fit.log
 # data - pictures
 *.png
 *.svg
+*.eps
 
 # data - table
 outcome/data*
+
+# latex
+*.pdf
+*.aux
+*.log
+*.nav
+*.snm
+*.toc
+
