@@ -135,11 +135,18 @@
   }
   \begin{columns}[t]
     \begin{column}{6cm}
-      \only<1,2>
+      \only<1>
       {
         \begin{figure}[h!]
           \centering
           \includegraphics[width=4cm]{fig/mot-cercle-euc.pdf}
+        \end{figure}
+      }
+      \only<2>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=4cm]{fig/mot-cercle-euc-1.pdf}
         \end{figure}
       }
       \only<3->
@@ -898,16 +905,16 @@
         }
         \only<21>
         {
-          Si $R_{\alpha} > R_T$\\
+          Comme $R_{\alpha} > R_T$\\
           On va chercher en amont...
         }
-        \only<23,24>
+        \only<22,23>
         {
-          Pour finalement ajouter les points à notre $\alpha$-shape.\\
+          On ajoute les points à notre $\alpha$-shape.\\
         }
-        \only<25>
+        \only<24>
         {
-          Et poursuivre la méthode jusqu'à retrouver le premier point.
+          On poursuit la méthode jusqu'à retrouver le premier point.
         }        
       \end{block}     
     \end{column}
