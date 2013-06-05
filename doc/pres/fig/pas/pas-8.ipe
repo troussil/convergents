@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70005" creator="Ipe 7.1.1">
-<info created="D:20130604104208" modified="D:20130605153516"/>
+<info created="D:20130605104915" modified="D:20130605142550"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -233,394 +233,111 @@ h
 <layer name="alpha"/>
 <view layers="alpha" active="alpha"/>
 <path layer="alpha" stroke="lightgray">
-576 560 m
-16 560 l
-</path>
-<path stroke="lightgray">
-16 544 m
-576 544 l
-</path>
-<path stroke="lightgray">
-576 528 m
-16 528 l
-</path>
-<path stroke="lightgray">
-16 512 m
-576 512 l
-</path>
-<path stroke="lightgray">
-576 496 m
-16 496 l
-</path>
-<path stroke="lightgray">
-16 480 m
-576 480 l
-</path>
-<path stroke="lightgray">
-576 464 m
-16 464 l
-</path>
-<path stroke="lightgray">
-16 448 m
-576 448 l
-</path>
-<path stroke="lightgray">
-576 432 m
-16 432 l
-</path>
-<path stroke="lightgray">
-16 416 m
-576 416 l
-</path>
-<path stroke="lightgray">
-576 432 m
-16 432 l
-</path>
-<path stroke="lightgray">
-16 400 m
-576 400 l
-</path>
-<path stroke="lightgray">
-576 384 m
-16 384 l
-</path>
-<path stroke="lightgray">
-16 368 m
-576 368 l
-</path>
-<path stroke="lightgray">
-576 352 m
-16 352 l
-</path>
-<path stroke="lightgray">
-16 336 m
-576 336 l
-</path>
-<path stroke="lightgray">
-32 320 m
-32 576 l
-</path>
-<path stroke="lightgray">
-48 576 m
-48 320 l
-</path>
-<path stroke="lightgray">
-64 576 m
-64 320 l
-</path>
-<path stroke="lightgray">
-80 320 m
-80 576 l
-</path>
-<path stroke="lightgray">
-96 576 m
-96 320 l
-</path>
-<path stroke="lightgray">
-112 320 m
-112 576 l
-</path>
-<path stroke="lightgray">
-128 576 m
-128 320 l
-</path>
-<path stroke="lightgray">
-144 320 m
-144 576 l
-</path>
-<path stroke="lightgray">
-160 576 m
-160 320 l
-</path>
-<path stroke="lightgray">
-176 320 m
-176 576 l
-</path>
-<path stroke="lightgray">
-192 576 m
-192 320 l
-</path>
-<path stroke="lightgray">
-208 320 m
-208 576 l
-</path>
-<path stroke="lightgray">
-224 576 m
-224 320 l
-</path>
-<path stroke="lightgray">
-240 320 m
-240 576 l
-</path>
-<path stroke="lightgray">
-256 576 m
-256 320 l
-</path>
-<path stroke="lightgray">
-272 320 m
-272 576 l
-</path>
-<path stroke="lightgray">
-288 576 m
-288 320 l
-</path>
-<path stroke="lightgray">
-304 320 m
-304 576 l
-</path>
-<path stroke="lightgray">
-320 576 m
-320 320 l
-</path>
-<path stroke="lightgray">
-336 320 m
-336 576 l
-</path>
-<path stroke="lightgray">
-352 576 m
-352 320 l
-</path>
-<path stroke="lightgray">
-368 320 m
-368 576 l
-</path>
-<path stroke="lightgray">
-384 576 m
-384 320 l
-</path>
-<path stroke="lightgray">
-400 320 m
-400 576 l
-</path>
-<path stroke="lightgray">
-416 576 m
-416 320 l
-416 320 l
-</path>
-<path stroke="lightgray">
-432 320 m
-432 576 l
-</path>
-<path stroke="lightgray">
-448 576 m
-448 320 l
-448 320 l
-</path>
-<path stroke="lightgray">
-464 320 m
-464 576 l
-</path>
-<path stroke="lightgray">
-480 576 m
-480 320 l
-</path>
-<path stroke="lightgray">
-496 320 m
-496 576 l
-</path>
-<path stroke="lightgray">
-512 320 m
-512 576 l
-</path>
-<path stroke="lightgray">
-528 576 m
-528 320 l
-</path>
-<path stroke="lightgray">
-544 320 m
-544 576 l
-</path>
-<path stroke="lightgray">
-560 576 m
-560 320 l
-</path>
-<path stroke="lightgray">
-576 576 m
-576 320 l
-</path>
-<path stroke="lightgray">
-592 576 m
-592 320 l
-</path>
-<path stroke="lightgray">
-16 576 m
-16 320 l
-</path>
-<path stroke="lightgray">
-16 336 m
-0 336 l
-</path>
-<path stroke="lightgray">
-32 352 m
-0 352 l
-</path>
-<path stroke="lightgray">
-0 368 m
-32 368 l
-</path>
-<path stroke="lightgray">
-32 384 m
-0 384 l
-</path>
-<path stroke="lightgray">
-0 400 m
-32 400 l
-</path>
-<path stroke="lightgray">
-32 416 m
-0 416 l
-</path>
-<path stroke="lightgray">
-0 432 m
-32 432 l
-</path>
-<path stroke="lightgray">
-32 448 m
-0 448 l
-</path>
-<path stroke="lightgray">
-32 464 m
-0 464 l
-</path>
-<path stroke="lightgray">
-0 480 m
-32 480 l
-</path>
-<path stroke="lightgray">
-32 496 m
-0 496 l
-</path>
-<path stroke="lightgray">
 0 512 m
+0 848 l
+16 848 l
+16 512 l
 32 512 l
-</path>
-<path stroke="lightgray">
-32 528 m
+32 848 l
+48 848 l
+48 512 l
+64 512 l
+64 848 l
+80 848 l
+80 512 l
+96 512 l
+96 848 l
+112 848 l
+112 512 l
+128 512 l
+128 848 l
+144 848 l
+144 512 l
+160 512 l
+160 848 l
+176 848 l
+176 512 l
+192 512 l
+192 848 l
+208 848 l
+208 512 l
+224 512 l
+224 848 l
+240 848 l
+240 512 l
+256 512 l
+256 848 l
+272 848 l
+272 512 l
+288 512 l
+288 848 l
+304 848 l
+304 512 l
+0 512 l
 0 528 l
-</path>
-<path stroke="lightgray">
-0 544 m
-32 544 l
-</path>
-<path stroke="lightgray">
-32 560 m
+304 528 l
+304 544 l
+0 544 l
 0 560 l
-</path>
-<path stroke="lightgray">
-544 560 m
-592 560 l
-</path>
-<path stroke="lightgray">
-544 544 m
-592 544 l
-</path>
-<path stroke="lightgray">
-544 528 m
-592 528 l
-</path>
-<path stroke="lightgray">
-544 512 m
-592 512 l
-</path>
-<path stroke="lightgray">
-544 496 m
-592 496 l
-</path>
-<path stroke="lightgray">
-544 480 m
-592 480 l
-</path>
-<path stroke="lightgray">
-560 464 m
-608 464 l
-</path>
-<path stroke="lightgray">
-544 448 m
-592 448 l
-</path>
-<path stroke="lightgray">
-544 432 m
-592 432 l
-</path>
-<path stroke="lightgray">
-544 416 m
-592 416 l
-</path>
-<path stroke="lightgray">
-544 400 m
-592 400 l
-</path>
-<path stroke="lightgray">
-544 384 m
-624 384 l
-</path>
-<path stroke="lightgray">
-544 368 m
-608 368 l
-</path>
-<path stroke="lightgray">
-544 352 m
-608 352 l
-</path>
-<path stroke="lightgray">
-544 336 m
-608 336 l
-</path>
-<path stroke="lightgray">
-576 400 m
-624 400 l
-624 400 l
-</path>
-<path stroke="lightgray">
-560 416 m
-608 416 l
-</path>
-<path stroke="lightgray">
-576 432 m
-624 432 l
-</path>
-<path stroke="lightgray">
-592 448 m
-624 448 l
-</path>
-<path stroke="lightgray">
-592 480 m
-640 480 l
-</path>
-<path stroke="lightgray">
-576 496 m
-624 496 l
-</path>
-<path stroke="lightgray">
-592 512 m
-624 512 l
-</path>
-<path stroke="lightgray">
-592 528 m
-624 528 l
-</path>
-<path stroke="lightgray">
-592 544 m
-608 544 l
-</path>
-<path stroke="lightgray">
-592 560 m
-640 560 l
-</path>
-<path stroke="lightgray">
-592 576 m
-608 576 l
+304 560 l
+304 576 l
+0 576 l
+0 592 l
+304 592 l
+304 608 l
+0 608 l
+0 624 l
+304 624 l
+304 640 l
+0 640 l
+0 656 l
+304 656 l
+304 672 l
+0 672 l
+0 688 l
+304 688 l
+304 704 l
+0 704 l
+0 720 l
+304 720 l
+304 736 l
+0 736 l
+0 752 l
+304 752 l
+304 768 l
+0 768 l
+0 784 l
+304 784 l
+304 800 l
+0 800 l
+0 816 l
+304 816 l
+304 832 l
+0 832 l
+0 848 l
+304 848 l
 </path>
 <path stroke="black">
--12.8883 324.954 m
-885.148 0 0 885.148 -5.96419 1210.07 601.727 566.492 a
+0 544 m
+232.406 0 0 232.406 47.6138 771.476 272 832 a
 </path>
-<use name="mark/disk(sx)" pos="128 336" size="normal" stroke="darkblue"/>
-<text transformations="translations" pos="114.438 337.574" stroke="darkblue" type="label" valign="baseline">$a$</text>
-<use name="mark/disk(sx)" pos="208 352" size="normal" stroke="red"/>
-<use name="mark/disk(sx)" pos="192 352" size="normal" stroke="red"/>
-<use name="mark/disk(sx)" pos="160 352" size="normal" stroke="red"/>
-<use name="mark/disk(sx)" pos="176 352" size="normal" stroke="red"/>
-<text transformations="translations" pos="200.268 363.667" stroke="red" type="label" valign="baseline">$p_1$</text>
+<use name="mark/disk(sx)" pos="0 544" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="80 544" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="144 560" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="192 592" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="224 624" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="256 672" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="272 720" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="272 832" size="normal" stroke="black"/>
+<path stroke="darkblue">
+0 544 m
+80 544 l
+</path>
+<text transformations="translations" pos="87.3219 536.856" stroke="black" type="label" valign="baseline">a</text>
+<path stroke="black">
+80 544 m
+144 560 l
+</path>
+<text transformations="translations" pos="148.124 546.772" stroke="black" type="label" valign="baseline">b</text>
 </page>
 </ipe>

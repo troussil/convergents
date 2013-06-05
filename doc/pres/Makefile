@@ -1,7 +1,7 @@
 LOG=evince
 TEX=tl-pres-m2disco
 
-FIGSRC = $(wildcard fig/as-algo/*.ipe fig/*.ipe fig/as/*.ipe fig/har/*.ipe fig/cercle/*.ipe )
+FIGSRC = $(wildcard fig/as-algo/*.ipe fig/*.ipe fig/as/*.ipe fig/har/*.ipe fig/cercle/*.ipe fig/pas/*.ipe)
 FIGOBJ = $(FIGSRC:.ipe=.pdf)
  
 all: fig paper show 
@@ -18,7 +18,8 @@ fig/cercle/%.pdf: fig/cercle/%.ipe
 	ipetoipe -pdf $<
 fig/as-algo/%.pdf: fig/as-algo/%.ipe
 	ipetoipe -pdf $<
-	
+fig/pas/%.pdf: fig/pas/%.ipe
+	ipetoipe -pdf $<	
 	
 paper:
 	pdflatex $(TEX).tex

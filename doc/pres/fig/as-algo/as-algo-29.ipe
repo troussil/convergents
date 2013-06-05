@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70005" creator="Ipe 7.1.1">
-<info created="D:20130604104208" modified="D:20130604181541"/>
+<info created="D:20130604104208" modified="D:20130605153714"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -619,9 +619,6 @@ h
 <text matrix="1 0 0 1 84.8125 5.01966" transformations="translations" pos="114.438 337.574" stroke="darkblue" type="label" width="5.266" height="4.289" depth="0" valign="baseline">$a$</text>
 <use name="mark/disk(sx)" pos="208 352" size="normal" stroke="red"/>
 <use name="mark/disk(sx)" pos="192 352" size="normal" stroke="red"/>
-<path matrix="1 0 0 1 53.5696 -34.3125" stroke="darkcyan">
-52.9313 0 0 52.9313 104.343 473.004 e
-</path>
 <use name="mark/disk(sx)" pos="160 352" size="normal" stroke="red"/>
 <use name="mark/disk(sx)" pos="176 352" size="normal" stroke="red"/>
 <path stroke="darkblue">
@@ -664,5 +661,9 @@ h
 247.934 385.85 l
 </path>
 <text matrix="1 0 0 1 -5.80093 -10.566" transformations="translations" pos="224.523 405.946" stroke="darkgreen" type="label" width="40.366" height="6.812" depth="1.49" valign="baseline">$R_{\alpha} &gt; R_T$</text>
+<path stroke="darkcyan">
+193 320.128 m
+52.9046 0 0 -52.9046 245.719 315.698 298.427 320.251 a
+</path>
 </page>
 </ipe>

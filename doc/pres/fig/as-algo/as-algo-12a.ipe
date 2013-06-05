@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70005" creator="Ipe 7.1.1">
-<info created="D:20130604104208" modified="D:20130604172403"/>
+<info created="D:20130604104208" modified="D:20130605154632"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -625,22 +625,18 @@ h
 128 352 l
 </path>
 <use matrix="1 0 0 1 80 16" name="mark/disk(sx)" pos="128 352" size="normal" stroke="darkblue"/>
-<text matrix="1 0 0 1 80 16" transformations="translations" pos="114.438 337.574" stroke="darkblue" type="label" width="5.266" height="4.289" depth="0" valign="baseline">$a$</text>
-<text matrix="1 0 0 1 80 16" transformations="translations" pos="138.677 328.686" stroke="darkblue" type="label" width="29.618" height="4.294" depth="2.32" valign="baseline">$p_{-2}, p_{0}$</text>
-<text matrix="1 0 0 1 71.6508 3.6109" transformations="translations" pos="115.784 362.352" stroke="darkblue" type="label" width="15.708" height="4.294" depth="2.32" valign="baseline">$p_{-1}$</text>
+<text matrix="1 0 0 1 80 16" transformations="translations" pos="114.438 337.574" stroke="darkblue" type="label" valign="baseline">$a$</text>
+<text matrix="1 0 0 1 80 16" transformations="translations" pos="138.677 328.686" stroke="darkblue" type="label" valign="baseline">$p_{-2}, p_{0}$</text>
+<text matrix="1 0 0 1 71.6508 3.6109" transformations="translations" pos="115.784 362.352" stroke="darkblue" type="label" valign="baseline">$p_{-1}$</text>
 <use matrix="1 0 0 1 80 16" name="mark/disk(sx)" pos="144 336" size="normal" stroke="darkblue"/>
 <use name="mark/disk(sx)" pos="208 352" size="normal" stroke="darkblue"/>
-<path stroke="darkcyan">
-0.499072 419.785 m
-612.011 0 0 612.011 9.65678 1031.73 416.521 574.541 a
-</path>
-<text matrix="1 0 0 1 -68.5911 -49.0224" transformations="translations" pos="196.676 464.846" stroke="darkcyan" type="label" width="81.603" height="6.808" depth="2.85" valign="baseline">$R_{\alpha} &gt;&gt; R_{a, p_1, p_1 - p_0}$</text>
+<text matrix="1 0 0 1 64.1073 -120.799" transformations="translations" pos="196.676 464.846" stroke="darkcyan" type="label" valign="baseline">$R_{\alpha} &gt;&gt; R_T$</text>
 <use name="mark/disk(sx)" pos="128 336" size="normal" stroke="darkblue"/>
 <path stroke="darkblue" arrow="normal/normal">
 208 368 m
 256 368 l
 </path>
-<text matrix="1 0 0 1 0 16" transformations="translations" pos="256 368" stroke="darkblue" type="label" width="9.482" height="4.297" depth="1.93" valign="baseline">$p_1$</text>
+<text matrix="1 0 0 1 0 16" transformations="translations" pos="256 368" stroke="darkblue" type="label" valign="baseline">$p_1$</text>
 <use name="mark/disk(sx)" pos="256 368" size="normal" stroke="darkblue"/>
 <path stroke="darkgreen">
 208 352 m
@@ -652,6 +648,14 @@ h
 <path stroke="darkgreen">
 192.161 320.53 m
 56.5709 0 0 -56.5709 248.076 311.942 304.038 320.218 a
+</path>
+<path stroke="darkcyan">
+153.837 320.07 m
+267.764 0 0 -267.764 316.631 107.478 479.203 320.239 a
+</path>
+<path stroke="darkblue">
+128 336 m
+208 352 l
 </path>
 </page>
 </ipe>
