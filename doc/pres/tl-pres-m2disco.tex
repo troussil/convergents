@@ -117,13 +117,13 @@
   %\frametitle{Disque}
   \only<1>
   {
-    \begin{block}{Définition du disque Eucliden}
+    \begin{block}{Définition du disque Euclidien}
       $$\mathcal{D} =  \left\{ (x,y) \in \mathbb{R}^{2} |  ax + by + c(x^2 + y^2) + d \leq 0. \right\}$$
     \end{block}
   }
   \only<2>
   {
-    \begin{block}{Définition du bord du disque Eucliden}
+    \begin{block}{Définition du bord du disque Euclidien}
       $$\mathcal{D} =  \left\{ (x,y) \in \mathbb{R}^{2} |  ax + by + c(x^2 + y^2) + d \alert{=} 0. \right\}$$
     \end{block}
   }  
@@ -171,12 +171,12 @@
         {
           \begin{block}{Question :}
             \begin{center}  
-              \alert{Comment sont représenter les contours de disques discrets dans $\mathbb{Z}^{2}$ ?}
+              \alert{Comment sont représenté les contours de disques discrets dans $\mathbb{Z}^{2}$ ?}
             \end{center}
           \end{block}
         }
       \end{column}
-    \end{columns} 
+    \end{columns}
 \end{frame}
 
 \subsection{$\alpha$-shape}
@@ -185,8 +185,8 @@
   \begin{block}{$\alpha$-shape de $\mathcal{D}$}
     \begin{itemize}
       \item $\alpha$-hull : Intersection de tous les disques généralisés de rayon $1/\alpha$ qui contiennent tous les points de $\mathcal{D}$.
-      \item $\alpha$-extreme : Point appartenant au bord de l'$\alpha$-hull.
-      \item $\alpha$-shape : Enveloppe reliant tous les $\alpha$-extreme voisins entre eux.
+      \item $\alpha$-extrême : Point appartenant au bord de l'$\alpha$-hull.
+      \item $\alpha$-shape : Enveloppe reliant tous les $\alpha$-extrême voisins entre eux.
     \end{itemize}
   \end{block}
 \begin{columns}[t]
@@ -335,7 +335,7 @@
     }
 
   \end{column}
-\end{columns} 
+\end{columns}
 
 \end{frame}
 
@@ -357,16 +357,16 @@
       \end{itemize}
 
       Calcul récursif des suivants :
-      \vspace{-0.2cm} 
+      \vspace{-0.2cm}
       \alert{$$ p_{k} = p_{k-2} + q_{k}*p_{k-1}$$}
       avec le plus grand $q_{k} \in \mathbb{Z}$ tq $p_{k}$ et $p_{k-2}$ soient du même côté.\\
       \vspace{0.2cm}
       | Tant que $ p_{k} \in d$.
     \end{block}
     \begin{alertblock}{}
-      \vspace{-0.2cm} 
+      \vspace{-0.2cm}
       $$ PGCD(x, y) = x/ x_{n} = y/ y_{n}$$
-      \vspace{-0.2cm} 
+      \vspace{-0.2cm}
     \end{alertblock}
   \end{column}
 
@@ -436,27 +436,27 @@
     \end{figure}
   }   
   \end{column}
-\end{columns} 
+\end{columns}
 \end{frame}
 
 \begin{frame}
 \frametitle{Calcul de l'enveloppe convexe d'un cercle}
 \begin{columns}[t]
   \begin{column}{4cm}
-  
+ 
   \begin{block}{Différences}
     \begin{itemize}
       \item $a\ne (0, 0)$.
       \item $b$ inconnu.
     \end{itemize}
   \end{block}
-  
+ 
     \begin{block}{Algorithme}
     Trouver $a_0$
     Calculer les convergents.\\
     Récolter les candidats :
     \begin{itemize}
-      \item Intérieur : $k / 2 \equiv 1 [2]$ 
+      \item Intérieur : $k / 2 \equiv 1 [2]$
       \item Sur le bord
     \end{itemize}
     Choisir le meilleurs :\\
@@ -590,7 +590,7 @@
     }
 
   \end{column}
-\end{columns} 
+\end{columns}
 
 \end{frame}
     
@@ -614,7 +614,7 @@
       \item Construires les polygônes.
     \end{itemize}
   \end{exampleblock}
-  
+ 
 
 
 \end{frame}
@@ -626,7 +626,7 @@
 \subsection{Généralisation de Har-Peled - $\alpha \leq 0$}
 \begin{frame}
 \frametitle{Généralisation de Har-Peled - $\alpha \leq 0$}
-  
+ 
   \begin{columns}[t]
   \begin{column}{7cm}
       \only<1>
@@ -687,13 +687,13 @@
         }
       \end{block}     
     \end{column}
-  \end{columns} 
+  \end{columns}
 
 \end{frame}
 
 \begin{frame}
 \frametitle{Cas 1 - $R_{\alpha} > R_T$}
-  
+ 
   \begin{columns}[t]
    \begin{column}{7cm}
       \only<1>
@@ -715,7 +715,7 @@
           \begin{block}{}
             \begin{itemize}
               \item $b \notin$ l'$\alpha$-shape.
-            \end{itemize} 
+            \end{itemize}
           \alert{On cherche les convergents suivants.}
         \end{block}
       }   
@@ -776,7 +776,7 @@
         {
           \begin{itemize}
             \item $p_{2}$ n'existe pas.
-          \end{itemize} 
+          \end{itemize}
           On reprends à partir du dernier convergent de degré impaire :\\
           $p_1$.\\
         }
@@ -788,7 +788,7 @@
             \item $p_{-1} = (0, 1)$
             \item $p_{0} = (1, 0)$
             \item $p_{1} = (3, 1)$
-          \end{itemize} 
+          \end{itemize}
         }
         \only<6>
         {
@@ -796,7 +796,7 @@
             \begin{itemize}
               \item $b \notin$ l'$\alpha$-shape.
             \end{itemize}
-            Et le calcul de nouveaux convergents... 
+            Et le calcul de nouveaux convergents...
         }
         \only<7,8>
         {
@@ -810,16 +810,16 @@
           \alert{$\Rightarrow R_{\alpha} >> R_T$.}\\
           \alert{$\Rightarrow$ l'enveloppe convexe.}\\
 
-        \end{block} 
+        \end{block}
       }     
     \end{column}
-  \end{columns} 
+  \end{columns}
 
 \end{frame}
 
 \begin{frame}
 \frametitle{Cas 2 - $R_{\alpha} < R_T$}
-  
+ 
   \begin{columns}[t]
    \begin{column}{7cm}
       \only<1>
@@ -842,7 +842,8 @@
             \alert{Au minimum} :
             \begin{itemize}
               \item $b \in$ l'$\alpha$-shape.
-            \end{itemize} 
+            \end{itemize}
+            On recherche les autres sommets potentiels.
           \end{block}
       }         
       \only<4>
@@ -939,7 +940,7 @@
           \alert{$R_{\alpha} < R_T$}
 
         }
-        \only<2>
+        \only<2,3>
         {
           Soit $b = p_{1} - p_{0}$.
           \begin{itemize}
@@ -952,14 +953,14 @@
         \only<4>
         {
           Les rayons sont ordonnés et strictement croissant.\\
-          Recherche dichotomique du premier rayon plus grand que le prédicat.\\
+          Recherche dichotomique du premier sommet dans l'$\alpha$-shape.\\
         }        
         \only<5>
         {
           On se place au milieu :
           \begin{itemize}
             \item $R_{\alpha} < R_T$
-          \end{itemize} 
+          \end{itemize}
           On va chercher en aval.
         }
         \only<6>
@@ -992,7 +993,7 @@
         \only<11>
         {
           $R_{\alpha} < R_T$\\
-          On lance la méthode dichotomique. 
+          On lance la méthode dichotomique.
         }
         \only<12>
         {
@@ -1010,7 +1011,7 @@
       \end{block}
      
     \end{column}
-  \end{columns} 
+  \end{columns}
 
 \end{frame}
 
@@ -1070,7 +1071,7 @@
         }
       \end{block}  
     \end{column}
-  \end{columns} 
+  \end{columns}
 
 \end{frame}
 
@@ -1184,10 +1185,10 @@
           \alert{$\Rightarrow R_{\alpha} >> R_T$.}\\
           \alert{$\Rightarrow$ l'enveloppe convexe.}\\
 
-        \end{block} 
+        \end{block}
       }  
     \end{column}
-  \end{columns} 
+  \end{columns}
 
 \end{frame}
 
@@ -1308,7 +1309,7 @@
         }
       \end{block}
     \end{column}
-  \end{columns} 
+  \end{columns}
 
 \end{frame}
 
