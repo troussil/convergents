@@ -89,5 +89,78 @@
   \label{algo:ex}
 \end{algorithm}
 
+\begin{algorithm}[h]
+  \KwIn{$\alpha$, $v_{in}$ any $\alpha$-shape vertex  }
+  \KwOut{$L$ a list of consecutive $\alpha$-shape vertices starting from $v_{in}$ and $v_{out}$ the last vertex.}
+  %
+  $p_{-2} \leftarrow (1,0)$, $p_{-1} \leftarrow (0,1)$, $k \leftarrow 0$, stop $\leftarrow$ false \;
+  \While{Ray-shooting intersecte the circle and non stop} 
+  {
+    $p_k = q_k p_{k-1} + q_{k-2}$ \;
+    \eIf{$p_k$ is outside the shape} 
+    {
+      \tcc{k is odd}	
+      \If{$k > 0$ et $qk < 0$} 
+      {
+        $v_{out} \leftarrow p_{k-1}$ \;
+        $stop\leftarrow true$ \;
+      }
+    }
+    {
+      \tcc{$p_k$ is inside or lie on the shape}	
+      \eIf{$k\: is\: even$} 
+      {
+        \tcc{$R$ returns the circumcircle radius of three points}	
+        \If{ $R(v, (q_k - 1)p_{k-1} + p_{k-2}, p_k) > -1/\alpha$ }
+        {
+          Find the greatest integer $0 \leq q \leq q_{k} - 1$ such that 
+          $R(v, qp_{k-1} + p_{k-2}, (q+1)p_{k-1} + p_{k-2}) > -1/\alpha$ \;
+          
+          $L \leftarrow L \cup v$ \; 
+          \For{$i$ from $1$ to $q_k-q$ } 
+          {
+            $L \leftarrow L \cup i p_{k-1} $ \;      
+          }
+          $v_{out} \leftarrow p_{k}$ \;
+          $stop \leftarrow true$ \;
+        }          
+      }  
+      {
+        \If{ $R(v, p_k, (q_k - 1)p_{k-1} + p_{k-2}) > -1/\alpha$ }
+        {
+          Find the greatest integer $0 \leq q \leq q_{k} - 1$ such that 
+          $R(v, qp_{k-1} + p_{k-2}, (q+1)p_{k-1} + p_{k-2}) > -1/\alpha$ \;
+        
+          \eIf{ $qkalpha == 0$} 
+          {
+            $v_{out} \leftarrow p_{k-2}$ \;
+            $stop \leftarrow true$ \;
+          }
+          {
+            \For{$i$ from $1$ to $q_k-q$ } 
+            {
+              $L \leftarrow L \cup p_{k-2} + i p_{k-1} $ \;      
+            }
+            $v_{out} \leftarrow p_{k}$ \;
+            $stop \leftarrow true$ \;
+          }  
+        }
+      } 
+    }
+    \tcc{Update  $p_{k-1}$ and  $p_{k-2}$}	    
+    $k \leftarrow k + 1$ \;
+    $p_{k-2} \leftarrow p_{k-1}$ \;
+    $p_{k-1} \leftarrow p_{k}$ \;
+   }
+   \If{$stop == false$ }
+   {
+    $v_{out} \leftarrow p_{k-1}$ \; 
+   } 
+
+  \caption{Algorithm for retrieving some consecutive $\alpha$-shape vertices}
+  \label{algo:1}
+
+\end{algorithm}
+
 
 \end{document}
