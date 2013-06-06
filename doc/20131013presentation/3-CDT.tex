@@ -1,4 +1,4 @@
-\section{Triangulation de Delaunay d'ordre 0}
+\section{Triangulation de Delaunay d'ordre 0 (CDT)}
 
   \begin{frame}<beamer>
     \frametitle{Plan}
@@ -7,7 +7,93 @@
 
 % ----------------------------------------------------------------------
 \begin{frame}
-  	\frametitle{Un slide}
+  	\frametitle{Résultat}
 
+
+%exemple %schéma
+\includegraphics[width=0.22\linewidth,page=4]{fig/CDT-motif.pdf}\hspace{0.02\linewidth}
+\includegraphics[width=0.22\linewidth,page=8]{fig/CDT-motif.pdf}\hspace{0.02\linewidth}
+\includegraphics[width=0.45\linewidth]{fig/CDT-tree.pdf}
+
+~
+
+%ref
+\scriptsize
+\begin{thebibliography}{alpha}
+
+\bibitem{RL11}
+[RL11] Roussillon, T., Lachaud, J-O., 
+\newblock Delaunay properties of digital straight segments
+\newblock {\em Discrete Geometry and Computer Imagery},  308--319, 2011.
+
+\end{thebibliography}
+
+
+\end{frame}
+
+% ----------------------------------------------------------------------
+\begin{frame}
+  	\frametitle{Schéma de preuve}
+
+%EMST in CDT
+\begin{block}{1. L'EMST divise la CDT en deux parties} 
+\centering
+\includegraphics[width=0.22\linewidth,page=2]{fig/CDT-motif.pdf}\hspace{0.02\linewidth}
+\includegraphics[width=0.22\linewidth,page=3]{fig/CDT-motif.pdf}\hspace{0.02\linewidth}
+\end{block}
+
+%triangulation unique, donc de Delaunay
+\begin{block}{2. La partie supérieure de l'enveloppe convexe se triangule de manière unique} 
+\only<1>{
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.22\linewidth,page=5]{fig/CDT-motif.pdf}\hspace{0.02\linewidth}
+\end{figure}
+}
+\only<2>{
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.22\linewidth,page=6]{fig/CDT-motif.pdf}\hspace{0.02\linewidth}
+\end{figure}
+}
+\only<3>{
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.22\linewidth,page=7]{fig/CDT-motif.pdf}\hspace{0.02\linewidth}
+\end{figure}
+}
+\end{block}
+
+\end{frame}
+
+% ----------------------------------------------------------------------
+\begin{frame}
+  	\frametitle{Application directe: $\alpha$-shape, $\alpha \in [-2;0]$}
+
+\begin{block}{Calcul incrémental et \emph{output-sensitive} 
+de l'enveloppe convexe ($\alpha = 0$)}
+%ref Har-peled
+\scriptsize
+\begin{thebibliography}{alpha}
+\bibitem{H98b}
+[H98] Har-Peled, S.
+\newblock An output sensitive algorithm for discrete convex hulls
+\newblock {\em Computational Geometry}, 10(2):125--138, 1998.
+\end{thebibliography}
+%
+\end{block}
+
+
+\begin{block}{Généralisation pour $\alpha \leq 0$}
+%explications orales ?
+ \begin{itemize}
+  \item raffinement récursif à partir des arêtes de l'enveloppe convexe
+  \item calcul incrémental à partir des convergents des arêtes
+ \end{itemize}
+
+%ref stage
+\scriptsize 
+Stage de master de Thomas Lafond 
+\end{block}
 
 \end{frame}
