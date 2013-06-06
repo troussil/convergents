@@ -61,44 +61,50 @@
  
 \begin{frame}
 %\frametitle{Parcours}
-  \begin{block}{Licence de Mathématiques et d'Informatique}
-    \begin{itemize}
-      \item Mathématiques : L1, L2, L3.
-      \item Informatique : L1, L2.
-      \item Domaine Scientifique : Science Physique, Chimie et Biologie.
-    \end{itemize}
-  \end{block}
+   \only<1,2,3>
+   {
+     \begin{block}{Licence de Mathématiques et d'Informatique}
+      \begin{itemize}
+        \item Mathématiques : L1, L2, L3.
+        \item Informatique : L1, L2.
+        \item Domaine Scientifique : Science Physique, Chimie et Biologie.
+      \end{itemize}
+    \end{block}
+  }
+  \only<2,3>
+  {
+    \begin{block}{Master Statistiques, Informatique et Techniques Numériques}
+      \begin{columns}[t]
 
-  \begin{block}{Master Statistiques, Informatique et Techniques Numériques}
-    \begin{columns}[t]
+        \begin{column}{5.5cm}
+          Trois composantes principales :
+          \begin{itemize}
+            \item Probabilités et Statistiques
+            \item EDP et Calcul scientifique
+            \item Développement Informatique
+          \end{itemize}
+        \end{column}
 
-      \begin{column}{5.5cm}
-        Trois composantes principales :
-        \begin{itemize}
-          \item Probabilités et Statistiques
-          \item EDP et Calcul scientifique
-          \item Développement Informatique
-        \end{itemize}
-      \end{column}
-
-      \begin{column}{4.5cm}
-        Une certaine ouverture  
-        \begin{itemize}
-          \item \alert{Stages}
-          \item Calcul parallèle
-          \item Mécanique des fluides
-        \end{itemize}
-      \end{column}
-    \end{columns}  
-  \end{block}
-
+        \begin{column}{4.5cm}
+          Une certaine ouverture  
+          \begin{itemize}
+            \item \alert{Stages}
+            \item Calcul parallèle
+            \item Mécanique des fluides
+          \end{itemize}
+        \end{column}
+      \end{columns}  
+    \end{block}
+  }
+  \only<3>
+  {
     \begin{block}{Stages précédents}
       \begin{itemize}
         \item Modélisation Hydrologique - Irstea - 5 Mois
         \item Décomposition de domaine - MmodD / Lyon 1 - 2 Mois
       \end{itemize}
-  \end{block}
-
+    \end{block}
+  }
 \end{frame}
 
 % table des matières
@@ -1389,24 +1395,65 @@
 \begin{frame}
 \frametitle{Poursuite du projet}
 
-  \begin{block}{ Technique }
+  \begin{block}{Homogénisation}
     \begin{itemize}
       \item Utilisation de DGtal::PointVector().
-      \item FAke itérateur quand l'intérêt est uniquement de compter le nombre de sommets.
+      \item Rétroactivement suivre un unique 'coding style'.
+    \end{itemize}    
+  \end{block}
+  \begin{block}{Amélioration}
+    \begin{itemize}       
+      \item Fake itérateur quand l'intérêt est uniquement de compter le nombre de sommets.
       \item Alpha-shape < 0 réccursif à partir des arêtes de l'alpha-shape.
       \item Alpha-Shape > du polygône minimal à l'enveloppe convexe.
-      \item Résoudre les problèmes de compilations avec clang++ et c++.
-      \item Rétroactivement suivre un unique 'style de code'.
       \item Ajouter d'autres formes : ellispse.
-  \end{itemize} 
+    \end{itemize} 
   \end{block}
+    \begin{block}{Amélioration}
+      \begin{itemize} 
+         \item Résoudre les problèmes de compilations avec clang++ et c++.
+      \end{itemize} 
+    \end{block}
 \end{frame}
 
 \subsection{Poursuite personnelle}
 \begin{frame}
 \frametitle{Poursuite personnelle}
-\bibliographystyle{alpha}
-\bibliography{tl_bibliographie.bib}
+  \begin{block}{Concours}
+      \begin{itemize}
+        \item TOEIC : Résultat = (Vendredi)
+        \item CAPÈS : \only<2,3>{Écirt : Mi-Juin 2013}
+          \only<1>
+          {
+            \begin{itemize} 
+              \item Épreuves écrites d'admissibilité : Mi-Juin 2013 (date éxacte)
+              \item Résultat des épreuves écrites : Fin-Juillet 2013
+              \item Épreuve orale d’admission : Juin 2014
+            \end{itemize}
+          }   
+    \end{itemize} 
+  \end{block}
+  
+  \only<2,3>
+  {
+    \begin{block}{Thèses}
+      \begin{itemize}
+        \item Ampère : Commande énergétique - Critères de performance non quadratiques 
+        \item IFP : Stratégie de contrôle des éoliennes flottantes
+      \end{itemize} 
+    \end{block}
+  }
+  \only<3>
+  {
+    \begin{block}{Entreprises}
+      \begin{itemize}
+        \item Cosmo Compagny : Modélisation UML + C++. (Entretiens réalisés) 
+        \item Sysfera, Picviz : Cluster, Linux, C++.
+        \item Orange, Arkoon...
+        \item SSII.
+      \end{itemize} 
+    \end{block}
+  }
 \end{frame}
 
 \subsection{Thanks}
@@ -1415,6 +1462,8 @@
     \begin{center}
       Merci !
     \end{center}
+    \bibliographystyle{alpha}
+    \bibliography{tl_bibliographie.bib}
   \end{block}
 \end{frame}
 
