@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70005" creator="Ipe 7.1.1">
-<info created="D:20130606152320" modified="D:20130606154246"/>
+<info created="D:20130606152320" modified="D:20130606155604"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -232,125 +232,7 @@ h
 <page>
 <layer name="alpha"/>
 <layer name="beta"/>
-<layer name="gamma"/>
-<view layers="beta" active="gamma"/>
-<view layers="gamma" active="gamma"/>
-<path layer="beta" stroke="black">
-256 640 m
-64 0 0 -64 192 640 128 640 a
-</path>
-<path stroke="black">
-128 640 m
-256 640 l
-</path>
-<use name="mark/cross(sx)" pos="253.835 623.495" size="normal" stroke="black"/>
-<use name="mark/cross(sx)" pos="128 640" size="normal" stroke="black"/>
-<use name="mark/cross(sx)" pos="256 640" size="normal" stroke="black"/>
-<use matrix="1 0 0 1 4.96538 6.51687" name="mark/cross(sx)" pos="240.167 597.858" size="normal" stroke="black"/>
-<path stroke="black">
-256 640 m
-253.835 623.495 l
-</path>
-<path stroke="black">
-128 640 m
-253.835 623.495 l
-</path>
-<use name="mark/cross(sx)" pos="132.752 615.8" size="normal" stroke="black"/>
-<path stroke="black">
-253.835 623.495 m
-132.752 615.8 l
-</path>
-<path stroke="black">
-128 640 m
-132.752 615.8 l
-</path>
-<use name="mark/cross(sx)" pos="210.836 578.834" size="normal" stroke="black"/>
-<use name="mark/cross(sx)" pos="174.194 578.527" size="normal" stroke="black"/>
-<use name="mark/cross(sx)" pos="149.837 591.852" size="normal" stroke="black"/>
-<path stroke="black" dash="dotted">
-132.752 615.8 m
-245.132 604.375 l
-149.837 591.852 l
-</path>
-<path stroke="black">
-149.837 591.852 m
-210.836 578.834 l
-174.194 578.527 l
-</path>
-<path stroke="black">
-174.194 578.527 m
-149.837 591.852 l
-</path>
-<path stroke="black" dash="dotted">
-132.752 615.8 m
-149.837 591.852 l
-</path>
-<path stroke="black">
-253.835 623.495 m
-245.132 604.375 l
-</path>
-<path stroke="black" dash="dotted">
-245.132 604.375 m
-210.836 578.834 l
-</path>
-<use layer="gamma" matrix="1 0 0 1 0.00020767 -0.00024907" name="mark/disk(sx)" pos="228.722 633.365" size="normal" stroke="black"/>
-<use matrix="1 0 0 1 0.00020767 -0.00024907" name="mark/disk(sx)" pos="152.778 625.821" size="normal" stroke="black"/>
-<use matrix="1 0 0 1 0.00020767 -0.00024907" name="mark/disk(sx)" pos="226.961 613.248" size="normal" stroke="black"/>
-<use matrix="1 0 0 1 -7.04097 -0.25172" name="mark/circle(sx)" pos="171.135 602.937" size="normal" stroke="black"/>
-<use name="mark/circle(sx)" pos="209.107 591.118" size="normal" stroke="black"/>
-<use name="mark/disk(sx)" pos="175.41 583.071" size="normal" stroke="black"/>
-<path stroke="black">
-228.722 633.365 m
-228.722 651.22 l
-</path>
-<path stroke="black">
-228.722 633.365 m
-268.957 633.365 l
-</path>
-<path stroke="black">
-228.722 633.365 m
-152.778 625.821 l
-</path>
-<path stroke="black">
-152.778 625.821 m
-116.817 625.821 l
-</path>
-<path stroke="black">
-152.778 625.821 m
-226.961 613.248 l
-</path>
-<path stroke="black">
-226.961 613.248 m
-266.442 613.248 l
-</path>
-<path stroke="black" dash="dotted">
-226.961 613.248 m
-164.094 602.685 l
-</path>
-<path stroke="black" dash="dotted">
-164.094 602.685 m
-119.583 602.686 l
-</path>
-<path stroke="black" dash="dotted">
-164.094 602.685 m
-209.107 591.118 l
-</path>
-<path stroke="black" dash="dotted">
-209.107 591.118 m
-265.939 591.118 l
-</path>
-<path stroke="black">
-209.107 591.118 m
-175.41 583.071 l
-</path>
-<path stroke="black">
-175.41 583.071 m
-123.356 583.071 l
-</path>
-<path stroke="black">
-175.41 583.071 m
-175.41 566.977 l
-</path>
+<view layers="alpha beta" active="beta"/>
 <path layer="alpha" stroke="black">
 128 640 m
 160 640 l

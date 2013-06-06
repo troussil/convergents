@@ -10,7 +10,9 @@
   	\frametitle{Résultat}
 
 \centering
-\includegraphics[width=0.4\linewidth,page=1]{fig/FDT-schema.pdf}
+\includegraphics[width=0.4\linewidth,page=1]{fig/FDT-schema.pdf}\hspace{0.05\linewidth}
+\includegraphics[width=0.5\linewidth]{fig/FDT-tree.pdf}
+%exemple ?
 
 \begin{block}{Topologie}
 Soit $n = O(\max{(a,b)})$, la profondeur de développement 
@@ -37,3 +39,164 @@ en fractions continues de $a/b$, la pente du motif.
 \end{thebibliography}
 
 \end{frame}
+
+% ----------------------------------------------------------------------
+\begin{frame}
+  	\frametitle{Exemples}
+
+\only<1>{
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=1\linewidth]{fig/29_12.pdf}
+\end{figure}
+}
+\only<2>{
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.7\linewidth,page=1]{fig/8_5x2.pdf}
+\end{figure}
+}
+
+
+\end{frame}
+
+
+% ----------------------------------------------------------------------
+\begin{frame}
+  	\frametitle{Retour sur l'algorithme d'Euclide}
+
+%equations
+Soit $\theta(z_n) = p_n/q_n = [u_0, u_1, \ldots, u_n]$
+($q_n > p_n > 0$ sont des entiers premiers entre eux). 
+
+\begin{equation}
+\label{eq:rec-rem}
+\begin{array}{l}
+  u_0 = 0, \quad r_{-1} = q_n, \: r_0 = p_n, \\
+  \forall 1 \leq k \leq n, \:
+  u_k = \bigg\lfloor\frac{r_{k-2}}{r_{k-1}}\bigg\rfloor, \:
+  r_k = r_{k-2} - u_k r_{k-1}. \\
+\end{array}
+\end{equation}
+
+Les restes sont positifs et croissants.  
+\begin{equation}
+\label{eq:rem-order}
+r_{-1} = q_n > p_n = r_{0} > \ldots > r_{n-1} = 1 > r_n = 0. 
+\end{equation}
+
+
+Les convergents $z_k$ sont définis tels que $\forall 0 \leq k \leq n$, 
+$p_k/q_k$ $=$ $[u_0, u_1, \ldots, u_k]$. 
+
+\begin{equation}
+\label{eq:rec-conv}
+\begin{array}{l}
+  z_0 = 1, \: z_{-1} = i, \\
+  \forall 1 \leq k \leq n, \:
+  z_k = z_{k-2} + u_k z_{k-1}. \\
+\end{array}
+ \quad
+%
+\end{equation}
+
+\end{frame}
+
+% ----------------------------------------------------------------------
+\begin{frame}
+  	\frametitle{Interprétation géométrique de l'algorithme d'Euclide}
+
+\only<1>{
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.5\linewidth,page=2]{interpretation-euclid.pdf}
+\end{figure}
+}
+\only<2>{
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.5\linewidth,page=3]{interpretation-euclid.pdf}
+\end{figure}
+}
+\only<3>{
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.5\linewidth,page=4]{interpretation-euclid.pdf}
+\end{figure}
+}
+\only<4>{
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.5\linewidth,page=5]{interpretation-euclid.pdf}
+\end{figure}
+}
+\only<5>{
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.5\linewidth,page=6]{interpretation-euclid.pdf}
+\end{figure}
+}
+\only<6>{
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.5\linewidth,page=7]{interpretation-euclid.pdf}
+\end{figure}
+}
+\only<7>{
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.5\linewidth,page=8]{interpretation-euclid.pdf}
+\end{figure}
+}
+\only<8>{
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.5\linewidth,page=9]{interpretation-euclid.pdf}
+\end{figure}
+}
+\only<9>{
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.5\linewidth,page=10]{interpretation-euclid.pdf}
+\end{figure}
+}
+
+\begin{equation}
+\label{eq:rem-conv}
+\forall 0 \leq k \leq n, \:
+r_k z_{k-1} + r_{k-1} z_k = z_n.
+\end{equation}
+
+\end{frame}
+
+% ----------------------------------------------------------------------
+\begin{frame}
+  	\frametitle{Convergents et enveloppe convexe}
+
+%convergents + sommets et aretes enveloppes convexes
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.4\linewidth]{8_5_Zk.pdf}\hspace{0.05\linewidth}
+\includegraphics[width=0.4\linewidth]{8_5_Hk.pdf}
+\end{figure}
+
+%convergents, cones vides / enveloppes convexes
+%
+%\begin{equation}
+%\label{eq:det-rem}
+%\forall -1 \leq k \leq n \quad 
+%q_np_k - p_kq_n = r_k(-1)^k.
+%\end{equation}
+
+
+\end{frame}
+
+% ----------------------------------------------------------------------
+\begin{frame}
+  	\frametitle{Idée de la preuve}
+
+
+\end{frame}
+
+%avant conclusion uni-modularité
+
