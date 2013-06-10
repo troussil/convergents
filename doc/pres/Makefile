@@ -31,8 +31,8 @@ fig/4-contribution/positif/%.pdf: fig/4-contribution/positif/%.ipe
 	
 paper:
 	pdflatex $(TEX).tex
-	bibtex $(TEX)
-	pdflatex $(TEX).tex
+	#bibtex $(TEX)
+	#pdflatex $(TEX).tex
 	pdflatex $(TEX).tex
 
 show:
