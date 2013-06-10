@@ -1,0 +1,269 @@
+%-----------------------------------------------------------------
+\section{Existant}
+%-----------------------------------------------------------------
+
+%-----------------------------------------------------------------
+\subsection{Suivi de bord}
+%-----------------------------------------------------------------
+\begin{frame}
+  \frametitle{Suivi de bord}
+      \only<1>
+    { 
+      \begin{block}{Deux cas}
+        \begin{itemize}
+          \item 4-Connexes.
+          \item 8-connexes.
+        \end{itemize}
+      \end{block} 
+    } 
+    \only<2,3>
+    {
+      \begin{block}{Suivi de bord d'un disque discret.}
+        \begin{itemize}
+          \item On étudie la position des voisins par rapport au disque.
+          \item<3> On en déduit la direction à suivre en fonction du sens de rotation.
+        \end{itemize}
+      \end{block} 
+    }
+    
+    %pics
+    \only<1>
+    {   
+      \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.8\linewidth]{fig/ex/ex-connexe-0.pdf}
+      \end{figure}    
+    }
+    \only<2>
+    {     
+      \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.8\linewidth]{fig/ex/ex-connexe-1.pdf}
+      \end{figure}    
+    }
+    \only<3>
+    {     
+      \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.8\linewidth]{fig/ex/ex-connexe-2.pdf}
+      \end{figure}    
+    }
+\end{frame}
+
+%-----------------------------------------------------------------
+\subsection{Enveloppe Convexe}
+%-----------------------------------------------------------------
+
+\begin{frame}
+  \frametitle{Enveloppe convexe}
+
+  \begin{block}{}
+    On obtient une liste de sommets adjacents.\\
+    On recherche le meilleurs candidat pour construire la prochaine arête.
+  \end{block} 
+
+  \begin{columns}[t]
+ 	 \begin{column}{3cm}
+			\begin{figure}[h!]
+	      \centering
+	      \includegraphics[width=\linewidth]{fig/cercle/ch-1.pdf}
+     	\end{figure}    
+    \end{column}
+
+    \begin{column}{3cm}
+      \begin{figure}[h!]
+		      \centering
+		      \includegraphics[width=\linewidth]{fig/cercle/ch-2.pdf}
+     	\end{figure}    
+    \end{column}
+			
+		\begin{column}{3cm}
+      \begin{figure}[h!]
+		      \centering
+		      \includegraphics[width=\linewidth]{fig/cercle/ch-3.pdf}
+     	\end{figure}    
+    \end{column}
+        
+	\end{columns}  
+
+\end{frame}
+
+%-----------------------------------------------------------------
+
+\begin{frame}
+  \frametitle{Har-Peled - Convergents}
+
+	\begin{block}{}
+	\begin{tiny}
+    [H98] Har-Peled, S.\\
+    An output sensitive algorithm for discrete convex hulls\\
+    {\em Computational Geometry}, 10(2):125--138, 1998.\\
+    \end{tiny}
+	\end{block} 
+
+
+	\begin{columns}[t]
+ 		\begin{column}{5cm}
+  		
+			\begin{block}{}
+	      Calcul des convergents :
+	      \begin{itemize}
+	        \item $a = (0,0), b = (y, x)$
+	        \item $p_{-2} = (1,0), p_{-1} = (0,1)$
+					\item<2-> \alert{$ p_{k} = p_{k-2} + q_{k}*p_{k-1}$}\\
+		      avec le plus grand $q_{k} \in \mathbb{Z}$ tq $p_{k}$ et $p_{k-2}$ soient du même côté.
+	      \end{itemize}
+	    \end{block}
+		\end{column}
+
+		\begin{column}{5cm}
+			\only<1>
+			{
+				\begin{figure}[h!]
+					\centering
+				  \includegraphics[width=0.6\linewidth]{fig/har/har2-1.pdf}
+			 	\end{figure}    
+			}
+			\only<2>
+			{
+				\begin{figure}[h!]
+					\centering
+				  \includegraphics[width=0.6\linewidth]{fig/har/har2-2.pdf}
+			 	\end{figure}    
+			}
+			\only<3>
+			{
+				\begin{figure}[h!]
+					\centering
+				  \includegraphics[width=0.6\linewidth]{fig/har/har2-3.pdf}
+			 	\end{figure}    
+			}
+	  \end{column}
+	\end{columns}  
+
+\end{frame}
+
+%-----------------------------------------------------------------
+
+\begin{frame}
+  \frametitle{Har-Peled - Passage à l'enveloppe convexe du cercle}
+  		
+			\begin{block}{Calcul des convergents}
+					On initialise avec les deux premiers convergents : $p_{-2}$ et $p_{1}$.
+				\begin{itemize}
+	        \item Tous les convergents impairs sont à l'intérieur du disque.
+					\item Tous les convergents pairs sont à l'extérieur du disque.
+	      \end{itemize}
+		
+	    \end{block}
+
+				\begin{figure}[h!]
+					\centering
+				  \includegraphics[width=0.2\linewidth]{fig/cercle/cer-1.pdf}
+				  \includegraphics[width=0.2\linewidth]{fig/cercle/cer-2.pdf}
+					\includegraphics[width=0.2\linewidth]{fig/cercle/cer-3.pdf}
+				  \includegraphics[width=0.2\linewidth]{fig/cercle/cer-4.pdf}
+			 	\end{figure}    
+      \only<2>
+      {
+			\begin{block}{}
+					\alert{On repart du plus grand convergent impair.}
+	    \end{block}
+      }
+
+\end{frame}
+
+%-----------------------------------------------------------------
+
+\begin{frame}
+  \frametitle{Har-Peled - Résultat}
+	\begin{columns}[t]
+ 		\begin{column}{3.8cm}
+  		\begin{block}{Sommets/$r^{2/3}$}
+				\begin{tiny}
+					\begin{tabular}{|l|c|r|}
+						\hline
+						Rayons & CH-E0 & CH-E1 \\
+						\hline
+						32 & 3.50816 & 10.1246 \\
+						64 & 3.48625 & 10.635 \\
+						128 & 3.45612 & 11.1696 \\
+						256 & 3.46525 & 11.5349 \\
+						512 & 3.46984 & 11.8908 \\
+						1024 & 3.46203 & 12.2068 \\
+						2048 & 3.46115 & 12.4457 \\
+						4096 & 3.45258 & 12.6752 \\
+						8192 & 3.45479 & 12.9217 \\
+						16384 & 3.45495 & 13.0297 \\
+						32768 & 3.45479 & 13.1866 \\
+						65536 & 3.45564 & 13.2766 \\
+						131072 & 3.45433 & 13.4516 \\
+						262144 & 3.45375 & 13.5341 \\
+						524288 & 3.45423 & 13.6428 \\
+						1048576 & 3.45374 & 13.7542 \\
+						2097152 & 3.45316 & 13.8098 \\
+						4194304 & 3.45429 & 13.8796 \\
+						8388608 & 3.45336 & 13.9427 \\
+						16777216 & 3.45343 & 14.0154 \\
+						33554432 & 3.45357 & 14.0745 \\
+						67108864 & 3.45092 & 14.0992 \\
+						134217728 & 3.42459 & 14.2689 \\
+						268435456 & 3.2448 & 15.9038 \\
+					  \hline
+					\end{tabular}  
+				\end{tiny}
+			\end{block} 
+		\end{column}
+		\begin{column}{7cm}
+		    \only<1>
+		    {
+				  \begin{figure}[h!]
+					  \centering
+				    \includegraphics[width=\linewidth]{fig/res/ch-e1-100vertices-byradius.png}
+			   	\end{figure}    
+        }
+        \only<2>
+		    {
+				  \begin{figure}[h!]
+					  \centering
+				    \includegraphics[width=\linewidth]{fig/res/time.png}
+			   	\end{figure}    
+        }
+		\end{column}
+	\end{columns} 
+
+\end{frame}
+
+
+%-----------------------------------------------------------------
+\subsection{Triangulation de Delaunay}
+%-----------------------------------------------------------------
+
+\begin{frame}
+  \frametitle{Triangulation de Delaunay}
+
+	\begin{columns}[t]
+ 		\begin{column}{7cm}
+
+			\begin{block}{Triangulation des arêtes}
+				\begin{itemize}
+					\item Étude des motifs des arêtes pour construire leurs triangulations de Delaunay.
+					\item Les $\alpha$-shapes sont des sous-graphes de la triangulation. 
+	      \end{itemize}	
+			\end{block} 
+
+			\only<2>
+			{
+				\begin{block}{}
+					\alert{Construire les alpha-shapes directement en s'appuyant sur les convergents.}
+				\end{block}
+			}
+ 		\end{column}
+    \begin{column}{3cm}
+			\begin{figure}[h!]
+				\centering
+			  \includegraphics[width=\linewidth]{fig/ex/tri.pdf}
+			\end{figure}
+	  \end{column}
+	\end{columns}
+\end{frame}

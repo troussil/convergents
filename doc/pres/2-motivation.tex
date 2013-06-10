@@ -1,0 +1,357 @@
+%------------------------------------------------
+\section{Motivations}
+%------------------------------------------------
+
+%-----------------------------------------------------------------
+\subsection{Disques discret}
+%-----------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Construction de la problématique}
+  \only<1>
+  {
+    \begin{block}{Définition du disque Euclidien}
+      $$\mathcal{D} =  \left\{ (x,y) \in \mathbb{R}^{2} |  ax + by + c(x^2 + y^2) + d \leq 0. \right\}$$
+    \end{block}
+    
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=4cm]{fig/mot-cercle-euc.pdf}
+    \end{figure}
+        
+  }
+  \only<2->
+  {
+    \begin{block}{Définition du disque discret}
+      $$\mathcal{D} =  \left\{ (x,y) \in \alert{\mathbb{Z}^{2}} |  ax + by + c(x^2 + y^2) + d \leq 0. \right\}$$
+    \end{block}
+  }
+  \only<2>
+  {  
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=4cm]{fig/mot/mot-cercle-dis.pdf}
+    \end{figure}
+  }
+  
+  \begin{columns}[t]
+    \begin{column}{6cm}
+      \only<3>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=4cm]{fig/mot/mot-cercle-dis.pdf}
+        \end{figure}
+      }
+      \only<4>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=4cm]{fig/mot/mot-cercle-dis-2.pdf}
+        \end{figure}
+      }
+      \only<5,6>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=4cm]{fig/mot/mot-cercle-dis-3.pdf}
+        \end{figure}
+      }          
+      \end{column}
+      \begin{column}{5cm}
+        \vspace{-0.4cm}
+        
+        \only<3>
+        {
+          \begin{block}{Remarques}
+            1. On peut facilement connaître la position d'un point par rapport au disque.\\
+            2. La définition n'est pas suffisante pour représenter tous les bords de disques discrets.
+          \end{block}
+        }
+        \only<4,5>
+        {
+          \begin{block}{Remarques}
+            Les points sont ordonnées sur une structure régulière.
+          \end{block}
+        }
+        \only<5,6>
+        {
+          \begin{block}{Conséquences}
+            Se concentrer sur l'étude des points du bords.
+          \end{block}
+        }
+        \only<6>
+        {
+          \begin{block}{Question :}
+            \begin{center}  
+              \alert{Comment sont représentés les bords des disques discrets dans $\mathbb{Z}^{2}$ ?}
+            \end{center}
+          \end{block}
+        }
+      \end{column}
+    \end{columns}
+\end{frame}
+
+%-----------------------------------------------------------------
+\subsection{Alpha-Shape}
+%-----------------------------------------------------------------
+
+\begin{frame}
+  \frametitle{Un outil, l'$\alpha$-shape}
+  \begin{block}{Définition}
+    \begin{itemize}
+      \item $\alpha$-hull : Intersection de tous les disques généralisés de rayon $1/\alpha$ qui contiennent tous les points de l'ensemble.
+      \item Point $\alpha$-extreme : Point appartenant au bord de l'$\alpha$-hull.
+      \item $\alpha$-shape : Enveloppe reliant tous les $\alpha$-extremes adjacents.
+    \end{itemize}
+\begin{tiny}
+  [EKS83] Edelsbrunner, H., Kirkpatrick, D., Seidel, R.\\
+  On the Shape of a Set of Points in the Plane\\
+  {\em IEEE Transactions on Information Theory}, 29(4):551--559, 1983.\\
+\end{tiny}   
+  \end{block}
+  \vspace{-1cm}
+  \only<1>
+  { 
+    \begin{columns}[t]
+      \begin{column}{5cm}
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=\linewidth,page=1]{fig/mot/mot-alpha-shape.pdf}
+         \end{figure}
+       \end{column}
+       \begin{column}{5cm}
+         \begin{figure}[h!]
+           \centering
+           \includegraphics[width=\linewidth,page=3]{fig/mot/mot-alpha-shape.pdf}
+         \end{figure}
+       \end{column}
+    \end{columns} 
+  }
+  \only<2>
+  { 
+    \begin{columns}[t]
+      \begin{column}{5cm}
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=\linewidth,page=2]{fig/mot/mot-alpha-shape.pdf}
+         \end{figure}
+       \end{column}
+       \begin{column}{5cm}
+         \begin{figure}[h!]
+           \centering
+           \includegraphics[width=\linewidth,page=4]{fig/mot/mot-alpha-shape.pdf}
+         \end{figure}
+       \end{column}
+    \end{columns} 
+  }
+\end{frame}
+
+%-----------------------------------------------------------------
+
+\begin{frame}
+  \frametitle{Les $\alpha$-shapes de disques discrets}
+ 
+  \begin{columns}[t]
+    \begin{column}{4cm}
+      \begin{exampleblock}{Cercle}
+        $\mathcal{C} \left( (24,-8), (16,1), (0,0) \right)$\\
+         
+        \only<1>
+        {
+          Centre : (8.86, -13.4)\\
+          R : 16.06
+        }
+        \only<2>
+        {
+          $\alpha = -\sqrt{2}$\\
+           Nb Sommets : 126\\
+        }
+        \only<3>
+        {
+          $\alpha = -1$\\
+          Nb Sommets : 89\\
+        }
+        \only<4>
+        {
+          $\alpha = -1/\sqrt{10}$\\
+           Nb Sommets : 71\\
+        }
+        \only<5>
+        {
+          $\alpha = -1/\sqrt{20}$\\
+           Nb Sommets : 64\\
+        }
+        \only<6>
+        {
+          $\alpha = -1/\sqrt{80}$\\
+           Nb Sommets : 61\\
+        }
+        \only<7>
+        {
+          $\alpha = 0$\\
+           Nb Sommets : 23\\
+        }
+        \only<8>
+        {
+          $\alpha = 1/\sqrt{600}$\\
+           Nb Sommets : 21\\
+        }
+        \only<9>
+        {
+          $\alpha = 1/\sqrt{400}$\\
+           Nb Sommets : 19\\
+        }
+        \only<10>
+        {
+          $\alpha = 1/\sqrt{300}$\\
+           Nb Sommets : 11\\
+        }
+        \only<11>
+        {
+          $\alpha = 1/\sqrt{260}$\\
+           Nb Sommets : 6\\
+        }
+      \end{exampleblock}
+     
+      \only<12>
+      {
+        \begin{block}{}
+          Les $\alpha$-shapes récupèrent un beau panel de distribution de points composants le bord de disques discrets.
+        \end{block}
+      }
+      
+    \end{column}
+
+    \begin{column}{6cm}
+      \vspace{-0.8cm}     
+      \only<1>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=5.5cm]{fig/as/as-0.pdf}
+        \end{figure}
+      }
+      \only<2>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=5.5cm]{fig/as/as-1.pdf}
+        \end{figure}
+      }
+      \only<3>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=5.5cm]{fig/as/as-2.pdf}
+        \end{figure}
+      }
+      \only<4>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=5.5cm]{fig/as/as-3.pdf}
+        \end{figure}
+      }
+      \only<5>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=5.5cm]{fig/as/as-4.pdf}
+        \end{figure}
+      }
+      \only<6>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=5.5cm]{fig/as/as-5.pdf}
+        \end{figure}
+      }
+      \only<7>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=5.5cm]{fig/as/as-6.pdf}
+        \end{figure}
+      }
+      \only<8>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=5.5cm]{fig/as/as-7.pdf}
+        \end{figure}
+      }
+      \only<9>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=5.5cm]{fig/as/as-8.pdf}
+        \end{figure}
+      }
+      \only<10>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=5.5cm]{fig/as/as-9.pdf}
+        \end{figure}
+      }
+      \only<11,12>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=5.5cm]{fig/as/as-10.pdf}
+        \end{figure}
+      }
+
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%-----------------------------------------------------------------
+
+\begin{frame}
+  \frametitle{Remarques}
+  \only<1>
+  {
+    \begin{columns}[t]
+      \begin{column}{5cm}
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=\linewidth,page=8]{fig/mot/mot-union-neg.pdf}
+         \end{figure}
+       \end{column}
+       \begin{column}{5cm}
+         \begin{figure}[h!]
+           \centering
+           \includegraphics[width=\linewidth,page=2]{fig/mot/mot-union-pos.pdf}
+         \end{figure}
+       \end{column}
+    \end{columns}
+    
+    \begin{block}{}
+      La construction d'une $\alpha$-shape s'appuie sur les triangulations de Delaunay.    
+    \end{block}
+  }
+  \only<2>
+  {
+    \begin{columns}[t]
+      \begin{column}{5cm}
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=\linewidth]{fig/as/as-1.pdf}
+         \end{figure}
+       \end{column}
+       \begin{column}{5cm}
+         \begin{figure}[h!]
+           \centering
+           \includegraphics[width=\linewidth]{fig/as/as-2.pdf}
+         \end{figure}
+       \end{column}
+    \end{columns}
+    
+    \begin{block}{Suivi de bord}
+      Pour $\alpha = -\sqrt{2}$ et $\alpha = -1$ on réalise un suivi de bord 4/8-connexes.   
+    \end{block}
+  }
+\end{frame}
+
