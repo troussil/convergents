@@ -148,164 +148,229 @@ public:
 	      {
 		qkstart = mid+1;
 	      }    
-
 	  }
         else
-	  { //search in the lower range
-	    if(myPredicate(aPoint, 
-			   (aPoint + aConvM2 + (mid-2*plus0-plus1)*aConvM1), 
-			   (aPoint + aConvM2 + (mid-2*plus1-plus0)*aConvM1)))
-	      {
-		return(mid-1);
-	      }
-	    else
-	      {
-		qkstop = mid;
-	      }
-	  }
+        { //search in the lower range
+          if(myPredicate(aPoint, 
+                (aPoint + aConvM2 + (mid-2*plus0-plus1)*aConvM1), 
+                (aPoint + aConvM2 + (mid-2*plus1-plus0)*aConvM1)))
+          {
+            return(mid-1);
+          }
+          else
+          {
+            qkstop = mid;
+          }
+        }
       } 
-    // return the maximal integer such that the predicate is true
-    return(qkstart);
-  }   
+      // return the maximal integer such that the predicate is true
+      return(qkstart);
+    }   
 
-  /**
-   * Given a vertex of the alpha-shape, 
-   * retrieves a sequence of consecutive 
-   * vertices of the alpha-shape
-   * in a counter-clockwise order. 
-   * 
-   * @param aPoint any vertex of the alpha-shape 
-   * @param res output iterator that stores the sequence of vertices
-   * @return the last retrieved vertex (not stored). 
-   */
-  template <typename OutputIterator>
-  Point next(const Point& aPoint, OutputIterator res, bool aAlphaInf)
-  {
-    // Initialisation of the convergents.
-    Point vConvM2 = Point(1,0); //(k-2)-th convergent
-    Point vConvM1 = Point(0,1); //(k-1)-th convergent
 
-    // Orientation of the first convergents.
-    // vConvM2 outside and vConvM1 inside
-    int rot_pi2[4];
-    rot_pi2[0] = 0; rot_pi2[1] = -1; rot_pi2[2] = 1; rot_pi2[3] = 0;
-    while (myShape(aPoint + vConvM2) > 0 || myShape(aPoint + vConvM1) < 0)
+    /**
+     * Given a triangle formed by aStart, aStart+aBase, aStart+aBase+qk*aSide)
+     * We add corresponding points to the alpha-shape vertices and return 
+     * the last point in aNext.
+     * @param aStart is the first, and constant vertices of the triangle.
+     * @param aBase translate aStart to the first triangle
+     * @param aSide translate aBase in aqk time to the last triangle.
+     * @param aNext is the next point to start in the alpha-shape computation.
+     * @param aqk is the coefficient to reach the last triangle vertex.
+     * @param res output iterator that stores the sequence of vertices
+     * @return the last retrieved vertex (not stored). 
+     */
+    template <typename OutputIterator>
+      bool getASVertex(const Point& aStart, const Point& aBase, const Point& aSide,
+          Point& aNext, int aqk, OutputIterator res)
       {
-	// pi/2 counter clockwise rotation
-	vConvM2 = vConvM2.rotate(rot_pi2);
-	vConvM1 = vConvM1.rotate(rot_pi2);
+        // last triangles vertices.
+        Point last = aStart + aBase + aqk * aSide;
+        Point secondLast = last - aSide;
+
+        // dicotomic search result
+        int qkalpha;
+        // coefficient to locate the newt vertex in the alpha-shape.
+        int qkmove;
+
+        // triangle orientation,
+        // allowed to distinguished the odd or even case
+        // counter clockwise = false, clockwise = true;
+        bool aTrigoAngle = (myPredicate.getArea(aStart, aStart + aBase, aStart + aBase + aSide) >= 0 );
+
+        // We looked for next vertices
+        if( (aTrigoAngle && !myPredicate(aStart, secondLast, last)) ||
+            (!aTrigoAngle && !myPredicate(aStart, last, secondLast)))
+        {
+
+          // We run the dichotomic search between 
+          // aStart + aBase and 
+          // aStart + aBase + qk * aSide
+          qkalpha = dichotomicSearch(aStart, aBase, aSide, aqk);
+
+          if (!aTrigoAngle)
+          {
+            // If qkalpha == 0, we have to deal with a special case
+            // where pConvM2 is the last vertex of the alpha-shape.
+            if (qkalpha == 0)
+            {
+              aNext = aStart + aBase;
+              return(true);
+            }
+            else { qkmove = qkalpha;} 
+          }
+          else
+          {
+            aqk--;
+            qkmove = aqk;
+            qkalpha--;
+          } 
+
+          // We add all the vertices of the form pConvM2 + i * vConvM1
+          // for all i between qkalpha and qk (excluded).
+          // pConv (qk included) is the last vertex of the alpha-shape.
+
+          while ( qkalpha < aqk)
+          {
+            *res++ = aStart + aBase + qkmove*aSide;                   
+            move(qkalpha, aqk, qkmove, aTrigoAngle); 
+          }
+          aNext = last;
+          return(true);
+
+        } // end of predicate is false
+        return (false);
       }
 
-    // First convergent points
-    Point pConvM2 = aPoint + vConvM2;
-    Point pConvM1 = aPoint + vConvM1;
-
-    // k is the convergent index. 
-    // Useful to know if the convergent is odd or even
-    // ie : if the convergent is below or above the shape
-    int k = 0;
-
-    // pConv is the k-th convergent such that 
-    // pConv = pConvM2 + qk * vConvM1.
-    Coordinate qk;
-    Point pConv;
-
-    // pConvM2 + qkalpha * vConvM1 is the first vertex in the alpha shape.
-    Coordinate qkalpha;
-        
-    //Ray casting from pConvM2 in the direction vConvM1
-    while (myShape.dray(pConvM2, vConvM1, qk, pConv))
+    /**
+     * Change all the value which determined the next point to add in
+     * the alpha-shape.
+     * @param aqkalpha 
+     * @param aqk
+     * @param aqkmove
+     * @param aDirection determined the triangle orientation
+     * @return 
+     */
+    void move(int& aqkalpha, int& aqk, int& aqkmove, bool aDirection)
+    {
+      if(!aDirection)
       {
-	std::cout << k << " - aP : "<<aPoint<<" | vm2, vm1 : "<<vConvM2<<vConvM1<<"| pC, qk :"<<pConv<<qk<<std::endl;           
-	//If pConv is outside the shape (k is odd) 
-	if (myShape(pConv) < 0)
+        aqkalpha++;
+        aqkmove++;
+      }
+      else 
+      {
+        aqk--;
+        aqkmove--;
+      }
+    }
+
+    /**
+     * Given a vertex of the alpha-shape, 
+     * retrieves a sequence of consecutive 
+     * vertices of the alpha-shape
+     * in a counter-clockwise order. 
+     * 
+     * @param aPoint any vertex of the alpha-shape 
+     * @param res output iterator that stores the sequence of vertices
+     * @return the last retrieved vertex (not stored). 
+     */
+    template <typename OutputIterator>
+      Point next(const Point& aPoint, OutputIterator res, bool aAlphaInf)
+      {
+        // Initialisation of the convergents.
+        Point vConvM2 = Point(1,0); //(k-2)-th convergent
+        Point vConvM1 = Point(0,1); //(k-1)-th convergent
+
+        // Orientation of the first convergents.
+        // vConvM2 outside and vConvM1 inside
+        int rot_pi2[4];
+        rot_pi2[0] = 0; rot_pi2[1] = -1; rot_pi2[2] = 1; rot_pi2[3] = 0;
+        while (myShape(aPoint + vConvM2) > 0 || myShape(aPoint + vConvM1) < 0)
+        {
+          // pi/2 counter clockwise rotation
+          vConvM2 = vConvM2.rotate(rot_pi2);
+          vConvM1 = vConvM1.rotate(rot_pi2);
+        }
+
+        // First convergent points
+        Point pConvM2 = aPoint + vConvM2;
+        Point pConvM1 = aPoint + vConvM1;
+
+        // k is the convergent index. 
+        // Useful to know if the convergent is odd or even
+        // ie : if the convergent is below or above the shape
+        int k = 0;
+
+        // pConv is the k-th convergent such that 
+        // pConv = pConvM2 + qk * vConvM1.
+        int qk;
+        Point pConv;
+
+        // pConvM2 + qkalpha * vConvM1 is the first vertex in the alpha shape.
+        int qkalpha;
+
+        // Next starting vertex
+        Point next;
+
+        //Ray casting from pConvM2 in the direction vConvM1
+        while (myShape.dray(pConvM2, vConvM1, qk, pConv))
+        {
+          //If pConv is outside the shape (k is odd) 
+          if (myShape(pConv) < 0)
           {
             // If qk == 0 (ie. pConv == pConvM2) 
             // pConvM1, ie. the last convergent inside the shape
             // is the next vertex of the alpha-shape. 
             // Otherwise, we just update the convergents and loop.
             if (k > 0 && qk <= 0) 
-	      {
-		// pConvM1 translation
-		Point prevLastPoint = pConvM1;
-		Point lastPoint = prevLastPoint + vConvM1;
+            {
+              // pConvM1 translation
+              Point prevLastPoint = pConvM1;
+              Point lastPoint = prevLastPoint + vConvM1;
 
-		while (myShape(lastPoint) >= 0)
-		  {
-		    // Convex Hull case, we do not add the vertex
-		    if (!aAlphaInf)
-		      { 
-			*res++ = prevLastPoint;
-		      }
-		    prevLastPoint = lastPoint; 
-		    lastPoint += vConvM1;
-		  } 
-		return(prevLastPoint);
-	      }
+              while (myShape(lastPoint) >= 0)
+              {
+                // Convex Hull case, we do not add the vertex
+                if (!aAlphaInf)
+                { 
+                  *res++ = prevLastPoint;
+                }
+                prevLastPoint = lastPoint; 
+                lastPoint += vConvM1;
+              } 
+              return(prevLastPoint);
+            }
           }
 	else
           { //If pConv is inside or on the shape
             // NB: we return at least pConv as a vertex of the alpha-shape.
             // but possibly several other vertices before pConv. 
             if (k % 2 == 0)
-	      { // If k is even; aPoint, pConv, pConv-vConvM1 are CCW-oriented. 
-		// If the radius of the circumcircle of aPoint, pConv, pConv-vConvM1 
-		// is NOT greater than (or equal to) 1/alpha
-		// then there must be vertices of the alpha-shape
-		// of the form aPoint + vConvM2 + i * vConvM1
-		if ( !myPredicate(aPoint, pConv- vConvM1, pConv) )
-		  {
-		    // We run the dichotomic search between 
-		    // aPoint and 
-		    // aPoint + qk * vConvM1
-		    qkalpha = dichotomicSearch(aPoint, vConvM2, vConvM1, qk);
+            { // If k is even; aPoint, pConv, pConv-vConvM1 are CCW-oriented. 
+              // If the radius of the circumcircle of aPoint, pConv, pConv-vConvM1 
+              // is NOT greater than (or equal to) 1/alpha
+              // then there must be vertices of the alpha-shape
+              // of the form aPoint + vConvM2 + i * vConvM1
 
-		    // We add all the vertices between 1 and qk-qkalpha in the alpha-shape.
-		    // The last vertex is pConv.
-		    Coordinate qks = qkalpha;
-		    qkalpha = 1;
+              getASVertex(pConv, -vConvM2, -vConvM1, next, qk, res);
+              return(pConv);
 
-		    while ( qkalpha <= qk-qks)
-		      {
-			*res++ = aPoint + qkalpha*vConvM1;
-			qkalpha++;
-		      }
-		  }
-		return(pConv);
-	      }
+            }
             else
-	      { // If k is odd; aPoint, pConv, pConv-vConvM1 are CW-oriented. 
-		// If the radius of the circumcircle of aPoint, pConv, pConv-vConvM1 
-		// is NOT greater than (or equal to) 1/alpha
-		// then there must be vertices of the alpha-shape
-		// of the form aPoint + vConvM2 + i * vConvM1
-		if(!myPredicate(aPoint, pConv, pConv-vConvM1))
-		  {
-		    // We run the dichotomic search between 
-		    // aPoint + vConvM2 and 
-		    // aPoint + vConvM2 + qk * vConvM1
-		    qkalpha = dichotomicSearch(aPoint, vConvM2, vConvM1, qk);
+            { // If k is odd; aPoint, pConv, pConv-vConvM1 are CW-oriented. 
+              // If the radius of the circumcircle of aPoint, pConv, pConv-vConvM1 
+              // is NOT greater than (or equal to) 1/alpha
+              // then there must be vertices of the alpha-shape
+              // of the form aPoint + vConvM2 + i * vConvM1
 
-		    // If qkalpha == 0, we have to deal with a special case
-		    // where pConvM2 is the last vertex of the alpha-shape.
-		    if (qkalpha == 0)
-		      {
-			return(pConvM2); 
-		      }
-		    else
-		      {
-			// We add all the vertices of the form pConvM2 + i * vConvM1
-			// for all i between qkalpha and qk (excluded).
-			// pConv (qk included) is the last vertex of the alpha-shape.
-			while (qkalpha < qk)
-			  {
-			    *res++ = pConvM2 + qkalpha*vConvM1;
-			    qkalpha++;  
-			  }
-			return(pConv);
-		      }
-		  } // end of predicate is false
-	      }//end of k is even
+              if ( getASVertex(aPoint, vConvM2, vConvM1, next, qk, res))
+              {
+                return(next);
+              }
+
+            }//end of k is even
+
           }// end of not ouside
 
 	//If pConv is outside the shape and different from pConvM2
