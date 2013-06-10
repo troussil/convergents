@@ -1,0 +1,94 @@
+%%%%%%%%%%%%%%%%%%%% book.tex %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% sample root file for the chapters of your "monograph"
+%
+% Use this file as a template for your own input.
+%
+%%%%%%%%%%%%%%%% Springer-Verlag %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% RECOMMENDED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[envcountsame,envcountchap]{svmono}
+
+% choose options for [] as required from the list
+% in the Reference Guide, Sect. 2.2
+
+\usepackage{makeidx}         % allows index generation
+\usepackage{graphicx}        % standard LaTeX graphics tool
+                             % when including figure files
+\usepackage{multicol}        % used for the two-column index
+\usepackage[bottom]{footmisc}% places footnotes at page bottom
+% etc.
+% see the list of further useful packages
+% in the Reference Guide, Sects. 2.3, 3.1-3.3
+
+\makeindex             % used for the subject index
+                       % please use the style svind.ist with
+                       % your makeindex program
+
+\usepackage[T1]{fontenc} %codage
+\usepackage[utf8]{inputenc} %codage
+\usepackage{lmodern}
+	
+\usepackage[cyr]{aeguill}
+\usepackage[french]{babel}
+
+%Bordure
+%\usepackage{float}
+%\floatstyle{boxed}
+%\restylefloat{figure}
+%\usepackage{tikz}         
+%\usetikzlibrary{mindmap}
+\usepackage{url}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\author{\bsc{Lafond} Thomas}
+\title{Structure d'un cercle discret en dimension 2.}
+%{\small Calcul des $\alpha$-shapes}}
+\subtitle{-- Rapport de stage --}
+\maketitle
+
+\frontmatter%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\include{dedic}
+\include{pref} % La préface, le résumé
+
+\tableofcontents
+
+
+\mainmatter%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\include{part}
+\part{Introduction}
+\include{1-introduction}
+
+\part{Méthodes existantes}
+\include{3-existant}
+
+\part{Contributions}
+\include{4-contrib}
+
+\part{Développement informatiques}
+\include{2-devinfo}
+
+\part{Conclusion}
+\include{5-conclusion}
+
+%\include{chapter}
+%\appendix
+%\include{appendix}
+
+\backmatter%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\include{solutions}
+\include{referenc}
+\printindex
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
+
+
+
+
+
