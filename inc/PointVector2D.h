@@ -177,15 +177,15 @@ class PointVector2D
     {
      return (PointVector2D(-myX, -myY));
     }
-
+    
     /**
      * Multiplication operator
      * @param p object with which the dot product is computed
      * @return dot product *this . p
      */
-    T dot(const PointVector2D& p) const 
-    { 
-      return (p.x() * myX + p.y() * myY); 
+    T dot(const PointVector2D& p) const
+    {
+      return (p.x() * myX + p.y() * myY);
     }
 
     /**
@@ -198,16 +198,7 @@ class PointVector2D
       return (PointVector2D(mat[0]*myX + mat[1]*myY, mat[2]*myX + mat[3]*myY)); 
     }
 
-    /**
-     * Determinant operator
-     * @param p, objects which the det(p, *this) is computed
-     * @return T the determinant 
-     */
-    T det(const PointVector2D& p) const 
-    { 
-      return (myX*p.y() - myY*p.x()); 
-    }
-    
+        
     ///////////////////// norms   //////////////////////
     /**
      * @return L1 norm (ie. |x|+|y|)

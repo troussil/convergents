@@ -1,7 +1,45 @@
 #ifndef OutputSensitiveConvexHull_h
-  #define OutputSensitiveConvexHull_h
+#define OutputSensitiveConvexHull_h
 
 #include<cmath>
+
+/**
+ * Class implementing a determinant between
+ * two vectors. 
+ * Basic usage: 
+ * @code
+ DGtal::BigInteger res; 
+ res = Determinant<DGtal::BigInteger>::get(u,v);  
+ * @endcode
+ * 
+ * @tparam T .  
+ *
+ */
+template <typename T = long long int>
+struct Determinant
+{
+  /**
+   * Given two vectors, return their orientation. 
+   *
+   * @param u first vector
+   * @param v second vector
+   * @return the determinant value
+   *
+   * @tparam Point a model of point.   
+   */
+  template<typename Vector>
+  static T
+  get(const Vector& u, const Vector& v)
+  {
+    T u0 = u[0];
+    T u1 = u[1];
+    T v0 = v[0];
+    T v1 = v[1]; 
+
+    return (u0*v1 - u1*v0); 
+  }
+};
+
 /**
  * Class implementing an on-line and ouput-sensitive algorithm
  * that retrieves the vertices of the convex hull of all digital
@@ -13,174 +51,202 @@
  * @tparam TShape a model of ray-intersectable shape.  
  *
  */
-template <typename TShape>
+template <typename TShape, typename T = long long int>
 class OutputSensitiveConvexHull 
 {
-  public: 
-    /////////////////////// inner types /////////////////
-    typedef TShape Shape; 
-    typedef typename Shape::Point Point; 
+public: 
+  /////////////////////// inner types /////////////////
+  typedef TShape Shape; 
+  typedef typename Shape::Point Point; 
+  typedef Determinant<DGtal::BigInteger> Orientation; 
+private: 
+  /////////////////////// members /////////////////////
+  /**
+   * const reference on a shape
+   */
+  const Shape& myShape;  
 
-  private: 
-    /////////////////////// members /////////////////////
-    /**
-     * const reference on a shape
-     */
-    const Shape& myShape;  
+public:
+  ///////////////////// standard services /////////////
+  /**
+   * Standard constructor
+   * @param aShape
+   */
+  OutputSensitiveConvexHull(const Shape& aShape)
+    : myShape(aShape) {}
 
-  public:
-    ///////////////////// standard services /////////////
-    /**
-     * Standard constructor
-     * @param aShape
-     */
-    OutputSensitiveConvexHull(const Shape& aShape)
-      : myShape(aShape) {}
+private:
+  /**
+   * Copy constructor
+   * @param other other object to copy
+   */
+  OutputSensitiveConvexHull(const OutputSensitiveConvexHull& other) {}
 
-  private:
-    /**
-     * Copy constructor
-     * @param other other object to copy
-     */
-    OutputSensitiveConvexHull(const OutputSensitiveConvexHull& other) {}
+  /**
+   * Assignement operator
+   * @param other other object to copy
+   * @return reference on *this
+   */
+  OutputSensitiveConvexHull& operator=(const OutputSensitiveConvexHull& other) 
+  { return *this; }
 
-    /**
-     * Assignement operator
-     * @param other other object to copy
-     * @return reference on *this
-     */
-    OutputSensitiveConvexHull& operator=(const OutputSensitiveConvexHull& other) 
-    { return *this; }
-
-  public: 
-    /**
-     * Default destructor
-     */
-    ~OutputSensitiveConvexHull() {}
+public: 
+  /**
+   * Default destructor
+   */
+  ~OutputSensitiveConvexHull() {}
 
 
-    ///////////////////// main methods ///////////////////
-    /**
-     * Given a vertex of the convex hull, find the next
-     * vertex in a counter-clockwise order
-     * @param aPoint any vertex of the convex hull
-     * @return the next vertex
-     */
+  ///////////////////// main methods ///////////////////
+  /**
+   * Given a vertex of the convex hull, find the next
+   * vertex in a counter-clockwise order
+   * @param aPoint any vertex of the convex hull
+   * @return the next vertex
+   */
 
-    Point next(const Point& aPoint)
-    {
-      /**
-       * Initialisation
-       * 
-       */
-      Point vm2( 1, 0);
-      Point vm1( 0, 1);
+  Point next(const Point& aPoint, bool aVertOnEdges = false)
+  {
+      
+    // Initialisation of the convergents.
+    Point vConvM2 = Point(1,0); //(k-2)-th convergent
+    Point vConvM1 = Point(0,1); //(k-1)-th convergent
 
-      int rot_pi2[4];
-      rot_pi2[0] = 0; rot_pi2[1] = -1; rot_pi2[2] = 1; rot_pi2[3] = 0;
+    // pConv is the k-th convergent such that 
+    // pConv = pConvM2 + qk * vConvM1.
+    int qk = 0;
 
-      int pQuotient = 0;
+    Point pConv;
+    Point vConv;
 
-      Point pConv;
-      Point vConv;
+    // determinant result
+    DGtal::BigInteger res; 
 
-      // Orientation of the convergent
-      // vm2 outside and vm1 inside
-      while (myShape(aPoint + vm2) > 0 || myShape(aPoint + vm1) < 0)
+    // Orientation of the convergent
+    // vConvM2 outside and vConvM1 inside
+      
+    int rot_pi2[4];
+    rot_pi2[0] = 0; rot_pi2[1] = -1; rot_pi2[2] = 1; rot_pi2[3] = 0;
+      
+    while (myShape(aPoint + vConvM2) > 0 || myShape(aPoint + vConvM1) < 0)
       {
         // pi/2 counter clockwise rotation
-        vm2 = vm2.rotate(rot_pi2);
-        vm1 = vm1.rotate(rot_pi2);
+        vConvM2 = vConvM2.rotate(rot_pi2);
+        vConvM1 = vConvM1.rotate(rot_pi2);
       }
-      Point pm2 = aPoint + vm2;
-      Point pm1 = aPoint + vm1;
 
-      Point pNext = pm1; 
-      Point vNext = pNext - aPoint;
+    // First convergent points      
+    Point pConvM2 = aPoint + vConvM2;
+    Point pConvM1 = aPoint + vConvM1;
 
-      // p0 exisence an iteration
-      if (myShape.dray(pm2, vm1, pQuotient, pConv) == false)
+    // The best "next vertex" candidate
+    // with the smallest angle
+    Point pNext = pConvM1; 
+    Point vNext = pNext - aPoint;
+      
+
+    // p0 do not exist
+    if (myShape.dray(pConvM2, vConvM1, qk, pConv) == false)
       {
-        while(myShape(pm1+vm1) >= 0){pm1 += vm1;}
-        return (pm1);
+        if (!aVertOnEdges) 
+          while(myShape(pConvM1+vConvM1) >= 0){pConvM1 += vConvM1;}
+          
+        return (pConvM1);
       }
 
-      // p0 lie on the circle
-      if (myShape(pConv) >= 0)
+    // p0 lie on the circle
+    if (myShape(pConv) >= 0)
       {
         pNext = pConv;
         vNext = pNext - aPoint;
       }
-      //p0 outise the circle
-      else if (myShape(pConv + vm1) >= 0)
+    //p0 outise the circle
+    else if (myShape(pConv + vConvM1) >= 0)
       {
-        pNext = pConv + vm1;
+        pNext = pConv + vConvM1;
         vNext = pNext - aPoint;
       }
 
-      /**
-       * We iterate the vectors to build the next convergent
-       * p_-1 become p_-2
-       * p_0 become p_-1
-       * and their vector vm2, vm1
-       */
+    // We iterate the vectors to build the next convergent
+    // p_-1 become p_-2
+    // p_0 become p_-1
+    // and their vector vConvM2, vConvM1
 
-      vConv = pConv - aPoint;
-      pm2 = pm1;
-      pm1 = pConv;
+    vConv = pConv - aPoint;
+    pConvM2 = pConvM1;
+    pConvM1 = pConv;
 
-      vm2 = vm1;
-      vm1 = pm1 - aPoint;
+    vConvM2 = vConvM1;
+    vConvM1 = pConvM1 - aPoint;
 
-      //even or odd
-      int ite = 1;
+    //even or odd
+    bool even = false;
 
-      // p1 and more
-      while (myShape.dray(pm2, vm1, pQuotient, pConv) && pQuotient != 0)
+    // The ray shooting is efficient.
+    while (myShape.dray(pConvM2, vConvM1, qk, pConv) && qk != 0)
       {
-        // New Convergent, new v_i
+        // New Convergent, 
         vConv = pConv - aPoint;
-        if (!(ite & 1)) // even
-        {
-          if (myShape(pConv) == 0) // if the vertex lie on the circle
-          {
-            if (vNext.det(vConv) < 0)
-            {
-              pNext = pConv;
-              vNext = vConv;
-            }
-          }
-          else if (myShape(pConv + vm1) >= 0)
-          {
-            if (vNext.det(vConv + vm1) < 0)
-            {
-              pNext = pConv+vm1;
-              vNext = vConv+vm1;
-            }
-          }
-        }
+        
+        // Standart Output -- debug
+        //std::cout << aPoint << vConvM2 << vConvM1<< qk << std::endl;         
 
+        if (even) // even
+	  {
+	    // if the vertex lie on the circle
+	    if (myShape(pConv) == 0) 
+	      {
+		// We keep the smallest angle
+		res = Orientation::get(vNext,vConv);  
+		if (res < 0)
+		  {
+		    pNext = pConv;
+		    vNext = vConv;
+		  }
+	      }
+	    else if (myShape(pConv + vConvM1) >= 0)
+	      {
+		// We keep the smallest angle
+		res = Orientation::get(vNext,vConv + vConvM1);  
+		if (res < 0)
+		  {
+		    pNext = pConv+vConvM1;
+		    vNext = vConv+vConvM1;
+		  }
+	      }
+	  } // end even
         else // odd
-        {
-          if ( vNext.det(vConv)  < 0 )
-          {
-            pNext = pConv;
-            vNext = vConv;
-          }
-        }
+	  {
+	    // We keep the smallest angle
+	    res = Orientation::get(vNext,vConv);  
+	    if ( res  < 0 )
+	      {
+		pNext = pConv;
+		vNext = vConv;
+	      }
+	  } // end odd
 
-        ite++; 
-        // update pm2 and pm1
-        pm2 = pm1;
-        pm1 = pConv;
+        // even, odd, even, ...
+        even = (even == false); 
+        
+        // update pConvM2 and pConvM1
+        pConvM2 = pConvM1;
+        pConvM1 = pConv;
 
-        vm2 = vm1;
-        vm1 = pConv - aPoint;
+        vConvM2 = vConvM1;
+        vConvM1 = pConv - aPoint;
 
       }
+      
+    // translation in vNext direction, 
+    // in order to not keep the vertices 
+    // on the convex hull edges
+    if (!aVertOnEdges) 
       while(myShape(pNext+vNext) >= 0){pNext += vNext;}
-      return pNext; 
-    }
+      
+    return pNext; 
+
+  }
 
   /**
    * Retrieves all the vertices of the alpha-shape
@@ -190,7 +256,7 @@ class OutputSensitiveConvexHull
    * @param res output iterator that stores the sequence of vertices
    */
   template <typename OutputIterator>
-  void all(const Point& aStartingPoint, OutputIterator res)
+  void all(const Point& aStartingPoint, OutputIterator res, bool aVertOnEdges)
   {
     //get the first vertex
     Point tmp = aStartingPoint; 
@@ -199,10 +265,25 @@ class OutputSensitiveConvexHull
       //store the current vertex
       *res++ = tmp; 
       //get the next vertex
-      tmp = next(tmp); 
+      tmp = next(tmp, aVertOnEdges); 
       //while it is not the first one
     } while (tmp != aStartingPoint); 
   }
+
+
+  /**
+   * Retrieves all the vertices of the alpha-shape
+   * in a counter-clockwise order
+   *  
+   * @param res output iterator that stores the sequence of vertices
+   */
+  template <typename OutputIterator>
+  void all(OutputIterator res, bool aVertOnEdges )
+  {
+    all(myShape.getConvexHullVertex(), res, aVertOnEdges); 
+  }
+  
+
 
   /**
    * Retrieves all the vertices of the alpha-shape
@@ -213,8 +294,12 @@ class OutputSensitiveConvexHull
   template <typename OutputIterator>
   void all(OutputIterator res)
   {
-    all(myShape.getConvexHullVertex(), res); 
+    all(myShape.getConvexHullVertex(), res, false); 
   }
+  
+  
+  
+  
 
 }; 
 

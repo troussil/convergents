@@ -3,7 +3,7 @@
 
 #include<cmath>
 
-#include"CircumcirclePositiveRadiusPredicate.h"
+#include"CircumcircleRadiusPredicate.h"
 #include "RayIntersectableStraightLine.h"
 
 #include "ConvexHullHelpers.h"
@@ -30,7 +30,7 @@ class PositiveAlphaShape
     typedef typename Shape::Vector Vector; //type redefinition
     typedef TPredicate Predicate;
     typedef std::deque<Point> Container;
-  
+
   private:
     /////////////////////// members /////////////////////
     /**
@@ -89,91 +89,64 @@ class PositiveAlphaShape
 
     ///////////////////// main methods ///////////////////
   public:
-       
 
     /**
-     * Given a vertex of the alpha-shape, 
-     * retrieves a sequence of consecutive 
-     * vertices of the alpha-shape
-     * in a counter-clockwise order. 
-     * 
-     * @param aPoint any vertex of the alpha-shape 
-     * @param res output iterator that stores the sequence of vertices
-     * @return the last retrieved vertex (not stored). 
+     * Given a vertex of the alpha-shape, find the next
+     * vertex in a counter-clockwise order
+     * @param aPoint any vertex of the alpha-shape
+     * @param res which contained the alpha-shape vertices
+     * @return
      */
-template <typename Container, typename Point>
-      void all(Container& aContainer, Point aPointa)
+
+    void next(const Point& aPoint, Container& res)
+    {
+      
+      //we hav not enough vertices to test predicate with a triangle
+      if(res.size() < 2)
       {
+        res.push_back( aPoint ); 
+      }
+      else
+      {
+        //maintaining convexity with the new point
+        updateConvexHull(res, aPoint, myPredicate); 
+        //add new point
+        res.push_back( aPoint ); 
+      }
 
-        // Retrieve Convex Hull vertices
-        OutputSensitiveConvexHull<TShape> ch(myShape); 
+    }
 
-        std::vector<Point> it;
-        ch.all(aPointa, std::back_inserter(it));
+     /**
+     * Retrieves all the vertices of the alpha-shape
+     * in a counter-clockwise order from a given vertex
+     *  
+     * @param aStartingPoint a vertex of the alpha-shape
+     * @param res output iterator that stores the sequence of vertices
+     */
 
-	closedGrahamScan( it.begin(), it.end(), std::back_inserter(aContainer), myPredicate );         
+    template <typename Container, typename Point>
+      void all(Container& res, Point aStartingPoint)
+      {
+        // Retrieve the convex hull vertices
+        OutputSensitiveConvexHull<TShape> ch(myShape);
+        std::vector<Point> resCH;
+        ch.all(aStartingPoint, std::back_inserter(resCH), false);
 
-// //    std::cout << "Convex Hull" << std::endl; 
-// //    std::copy(it.begin(), it.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
-// //    std::cout << std::endl;
-    
-//         int i = 0;
-
-//         // Init point
-//         Point pStart = it[i++];
-//         Point pFol1  = it[i++];
-//         Point pFol2  = it[i++];       
-       
-//         it.push_back(pStart);
-        
-//         // Init Container
-//         aContainer.push_back(pStart);
-//         bool cycle = false;
-     
-     
-// //std::cout <<"IN : "<<it.size()<< std::endl;
-        
-//         while( !cycle )
-//         {
-// //std::cout <<"Enter : " <<i<<pStart<< pFol1 <<pFol2 << std::endl; 
-//           // Add second point in the container
-//           aContainer.push_back(pFol1);        
+        typename std::vector<Point>::iterator it = resCH.begin();
+        //auto it = resCH.begin(); // c++ 11
+        Point tmp = *it;
+                
+        do{
           
-//           // TRUE -- R_T(a,b1,b2)>R_alpha -- b1 not in the alpha-shape
-//           if (myPredicate(pFol2, pFol1, pStart))
-//           {
-// //std::cout <<"POP --> " << pFol1 << aContainer.front()<<std::endl;
+          // add the next alpha-shape vertices
+          next(tmp, res);
+          tmp = *it;
 
-//             // remove b1
-//             if (pFol1 == aContainer.front())
-//             {
-//               aContainer.pop_front();
-//               cycle = true;
-//             }
-//             aContainer.pop_back();
-//           }
-//           // FALSE --  R_T(a,b1,b2)<R_alpha -- b1 in the alpha-shape
-//           else
-//           {
-// //std::cout <<"PUSH --> " << pFol1 << aContainer.front()<<std::endl;
-//             // New start
-//             if (pFol1 == aContainer.front())
-//             {
-//               cycle = true;
-//               aContainer.pop_back();
-//             }
-//             else
-//             {
-//               pStart = pFol1;
-//               it.push_back(pFol1);
-//             }
-//           }
-//           // update Points
-//           pFol1 = pFol2;
-//           pFol2 = it[i++];    
-// //std::cout <<"OUT ; "<<i<<pStart<< pFol1 <<pFol2 << std::endl;    
-//         }
-             
+          //while it is not the first one
+        }while (it++ != resCH.end());
+
+        //maintaining convexity with the starting point
+        updateConvexHull(res, aStartingPoint, myPredicate);
       }//end proc
 
 
