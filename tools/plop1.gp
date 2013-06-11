@@ -2,26 +2,26 @@
 
 # -- Export png 
 set terminal png size 1200,800
-set output 'outcome/time-verticesnb-byradius.png'
+set output 'outcome/time.png'
 
 # Radius	predicate	time	# Vertices
-set title ' Nombre de sommets et temps calcul en fonction du Rayon - Échelle log'
+set title ' temps calcul en fonction du Rayon - Échelle log'
 
 # Fitting
 b = 0.666667
 
-f1(x) = a1*x**(b)            # define the function to be fit
-a1 = 35;				             # initial guess for a1 and b1
+#f1(x) = a1*x**(b)            # define the function to be fit
+#a1 = 35;				             # initial guess for a1 and b1
 
-f2(x) = a2*x**(b)            # define the function to be fit
-a2 = 80;                     # initial guess for a1 and b1
+#f2(x) = a2*x**(b)            # define the function to be fit
+#a2 = 80;                     # initial guess for a1 and b1
 
 f3(x) = a3*x**(b)            # define the function to be fit
-a3 = 1;                     # initial guess for a1 and b1
+#a3 = 1;                     # initial guess for a1 and b1
 
-fit f1(x) 'outcome/data.txt' using 1:4 via a1
+#fit f1(x) 'outcome/data.txt' using 1:4 via a1
 #fit f2(x) 'outcome/data.txt' using 1:3 via a2  
-fit f3(x) 'outcome/data.txt' using 1:5 via a3   
+#fit f3(x) 'outcome/data.txt' using 1:5 via a3   
 
 #f10(x) = a10*x**(b10)            # define the function to be fit
 #a1 = 35;	b10 = 0.8;              # initial guess for a1 and b1
@@ -46,13 +46,13 @@ set grid;
 set logscale;
 
 # -- X --
-set xrange [2:46001];
-set xtics 2;
+set xrange [32:46001];
+set xtics 50;
 set xlabel ' Rayon (unité)';
 
 # -- Y --
 set yrange [6:25000];
-set ytics 2;
+set ytics 50;
 set ylabel ' # sommets (unité), temps (ms)';
 
 

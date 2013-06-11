@@ -1,0 +1,568 @@
+%-----------------------------------------------------------------
+\section{Contributions}
+%-----------------------------------------------------------------
+
+%-----------------------------------------------------------------
+\subsection{Généralisation de Har-Peled - $\alpha \leq 0$}
+%-----------------------------------------------------------------
+
+\begin{frame}
+  \frametitle{$\alpha$-hull avec $\alpha \leq 0$}
+  \begin{block}{Définition}
+		L'intersection de tous les complémentaires fermés de disques de rayon -1/$\alpha$ qui contiennent tous les points à l’intérieur du disque.
+	\end{block} 
+
+  \begin{block}{Principe de l'algorithme.}
+		\begin{itemize}
+				\item Suivre l'algorithme de l'enveloppe convexe.
+				\item Contrôler si les convergents sont des points $\alpha$-extremes.
+		\end{itemize}	
+	\end{block} 
+
+\end{frame}
+
+%-----------------------------------------------------------------
+
+\begin{frame}
+  \frametitle{Départ}
+	\begin{columns}[t]
+ 		\begin{column}{7cm}
+      \only<1>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 6cm, clip, width=7cm]{fig/4-contribution/negatif/as-algo-1.pdf}
+      \end{figure}
+      }
+      \only<2>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 6cm, clip, width=7cm]{fig/4-contribution/negatif/as-algo-3.pdf}
+      \end{figure}
+      }
+      \only<3>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 6cm, clip, width=7cm]{fig/4-contribution/negatif/as-algo-4.pdf}
+      \end{figure}
+      }
+    \end{column}
+    \begin{column}{3cm}
+      \begin{block}{}
+        \only<1>
+        {
+					Départ de a, un point de l'$alpha$-shape.          
+				}
+        \only<2>
+        {
+          On tire les premiers convergents :\\
+          \begin{itemize}
+            \item $p_{-2} = (1, 0)$
+            \item $p_{-1} = (0, 1)$
+            \item $p_{0} = (1, 0)$
+            \item $p_{1} = (5, 1)$
+          \end{itemize}            
+        }
+
+        \only<3>
+        {
+          On étudie le rayon du cercle circonscrit au triangle $T(a, p_{1}, p_{1}-p_{0})$.\\
+					\alert{Deux cas se présentent.}
+        }
+      \end{block}     
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%-----------------------------------------------------------------
+
+\begin{frame}
+  \frametitle{Cas 1 - $R_{\alpha} > R_T$}
+\begin{columns}[t]
+   \begin{column}{7cm}
+      \only<1>
+      {
+        \begin{figure}[H]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 6cm, clip, width=7cm]{fig/4-contribution/negatif/as-algo-10.pdf}
+      \end{figure}
+      }
+      \only<2,3>
+      {
+        \begin{figure}[H]
+          \centering
+          \includegraphics[trim = 4cm 0.5cm 12cm 7.5cm, clip, width=7cm]{fig/4-contribution/negatif/as-algo-10.pdf}
+       \end{figure}
+      }
+      \only<3>
+      {
+          \begin{block}{$b \notin$ l'$\alpha$-shape.}
+          	a et $p_1$ appartiennent au bord d'un disque de rayon -1/$\alpha$ dont le complémentaire inclue b.\\
+          \alert{On calcul les convergents suivants...}
+        \end{block}
+      }   
+      \only<4>
+      {
+        \begin{figure}[H]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 6cm, clip, width=7cm]{fig/4-contribution/negatif/as-algo-11.pdf}
+      \end{figure}
+      }
+      \only<5,6>
+      {
+        \begin{figure}[H]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 6cm, clip, width=7cm]{fig/4-contribution/negatif/as-algo-11a.pdf}
+      \end{figure}
+      }
+   \end{column}
+    \begin{column}{3cm}
+      \begin{block}{}
+        \only<1>
+        {
+          \alert{CAS 1}\\
+          \alert{$R_{\alpha} > R_T$}
+          
+        }
+        \only<2,3>
+        {
+          Soit $b = p_{1} - p_{0}$.
+          \begin{itemize}
+            \item $b \in \mathcal{D} \left( R_{\alpha} \right)^C$
+          \end{itemize}
+        }        
+        \only<4>
+        {
+					$p_{0} + q_2 * p_1$ n'intersecte pas le disque.\\
+				  $p_{1}$ est donc un sommet de l'$\alpha$-shape.			
+
+        }
+        \only<5,6>
+        {
+          On reprend l'algorithme.
+        }
+      \end{block}
+      \only<6>
+      {
+        \begin{block}{Remarque}
+          \alert{Si $\alpha$ proche de 0.}\\
+          \alert{$\Rightarrow R_{\alpha} >> R_T$.}\\
+          \alert{$\Rightarrow$ l'enveloppe convexe.}\\
+
+        \end{block}
+      }     
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%-----------------------------------------------------------------
+
+\begin{frame}
+  \frametitle{Cas 2 - $R_{\alpha} < R_T$}
+ \begin{columns}[t]
+   \begin{column}{7cm}
+      \only<1>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 6cm, clip, width=7cm]{fig/4-contribution/negatif/as-algo-21.pdf}
+      \end{figure}
+      }
+      \only<2,3>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 4cm 0.5cm 12cm 7.5cm, clip, width=7cm]{fig/4-contribution/negatif/as-algo-21.pdf}
+      \end{figure}
+      }
+      \only<3>
+      {
+      	\begin{block}{$b \in$ l'$\alpha$-shape.}
+          On ne peut rejoindre a et $p_1$ par le bord d'un disque de rayon 1/$\alpha$ sans avant passer par au moins un autre sommets.
+          \end{block}
+      }         
+      \only<4>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=7cm]{fig/4-contribution/negatif/dicho.pdf}
+      \end{figure}
+      }
+      
+      \only<5>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 6cm, clip, width=7cm]{fig/4-contribution/negatif/as-algo-22.pdf}
+      \end{figure}
+      }
+      \only<6>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 6cm, clip, width=7cm]{fig/4-contribution/negatif/as-algo-23.pdf}
+      \end{figure}
+      }
+      \only<7>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 6cm, clip, width=7cm]{fig/4-contribution/negatif/as-algo-24.pdf}
+      \end{figure}
+      }
+      \only<8>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 6cm, clip, width=7cm]{fig/4-contribution/negatif/as-algo-25.pdf}
+      \end{figure}
+      }
+      \only<9>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 3cm 0cm 10cm 6cm, clip, width=7cm]{fig/4-contribution/negatif/as-algo-26.pdf}
+      \end{figure}
+      }
+    \end{column}
+    \begin{column}{3cm}
+      \begin{block}{}
+        \only<1>
+        {
+          \alert{CAS 2}\\
+          \alert{$R_{\alpha} < R_T$}
+
+        }
+        \only<2,3>
+        {
+          Soit $b = p_{1} - p_{0}$.
+          \begin{itemize}
+            \item $b \notin \mathcal{D} \left( R_{\alpha} \right)^C$
+          \end{itemize}
+
+        }
+        \only<4>
+        {
+          Les rayons sont ordonnés et strictement croissant.\\
+          \alert{Recherche dichotomique} du premier sommet dans l'$\alpha$-shape.\\
+        }        
+        \only<5>
+        {
+          On étudie le rayon du triangle du milieu :
+          \begin{itemize}
+            \item $R_{\alpha} < R_T$
+          \end{itemize}
+          On va chercher en aval.
+        }
+        \only<6>
+        {
+          \begin{itemize}
+            \item $R_{\alpha} > R_T$
+          \end{itemize}
+          On va chercher en amont.
+        }
+        \only<7, 8>
+        {
+          Jusqu'à arrêter la procédure pour ajouter le premier point dans l'enveloppe...\\          
+        }
+        \only<8>
+        {
+          ainsi que tous les suivants jusqu'à $p_1$.     
+        }
+        \only<9>
+        {
+          $p_1$ qui devient le nouveau point de départ de l'algorithme.
+          
+        }  
+      \end{block}
+     
+    \end{column}
+  \end{columns}
+
+\end{frame}
+
+%-----------------------------------------------------------------
+
+\begin{frame}
+  \frametitle{Résultats}
+	\begin{columns}[t]
+ 		\begin{column}{4cm}
+  		\begin{block}{Sommets/$r^{2/3}$}
+				\begin{tiny}
+					\begin{tabular}{|l|c|c|}
+						\hline
+						Rayons & $\alpha$ & AS\\
+						\hline
+            32 & 1.024 & 17.7511\\
+            64 & 4.096 & 17.0544\\
+            128 & 16.384 & 18.5901\\
+            256 & 65.536 & 19.2063\\
+            512 & 262.144 & 20.3281\\
+            1024 & 1048.58 & 21.0801\\
+            2048 & 4194.3 & 21.9657\\
+            4096 & 16777.2 & 22.192\\
+            8192 & 67108.9 & 22.7541\\
+            16384 & 268435 & 23.0402\\
+            32768 & 1.07374e+06 & 23.2758\\
+            65536 & 4.29497e+06 & 23.6162\\
+            131072 & 1.71799e+07 & 23.9101\\
+            262144 & 6.87195e+07 & 24.1555\\
+            524288 & 2.74878e+08 & 24.4173\\
+            1048576 & 1.09951e+09 & 24.5918\\
+            2097152 & 4.39805e+09 & 24.7584\\
+            4194304 & 1.75922e+10 & 24.9412\\
+            8388608 & 7.03687e+10 & 25.0711\\
+            16777216 & 2.81475e+11 & 25.2065\\
+            33554432 & 1.1259e+12 & 25.309 \\
+					  \hline
+					\end{tabular}  
+				\end{tiny}
+			\end{block} 
+		\end{column}
+		\begin{column}{6.5cm}
+				\begin{figure}[h!]
+					\centering
+				  \includegraphics[width=\linewidth]{fig/res/as.png}
+			 	\end{figure}    
+        \begin{block}{}
+            FIT :  $f1(x) = 25.23*x^{2/3}$\\
+            FIT :  $f10(x) = 22.2147*x^{0.674212}$ 
+          \end{block} 
+		\end{column}
+	\end{columns} 
+\end{frame}
+
+%-----------------------------------------------------------------
+\subsection{$\alpha \geq 0$}
+%-----------------------------------------------------------------
+
+\begin{frame}
+  \frametitle{$\alpha$-hull avec $\alpha \geq 0$}
+  \begin{block}{Définition}
+		L'intersection de tous les disques fermés de rayon 1/$\alpha$ qui contiennent tous les points à l’intérieur du disque.
+	\end{block} 
+ 
+	\begin{block}{Principe de l'algorithme.}
+		\begin{itemize}
+			\item Récupérer tous les sommets de l'enveloppe convexe.
+			\item Éliminez tous ceux qui sont en trop.
+		\end{itemize}	
+	\end{block} 
+
+
+\end{frame}
+
+%-----------------------------------------------------------------
+
+\begin{frame}
+  \frametitle{Départ}
+\begin{columns}[t]
+    \begin{column}{7cm}
+      \only<1>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 0cm 0cm 0cm 3.5cm, clip, width=7cm]{fig/4-contribution/positif/pas-2.pdf}
+        \end{figure}
+      }
+      \only<2>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 0cm 0cm 0cm 3.5cm, clip, width=7cm]{fig/4-contribution/positif/pas-3a.pdf}
+        \end{figure}
+      }      
+    \end{column}
+    \begin{column}{3cm}
+      \begin{block}{}
+        \only<1>
+        {
+			 		\begin{itemize}
+						\item On part de l'enveloppe convexe.
+						\item On ne conserve que les sommets.
+					\end{itemize}
+				}
+        \only<2>
+        {
+          On prend trois sommets succéssifs :
+			 		\begin{itemize}
+						\item a, b et c.
+					\end{itemize}
+          On étudie le rayon du cercle circonscrit au triangle T(a, b, c).\\
+					\alert{Deux cas se présentent.}
+        }
+      \end{block}  
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%-----------------------------------------------------------------
+
+\begin{frame}
+  \frametitle{Cas 1 - $R_{\alpha} > R_T$}
+\begin{columns}[t]
+    \begin{column}{7cm}
+     \only<1>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 0cm 0cm 0cm 3.5cm, clip, width=7cm]{fig/4-contribution/positif/pas-4.pdf}
+        \end{figure}
+      }
+      \only<2>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 0cm 0.5cm 5cm 8.5cm, clip, width=7cm]{fig/4-contribution/positif/pas-4.pdf}
+        \end{figure}
+      
+        \begin{block}{$b \notin$ l'$\alpha$-shape.}
+          On ne peut pas rejoindre a et c par le bord d'un disque de rayon 1/$\alpha$ sans ommettre b.
+        \end{block}
+      }
+      \only<3>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 0cm 0cm 0cm 3.5cm, clip, width=7cm]{fig/4-contribution/positif/pas-5.pdf}
+        \end{figure}
+      }
+      \only<4,5>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 0cm 0cm 0cm 3.5cm, clip, width=7cm]{fig/4-contribution/positif/pas-6.pdf}
+        \end{figure}
+      }
+    \end{column}
+    \begin{column}{3cm}
+      \begin{block}{}
+        \only<1,2>
+        {
+          \alert{CAS 1}
+          \alert{$R_{\alpha} >> R_T$}\\
+
+        }
+        \only<2>
+        {
+          \begin{itemize}
+            \item $b \notin \mathcal{D} \left( R_{\alpha} \right)$
+          \end{itemize}
+        }
+        \only<3>
+        {
+          b est un sommet de l'$\alpha-shape$.\\
+          $[a, b]$ est une arête.
+        }
+        \only<4>
+        {
+          On poursuit l'algorithme :\\
+          \begin{itemize}
+            \item a devient b.
+            \item b devient c.
+            \item c est le sommet suivant.
+          \end{itemize}
+        }
+				\only<5>
+        { Remarques :\\
+          \alert{Si $\alpha$ proche de 0.}\\
+          \alert{$\Rightarrow R_{\alpha} >> R_T$.}\\
+          \alert{$\Rightarrow$ l'enveloppe convexe.}\\
+        }
+			\end{block}
+
+    \end{column}
+  \end{columns}
+
+\end{frame}
+
+%-----------------------------------------------------------------
+
+\begin{frame}
+  \frametitle{Cas 2 - $R_{\alpha} < R_T$}
+
+\begin{columns}[t]
+    \begin{column}{7cm}
+      \only<1>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 0cm 0cm 0cm 3.5cm, clip, width=7cm]{fig/4-contribution/positif/pas-10.pdf}
+        \end{figure}
+      }
+      \only<2>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 0cm 0.5cm 5cm 8.5cm, clip, width=7cm]{fig/4-contribution/positif/pas-10.pdf}
+        \end{figure}
+
+				\begin{block}{$b \notin$ l'$\alpha$-shape.}
+          On peut rejoindre a et c par le bord d'un disque discret de rayon 1/$\alpha$ qui inclue b.
+        \end{block}
+
+      }
+      \only<3>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 0cm 0cm 0cm 3.5cm, clip, width=7cm]{fig/4-contribution/positif/pas-11.pdf}
+        \end{figure}
+      }
+      \only<4>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 0cm 0cm 0cm 3.5cm, clip, width=7cm]{fig/4-contribution/positif/pas-12.pdf}
+        \end{figure}
+      }
+      \only<5>
+      {
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[trim = 0cm 0cm 0cm 3.5cm, clip, width=7cm]{fig/4-contribution/positif/pas-13.pdf}
+        \end{figure}
+			}
+    \end{column}
+    \begin{column}{3cm}
+      \begin{block}{}
+      \only<1,2>
+        {
+          \alert{CAS 2}
+          \alert{$R_D < R_{\alpha} < R_T$}\\
+        }
+        \only<2>
+        {
+          \begin{itemize}
+            \item $b \in \mathcal{D} \left( R_{\alpha} \right)$
+          \end{itemize}
+          
+        }
+        \only<3,4>
+        {
+          \begin{itemize}
+            \item $b \in$ l'$\alpha$-hull.
+            \item b n'est pas un $\alpha$-extrême.
+            \item $b \notin$ l'$\alpha$-shape.
+          \end{itemize}
+        }
+        \only<4,5>
+        {
+          On supprime b de la liste des sommets.\\
+          On poursuit la procédure.\\
+        }
+        \only<5>
+        {
+          \begin{itemize}
+            \item a reste a.
+            \item b devient c.
+            \item c est le sommet suivant.
+          \end{itemize}
+        }
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
