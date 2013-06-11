@@ -1,14 +1,60 @@
 %------------------------------------------------
 \section{Motivations}
 %------------------------------------------------
-aa
+
 %-----------------------------------------------------------------
-\subsection{Disques discret}
+\subsection{Le bord du disque discret}
 %-----------------------------------------------------------------
-aa
+
+%-----------------------------------------------------------------
+\subsubsection{Du disque Euclidien au disque discret}
+
+Avant de s'attarder sur la représentation d'un disque discret, il convient de revenir un court instant au disque fermé Euclidien et à l'ensemble reprenant tous les points de son bord, le cercle Euclidien.
+
+\begin{proof}[Disque fermé Euclidien]
+  $$\mathcal{D}_e =  \left\{ (x,y) \in \mathbb{R}^{2} |  (x - u)^2 + (y - v)^2 \leq R^2. \right\}$$
+\end{proof}
+
+\begin{proof}[Cercle Euclidien]
+  $$\mathcal{C}_e =  \left\{ (x,y) \in \mathbb{R}^{2} |  (x - u)^2 + (y - v)^2 = R^2. \right\}$$
+\end{proof}
+
+avec $(u,v) \in \mathbb{R}^{2}$ les coordonnées du centre et $R \in \mathbb{R}^{+*}$ le rayon.\\
+
+PICS et PICS de disque et de cercle euclidien\\
+
+Si la définition du disque fermé discret dans $\mathbb{R}^{2}$ (appelé pour la suite du rapport uniquement disque discret) reste très proche de la définition Euclidienne, l'équivalent discret pour récupérer tous les points du bord quant à elle change considérablement.
+
+\begin{proof}[Disque discret]
+  $$\mathcal{D} =  \left\{ (x,y) \in \mathbb{Z}^{2} |  ax + by + c(x^2 + y^2) + d \leq 0. \right\}$$
+\end{proof}
+
+avec $(u,v) \in \mathbb{R}^{2}$ les coordonnées du centre et $R \in \mathbb{R}^{+*}$ le rayon.\\
+
+PICS de disque discret\\
+
+L'ensemble des points appartenant à $\mathbb{Z}^{2}$ représentés en rouge sur le dessin et étant positionnés exactement sur le cercle euclidien ne suffisent pas à représenté l'ensemble des points du cercle discret. Il faut donc prendre une définition plus générale.
+
+\begin{proof}[Cercle discret]
+  $$ \mathcal{C} =  \left\{ (x,y) \in \mathbb{Z}^{2} | \exists (i,j) \in \{0,1\}^2, (i,j) \ne (0,0) | (x+i,y+j) \notin \mathcal{D} \right\}$$
+\end{proof}
+
+PICS de cercle discret\\
+
+%-----------------------------------------------------------------
+\subsubsection{L'étude des points du bord}
+
+En continuant l'investigation de la définition précédente du cercle discret, il est possible de formuler plusieurs remarques. De part le fait de travailler sur $\mathbb{Z}^{2}$, on remarque que les points sont ordonnées sur une grille régulière. Pour un point donnée, il est alors possible d'atteindre quatre voisins en suivant les quatre directions cardinales d'une unité. En éffet, chaque point possède un voisin, en haut, à gauche, en bas et à droite de lui. \\
+
+PICS de réseau 4-connexes\\
+
+Or, on observe que les points strictement à l'intérieur du disque discret (et donc pas sur le bord) possède tous leurs quatre voisins également à l'intérieur du disque. Pour autant, les points du bords du disque discret possèdent eux une distribution différente. Chacun des points du bord possède entre un et trois voisins à l'extérieur du disque et le complémentaire à quatre à l'intérieur.\\
+
+PICS de points du bord sans 4 voisins in\\
+
+Pour définir un disque discret, on se retrouve finalement avec deux ensembles. Le premier représente les points strictement à l'intérieur. Ils sont ordonnées avec exactement quatre voisins également à l'intérieur du disque. Le deuxième ensemble égale au cercle discret propose une distribution de points bien moins régulière. Finalement, seule l'étude des points du bord nous semble pertinente pour comprendre l'organisation et la structure des disque discret.
 
 %-----------------------------------------------------------------
 \subsection{Alpha-Shape}
 %-----------------------------------------------------------------
 
-aa
