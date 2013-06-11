@@ -3,10 +3,11 @@
 
 #include<cmath>
 
+#include "BasicHelpers.h"
+#include "ConvexHullHelpers.h"
+
 #include"CircumcircleRadiusPredicate.h"
 #include "RayIntersectableStraightLine.h"
-
-#include "ConvexHullHelpers.h"
 
 /**
  * Class implementing an on-line and ouput-sensitive algorithm
@@ -187,13 +188,12 @@ public:
 
     // Orientation of the first convergents.
     // vConvM2 outside and vConvM1 inside
-    int rot_pi2[4];
-    rot_pi2[0] = 0; rot_pi2[1] = -1; rot_pi2[2] = 1; rot_pi2[3] = 0;
+    Transformer2D<Point> rotation; 
     while (myShape(aPoint + vConvM2) > 0 || myShape(aPoint + vConvM1) < 0)
       {
 	// pi/2 counter clockwise rotation
-	vConvM2 = vConvM2.rotate(rot_pi2);
-	vConvM1 = vConvM1.rotate(rot_pi2);
+	vConvM2 = rotation(vConvM2);
+	vConvM1 = rotation(vConvM1);
       }
 
     // First convergent points
