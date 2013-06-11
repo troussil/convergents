@@ -50,11 +50,51 @@ PICS de réseau 4-connexes\\
 
 Or, on observe que les points strictement à l'intérieur du disque discret (et donc pas sur le bord) possède tous leurs quatre voisins également à l'intérieur du disque. Pour autant, les points du bords du disque discret possèdent eux une distribution différente. Chacun des points du bord possède entre un et trois voisins à l'extérieur du disque et le complémentaire à quatre à l'intérieur.\\
 
-PICS de points du bord sans 4 voisins in\\
+PICS de points du bord sans 4 voisins in ??\\
 
-Pour définir un disque discret, on se retrouve finalement avec deux ensembles. Le premier représente les points strictement à l'intérieur. Ils sont ordonnées avec exactement quatre voisins également à l'intérieur du disque. Le deuxième ensemble égale au cercle discret propose une distribution de points bien moins régulière. Finalement, seule l'étude des points du bord nous semble pertinente pour comprendre l'organisation et la structure des disque discret.
+Pour définir un disque discret, on se retrouve finalement avec deux ensembles. Le premier représente les points strictement à l'intérieur. Ils sont ordonnées avec exactement quatre voisins également à l'intérieur du disque. Le deuxième ensemble égale au cercle discret propose une distribution de points bien moins régulière. Finalement, seule l'étude des points du bord nous semble pertinente pour comprendre l'organisation et la structure des disque discret. 
+
 
 %-----------------------------------------------------------------
 \subsection{Alpha-Shape}
 %-----------------------------------------------------------------
+
+%-----------------------------------------------------------------
+\subsubsection{Définition générale}
+
+En s'intéressant principalement à des contours de formes discretes, un ensemble d'outil nous est apparu comme particulièrement opportunt. Il s'agit des $\alpha$-hull et des $\alpha$-shape définit pour la première fois par edel (référence requise) de la manière suivante.
+
+\begin{proof}[$\alpha$-hull]
+	Intersection de tous les disques généralisés de rayon $1/\alpha$ qui contiennent tous les points de l'ensemble.
+\end{proof}
+
+Cette définition peut être également écrite en distinguant deux cas suivant le signe de $\alpha$.
+
+\begin{proof}[$\alpha$-hull, $\alpha \leq 0$]
+	L'intersection de tous les complémentaires fermés de disques de rayon -1/$\alpha$ qui contiennent tous les points à l’intérieur du disque.
+\end{proof}
+
+\begin{proof}[$\alpha$-hull, $\alpha \geq 0$]
+  	L'intersection de tous les disques fermés de rayon 1/$\alpha$ qui contiennent tous les points à l’intérieur du disque.
+\end{proof}
+
+PICS avec les alpha hull\\
+
+Les sommets de $\alpha$-hull, les points appartenant à son bord de l'$\alpha$-hull sont appelés points $\alpha$-extreme. S'ils sont situé sur le même bord en étant relié par un arc de cercle de rayon 1/$\alpha$, on dit alors qu'ils sont adjacents.
+
+\begin{proof}[$\alpha$-shape]
+  	Enveloppe reliant tous les $\alpha$-extremes adjacents.
+\end{proof}
+
+PICS avec les alpha-shape\\
+
+//L'utilité des $\alpha$-shapes est ainsi de susont des sous-ensemble de notre ensemble de points situés sur le bord. 
+
+%-----------------------------------------------------------------
+\subsubsection{Passage au disque discret}
+
+
+
+
+
 
