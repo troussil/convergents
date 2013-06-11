@@ -42,9 +42,98 @@ using namespace DGtal;
 #include "../inc/ConvexHullHelpers.h"
 #include "../inc/CircumcircleRadiusPredicate.h"
 
+/////////////////////////////////////////////////////////////////////////////
+// Class OutputIteratorCounter
+/**
+ * \brief Aim: This model of output iterator
+ * counts the number of times data are copied.
+ */
+class OutputIteratorCounter:
+  public std::iterator<std::output_iterator_tag,void,void,void,void>
+{
+  
+public:
+  /**
+   * Constructor.
+   * @param aCounterPtr a pointer to a counter
+   */
+  OutputIteratorCounter(int* aCounterPtr)
+    : myCounterPtr(aCounterPtr) {}
+
+  /**
+   * Copy Constructor.
+   * @param other another instance of the same class
+   */
+  OutputIteratorCounter(const OutputIteratorCounter& other)
+    : myCounterPtr(other.myCounterPtr) {}
+
+  // ----------------------- Interface --------------------------------------
+public:
+
+  /**
+   * Assignment operator.
+   * @a myCounter is incremented.
+   * @param aData any input data
+   * @return a reference to *this
+   */
+  template<typename Data>
+  OutputIteratorCounter& operator=(const Data& /*aData*/) 
+  { 
+    *myCounterPtr += 1; 
+    return *this; 
+  }
+
+  /**
+   * Dereference operator.
+   * Does nothing.
+   * @return a reference to *this
+   */
+  OutputIteratorCounter& operator*() 
+  { 
+    return *this; 
+  }
+
+  /**
+   * Pre-increment operator.
+   * Does nothing.
+   * @return a reference to *this
+   */
+  OutputIteratorCounter& operator++() 
+  { 
+    return *this; 
+  }
+
+  /**
+   * Post-increment operator.
+   * Does nothing.
+   * @return a reference to *this
+   */
+  OutputIteratorCounter& operator++(int) 
+  { 
+    return *this; 
+  }
+
+  /**
+   * Accessor.
+   * @return the current state of the counter
+   */
+  int get() const 
+  {
+    return (*myCounterPtr); 
+  }
+
+  // ------------------------- Private Datas --------------------------------
+private:
+  /**
+   * pointer to an integral counter
+   */
+  int* myCounterPtr;  
+
+}; // end of class OutputIteratorCounter
+
  
- 
-  template <typename Shape, typename OutputIterator>
+///////////////////////////////////////////////////////////////////////// 
+template <typename Shape, typename OutputIterator>
 void convexHull(const Shape& aShape, OutputIterator res, bool aVertOnEdges)
 {
   OutputSensitiveConvexHull<Shape> ch(aShape); 
@@ -63,9 +152,9 @@ void convexHull(const Shape& aShape, OutputIterator res, bool aVertOnEdges)
  */
 //////////////////////////////////////////////////////////////////////
 template <typename Shape, typename OutputIterator,
-  typename Predicate>
+	  typename Predicate>
 void alphaShape(const Shape& aShape, OutputIterator res, 
-    const Predicate& aPredicate)
+		const Predicate& aPredicate)
 {
   OutputSensitiveAlphaShape<Shape, Predicate> ch(aShape, aPredicate);
   ch.all(res);
@@ -150,181 +239,181 @@ void rToolMeans(int aHull, bool aTime, bool aEdgeVertices, int aFirstR, int aLas
   // Circle radius
   std::cout << "RADIUS|" << "\t";
   if(aHull == 1 || aHull == 3)
-  {
-    // Predicate
-    std::cout << "PREDICATE|" << "\t";
-  }
+    {
+      // Predicate
+      std::cout << "PREDICATE|" << "\t";
+    }
   if (aTime)
-  {
-    // Convex Hull computation time : average, min, max
-    std::cout << "TIME - average," << "\t"<< " min," << "\t"<< " max|" << "\t";
-  } 
+    {
+      // Convex Hull computation time : average, min, max
+      std::cout << "TIME - average," << "\t"<< " min," << "\t"<< " max|" << "\t";
+    } 
   if(aHull == 2 || aHull == 3)
-  {
-    // Vertices number of the convex hull : average, min, max
-    std::cout << "# CONVEX HULL - average,"   << "\t"<< " min,"   << "\t"
-      << " max|"   << "\t";
+    {
+      // Vertices number of the convex hull : average, min, max
+      std::cout << "# CONVEX HULL - average,"   << "\t"<< " min,"   << "\t"
+		<< " max|"   << "\t";
       
-    // Vertices number of the convex hull divide by the radius^(2/3) : average, min, max
-    std::cout << "# CONVEX HULL - CH / r^(2/3) - average,"   << "\t"<< " min,"   << "\t"
-      << " max|"   << "\t";  
-  }
+      // Vertices number of the convex hull divide by the radius^(2/3) : average, min, max
+      std::cout << "# CONVEX HULL - CH / r^(2/3) - average,"   << "\t"<< " min,"   << "\t"
+		<< " max|"   << "\t";  
+    }
   if(aHull == 1 || aHull == 3)
-  {
-    // Vertices number of the alpha-Shape : average, min, max
-    std::cout << "# ALPHA-SHAPE - average,"    << "\t"<< " min,"    << "\t"
-      << " max|";
+    {
+      // Vertices number of the alpha-Shape : average, min, max
+      std::cout << "# ALPHA-SHAPE - average,"    << "\t"<< " min,"    << "\t"
+		<< " max|";
     
-    // Vertices number of the alpha-shape divide by the radius^(2/3) : average, min, max
-    std::cout << "# ALPHA-SHAPE - AS / r^(2/3) - average,"   << "\t"<< " min,"   << "\t"
-      << " max|"   << "\t";
-  }
+      // Vertices number of the alpha-shape divide by the radius^(2/3) : average, min, max
+      std::cout << "# ALPHA-SHAPE - AS / r^(2/3) - average,"   << "\t"<< " min,"   << "\t"
+		<< " max|"   << "\t";
+    }
   std::cout << std::endl;
 
   // For a circle radius from aFirstR to aLastR (both include)  
   for (int j = aFirstR; j <= aLastR; j++)
-  {
-    // We take a radius for the predicate proportional to the radius of 
-    // tha alpha-shape. R_alpha = 1/akalpha * myNum / myDen = akalpha *1/R^2 
-    myDen = akalpha;
-    myNum = R*R;
+    {
+      // We take a radius for the predicate proportional to the radius of 
+      // tha alpha-shape. R_alpha = 1/akalpha * myNum / myDen = akalpha *1/R^2 
+      myDen = akalpha;
+      myNum = R*R;
 
-    // Predicate
-    typedef CircumcircleRadiusPredicate<DGtal::BigInteger> Predicate; 
-    Predicate predicate(myNum, myDen);
+      // Predicate
+      typedef CircumcircleRadiusPredicate<DGtal::BigInteger> Predicate; 
+      Predicate predicate(myNum, myDen);
 
 
-    // Reset values
-    bfirst = true;
-    time_min = 0; time_max = 0; time_average = 0.0; tmptime = 0;
-    cv_min   = 0; cv_max   = 0; cv_average   = 0.0; tmpnb = 0;
-    as_min   = 0; as_max   = 0; as_average   = 0.0;
+      // Reset values
+      bfirst = true;
+      time_min = 0; time_max = 0; time_average = 0.0; tmptime = 0;
+      cv_min   = 0; cv_max   = 0; cv_average   = 0.0; tmpnb = 0;
+      as_min   = 0; as_max   = 0; as_average   = 0.0;
     
-    tmpvdr = 0.0;
-    vdrcv_min= 0.0; vdrcv_max= 0.0; vdrcv_average= 0.0;  
-    vdras_min= 0.0; vdras_max= 0.0; vdras_average= 0.0;
+      tmpvdr = 0.0;
+      vdrcv_min= 0.0; vdrcv_max= 0.0; vdrcv_average= 0.0;  
+      vdras_min= 0.0; vdras_max= 0.0; vdras_average= 0.0;
   
 
-    // Take a mean of aTestNb values.
-    for (int i = 0; i < aTestNb; i++)
-    {
-      // We create a new circle from a, b, c, d : ax + by + c(x^2 + y^2)
-      // The circle have a random center pt_c in [0;1]*[0;1] and a fixed radius = R
-      // We fixed c = -20.  pt_c = [-a/2c ; -b/2c] and R² = (a^2 + b^2 - 4*c*d)/(4c²)
-      // so 4c²*R² = a² + b² - 4*c*d <=>  = (a² + b² - 4c²*R²)/4*c = d
+      // Take a mean of aTestNb values.
+      for (int i = 0; i < aTestNb; i++)
+	{
+	  // We create a new circle from a, b, c, d : ax + by + c(x^2 + y^2)
+	  // The circle have a random center pt_c in [0;1]*[0;1] and a fixed radius = R
+	  // We fixed c = -20.  pt_c = [-a/2c ; -b/2c] and R² = (a^2 + b^2 - 4*c*d)/(4c²)
+	  // so 4c²*R² = a² + b² - 4*c*d <=>  = (a² + b² - 4c²*R²)/4*c = d
 
-      a = - rand() %(2*c);
-      b = - rand() %(2*c);  
-      d = ( a*a + b*b - 4*R*R*c*c)/(4*c);
+	  a = - rand() %(2*c);
+	  b = - rand() %(2*c);  
+	  d = ( a*a + b*b - 4*R*R*c*c)/(4*c);
 
-      // Create a circle from the Euclidian parameter a, b, c, d.
-      Circle circle( a, b, c, d );	
+	  // Create a circle from the Euclidian parameter a, b, c, d.
+	  Circle circle( a, b, c, d );	
 
-      // Test
-      //std::cout<<"a = "<<a<<", b = "<<b<<", c = "<<c<<", d = "<<d<<std::endl;   
-      //std::cout<<"R : "<<R<<", "<< circle.getRadius()<<std::endl;
+	  // Test
+	  //std::cout<<"a = "<<a<<", b = "<<b<<", c = "<<c<<", d = "<<d<<std::endl;   
+	  //std::cout<<"R : "<<R<<", "<< circle.getRadius()<<std::endl;
 
-      // Convex Hull
-      if(aHull == 2 || aHull == 3)
-      {
-        // chcv recover the number of vertices of the convex hull.
-        std::vector<Point> chcv;
+	  // Convex Hull
+	  if(aHull == 2 || aHull == 3)
+	    {
+	      int verticesCounter = 0; 
+	      OutputIteratorCounter counter(&verticesCounter); 
 
-        if (aTime && aHull == 2) 
-        {
-          ta = std::chrono::system_clock::now();
-          convexHull(circle, std::back_inserter(chcv), aEdgeVertices);
-          tb = std::chrono::system_clock::now();
+	      if (aTime && aHull == 2) 
+		{
+		  ta = std::chrono::system_clock::now();
+		  convexHull(circle, counter, aEdgeVertices);
+		  tb = std::chrono::system_clock::now();
 
-          // Computation time
-          tmptime = (tb - ta).count();
-          if ((double)tmptime <= time_min || bfirst == true) {time_min = (double)tmptime/1000;}
-          if ((double)tmptime >= time_max || bfirst == true) {time_max = (double)tmptime/1000;}
-          time_average += tmptime/((double)aTestNb * 1000);
-        }
-        else
-          convexHull(circle, std::back_inserter(chcv), aEdgeVertices);
+		  // Computation time
+		  tmptime = (tb - ta).count();
+		  if ((double)tmptime <= time_min || bfirst == true) {time_min = (double)tmptime/1000;}
+		  if ((double)tmptime >= time_max || bfirst == true) {time_max = (double)tmptime/1000;}
+		  time_average += tmptime/((double)aTestNb * 1000);
+		}
+	      else
+		convexHull(circle, counter, aEdgeVertices);
 
-        // Convex hull vertices number
-        tmpnb = chcv.size();
-        if (tmpnb <= cv_min || bfirst == true) {cv_min = tmpnb;}
-        if (tmpnb >= cv_max || bfirst == true) {cv_max = tmpnb;}
-        cv_average += tmpnb/(double)aTestNb;
+	      // Convex hull vertices number
+	      tmpnb = counter.get();
+	      if (tmpnb <= cv_min || bfirst == true) {cv_min = tmpnb;}
+	      if (tmpnb >= cv_max || bfirst == true) {cv_max = tmpnb;}
+	      cv_average += tmpnb/(double)aTestNb;
         
-        tmpvdr = tmpnb/pow(DGtal::NumberTraits<BigInteger>::castToDouble(R), 2/(double) 3);
-        if (tmpvdr <= vdrcv_min || bfirst == true) {vdrcv_min = tmpvdr;}
-        if (tmpvdr >= vdrcv_max || bfirst == true) {vdrcv_max = tmpvdr;}
-        vdrcv_average += tmpvdr/aTestNb;        
+	      tmpvdr = tmpnb/pow(DGtal::NumberTraits<BigInteger>::castToDouble(R), 2/(double) 3);
+	      if (tmpvdr <= vdrcv_min || bfirst == true) {vdrcv_min = tmpvdr;}
+	      if (tmpvdr >= vdrcv_max || bfirst == true) {vdrcv_max = tmpvdr;}
+	      vdrcv_average += tmpvdr/aTestNb;        
 
-      }
+	    }
 
-      // Alpha-Shape
+	  // Alpha-Shape
+	  if(aHull == 1 || aHull == 3)
+	    {
+	      // chas recover the number of vertices of the alpha-shape.
+	      std::vector<Point> chas;
+
+	      if (aTime)
+		{ 
+		  ta = std::chrono::system_clock::now();
+		  alphaShape( circle, std::back_inserter(chas), predicate);
+		  tb = std::chrono::system_clock::now();
+
+		  // Computation time
+		  tmptime = (tb - ta).count();
+		  if ((double)tmptime <= time_min || bfirst == true) {time_min = (double)tmptime/1000;}
+		  if ((double)tmptime >= time_max || bfirst == true) {time_max = (double)tmptime/1000;}
+		  time_average += tmptime/((double)aTestNb * 1000);
+		}
+	      else
+		alphaShape( circle, std::back_inserter(chas), predicate );
+
+
+	      // Alpha-Shape vertices number
+	      tmpnb = chas.size();
+	      if (tmpnb <= as_min || bfirst == true) {as_min = tmpnb;}
+	      if (tmpnb >= as_max || bfirst == true) {as_max = tmpnb;}
+	      as_average += tmpnb/(double)aTestNb;
+        
+	      tmpvdr = tmpnb/pow(DGtal::NumberTraits<BigInteger>::castToDouble(R), 2/(double) 3);
+	      if (tmpvdr <= vdras_min || bfirst == true) {vdras_min = tmpvdr;}
+	      if (tmpvdr >= vdras_max || bfirst == true) {vdras_max = tmpvdr;}
+	      vdras_average += tmpvdr/aTestNb;  
+	    }     
+
+	  // reset first min, max entries
+	  bfirst = false;
+	} //aTestnb loop for a fixed radius
+
+      // Circle radius
+      std::cout << R << "\t";
       if(aHull == 1 || aHull == 3)
-      {
-        // chas recover the number of vertices of the alpha-shape.
-        std::vector<Point> chas;
-
-        if (aTime)
-        { 
-          ta = std::chrono::system_clock::now();
-          alphaShape( circle, std::back_inserter(chas), predicate);
-          tb = std::chrono::system_clock::now();
-
-          // Computation time
-          tmptime = (tb - ta).count();
-          if ((double)tmptime <= time_min || bfirst == true) {time_min = (double)tmptime/1000;}
-          if ((double)tmptime >= time_max || bfirst == true) {time_max = (double)tmptime/1000;}
-          time_average += tmptime/((double)aTestNb * 1000);
-        }
-        else
-          alphaShape( circle, std::back_inserter(chas), predicate );
-
-
-        // Alpha-Shape vertices number
-        tmpnb = chas.size();
-        if (tmpnb <= as_min || bfirst == true) {as_min = tmpnb;}
-        if (tmpnb >= as_max || bfirst == true) {as_max = tmpnb;}
-        as_average += tmpnb/(double)aTestNb;
-        
-        tmpvdr = tmpnb/pow(DGtal::NumberTraits<BigInteger>::castToDouble(R), 2/(double) 3);
-        if (tmpvdr <= vdras_min || bfirst == true) {vdras_min = tmpvdr;}
-        if (tmpvdr >= vdras_max || bfirst == true) {vdras_max = tmpvdr;}
-        vdras_average += tmpvdr/aTestNb;  
-      }     
-
-      // reset first min, max entries
-      bfirst = false;
-    } //aTestnb loop for a fixed radius
-
-    // Circle radius
-    std::cout << R << "\t";
-    if(aHull == 1 || aHull == 3)
-    {   // Predicate
-      std::cout << (DGtal::NumberTraits<BigInteger>::castToDouble(myNum) / 
-          DGtal::NumberTraits<BigInteger>::castToDouble(myDen)) << "\t";
-    }
-    if (aTime)
-    {
-      // time : average, min, max
-      std::cout << time_average << "\t" << time_min<< "\t" << time_max << "\t"; 
-    } 
-    if(aHull == 2 || aHull == 3)
-    {
-      // Concex Hull : average, min, max
-      std::cout << cv_average << "\t" << cv_min<< "\t" << cv_max << "\t"   
-      << vdrcv_average << "\t" << vdrcv_min<< "\t" << vdrcv_max << "\t";
+	{   // Predicate
+	  std::cout << (DGtal::NumberTraits<BigInteger>::castToDouble(myNum) / 
+			DGtal::NumberTraits<BigInteger>::castToDouble(myDen)) << "\t";
+	}
+      if (aTime)
+	{
+	  // time : average, min, max
+	  std::cout << time_average << "\t" << time_min<< "\t" << time_max << "\t"; 
+	} 
+      if(aHull == 2 || aHull == 3)
+	{
+	  // Concex Hull : average, min, max
+	  std::cout << cv_average << "\t" << cv_min<< "\t" << cv_max << "\t"   
+		    << vdrcv_average << "\t" << vdrcv_min<< "\t" << vdrcv_max << "\t";
    
-    }
-    if(aHull == 1 || aHull == 3)
-    {
-      // Alpha-Shape : average, min, max
-      std::cout << as_average << "\t" << as_min<< "\t" << as_max << "\t"
-      << vdras_average << "\t" << vdras_min<< "\t" << vdras_max << "\t";
-    }
-    std::cout << std::endl;
-    // Restart with a radius increase by 4.
-    R = R*aradiusStep; 
-  }// end loop - R reach its maximum asked aRadiusmax
+	}
+      if(aHull == 1 || aHull == 3)
+	{
+	  // Alpha-Shape : average, min, max
+	  std::cout << as_average << "\t" << as_min<< "\t" << as_max << "\t"
+		    << vdras_average << "\t" << vdras_min<< "\t" << vdras_max << "\t";
+	}
+      std::cout << std::endl;
+      // Restart with a radius increase by 4.
+      R = R*aradiusStep; 
+    }// end loop - R reach its maximum asked aRadiusmax
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -352,13 +441,13 @@ int main( int argc, char** argv )
   }
   po::notify(vm);    
   if(!parseOK || vm.count("help")||argc<=1)
-  {
-    trace.info()<< "Display the number of vertices depending to the radius of the disk" 
-      <<std::endl << "Basic usage: "<<std::endl
-      << "\t toolAlphaShape -o 1 -f 5 -l 8 > files.txt" << std::endl
-      << general_opt << "\n";
-    return 0;
-  }
+    {
+      trace.info()<< "Display the number of vertices depending to the radius of the disk" 
+		  <<std::endl << "Basic usage: "<<std::endl
+		  << "\t toolAlphaShape -o 1 -f 5 -l 8 > files.txt" << std::endl
+		  << general_opt << "\n";
+      return 0;
+    }
 
   // retrieve values from boost - po
   int hull = vm["output"].as<int>();
