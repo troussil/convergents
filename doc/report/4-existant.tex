@@ -1,24 +1,68 @@
 %-----------------------------------------------------------------
-\section{Existant}
+\section{Existants}
 %-----------------------------------------------------------------
 
 %-----------------------------------------------------------------
 \subsection{Enveloppe Convexe}
 %-----------------------------------------------------------------
 
-%-----------------------------------------------------------------
-\subsubsection{Méthode naïve}
-%-----------------------------------------------------------------
+Le calcul d'une $\alpha$-shape pour $\alpha$ = 0 revient à calculer l'enveloppe convexe de notre disque discret. Calculer une enveloppe convexe est particulièrement étudié. De nombreux algorithmes existes : Parcours de Grahaam, Marche de Jarvis... Dans le cadre de ce stage se déroulant en pleine géométrie discrète, une méthode à néanmoins retenue notre attention. Il a été introduit par Har-Peled en 98 par l'intermédiaire de la publication suivante : \\
+
+Il y présente un algorithme de calcul de l'enveloppe convexe qui est "Output Sensitive".
+
+\begin{proof}[Output sensitive]
+      Un algorithme output sensitive possède un temps d’exécution qui dépend de la taille de la sortie.
+\end{proof}
+
+Dans ce cas de figure bien précis, la méthode présentée dépend du nombre de sommets de l'enveloppe convexe. Elle utilise une méthode s'appuyant sur le calcul de convergents, qui représente le pendant géométrique du calcul du pgcd de deux nombres entiers en cherchant des convergents et les coefficient de la fraction continue du nombre rationnel.
 
 %-----------------------------------------------------------------
 \subsubsection{Calcul des convergents}
-%-----------------------------------------------------------------
+
+Cette méthode de calcul est géométrique. On transforme notre deux nombres entiers $x, y$ en un point de $\mathbb{Z}^{2}$ qu'on appellera $P = (P_x, P_y)$. À partir de l’origine $O=(0,0)$, on va chercher à trouver le premier point appartenant au segment de droite [O,P]. Le coefficient trouvé correspondant finalement au pgcd de $P_x$ et $P_y$.\\
+
+Pour cela on met en place une méthode récursive.\\
+Soient $p_{-2} = (1,0)$ et $p_{-1} = (0,1)$ les deux premiers convergents.\\
+
+Pour trouver les convergents suivants, on va chercher :
+$$p_{k} = p_{k-2} + q_k * p_{k-1}$$
+
+avec $q_k$ le plus grand entier tel que $p_{k}$ et $p_{k-2}$ soient du même côté de la droite.\\
+
+On se retrouve donc à effectuer un jeter de rayon de $p_{k-2}$ dans la direction de $p_{k-1}$ pour étudier l’intersection du vecteur et de la droite de direction $y_P / x_P$.\\
+
+La méthode s’arrêtant quand enfin un convergent $p_{k}$ est exactement sur la droite.
 
 %-----------------------------------------------------------------
 \subsubsection{Passage au disque}
-%-----------------------------------------------------------------
+
+Pour le passage à l'enveloppe convexe, nous allons construire successivement les arêtes de notre polygone. La première étape de l'algorithme consiste à trouver un premier point effectivement sommet de l'enveloppe convexe. Plusieurs moyens sont possible. Nous avons choisit de trouver le point le plus en bas puis le plus à droite de tous les points du disque en cherchant à proximité d'un point éloigné du centre vers la bas d'une distance égale à celle du rayon.\\
+
+Pour la suite, nous avons procéder de la même manière en construisant les convergents au plus prêt du bord du disque. En effet, nous allons successivement être à l'intérieur pour $k$ impaire et à l'extérieur du disque pour $k$ pair. Nous nous arrêterons quand le convergent se situe exactement sur le bord du disque ou bien au dernier convergent de degré impaire.\\
+
+Ainsi, nous récupérons successivement les sommets de l'enveloppe convexe jusqu'à retomber sur le premier sommet fermant ainsi notre enveloppe.
 
 %-----------------------------------------------------------------
 \subsection{Triangulation de Delaunay}
 %-----------------------------------------------------------------
+
+\begin{proof}[Segment de droite discrète de direction $P_y / P_x$ partant $O$]
+    $$\mathcal{d} =  \left\{ (x,y) \in \mathbb{Z}^{2} |  0 \leq P_y x + P_x y \leq 1. \right\}$$
+\end{proof}
+
+Plus prosaïquement, on peut définir une droite discrète comme l'ensemble des points comprises dans un tube d'une largeur de un.
+
+PICS de droite discrètes. \\
+
+Les segments de droites discrètes sont des objets aux propriétés combinatoires et arithmétiques remarquables. Les morceaux spécifiques de ses segments qui se répètent sont appelés des motifs. Il a été montré que des relations entre les motifs et la triangulation de Delaunay existent. Il est donc possible de construire la triangulation de Delaunay à partir de l'étude de ses motifs et donc à partir du coefficient rationnel du segment de droite discrète.
+
+\begin{proof}[Triangulation de Delaunay d'ordre $m, 0 \leq m \leq n ]
+  La triangulation de Delaunay d'ordre m est un triangulation ou chaque disque circonscrit au triangle associé à la triangulation contient exactement m point dans son intérieur.\\
+ 
+  En particulier, deux versions se démarquent très nettement. La triangulation de Delaunay d'ordre 0, également appelé Closest qui propose une triangulation dont les cercles circonscrits aux triangles ne contient aucun autre point que les trois sommets des triangles dans leurs intérieurs. La triangulation d'ordre n, également appelé Farthest où chaque cercle circonscrit à un triangle contient l'ensemble des points de  l'ensemble.
+\end{proof}
+
+La construction de notre enveloppe convexe nous a amené à construire ses arêtes. Nous avons ainsi construit une série de segment de droite englobant tous les points à l'intérieur de notre disque. De manière encore plus fines, nous avons construit une série de motif associé à chaque segment de droite que nous pouvons relié à leur triangulation de Delaunay. Or, les $\alpha$-shapes s’appuient également sur l'utilisation de la triangulation de Delaunay, d'ordre 0 lorsque $\alpha \leq 0$ et d'ordre n lorsque $\alpha \geq 0$. On a également vu qu'il était possible d'utiliser un algorithme "Output Sensitive" pour le calcul de l'enveloppe convexe.
+
+La problématique de ce stage est de chercher à trouver s'il est possible de calculer les $\alpha$-shapes de manière output sensitive en s'appuyant sur le calcul des convergents et par la suite d'implémenter un tel algorithme.  
 

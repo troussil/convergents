@@ -52,7 +52,7 @@ Or, on observe que les points strictement à l'intérieur du disque discret (et 
 
 PICS de points du bord sans 4 voisins in ??\\
 
-Pour définir un disque discret, on se retrouve finalement avec deux ensembles. Le premier représente les points strictement à l'intérieur. Ils sont ordonnées avec exactement quatre voisins également à l'intérieur du disque. Le deuxième ensemble égale au cercle discret propose une distribution de points bien moins régulière. Finalement, seule l'étude des points du bord nous semble pertinente pour comprendre l'organisation et la structure des disque discret. 
+Pour définir un disque discret, on se retrouve finalement avec deux ensembles. Le premier représente les points strictement à l'intérieur. Ils sont ordonnées avec exactement quatre voisins également à l'intérieur du disque. Le deuxième ensemble égale au cercle discret propose une distribution de points bien moins régulière. Finalement, seule l'étude des points du bord nous semble pertinente pour comprendre l'organisation et la structure des disque discret.
 
 
 %-----------------------------------------------------------------
@@ -62,39 +62,55 @@ Pour définir un disque discret, on se retrouve finalement avec deux ensembles. 
 %-----------------------------------------------------------------
 \subsubsection{Définition générale}
 
-En s'intéressant principalement à des contours de formes discretes, un ensemble d'outil nous est apparu comme particulièrement opportunt. Il s'agit des $\alpha$-hull et des $\alpha$-shape définit pour la première fois par edel (référence requise) de la manière suivante.
+En s'intéressant principalement à des contours de formes discrètes, un ensemble d'outil nous est apparu comme particulièrement opportun. Il s'agit des $\alpha$-hull et des $\alpha$-shape définit pour la première fois par edel (référence requise) de la manière suivante.
 
 \begin{proof}[$\alpha$-hull]
-	Intersection de tous les disques généralisés de rayon $1/\alpha$ qui contiennent tous les points de l'ensemble.
+    Intersection de tous les disques généralisés de rayon $1/\alpha$ qui contiennent tous les points de l'ensemble.
 \end{proof}
 
-Cette définition peut être également écrite en distinguant deux cas suivant le signe de $\alpha$.
+Cette définition peut être également se décomposer selon le signe de $\alpha$.
 
-\begin{proof}[$\alpha$-hull, $\alpha \leq 0$]
-	L'intersection de tous les complémentaires fermés de disques de rayon -1/$\alpha$ qui contiennent tous les points à l’intérieur du disque.
+\begin{proof}[$\alpha$-hull, $\alpha < 0$]
+    L'intersection de tous les complémentaires fermés de disques de rayon -1/$\alpha$ qui contiennent tous les points à l’intérieur du disque.
 \end{proof}
 
-\begin{proof}[$\alpha$-hull, $\alpha \geq 0$]
-  	L'intersection de tous les disques fermés de rayon 1/$\alpha$ qui contiennent tous les points à l’intérieur du disque.
+\begin{proof}[$\alpha$-hull, $\alpha = 0$ - Enveloppe convexe]
+      L'intersection de tous les demi-plans qui contiennent tous les points à l’intérieur du disque.
+\end{proof}
+
+\begin{proof}[$\alpha$-hull, $\alpha > 0$]
+      L'intersection de tous les disques fermés de rayon 1/$\alpha$ qui contiennent tous les points à l’intérieur du disque.
 \end{proof}
 
 PICS avec les alpha hull\\
 
-Les sommets de $\alpha$-hull, les points appartenant à son bord de l'$\alpha$-hull sont appelés points $\alpha$-extreme. S'ils sont situé sur le même bord en étant relié par un arc de cercle de rayon 1/$\alpha$, on dit alors qu'ils sont adjacents.
+Les sommets de $\alpha$-hull, les points appartenant à son bord de l'$\alpha$-hull sont appelés points $\alpha$-extreme. S'ils sont situés sur le même bord en étant relié par un arc de cercle de rayon 1/ $\lvert \alpha \rvert$, on dit alors qu'ils sont adjacents.
 
 \begin{proof}[$\alpha$-shape]
-  	Enveloppe reliant tous les $\alpha$-extremes adjacents.
+      Enveloppe reliant tous les $\alpha$-extremes adjacents.
 \end{proof}
 
 PICS avec les alpha-shape\\
 
-//L'utilité des $\alpha$-shapes est ainsi de susont des sous-ensemble de notre ensemble de points situés sur le bord. 
+//L'utilité des $\alpha$-shapes est d'être une sous-ensemble des points du bord.
 
 %-----------------------------------------------------------------
-\subsubsection{Passage au disque discret}
+\subsubsection{$\alpha$-shapes de disque discret}
 
+Avant de rentrer dans le vif du sujet, il convient d'abord de vérifier si les $\alpha$-shape répondent bien à notre problématique en s'intéressant principalement au point du bord. Pour cela, je vous présente différentes $\alpha$-shape pour $\alpha$ variant de -2 à $R_D$ (le rayon du disque).\\
 
+PICS avec alpha shapes de disque.\\
 
+%-----------------------------------------------------------------
+\subsubsection{Plusieurs remarques}
 
+\paragraph{}
+Le cas central de $\alpha = 0$ représente une intersection de disque de rayon infini, cela peut être interprété comme une intersection de demi-plan. On retrouve exactement le calcul de l'enveloppe convexe.
 
+\paragraph{}
+Les plus petits $\alpha = -2$ et $\alpha = -1$ représenter les cas bien connus de suivi de bord. En effet, en ne pouvant s'éloigner au plus de disques de rayon -2 et -1, on ne peut suivre le bord de nos disques que par l'intermédiaire des voisins 4-connexes et 8-connexes de chaque point du bord.
 
+\paragraph{}
+En réalisant l'union de nos $\alpha$-shape pour le cas négatif et le cas positif, il semblerait que l'on s'appuie également sur les triangulations d'ordre 0 et n de Delaunay. Mais nous reviendrons dessus plus en détail dans la section "Existants".\\
+
+En dire un peu plus sur cette partie.???
