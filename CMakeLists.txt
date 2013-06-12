@@ -1,8 +1,6 @@
 project( toolsWithDGtal )
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
-ADD_DEFINITIONS("-std=c++0x")
-
 #Inclusion de DGtal
 FIND_PACKAGE(DGtal REQUIRED)
 MESSAGE(STATUS "Found DGtal: ${DGTAL_LIBRARIES}")
@@ -15,6 +13,9 @@ MESSAGE(STATUS "Found Boost: ${Boost_LIBRARIES} ")
 MESSAGE(STATUS "More precisely: ${Boost_PROGRAM_OPTIONS_LIBRARY} ")
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
+
+# Usage of c++11
+SET(CMAKE_CXX_FLAGS -std=c++0x)
 
 # Make sure you can run make test
 enable_testing()

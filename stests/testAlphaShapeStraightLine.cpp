@@ -112,7 +112,10 @@ bool test(const ForwardIterator& itb, const ForwardIterator& ite,
     //COMPARE WITH YOUR ALGO HERE
     if (ch.size() == ch2.size())
     {
-      if ( std::equal(ch2.begin(), ch2.end(), ch.begin()) )	{return true;}
+      if ( std::equal(ch2.begin(), ch2.end(), ch.begin()) )	
+	return true;
+      else 
+	return false; 
     }
     else {return false;}
   }
@@ -176,13 +179,13 @@ int dichotomous(const CircumcircleRadiusPredicate& aPredicate, const Point& aPoi
  * @param aPredicate determine the alpha shape radius
  * @param aPoint, bPoint, the starting and ending point of the straight
  * line.
- * @return the alpha-hull of the straight line in the OutputIterator.
+ * @param res output iterator storing the vertices of the alpha-shape
  */
   template <typename CircumcircleRadiusPredicate, typename Point, typename OutputIterator>
-Point next(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa, const Point& aPointb, const int aMaxConv, OutputIterator aAlphaShapeHull)
+void next(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa, const Point& aPointb, const int aMaxConv, OutputIterator res)
 {
   // aPoint is the first Alpha-Shape vertex.
-  *aAlphaShapeHull++ = aPointa;
+  *res++ = aPointa;
 
   // Initialisation of the convergent.
   // Convergent arise from pStart.
@@ -254,7 +257,7 @@ Point next(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa, 
          * If qkalpha == 0, we have to deal with a special case.
          * We have to restart from pConvM2 in order to not missed any vertex.
          */
-        *aAlphaShapeHull++ = pConvM2;
+        *res++ = pConvM2;
         pStart = pConvM2; 
       }
       else
@@ -265,7 +268,7 @@ Point next(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa, 
          */
         while (qkalpha <= qk)
         {
-          *aAlphaShapeHull++ = pConvM2 + qkalpha*vConvM1;
+          *res++ = pConvM2 + qkalpha*vConvM1;
           qkalpha++;  
         }
         pStart = pConv;
@@ -295,11 +298,11 @@ Point next(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa, 
 
             while ( qkalpha <= qk-qks)
             {
-              *aAlphaShapeHull++ = pStart + qkalpha*vConvM1;
+              *res++ = pStart + qkalpha*vConvM1;
               qkalpha++;
             }
           }
-          *aAlphaShapeHull++ = aPointb;
+          *res++ = aPointb;
           // All the alpha-shape have been computed.
           stop = true;
         }
@@ -313,7 +316,7 @@ Point next(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa, 
           if (k > 0 && qk <= 0) 
           {
             newStart = true;
-            *aAlphaShapeHull++ = pConvM1;
+            *res++ = pConvM1;
             pStart = pConvM1;	
           }
           else // update convergent p_k-2 = p_k-1, p_k-1 = p_k, k++ 
@@ -449,7 +452,7 @@ int main()
     int nbPredicate = 10;
 
 
-    for (nb_test;nb_test>0;nb_test--)
+    for ( ;nb_test>0;nb_test--)
     {
       {
         // random origin
