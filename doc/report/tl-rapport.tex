@@ -42,15 +42,43 @@
 
 %\setlength\parindent{0pt} % Uncomment to remove all indentation from paragraphs
 
+
+
+
+
 \begin{document}
+
+%----------------------------------------------------------------------------------------
+%	RE-DEFINITION 
+%----------------------------------------------------------------------------------------
+% MATHS
+%-----------
+
+\newtheorem{Definition}{Definition}
+\newtheorem{Theorem}{Theorem}
+\newtheorem{Proposition}{Proposition}
+\newtheorem{Corollary}{Corollary}
+\newtheorem{Problem}{Problem}
+\newtheorem{Lemma}{Lemma}
+ 
+\newcommand{\RefSec}[1]{Section~\ref{#1}}
+\newcommand{\RefFig}[1]{Fig.~\ref{#1}}
+\newcommand{\RefTab}[1]{Tab.~\ref{#1}}
+\newcommand{\RefDef}[1]{Definition~\ref{#1}}
+\newcommand{\RefPro}[1]{Proposition~\ref{#1}}
+\newcommand{\RefLem}[1]{Lemma~\ref{#1}}
+\newcommand{\RefThe}[1]{Theorem~\ref{#1}}
+\newcommand{\Eq}[1]{(\ref{#1})}
+
+% LINES
+%-----------
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
 
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
 %----------------------------------------------------------------------------------------
 
 \begin{titlepage}
-
-\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
 
 \center % Center everything on the page
 
@@ -92,17 +120,28 @@ Tristan \textsc{Roussillon} % Supervisor's Name
 
 \newpage % Begins the essay on a new page instead of on the same page as the table of contents 
 
-\include{1-introduction}
 
-\newpage
+Quelques définitions classiques:
+
+
+Après on écrit par exemple:
+
+\begin{Definition}
+\label{def:triangulation}
+bla bla
+\end{Definition}
+
+(see \RefDef{def:triangulation}). 
+
+
+\include{1-introduction}
 
 \include{2-motivations}
 
-%\part{Méthodes existantes}
 \include{4-existant}
 
-%\part{Contributions}
-%\include{4-contrib}
+
+\include{5-contributions}
 
 %\part{Développement informatiques}
 %\include{2-devinfo}

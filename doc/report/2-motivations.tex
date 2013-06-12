@@ -11,13 +11,19 @@
 
 Avant de s'attarder sur la représentation d'un disque discret, il convient de revenir un court instant au disque fermé Euclidien et à l'ensemble reprenant tous les points de son bord, le cercle Euclidien.
 
-\begin{proof}[Disque fermé Euclidien]
-  $$\mathcal{D}_e =  \left\{ (x,y) \in \mathbb{R}^{2} |  (x - u)^2 + (y - v)^2 \leq R^2. \right\}$$
-\end{proof}
 
-\begin{proof}[Cercle Euclidien]
+
+
+\begin{Definition}{Disque fermé Euclidien}
+\label{def:disk-euc}
+ $$\mathcal{D}_e =  \left\{ (x,y) \in \mathbb{R}^{2} |  (x - u)^2 + (y - v)^2 \leq R^2. \right\}$$
+\end{Definition}
+
+\begin{Definition}{Cercle Euclidien}
+\label{def:cer-euc}
   $$\mathcal{C}_e =  \left\{ (x,y) \in \mathbb{R}^{2} |  (x - u)^2 + (y - v)^2 = R^2. \right\}$$
-\end{proof}
+\end{Definition}
+
 
 avec $(u,v) \in \mathbb{R}^{2}$ les coordonnées du centre et $R \in \mathbb{R}^{+*}$ le rayon.\\
 
@@ -25,9 +31,10 @@ avec $(u,v) \in \mathbb{R}^{2}$ les coordonnées du centre et $R \in \mathbb{R}^
 
 Si la définition du disque fermé discret dans $\mathbb{R}^{2}$ (appelé pour la suite du rapport uniquement disque discret) reste très proche de la définition Euclidienne, l'équivalent discret pour récupérer tous les points du bord quant à elle change considérablement.
 
-\begin{proof}[Disque discret]
-  $$\mathcal{D} =  \left\{ (x,y) \in \mathbb{Z}^{2} |  ax + by + c(x^2 + y^2) + d \leq 0. \right\}$$
-\end{proof}
+\begin{Definition}{Disque discret}
+\label{def:disk-dis}
+$$\mathcal{D} =  \left\{ (x,y) \in \mathbb{Z}^{2} |  ax + by + c(x^2 + y^2) + d \leq 0. \right\}$$
+\end{Definition}
 
 avec $(u,v) \in \mathbb{R}^{2}$ les coordonnées du centre et $R \in \mathbb{R}^{+*}$ le rayon.\\
 
@@ -35,9 +42,11 @@ avec $(u,v) \in \mathbb{R}^{2}$ les coordonnées du centre et $R \in \mathbb{R}^
 
 L'ensemble des points appartenant à $\mathbb{Z}^{2}$ représentés en rouge sur le dessin et étant positionnés exactement sur le cercle euclidien ne suffisent pas à représenté l'ensemble des points du cercle discret. Il faut donc prendre une définition plus générale.
 
-\begin{proof}[Cercle discret]
+\begin{Definition}{Cercle discret}
+\label{def:cer-dis}
   $$ \mathcal{C} =  \left\{ (x,y) \in \mathbb{Z}^{2} | \exists (i,j) \in \{0,1\}^2, (i,j) \ne (0,0) | (x+i,y+j) \notin \mathcal{D} \right\}$$
-\end{proof}
+\end{Definition}
+
 
 %PICS de cercle discret
 
@@ -64,31 +73,20 @@ Pour définir un disque discret, on se retrouve finalement avec deux ensembles. 
 
 En s'intéressant principalement à des contours de formes discrètes, un ensemble d'outil nous est apparu comme particulièrement opportun. Il s'agit des $\alpha$-hull et des $\alpha$-shape définit pour la première fois par edel (référence requise) de la manière suivante.
 
-\begin{proof}[$\alpha$-hull]
+\begin{Definition}{$\alpha$-hull de $\mathcal{S}$}
+\label{def:ah}
+    $$\left\{ \cap \mathcal{D}_{\alpha} | \forall (x,y)\in \mathcal{S} \subset \mathbb{Z}^{2} \Rightarrow (x,y) \in \mathcal{D}_{\alpha} \right\}$$
     Intersection de tous les disques généralisés de rayon $1/\alpha$ qui contiennent tous les points de l'ensemble.
-\end{proof}
-
-Cette définition peut être également se décomposer selon le signe de $\alpha$.
-
-\begin{proof}[$\alpha$-hull, $\alpha < 0$]
-    L'intersection de tous les complémentaires fermés de disques de rayon -1/$\alpha$ qui contiennent tous les points à l’intérieur du disque.
-\end{proof}
-
-\begin{proof}[$\alpha$-hull, $\alpha = 0$ - Enveloppe convexe]
-      L'intersection de tous les demi-plans qui contiennent tous les points à l’intérieur du disque.
-\end{proof}
-
-\begin{proof}[$\alpha$-hull, $\alpha > 0$]
-      L'intersection de tous les disques fermés de rayon 1/$\alpha$ qui contiennent tous les points à l’intérieur du disque.
-\end{proof}
+\end{Definition}
 
 %PICS avec les alpha hull
 
 Les sommets de $\alpha$-hull, les points appartenant à son bord de l'$\alpha$-hull sont appelés points $\alpha$-extreme. S'ils sont situés sur le même bord en étant relié par un arc de cercle de rayon 1/ $\lvert \alpha \rvert$, on dit alors qu'ils sont adjacents.
 
-\begin{proof}[$\alpha$-shape]
+\begin{Definition}{$\alpha$-shape}\\
+\label{def:as}
       Enveloppe reliant tous les $\alpha$-extremes adjacents.
-\end{proof}
+\end{Definition}
 
 %PICS avec les alpha-shape\\
 
