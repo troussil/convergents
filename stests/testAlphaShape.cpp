@@ -94,6 +94,8 @@ bool test(const Circle aCircle, const CircumcircleRadiusPredicate& aPredicate)
     {
       return true;
     }
+    else 
+      return false; 
   }
   else 
     return false;
@@ -439,7 +441,7 @@ int main()
   // Circumcircle triangle vertices
   Point pta, ptb, ptc;
 
-  for (nb_test;nb_test>0;nb_test--)
+  for ( ;nb_test>0;nb_test--)
   {
     {
       // random circumcircle 

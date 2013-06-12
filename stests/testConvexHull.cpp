@@ -168,7 +168,7 @@ int main()
  
   {
 
-    for (nb_test;nb_test>0;nb_test--)
+    for ( ;nb_test>0;nb_test--)
       {
 #ifdef DEBUG_VERBOSE
 	std::cout << std::endl; 
