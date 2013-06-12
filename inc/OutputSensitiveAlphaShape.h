@@ -3,10 +3,11 @@
 
 #include<cmath>
 
+#include "BasicHelpers.h"
+#include "ConvexHullHelpers.h"
+
 #include"CircumcircleRadiusPredicate.h"
 #include "RayIntersectableStraightLine.h"
-
-#include "ConvexHullHelpers.h"
 
 /**
  * Class implementing an on-line and ouput-sensitive algorithm
@@ -187,13 +188,12 @@ public:
 
     // Orientation of the first convergents.
     // vConvM2 outside and vConvM1 inside
-    int rot_pi2[4];
-    rot_pi2[0] = 0; rot_pi2[1] = -1; rot_pi2[2] = 1; rot_pi2[3] = 0;
+    Transformer2D<Point> rotation; 
     while (myShape(aPoint + vConvM2) > 0 || myShape(aPoint + vConvM1) < 0)
       {
 	// pi/2 counter clockwise rotation
-	vConvM2 = vConvM2.rotate(rot_pi2);
-	vConvM1 = vConvM1.rotate(rot_pi2);
+	vConvM2 = rotation(vConvM2);
+	vConvM1 = rotation(vConvM1);
       }
 
     // First convergent points
@@ -216,7 +216,7 @@ public:
     //Ray casting from pConvM2 in the direction vConvM1
     while (myShape.dray(pConvM2, vConvM1, qk, pConv))
       {
-	std::cout << k << " - aP : "<<aPoint<<" | vm2, vm1 : "<<vConvM2<<vConvM1<<"| pC, qk :"<<pConv<<qk<<std::endl;           
+	//std::cout << k << " - aP : "<<aPoint<<" | vm2, vm1 : "<<vConvM2<<vConvM1<<"| pC, qk :"<<pConv<<qk<<std::endl;           
 	//If pConv is outside the shape (k is odd) 
 	if (myShape(pConv) < 0)
           {
@@ -234,9 +234,8 @@ public:
 		  {
 		    // Convex Hull case, we do not add the vertex
 		    if (!aAlphaInf)
-		      { 
-			*res++ = prevLastPoint;
-		      }
+			    *res++ = prevLastPoint;
+		      
 		    prevLastPoint = lastPoint; 
 		    lastPoint += vConvM1;
 		  } 
@@ -330,9 +329,8 @@ public:
       {
 	// Convex Hull case, we do not add the vertex
 	if (!aAlphaInf)
-          { 
-            *res++ = prevLastPoint;
-          }
+    *res++ = prevLastPoint;
+  
 	prevLastPoint = lastPoint; 
 	lastPoint += vConvM1;
       } 

@@ -25,7 +25,7 @@ using namespace DGtal;
 
 ///////////////////////////////////////////////////////////////////////////////
 //our work
-#include "../inc/PointVector2D.h"
+//#include "../inc/PointVector2D.h"
 #include "../inc/RayIntersectableCircle.h"
 #include "../inc/OutputSensitiveConvexHull.h"
 #include "../inc/OutputSensitiveAlphaShape.h"
@@ -224,12 +224,8 @@ int main( int argc, char** argv )
       return 0;
     }
  
-
-  typedef PointVector2D<int> Point; //DGtal point redefinition
-  typedef PointVector2D<int> Vector; //DGtal point redefinition
-  // does not work (lacking operators)
-  // typedef PointVector<2,int> Point; //DGtal point redefinition
-  // typedef PointVector<2,int> Vector; //DGtal point redefinition
+  typedef PointVector<2,int> Point; //DGtal point redefinition
+  typedef PointVector<2,int> Vector; //DGtal point redefinition
   typedef RayIntersectableCircle<Point,DGtal::BigInteger> Circle; //Circle
 
   std::string methodName = vm["algo"].as<std::string>(); 
