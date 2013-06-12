@@ -36,7 +36,7 @@
   	\frametitle{Schéma de preuve}
 
 %EMST in CDT
-\begin{block}{1. L'EMST divise la CDT en deux parties} 
+\begin{block}{1. L'arbre recouvrant minimal (euclidien) divise la CDT en deux parties} 
 \centering
 \includegraphics[width=0.22\linewidth,page=2]{fig/CDT-motif.pdf}\hspace{0.02\linewidth}
 \includegraphics[width=0.22\linewidth,page=3]{fig/CDT-motif.pdf}\hspace{0.02\linewidth}
@@ -72,6 +72,8 @@
 
 \begin{block}{Calcul incrémental et \emph{output-sensitive} 
 de l'enveloppe convexe ($\alpha = 0$)}
+%
+Complexité en $O(h \log r)$, où $h = O(r^{2/3})$ est le nombre de sommets. 
 %ref Har-peled
 \scriptsize
 \begin{thebibliography}{alpha}
@@ -87,9 +89,10 @@ de l'enveloppe convexe ($\alpha = 0$)}
 \begin{block}{Généralisation pour $\alpha \leq 0$}
 %explications orales ?
  \begin{itemize}
-  \item raffinement récursif à partir des arêtes de l'enveloppe convexe
+  \item calcul récursif à partir des arêtes de l'enveloppe convexe
   \item calcul incrémental à partir des convergents des arêtes
  \end{itemize}
+Complexité en $O(h \log r)$. 
 
 %ref stage
 \scriptsize 
