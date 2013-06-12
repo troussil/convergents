@@ -11,9 +11,6 @@
 
 Avant de s'attarder sur la représentation d'un disque discret, il convient de revenir un court instant au disque fermé Euclidien et à l'ensemble reprenant tous les points de son bord, le cercle Euclidien.
 
-
-
-
 \begin{Definition}{Disque fermé Euclidien}
 \label{def:disk-euc}
  $$\mathcal{D}_e =  \left\{ (x,y) \in \mathbb{R}^{2} |  (x - u)^2 + (y - v)^2 \leq R^2. \right\}$$
@@ -23,7 +20,6 @@ Avant de s'attarder sur la représentation d'un disque discret, il convient de r
 \label{def:cer-euc}
   $$\mathcal{C}_e =  \left\{ (x,y) \in \mathbb{R}^{2} |  (x - u)^2 + (y - v)^2 = R^2. \right\}$$
 \end{Definition}
-
 
 avec $(u,v) \in \mathbb{R}^{2}$ les coordonnées du centre et $R \in \mathbb{R}^{+*}$ le rayon.\\
 
@@ -96,7 +92,7 @@ L'utilité des $\alpha$-shapes est d'être une sous-ensemble des points du bord.
 %-----------------------------------------------------------------
 \subsubsection{$\alpha$-shapes de disque discret}
 
-Avant de rentrer dans le vif du sujet, il convient d'abord de vérifier si les $\alpha$-shape répondent bien à notre problématique en s'intéressant principalement au point du bord. Pour cela, je vous présente différentes $\alpha$-shape pour $\alpha$ variant de -2 à $R_D$ (le rayon du disque).
+En prenant un panel assez large d'$\alpha$-shape avec $\alpha$ succéssivement négatif et positif variant de -2 à $R_D$ (le rayon du disque) on remarque que les $\alpha$-shapes représentent un large panel d'ensemble représentatif des points du bord d'un disque discret.
 
 %PICS avec alpha shapes de disque.
 
