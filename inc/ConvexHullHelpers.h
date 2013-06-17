@@ -98,7 +98,7 @@ class Tracker
             else
             { //otherwise
               next = aPoint; 
-              aDir = -shift; 
+              aDir = shift*(-1); 
             }
           }
         }
