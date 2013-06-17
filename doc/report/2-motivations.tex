@@ -13,51 +13,69 @@ Avant de s'attarder sur la représentation d'un disque discret, il convient de r
 
 \begin{Definition}{Disque fermé Euclidien}
 \label{def:disk-euc}
- $$\mathcal{D}_e =  \left\{ (x,y) \in \mathbb{R}^{2} |  (x - u)^2 + (y - v)^2 \leq R^2. \right\}$$
+ $$\mathcal{D}_e =  \left\{ (x,y) \in \mathbb{R}^{2} |  (x - u)^2 + (y - v)^2 \leq R^2 \right\}$$
 \end{Definition}
 
 \begin{Definition}{Cercle Euclidien}
 \label{def:cer-euc}
-  $$\mathcal{C}_e =  \left\{ (x,y) \in \mathbb{R}^{2} |  (x - u)^2 + (y - v)^2 = R^2. \right\}$$
+  $$\mathcal{C}_e =  \left\{ (x,y) \in \mathbb{R}^{2} |  (x - u)^2 + (y - v)^2 = R^2 \right\}$$
+  avec $(u,v) \in \mathbb{R}^{2}$ les coordonnées du centre et $R \in \mathbb{R}^{+*}$ le rayon.\\
 \end{Definition}
 
-avec $(u,v) \in \mathbb{R}^{2}$ les coordonnées du centre et $R \in \mathbb{R}^{+*}$ le rayon.\\
 
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=6cm]{fig/2-mot/circle/circle-euc-0.pdf}
+  \caption{Disque et Cercle Euclidiens}
+\end{figure}
 %PICS et PICS de disque et de cercle euclidien
 
-Si la définition du disque fermé discret dans $\mathbb{R}^{2}$ (appelé pour la suite du rapport uniquement disque discret) reste très proche de la définition Euclidienne, l'équivalent discret pour récupérer tous les points du bord quant à elle change considérablement.
+Si la définition du disque fermé discret dans $\mathbb{Z}^{2}$ (appelé pour la suite du rapport uniquement disque discret) reste très proche de la définition Euclidienne, l'équivalent discret de son cercle afin de récupérer tous les points du bord change quant à elle considérablement.
 
 \begin{Definition}{Disque discret}
 \label{def:disk-dis}
-$$\mathcal{D} =  \left\{ (x,y) \in \mathbb{Z}^{2} |  ax + by + c(x^2 + y^2) + d \leq 0. \right\}$$
+  $$\mathcal{D} =  \left\{ (x,y) \in \mathbb{Z}^{2} |  (x - u)^2 + (y - v)^2 = R^2 \right\}$$
+  avec $(u,v) \in \mathbb{R}^{2}$ les coordonnées du centre et $R \in \mathbb{R}^{+*}$ le rayon.\\
 \end{Definition}
 
-avec $(u,v) \in \mathbb{R}^{2}$ les coordonnées du centre et $R \in \mathbb{R}^{+*}$ le rayon.\\
 
-%PICS de disque discret
 
-L'ensemble des points appartenant à $\mathbb{Z}^{2}$ représentés en rouge sur le dessin et étant positionnés exactement sur le cercle euclidien ne suffisent pas à représenté l'ensemble des points du cercle discret. Il faut donc prendre une définition plus générale.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=6cm]{fig/2-mot/circle/circle-dis-0.pdf}
+  \caption{Disque discret et Ensemble }
+\end{figure}
+
+L'ensemble des points représentés en rouge sur le dessin, appartenant à l'ensemble : $\left\{ (x,y) \in \mathbb{Z}^{2} |  (x - u)^2 + (y - v)^2 = R^2 \right\}$, étant donc positionnés exactement sur le cercle Euclidien ne suffisent pas pour représenter les points du bord du disque discret. Il faut choisir une définition plus générale.
 
 \begin{Definition}{Cercle discret}
 \label{def:cer-dis}
-  $$ \mathcal{C} =  \left\{ (x,y) \in \mathbb{Z}^{2} | \exists (i,j) \in \{0,1\}^2, (i,j) \ne (0,0) | (x+i,y+j) \notin \mathcal{D} \right\}$$
+  $$ \mathcal{C} =  \left\{ (x,y) \in \mathbb{Z}^{2} | \exists (i,j) \in \{ (0,1), (1,0), (0,-1), (-1,0)\}, | (x+i,y+j) \notin \mathcal{D} \right\}$$
 \end{Definition}
 
 
-%PICS de cercle discret
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=6cm]{fig/2-mot/circle/circle-dis-1.pdf}
+  \caption{Cercle discrets}
+\end{figure}
 
 %-----------------------------------------------------------------
 \subsubsection{L'étude des points du bord}
 
-En continuant l'investigation de la définition précédente du cercle discret, il est possible de formuler plusieurs remarques. De part le fait de travailler sur $\mathbb{Z}^{2}$, on remarque que les points sont ordonnées sur une grille régulière. Pour un point donnée, il est alors possible d'atteindre quatre voisins en suivant les quatre directions cardinales d'une unité. En éffet, chaque point possède un voisin, en haut, à gauche, en bas et à droite de lui. \\
+À partir de la définition précédente du cercle discret, il est possible de formuler plusieurs remarques. De par le fait de travailler sur $\mathbb{Z}^{2}$, on sait que les points sont ordonnées sur une grille régulière. Pour chaque point, il est possible d'atteindre quatre voisins en se dirigeant d'une unité vers les quatre points cardinaux. Chaque point possède donc un voisin, en haut, à gauche, en bas et à droite de lui. Or, on observe que les points strictement à l'intérieur du disque discret et non sur le bord (en bleu clair) possèdent tous leurs quatre voisins à l'intérieur du disque (maillage en rouge). 
 
-%PICS de réseau 4-connexes
+Pour autant, les points du bords du disque discret possèdent eux une distribution différente. Chacun des points du bord possède entre un et trois voisins à l'extérieur du disque (en vert clair) et son complémentaire à quatre à l'intérieur.\\
 
-Or, on observe que les points strictement à l'intérieur du disque discret (et donc pas sur le bord) possède tous leurs quatre voisins également à l'intérieur du disque. Pour autant, les points du bords du disque discret possèdent eux une distribution différente. Chacun des points du bord possède entre un et trois voisins à l'extérieur du disque et le complémentaire à quatre à l'intérieur.\\
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=6cm]{fig/2-mot/circle/circle-dis-2.pdf}
+  \includegraphics[width=6cm]{fig/2-mot/circle/circle-dis-3.pdf}
+  \caption{Voisins des points strictement à l'intérieur et sur le bord }
+\end{figure}
 
-PICS de points du bord sans 4 voisins in ??\\
-
-Pour définir un disque discret, on se retrouve finalement avec deux ensembles. Le premier représente les points strictement à l'intérieur. Ils sont ordonnées avec exactement quatre voisins également à l'intérieur du disque. Le deuxième ensemble égale au cercle discret propose une distribution de points bien moins régulière. Finalement, seule l'étude des points du bord nous semble pertinente pour comprendre l'organisation et la structure des disque discret.
+Pour définir un disque discret, on se retrouve avec deux ensembles. Le premier est bien ordonnée. Il représente les points strictement à l'intérieur du disque. Le deuxième ensemble représente les points du bord du disque et propose une distribution de points non régulière. De part la régulartité du premier, seule l'étude des points du bord nous semble pertinente pour comprendre l'organisation et la structure des disque discret.
 
 
 %-----------------------------------------------------------------
