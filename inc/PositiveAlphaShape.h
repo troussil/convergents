@@ -1,5 +1,5 @@
-#ifndef OutputSensitiveAlphaShape_h
-#define OutputSensitiveAlphaShape_h
+#ifndef PositiveAlphaShape_h
+#define PositiveAlphaShape_h
 
 #include<cmath>
 
@@ -152,5 +152,6 @@ class PositiveAlphaShape
 
 }; 
 #endif
+
 
 
