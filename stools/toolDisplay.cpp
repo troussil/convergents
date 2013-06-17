@@ -26,9 +26,9 @@ using namespace DGtal;
 ///////////////////////////////////////////////////////////////////////////////
 //our work
 //#include "../inc/PointVector2D.h"
-#include "../inc/RayIntersectableCircle.h"
+#include "../inc/ExactRayIntersectableCircle.h"
 #include "../inc/OutputSensitiveConvexHull.h"
-#include "../inc/OutputSensitiveAlphaShape.h"
+#include "../inc/IncrementalNegativeAlphaShape.h"
 #include "../inc/ConvexHullHelpers.h"
 #include "../inc/CircumcircleRadiusPredicate.h"
 
@@ -141,7 +141,7 @@ void outputSensitiveProcedure(const Circle& aCircle, const I& num2, const I& den
 
   typedef CircumcircleRadiusPredicate<DGtal::BigInteger> Predicate; 
   Predicate predicate(num2, den2);
-  OutputSensitiveAlphaShape<Circle, Predicate> as(aCircle, predicate);
+  IncrementalNegativeAlphaShape<Circle, Predicate> as(aCircle, predicate);
 
   //computation of the alpha-shape
   std::chrono::time_point<std::chrono::system_clock> ta, tb;
@@ -226,7 +226,7 @@ int main( int argc, char** argv )
  
   typedef PointVector<2,int> Point; //DGtal point redefinition
   typedef PointVector<2,int> Vector; //DGtal point redefinition
-  typedef RayIntersectableCircle<Point,DGtal::BigInteger> Circle; //Circle
+  typedef ExactRayIntersectableCircle<Point,DGtal::BigInteger> Circle; //Circle
 
   std::string methodName = vm["algo"].as<std::string>(); 
   int num2 = vm["numerator2"].as<int>();

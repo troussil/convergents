@@ -3,8 +3,8 @@ SET(SRCs
   testRay
   testConvergents
   testConvexHull
-  testAlphaShapeStraightLine
-  testAlphaShape
+  testNegativeAlphaShapeStraightLine
+  testNegativeAlphaShape
   testPositiveAlphaShape  
 )
 

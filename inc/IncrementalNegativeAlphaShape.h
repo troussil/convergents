@@ -136,12 +136,12 @@ public:
 
         // radius test
         if ( myPredicate(aPoint, 
-			 (aPoint + aConvM2 + (mid+plus0)*aConvM1), 
-			 (aPoint + aConvM2 + (mid+plus1)*aConvM1)) )
+			 (aPoint + aConvM2 + aConvM1*(mid+plus0)), 
+			 (aPoint + aConvM2 + aConvM1*(mid+plus1))) )
 	  { //search in the upper range
 	    if ( !myPredicate(aPoint, 
-			      (aPoint + aConvM2 + (mid+2*plus0+plus1)*aConvM1), 
-			      (aPoint + aConvM2 + (mid+2*plus1+plus0)*aConvM1)) )
+			      (aPoint + aConvM2 + aConvM1*(mid+2*plus0+plus1)), 
+			      (aPoint + aConvM2 + aConvM1*(mid+2*plus1+plus0))) )
               {
                 return(mid+1);
               }
@@ -154,8 +154,8 @@ public:
         else
 	  { //search in the lower range
 	    if(myPredicate(aPoint, 
-			   (aPoint + aConvM2 + (mid-2*plus0-plus1)*aConvM1), 
-			   (aPoint + aConvM2 + (mid-2*plus1-plus0)*aConvM1)))
+			   (aPoint + aConvM2 + aConvM1*(mid-2*plus0-plus1)), 
+			   (aPoint + aConvM2 + aConvM1*(mid-2*plus1-plus0))))
 	      {
 		return(mid-1);
 	      }
@@ -266,7 +266,7 @@ public:
 
 		    while ( qkalpha <= qk-qks)
 		      {
-			*res++ = aPoint + qkalpha*vConvM1;
+			*res++ = aPoint + vConvM1*qkalpha;
 			qkalpha++;
 		      }
 		  }
@@ -298,7 +298,7 @@ public:
 			// pConv (qk included) is the last vertex of the alpha-shape.
 			while (qkalpha < qk)
 			  {
-			    *res++ = pConvM2 + qkalpha*vConvM1;
+			    *res++ = pConvM2 + vConvM1*qkalpha;
 			    qkalpha++;  
 			  }
 			return(pConv);

@@ -220,7 +220,7 @@ private:
     Coordinate qStart = 0;
     Coordinate qStop  = qmax;
     Point pStart = aPoint; 
-    Point pStop = aPoint + qmax * aDir; 
+    Point pStop = aPoint + aDir*qmax; 
 
     Coordinate qMid;
     Point pMid, pMid1; 
@@ -231,8 +231,8 @@ private:
       {
 	// middle between qStart and qStop
 	qMid = (qStart + qStop)/2;
-	pMid = aPoint + qMid * aDir;
-	pMid1 = aPoint + (qMid+1) * aDir;
+	pMid = aPoint + aDir*qMid;
+	pMid1 = aPoint + aDir*(qMid+1) ;
  
 	// inclusion tests
 	if ( aPredicate( (*this)(pMid)) )
@@ -288,7 +288,7 @@ public:
     if ( (Delta == 0) && (-bEq/(2*aEq) >= 0) )
       {
 	aQuotient = DGtal::NumberTraits<Integer>::castToInt64_t(-bEq /(2*aEq));
-	aClosest = aStartingPoint + aQuotient*aDirection;
+	aClosest = aStartingPoint + aDirection*aQuotient;
 	return true;
       }
     // Delta > 0 : 2 solutions
@@ -316,9 +316,9 @@ public:
 		    
 
 		    //inclusion tests around the minimum (-bEq/(2*aEq))
-		    Point pMax = aStartingPoint + max * aDirection; 
+		    Point pMax = aStartingPoint + aDirection*max; 
 		    Integer pMaxValue = (*this)(pMax);  
-		    Point pMax1 = aStartingPoint + (max+1) * aDirection;
+		    Point pMax1 = aStartingPoint + aDirection*(max+1);
 		    Integer pMaxValue1 = (*this)(pMax1);  
 		    if ( pMaxValue < 0 ) 
 		      { //if pMax is strictly outside the shape
@@ -342,7 +342,7 @@ public:
 			  aQuotient = dichotomicSearch(aStartingPoint, aDirection, max, predicate);
 		      }
 
-		    aClosest = aStartingPoint + aQuotient*aDirection;
+		    aClosest = aStartingPoint + aDirection*aQuotient;
 		    return true;
 		  }
 	      }
@@ -355,7 +355,7 @@ public:
 		//a trivial upper bound is the circle diameter
 		Coordinate diameter = 2 * (Coordinate) std::ceil( getRadius() ) + 1; 
 		aQuotient = dichotomicSearch(aStartingPoint, aDirection, diameter, predicate); 
-		aClosest = aStartingPoint + aQuotient*aDirection;
+		aClosest = aStartingPoint + aDirection*aQuotient;
 		return true;
 	      }
 	  }
