@@ -1,6 +1,6 @@
-%-----------------------------------------------------------------
+%------------------------------------------------
 \section{Existants}
-%-----------------------------------------------------------------
+%------------------------------------------------
 
 %-----------------------------------------------------------------
 \subsection{Enveloppe Convexe}
@@ -10,9 +10,15 @@ Le calcul d'une $\alpha$-shape pour $\alpha$ = 0 revient à calculer l'enveloppe
 
 Il y présente un algorithme de calcul de l'enveloppe convexe qui est "Output Sensitive".
 
-\begin{proof}[Output sensitive]
+\begin{Definition}{$\alpha$-hull, $\alpha = 0$ - Enveloppe convexe}\\
+\label{def:ch}
+      L'intersection de tous les demi-plans qui contiennent tous les points à l’intérieur du disque.
+\end{Definition}
+
+\begin{Definition}{Output sensitive}\\
+\label{def:os}
       Un algorithme output sensitive possède un temps d’exécution qui dépend de la taille de la sortie.
-\end{proof}
+\end{Definition}
 
 Dans ce cas de figure bien précis, la méthode présentée dépend du nombre de sommets de l'enveloppe convexe. Elle utilise une méthode s'appuyant sur le calcul de convergents, qui représente le pendant géométrique du calcul du pgcd de deux nombres entiers en cherchant des convergents et les coefficient de la fraction continue du nombre rationnel.
 
@@ -42,20 +48,47 @@ Pour la suite, nous avons procéder de la même manière en construisant les con
 
 Ainsi, nous récupérons successivement les sommets de l'enveloppe convexe jusqu'à retomber sur le premier sommet fermant ainsi notre enveloppe.
 
+\subsubsection{Résultats}
+
+On présente ici les résultats démontrés dans la publication au niveau du rapport entre le nombre de sommets et la taille du rayon du cercle. La procédure a été sensiblement la même en simulant pour chaque rayon, cent disques dont le centre est compris dans le carré $[0,1]\times[0,1]$.
+
+On s'intéresse également à vérifié l'intérêt de notre algorithme par rapport à la marche de Grahaam qui nous a permit de vérifier la justesse de nos calculs. 
+
+
+\begin{tabular}{|l||c|c|}
+\hline
+Rayons & Nb Sommets & Nb Sommets / $R^{2/3}$\\
+\hline
+
+\hline
+\end{tabular} 
+
+\begin{tabular}{|l||c|c|}
+\hline
+Rayons & Nb Sommets & Nb Sommets / $R^{2/3}$\\
+\hline
+
+\hline
+\end{tabular} 
+
 %-----------------------------------------------------------------
 \subsection{Triangulation de Delaunay}
 %-----------------------------------------------------------------
 
-\begin{proof}[Segment de droite discrète de direction $P_y / P_x$ partant $O$]
+\begin{Definition}{Segment de droite discrète de direction $P_y / P_x$ partant $O$}
+\label{def:sdd}
     $$\mathcal{d} =  \left\{ (x,y) \in \mathbb{Z}^{2} |  0 \leq P_y x + P_x y \leq 1. \right\}$$
-\end{proof}
+\end{Definition}
 
 Plus prosaïquement, on peut définir une droite discrète comme l'ensemble des points comprises dans un tube d'une largeur de un.
 
 %PICS de droite discrètes.
 
 Les segments de droites discrètes sont des objets aux propriétés combinatoires et arithmétiques remarquables. Les morceaux spécifiques de ses segments qui se répètent sont appelés des motifs. Il a été montré que des relations entre les motifs et la triangulation de Delaunay existent. Il est donc possible de construire la triangulation de Delaunay à partir de l'étude de ses motifs et donc à partir du coefficient rationnel du segment de droite discrète.
+\begin{Definition}{}
+\label{def:}
 
+\end{Definition}
 \begin{proof}[Triangulation de Delaunay d'ordre $m, 0 \leq m \leq n$ ]
   La triangulation de Delaunay d'ordre m est un triangulation ou chaque disque circonscrit au triangle associé à la triangulation contient exactement m point dans son intérieur.\\
  
