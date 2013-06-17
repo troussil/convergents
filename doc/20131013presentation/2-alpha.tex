@@ -50,45 +50,35 @@
 \includegraphics[width=0.3\linewidth,page=5]{fig/ex-alpha-shape.pdf}\hspace{0.03\linewidth}
 \includegraphics[width=0.3\linewidth,page=6]{fig/ex-alpha-shape.pdf}
 
-%\begin{figure}[htbp]
-%\centering
-%\subfigure[]{\includegraphics[width=0.3\linewidth,page=1]{fig/ex-alpha-shape.pdf}}\hspace{0.03\linewidth}
-%\subfigure[$-2$]{\includegraphics[width=0.3\linewidth,page=2]{fig/ex-alpha-shape.pdf}}\hspace{0.03\linewidth}
-%\subfigure[$-\sqrt{2}$]{\includegraphics[width=0.3\linewidth,page=3]{fig/ex-alpha-shape.pdf}}
-%\subfigure[$-\epsilon$]{\includegraphics[width=0.3\linewidth,page=4]{fig/ex-alpha-shape.pdf}}\hspace{0.03\linewidth}
-%\subfigure[$0$]{\includegraphics[width=0.3\linewidth,page=5]{fig/ex-alpha-shape.pdf}}\hspace{0.03\linewidth}
-%\subfigure[$1/(r_{min}-\epsilon)$]{\includegraphics[width=0.3\linewidth,page=6]{fig/ex-alpha-shape.pdf}}
-%\end{figure}
-
 \end{frame}
 
 % ----------------------------------------------------------------------
-\begin{frame}
-  	\frametitle{Nombre de sommets en fonction de $\alpha$}
-
-\begin{tabular}{|c|c|c|}
+%\begin{frame}
+%  	\frametitle{Nombre de sommets en fonction de $\alpha$}
+%
+%\begin{tabular}{|c|c|c|}
 %\centering
-\hline \hline
-$\alpha$               & $\sharp$       & observation        \\ \hline \hline
-$-2$                   &  $O(r)$        & trivial            \\ \hline
-$-\sqrt{2}$            &  $O(r)$        & trivial            \\ \hline
-$-\epsilon$            &  $O(r^{2/3})$  & [H98], non observé \\ \hline
-$0$                    &  $O(r^{2/3})$  & [H98]              \\ \hline
+%\hline \hline
+%$\alpha$               & $\sharp$       & observation        \\ \hline \hline
+%$-2$                   &  $O(r)$        & trivial            \\ \hline
+%$-\sqrt{2}$            &  $O(r)$        & trivial            \\ \hline
+%$-\epsilon$            &  $O(r^{2/3})$  & [H98], non observé \\ \hline
+%$0$                    &  $O(r^{2/3})$  & [H98]              \\ \hline
 %$1/(r_{min}-\epsilon)$ &                &                    \\ \hline
-\hline
-\end{tabular}
-
-\scriptsize
-\begin{thebibliography}{alpha}
-
-\bibitem{H98}
-[H98] Har-Peled, S.
-\newblock An output sensitive algorithm for discrete convex hulls
-\newblock {\em Computational Geometry}, 10(2):125--138, 1998.
-
-\end{thebibliography}
-
-\end{frame}
+%\hline
+%\end{tabular}
+%
+%\scriptsize
+%\begin{thebibliography}{alpha}
+%
+%\bibitem{H98}
+%[H98] Har-Peled, S.
+%\newblock An output sensitive algorithm for discrete convex hulls
+%\newblock {\em Computational Geometry}, 10(2):125--138, 1998.
+%
+%\end{thebibliography}
+%
+%\end{frame}
 
 % ----------------------------------------------------------------------
 \begin{frame}
@@ -98,22 +88,22 @@ $0$                    &  $O(r^{2/3})$  & [H98]              \\ \hline
 \only<1>{
 \begin{figure}[htbp]
 \centering
-\subfigure[$\alpha \leq 0$]{\includegraphics[width=0.45\linewidth,page=8]{fig/CDT-alpha-shape.pdf}}\hspace{0.03\linewidth}
-\subfigure[$\alpha \geq 0$]{\includegraphics[width=0.45\linewidth,page=2]{fig/FDT-alpha-shape.pdf}}
+\subfigure[négatif]{\includegraphics[width=0.45\linewidth,page=8]{fig/CDT-alpha-shape.pdf}}\hspace{0.03\linewidth}
+\subfigure[positif]{\includegraphics[width=0.45\linewidth,page=2]{fig/FDT-alpha-shape.pdf}}
 \end{figure}
 }
 \only<2>{
 \begin{figure}[htbp]
 \centering
-\subfigure[$\alpha \leq 0$]{\includegraphics[width=0.45\linewidth,page=9]{fig/CDT-alpha-shape.pdf}}\hspace{0.03\linewidth}
-\subfigure[$\alpha \geq 0$]{\includegraphics[width=0.45\linewidth,page=2]{fig/FDT-alpha-shape.pdf}}
+\subfigure[négatif]{\includegraphics[width=0.45\linewidth,page=9]{fig/CDT-alpha-shape.pdf}}\hspace{0.03\linewidth}
+\subfigure[positif]{\includegraphics[width=0.45\linewidth,page=3]{fig/FDT-alpha-shape.pdf}}
 \end{figure}
 }
 \only<3>{
 \begin{figure}[htbp]
 \centering
-\subfigure[$\alpha \leq 0$]{\includegraphics[width=0.45\linewidth,page=10]{fig/CDT-alpha-shape.pdf}}\hspace{0.03\linewidth}
-\subfigure[$\alpha \geq 0$]{\includegraphics[width=0.45\linewidth,page=3]{fig/FDT-alpha-shape.pdf}}
+\subfigure[négatif]{\includegraphics[width=0.45\linewidth,page=10]{fig/CDT-alpha-shape.pdf}}\hspace{0.03\linewidth}
+\subfigure[positif]{\includegraphics[width=0.45\linewidth,page=4]{fig/FDT-alpha-shape.pdf}}
 \end{figure}
 }
 \end{block}
@@ -132,7 +122,7 @@ $0$                    &  $O(r^{2/3})$  & [H98]              \\ \hline
 %
 %\begin{block}{Définition analytique équivalente}
 \[
-\{ (x,y) \in \mathbb{Z}^2 | \mu \leq ax + by < \mu + (a+b), \: \nu \leq x+y \leq \nu + (a+b) \}
+\{ (x,y) \in \mathbb{Z}^2 | 0 \leq ax + by < (a+b), \: 0 \leq x+y \leq (a+b) \}
 \]
 \end{block}
 

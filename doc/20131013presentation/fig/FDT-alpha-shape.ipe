@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70005" creator="Ipe 7.1.1">
-<info created="D:20130605145546" modified="D:20130605152427"/>
+<info created="D:20130605145546" modified="D:20130612111951"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -234,12 +234,14 @@ h
 <layer name="disk"/>
 <layer name="voronoi"/>
 <layer name="triangulation"/>
+<layer name="internalEdges"/>
 <layer name="alpha"/>
 <layer name="beta"/>
 <layer name="gamma"/>
 <layer name="delta"/>
 <view layers="points disk" active="disk"/>
 <view layers="triangulation" active="triangulation"/>
+<view layers="triangulation internalEdges" active="internalEdges"/>
 <view layers="voronoi" active="voronoi"/>
 <use layer="points" matrix="1 0 0 1 32 -32" name="mark/disk(sx)" pos="320 304" size="normal" stroke="black"/>
 <use matrix="1 0 0 1 32 -32" name="mark/disk(sx)" pos="368 320" size="normal" stroke="black"/>
@@ -1538,6 +1540,18 @@ h
 544 272 l
 544 768 l
 h
+</path>
+<path layer="internalEdges" stroke="black">
+159.888 735.779 m
+543.936 607.763 l
+</path>
+<path stroke="black">
+543.936 607.763 m
+47.874 559.757 l
+</path>
+<path stroke="black">
+543.936 607.763 m
+96 368 l
 </path>
 </page>
 </ipe>

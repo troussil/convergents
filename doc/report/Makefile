@@ -1,20 +1,21 @@
 LOG=evince
-TEX=book
+TEX=tl-rapport
 
-FIGSRC = $(wildcard fig/*.ipe)
+FIGSRC = $(wildcard fig/2-mot/circle/*.ipe )
 FIGOBJ = $(FIGSRC:.ipe=.pdf)
  
-all: paper show 
-
+all: fig paper show  
+ 
 fig: $(FIGOBJ)
 
-fig/%.pdf: fig/%.ipe
+fig/2-mot/circle/%.pdf: fig/2-mot/circle/%.ipe
 	ipetoipe -pdf $<
 
-paper:  
+
+paper:
 	pdflatex $(TEX).tex
-	bibtex $(TEX)
-	pdflatex $(TEX).tex
+	#bibtex $(TEX)
+	#pdflatex $(TEX).tex
 	pdflatex $(TEX).tex
 
 show:
@@ -23,6 +24,7 @@ show:
 proper:
 	rm -f *.log *.toc *.aux *.nav *.snm *.out *.bbl *.blg *.dvi
 	rm -f *.backup *~
-	rm -f 
+	
+
 clean:	proper
 	rm -f $(TEX).ps $(TEX).pdf

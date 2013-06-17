@@ -112,7 +112,10 @@ bool test(const ForwardIterator& itb, const ForwardIterator& ite,
     //COMPARE WITH YOUR ALGO HERE
     if (ch.size() == ch2.size())
     {
-      if ( std::equal(ch2.begin(), ch2.end(), ch.begin()) )	{return true;}
+      if ( std::equal(ch2.begin(), ch2.end(), ch.begin()) )	
+	return true;
+      else 
+	return false; 
     }
     else {return false;}
   }
@@ -176,13 +179,13 @@ int dichotomous(const CircumcircleRadiusPredicate& aPredicate, const Point& aPoi
  * @param aPredicate determine the alpha shape radius
  * @param aPoint, bPoint, the starting and ending point of the straight
  * line.
- * @return the alpha-hull of the straight line in the OutputIterator.
+ * @param res output iterator storing the vertices of the alpha-shape
  */
   template <typename CircumcircleRadiusPredicate, typename Point, typename OutputIterator>
-Point next(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa, const Point& aPointb, const int aMaxConv, OutputIterator aAlphaShapeHull)
+void next(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa, const Point& aPointb, const int aMaxConv, OutputIterator res)
 {
   // aPoint is the first Alpha-Shape vertex.
-  *aAlphaShapeHull++ = aPointa;
+  *res++ = aPointa;
 
   // Initialisation of the convergent.
   // Convergent arise from pStart.
@@ -254,7 +257,7 @@ Point next(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa, 
          * If qkalpha == 0, we have to deal with a special case.
          * We have to restart from pConvM2 in order to not missed any vertex.
          */
-        *aAlphaShapeHull++ = pConvM2;
+        *res++ = pConvM2;
         pStart = pConvM2; 
       }
       else
@@ -265,7 +268,7 @@ Point next(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa, 
          */
         while (qkalpha <= qk)
         {
-          *aAlphaShapeHull++ = pConvM2 + qkalpha*vConvM1;
+          *res++ = pConvM2 + qkalpha*vConvM1;
           qkalpha++;  
         }
         pStart = pConv;
@@ -295,11 +298,11 @@ Point next(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa, 
 
             while ( qkalpha <= qk-qks)
             {
-              *aAlphaShapeHull++ = pStart + qkalpha*vConvM1;
+              *res++ = pStart + qkalpha*vConvM1;
               qkalpha++;
             }
           }
-          *aAlphaShapeHull++ = aPointb;
+          *res++ = aPointb;
           // All the alpha-shape have been computed.
           stop = true;
         }
@@ -313,7 +316,7 @@ Point next(const CircumcircleRadiusPredicate& aPredicate, const Point& aPointa, 
           if (k > 0 && qk <= 0) 
           {
             newStart = true;
-            *aAlphaShapeHull++ = pConvM1;
+            *res++ = pConvM1;
             pStart = pConvM1;	
           }
           else // update convergent p_k-2 = p_k-1, p_k-1 = p_k, k++ 
@@ -364,7 +367,7 @@ int main()
     std::cout << std::endl; 
 
     std::vector<Point> ch;
-    CircumcircleRadiusPredicate<> predicate; //by default infinite radius (denominator = 0)  
+    CircumcircleRadiusPredicate<> predicate(1,0,false); //by default infinite radius (denominator = 0)  
     openGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch), predicate ); 
     std::cout << "Graham's convex hull of the boundary" << std::endl; 
     std::copy(ch.begin(), ch.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
@@ -383,7 +386,7 @@ int main()
     std::cout << std::endl; 
 
     std::vector<Point> ch1;
-    CircumcircleRadiusPredicate<> predicate1(1,1); //radius 1  
+    CircumcircleRadiusPredicate<> predicate1(1,1,false); //radius 1  
     openGrahamScan( boundary.begin(), boundary.end(), std::back_inserter(ch1), predicate1 ); 
     std::cout << "1-shape of the boundary" << std::endl; 
     std::copy(ch1.begin(), ch1.end(), std::ostream_iterator<Point>(std::cout, ", ") ); 
@@ -404,7 +407,7 @@ int main()
     Point O(0,0); 
 
     {
-      CircumcircleRadiusPredicate<> predicate1(1,1); //radius 1
+      CircumcircleRadiusPredicate<> predicate1(1,1,false); //radius 1
       std::vector<int> quotients; 
       quotients.push_back(3); 
       //quotients.push_back(3); 
@@ -419,7 +422,7 @@ int main()
     }
 
     {
-      CircumcircleRadiusPredicate<> predicate1(1,1); //radius 1
+      CircumcircleRadiusPredicate<> predicate1(1,1,false); //radius 1
       std::vector<int> quotients; 
       quotients.push_back(2); 
       quotients.push_back(2); 
@@ -449,7 +452,7 @@ int main()
     int nbPredicate = 10;
 
 
-    for (nb_test;nb_test>0;nb_test--)
+    for ( ;nb_test>0;nb_test--)
     {
       {
         // random origin
@@ -468,7 +471,7 @@ int main()
         for (int i = 1; i<= nbPredicate; i++)
         {
           {
-            CircumcircleRadiusPredicate<> predicate(maxPoint*i, nbPredicate);
+            CircumcircleRadiusPredicate<> predicate(maxPoint*i, nbPredicate,false);
             std::cout << "Radius predicate : Num2 / Den2 : "<<(maxPoint*i)<<"/" 
               << nbPredicate << std::endl;
 
@@ -487,8 +490,8 @@ int main()
   std::cout << "+++++++++++++++++" << std::endl; 
   {
     //output-sensitive algorithm
-    CircumcircleRadiusPredicate<> predicate0(20,1); //radius 1
-    CircumcircleRadiusPredicate<> predicate1(20,1); //radius 3
+    CircumcircleRadiusPredicate<> predicate0(20,1,false); //radius 1
+    CircumcircleRadiusPredicate<> predicate1(20,1,false); //radius 3
 
     Point O = Point(0,0);
     Point P = Point(12,5);
@@ -523,8 +526,8 @@ int main()
   }
   {
     //output-sensitive algorithm
-    CircumcircleRadiusPredicate<> predicate0(200,1); //radius 1
-    CircumcircleRadiusPredicate<> predicate1(2,1); //radius 3
+    CircumcircleRadiusPredicate<> predicate0(200,1,false); //radius 1
+    CircumcircleRadiusPredicate<> predicate1(2,1,false); //radius 3
 
     Point O = Point(0,0);
     Point P = Point(9,4);
@@ -559,8 +562,8 @@ int main()
   }
   {
     //output-sensitive algorithm
-    CircumcircleRadiusPredicate<> predicate0(200,1); //radius 1
-    CircumcircleRadiusPredicate<> predicate1(2,1); //radius 3
+    CircumcircleRadiusPredicate<> predicate0(200,1,false); //radius 1
+    CircumcircleRadiusPredicate<> predicate1(2,1,false); //radius 3
 
     Point O = Point(0,0);
     Point P = Point(1,0);
