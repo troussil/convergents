@@ -36,10 +36,10 @@ using namespace DGtal;
 ///////////////////////////////////////////////////////////////////////////////
 //our work
 #include "../inc/PointVector2D.h"
-#include "../inc/RayIntersectableCircle.h"
+#include "../inc/ExactRayIntersectableCircle.h"
 #include "../inc/OutputSensitiveConvexHull.h"
-#include "../inc/OutputSensitiveAlphaShape.h"
-#include "../inc/PositiveAlphaShape.h"
+#include "../inc/IncrementalNegativeAlphaShape.h"
+#include "../inc/BottomUpPositiveAlphaShape.h"
 #include "../inc/ConvexHullHelpers.h"
 #include "../inc/CircumcircleRadiusPredicate.h"
 
@@ -164,7 +164,7 @@ template <typename Shape, typename OutputIterator,
 void negativeAlphaShape(const Shape& aShape, OutputIterator res, 
     const Predicate& aPredicate)
 {
-  OutputSensitiveAlphaShape<Shape, Predicate> ch(aShape, aPredicate);
+  IncrementalNegativeAlphaShape<Shape, Predicate> ch(aShape, aPredicate);
   ch.all(res);
 }
 
@@ -176,7 +176,7 @@ void positiveAlphaShape(const Shape& aShape, const Point& aStart, OutputIterator
 {
 
   Container container; 
-  PositiveAlphaShape<Shape, Predicate> ch(aShape, aPredicate);
+  BottomUpPositiveAlphaShape<Shape, Predicate> ch(aShape, aPredicate);
   ch.all(container, aStart);
   std::copy(container.begin(), container.end(), res );  
 }
@@ -205,7 +205,7 @@ void rToolMeans(int aHull, bool aTime, bool aEdgeVertices, int aFirstR, int aLas
   typedef std::chrono::time_point<std::chrono::system_clock> clock;
   typedef std::chrono::milliseconds milliseconds;
 
-  typedef RayIntersectableCircle<Point,  DGtal::BigInteger> Circle; 
+  typedef ExactRayIntersectableCircle<Point,  DGtal::BigInteger> Circle; 
   typedef CircumcircleRadiusPredicate<DGtal::BigInteger> Predicate;   
 
   // Circle parameter : ax + by + c(x^2 + y^2)

@@ -14,13 +14,13 @@
 // Core geometry
 #include "PointVector2D.h"
 // Circle
-#include "RayIntersectableCircle.h"
+#include "ExactRayIntersectableCircle.h"
 // Convex Hull
 
 #include "OutputSensitiveConvexHull.h"
 
 // Alpha-shape
-#include "PositiveAlphaShape.h"
+#include "BottomUpPositiveAlphaShape.h"
 
 // BigInteger
 #include <DGtal/base/Common.h>
@@ -37,7 +37,7 @@ typedef std::deque<Point> Container;
 void PositiveAlpha(const Shape& aShape, const Point& aStart, Container& container, const Predicate& aPredicate)
 {
 
-  PositiveAlphaShape<Shape, Predicate> ch(aShape, aPredicate);
+  BottomUpPositiveAlphaShape<Shape, Predicate> ch(aShape, aPredicate);
   ch.all(container, aStart); 
 }
 
@@ -146,7 +146,7 @@ int main()
 {
   typedef PointVector2D<int> Point; //type redefinition
   typedef PointVector2D<int> Vector; //type redefinition
-  typedef RayIntersectableCircle<Point> Circle; 
+  typedef ExactRayIntersectableCircle<Point> Circle; 
 
   int nbok = 0; //number of tests ok
   int nb = 0;   //total number of tests

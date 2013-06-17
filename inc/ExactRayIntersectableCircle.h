@@ -1,5 +1,5 @@
-#ifndef RayIntersectableCircle_h
-#define RayIntersectableCircle_h
+#ifndef ExactRayIntersectableCircle_h
+#define ExactRayIntersectableCircle_h
 
 #include <cmath>
 
@@ -19,7 +19,7 @@
  * This class is a model of point functor and of ray intersectable shape
  */
 template <typename TPoint, typename TParameter = long long int>
-class RayIntersectableCircle 
+class ExactRayIntersectableCircle 
 {
 public: 
   /////////////////////// inner types /////////////////
@@ -44,7 +44,7 @@ public:
   /**
    * Default constructor
    */
-  RayIntersectableCircle(): myA(0), myB(0), myC(0), myD(0) {}
+  ExactRayIntersectableCircle(): myA(0), myB(0), myC(0), myD(0) {}
 
   /**
    * Standard constructor
@@ -53,7 +53,7 @@ public:
    * @param c c-parameter
    * @param d d-parameter
    */
-  RayIntersectableCircle(const Integer& a, const Integer& b, const Integer& c, const Integer& d)
+  ExactRayIntersectableCircle(const Integer& a, const Integer& b, const Integer& c, const Integer& d)
     : myA(a), myB(b), myC(c), myD(d) {}
 
   /**
@@ -62,7 +62,7 @@ public:
    * @param aQ second point
    * @param aR third point
    */
-  RayIntersectableCircle(const Point& aP, const Point& aQ, const Point& aR)
+  ExactRayIntersectableCircle(const Point& aP, const Point& aQ, const Point& aR)
   {
     Integer px = aP[0]; 
     Integer qx = aQ[0]; 
@@ -84,14 +84,14 @@ public:
    * Copy constructor
    * @param p other object to copy
    */
-  RayIntersectableCircle(const RayIntersectableCircle& p): myA(p.a()), myB(p.b()), myC(p.c()), myD(p.d()) {}
+  ExactRayIntersectableCircle(const ExactRayIntersectableCircle& p): myA(p.a()), myB(p.b()), myC(p.c()), myD(p.d()) {}
 
   /**
    * Assignement operator
    * @param p other object to copy
    * @return reference on *this
    */
-  RayIntersectableCircle& operator=(const RayIntersectableCircle& p) 
+  ExactRayIntersectableCircle& operator=(const ExactRayIntersectableCircle& p) 
   {
     if (p != *this)
       {
@@ -106,7 +106,7 @@ public:
   /**
    * Default destructor
    */
-  ~RayIntersectableCircle() {}
+  ~ExactRayIntersectableCircle() {}
 
   ///////////////////// read access ///////////////////
   /**
@@ -401,7 +401,7 @@ public:
       return ptRes; 
     else 
       {
-	ASSERT( false && "Error in getConvexHullVertex of RayIntersectableCircle" ); 
+	ASSERT( false && "Error in getConvexHullVertex of ExactRayIntersectableCircle" ); 
 	return Point(0,0); 
       } 
   }

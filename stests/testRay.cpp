@@ -4,7 +4,7 @@
 #include "../inc/PointVector2D.h"
 // Straight-line and circle
 #include "../inc/RayIntersectableStraightLine.h"
-#include "../inc/RayIntersectableCircle.h"
+#include "../inc/ExactRayIntersectableCircle.h"
 
 int main() 
 {
@@ -98,7 +98,7 @@ int main()
 
   std::cout << "testRayIntersectableCircle" << std::endl; 
   {
-    typedef RayIntersectableCircle<Point> Circle; 
+    typedef ExactRayIntersectableCircle<Point> Circle; 
 
     //////////////////////////////////////////////////////////////////////////////////
     //constructor from 3 points
