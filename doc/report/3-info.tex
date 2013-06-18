@@ -2,28 +2,73 @@
 \section{Développement Informatiques}
 %------------------------------------------------
 
-% Je ne sais pas encore où et comment organisé cette section.
-
 %-----------------------------------------------------------------
-\subsection{Paradigme de Programmation}
+\subsection{Programmation}
 %-----------------------------------------------------------------
 
-Je souhaite parlé ici de ce que j'ai appris en informatiques et plus particulièrement en développemenet. Parler rapidement des paradigmes utilisés : c++ programmation générique : Point + shape Intersectable + algo, compilation automatisé, test unitaire...
+%-----------------------------------------------------------------
+\subsubsection{C++}
+
+
+Le C++ est un langage de programmation née dans les années 1980 dans l'optique d'agrémenter le langage C de nouvelles fonctionnalités. Il fut d'abord nommée par son créateur Bjarne Stroustrup : C with Classes. L'appelation c++, rappellant l'opération d'incrémentation fut adopté peu de temps plus tard à partir de 1983 suite à l'ajout de nouvelles fonctionnalités. (Source \cite{Wiki-cpp})
+
+Aujourd'hui encore, de nombreuses fonctionnalités viennent agrémenter le langage C++ au fil des spéfications. Il est désormait possible de l'utiliser en s'appuyant sur de multiples paradigmes comme la programmation procédurale, la programmation orientée objet et la programmation générique.
+
+Le paradigme choisit dans ce stage est celui de la programmation générique. \cite{troussil-cpp}
 
 %-----------------------------------------------------------------
-\subsection{Espace de collaboration}
+\subsubsection{Programmation générique}
+
+
+Le paradigme de la programmation générique s'appuie sur des relations concepts-modèles. 
+
+\begin{Definition}{Concept}\\
+\label{def:cpp-con}
+    Pour appartenir à un même concept, les objets doivent posséder les mêmes fonctionnalités et le même comportement. 
+\end{Definition}
+
+\begin{Definition}{Modèle}\\
+  Un modèle d'un concept peut s'éxéxuter de manière transparante, sans avoir à changer l'implémentation pour tout objet appartenant à ce modèle. 
+\label{def:cpp-mod}
+
+\end{Definition}
+
+On parle alors de polymorphisme dans le sens où un algorithme, une fonction peut s'éxécuter avec des paramètres de différentes natures.
+
 %-----------------------------------------------------------------
+\subsubsection{Structure du programme}
+
+% Points
+L'espace de travail $\mathbb{Z}^{2}$ est une grille régulière représentant des points à coordonées entières. Ce sont les principaux objets que nous allons manipuler. L'un des enjeux de la géométrie discrète est de basé ses calculs uniquement sur l'usage d'entier afin d'éviter tous les problèmes apportés par les incertitudes de précision dû aux flottants. De plus, le C++ est un langage fortement typé. La représentaion des entiers diffère selon la taille maximal autorisée souhaitée : int, long...
+
+Afin de ne pas être bloqué par une taille limite ultérieurment, nous avons définit une classe point comme un concept. De nombreuses actions sont possibles et caractérisent ce concept. Il est possible d'additionner deux points, de les soustraires, de calculer la norme de deux points...
+
+%Points
+Le contexte de notre stage s'articule principalement autour des disques discrets. Pour autant, il est intéressant de pourvoir utilisé les algorithmes crées sur d'autres formes géométriques sans avoir à ré-implémenter toutes les méthodes. Nous avons donc défini la forme géométrique de l'objet mathématiques comme un concept. Pour appartenir à ce concept, il faut être en mesure de répondre à trois questions.
+
+%shape
+\begin{Definition}{ Fonctionnalités d'un concept de forme géométrique}\\
+   Prédicat de position : Est-on dedans, dehors ou exactement sur cette forme.\\
+   Intersection de rayon : Le rayon émanent de ce point dans cette direction intersecte-t-il cette forme et si oui, quelle est le point le plus proche et du même côté.\\
+   Point de départ : Il s'agit de trouver le point à l'intérieur avec la plus petite ordonnée et la plus grande abscisses. 
+\label{def:cpp-mod}
+
+En ingrémentant ce concept de nouvelle objet avec des ellipses par exemples, il sera possible d'utiliser nos différentes méthodes.
+
+%algo
+Les différents calculs d'alpha-shape et d'enveloppe convexe d'appuie sur ses concepts pour proposer des modèles de calculs indépendant de l'implémentation des points et de la formes choisit.
+
+
+%-----------------------------------------------------------------
+\subsection{Génie logiciel}
+%-----------------------------------------------------------------
+
+%-----------------------------------------------------------------
+\subsubsection{Collaboration}
 
 Je souhaite mettre en avant la plateforme utilisé et expliqué rapidement les méthodes de developpement utilisé et appréhender en parallèle. Utilisation de git, branch, de méthode agile.
 
 %-----------------------------------------------------------------
-\subsection{Structure du rendu}
-%-----------------------------------------------------------------
+\subsubsection{Méthode de travail}
 
-%-----------------------------------------------------------------
-\subsubsection{Principaux concepts}
-
-Traiter un mot sur l'organisation du dépot et sur l'utilisation de celui-ci.
-Installation/ utilisation de DGtal.
-Les différentes commandes crée : stools, make test, stests...
-
+Test unitaire, cmake, make, 
