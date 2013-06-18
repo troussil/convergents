@@ -75,7 +75,7 @@ Pour autant, les points du bords du disque discret possèdent eux une distributi
   \caption{Voisins des points strictement à l'intérieur et sur le bord }
 \end{figure}
 
-Pour définir un disque discret, on se retrouve avec deux ensembles. Le premier est bien ordonnée. Il représente les points strictement à l'intérieur du disque. Le deuxième ensemble représente les points du bord du disque et propose une distribution de points non régulière. De part la régulartité du premier, seule l'étude des points du bord nous semble pertinente pour comprendre l'organisation et la structure des disque discret.
+On se retrouve alors avec deux ensembles disjoints pour définir et représenter un disque discret. Le premier est bien ordonnée. Il représente les points strictement à l'intérieur du disque. Le deuxième ensemble représente les points du bord du disque et propose une distribution de points non régulière. De part la régulartité du premier, seule l'étude des points du bord nous semble pertinente pour comprendre l'organisation et la structure des disque discret.
 
 
 %-----------------------------------------------------------------
@@ -85,7 +85,7 @@ Pour définir un disque discret, on se retrouve avec deux ensembles. Le premier 
 %-----------------------------------------------------------------
 \subsubsection{Définition générale}
 
-En s'intéressant principalement à des contours de formes discrètes, un ensemble d'outil nous est apparu comme particulièrement opportun. Il s'agit des $\alpha$-hull et des $\alpha$-shape définit pour la première fois par edel (référence requise) de la manière suivante.
+En s'intéressant principalement à des contours de formes discrètes, un ensemble d'outil nous est apparu comme particulièrement opportun. Il s'agit des $\alpha$-hull et des $\alpha$-shape définit pour la première fois dans \cite{EdeKirSei83} de la manière suivante.
 
 \begin{Definition}{$\alpha$-hull de $\mathcal{S}$}
 \label{def:ah}
@@ -93,7 +93,15 @@ En s'intéressant principalement à des contours de formes discrètes, un ensemb
     Intersection de tous les disques généralisés de rayon $1/\alpha$ qui contiennent tous les points de l'ensemble.
 \end{Definition}
 
-%PICS avec les alpha hull
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.4\linewidth,page=1]{fig/2-mot/as/mot-alpha-shape.pdf}
+  \includegraphics[width=0.4\linewidth,page=3]{fig/2-mot/as/mot-alpha-shape.pdf}
+  \caption{$\alpha$-Hull négative et $\alpha$-Hull positive }
+\end{figure}
+
+
+       
 
 Les sommets de $\alpha$-hull, les points appartenant à son bord de l'$\alpha$-hull sont appelés points $\alpha$-extreme. S'ils sont situés sur le même bord en étant relié par un arc de cercle de rayon 1/ $\lvert \alpha \rvert$, on dit alors qu'ils sont adjacents.
 
@@ -102,7 +110,12 @@ Les sommets de $\alpha$-hull, les points appartenant à son bord de l'$\alpha$-h
       Enveloppe reliant tous les $\alpha$-extremes adjacents.
 \end{Definition}
 
-%PICS avec les alpha-shape\\
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.4\linewidth,page=2]{fig/2-mot/as/mot-alpha-shape.pdf}
+  \includegraphics[width=0.4\linewidth,page=4]{fig/2-mot/as/mot-alpha-shape.pdf}
+  \caption{$\alpha$-Shape négative et $\alpha$-Shape positive }
+\end{figure}
 
 L'utilité des $\alpha$-shapes est d'être une sous-ensemble des points du bord. 
 % need more
