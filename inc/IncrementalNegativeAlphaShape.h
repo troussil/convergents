@@ -1,5 +1,5 @@
-#ifndef OutputSensitiveAlphaShape_h
-#define OutputSensitiveAlphaShape_h
+#ifndef IncrementalNegativeAlphaShape_h
+#define IncrementalNegativeAlphaShape_h
 
 #include<cmath>
 
@@ -7,7 +7,7 @@
 #include "ConvexHullHelpers.h"
 
 #include"CircumcircleRadiusPredicate.h"
-#include "RayIntersectableStraightLine.h"
+
 
 /**
  * Class implementing an on-line and ouput-sensitive algorithm
@@ -22,7 +22,7 @@
  * given three points, the operator() returns a bool.  
  */
 template <typename TShape, typename TPredicate>
-class OutputSensitiveAlphaShape
+class IncrementalNegativeAlphaShape
 {
 public:
   /////////////////////// inner types /////////////////
@@ -54,7 +54,7 @@ public:
    * @param aShape any 'ray-intersectable' shape
    * @param aPredicate any predicate
    */
-  OutputSensitiveAlphaShape(const Shape& aShape, const Predicate& aPredicate)
+  IncrementalNegativeAlphaShape(const Shape& aShape, const Predicate& aPredicate)
     : myShape(aShape), myPredicate(aPredicate) {}
 
 private:
@@ -62,14 +62,14 @@ private:
    * Copy constructor
    * @param other other object to copy
    */
-  OutputSensitiveAlphaShape(const OutputSensitiveAlphaShape& other) {}
+  IncrementalNegativeAlphaShape(const IncrementalNegativeAlphaShape& other) {}
 
   /**
    * Assignement operator
    * @param other other object to copy
    * @return reference on *this
    */
-  OutputSensitiveAlphaShape& operator=(const OutputSensitiveAlphaShape& other)
+  IncrementalNegativeAlphaShape& operator=(const IncrementalNegativeAlphaShape& other)
   { return *this; }
 
 public:
@@ -85,7 +85,7 @@ public:
   /**
    * Default destructor
    */
-  ~OutputSensitiveAlphaShape() {}
+  ~IncrementalNegativeAlphaShape() {}
 
 
   ///////////////////// main methods ///////////////////

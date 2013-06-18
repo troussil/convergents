@@ -10,12 +10,12 @@
 #include "../inc/PointVector2D.h"
 // Straight-line and circle
 #include "../inc/RayIntersectableStraightLine.h"
-#include "../inc/RayIntersectableCircle.h"
+#include "../inc/ExactRayIntersectableCircle.h"
 // Convex Hull
 #include "../inc/OutputSensitiveConvexHull.h"
 #include "../inc/ConvexHullHelpers.h"
 // Alpha-shape
-#include "../inc/OutputSensitiveAlphaShape.h"
+#include "../inc/IncrementalNegativeAlphaShape.h"
 
 
 ///////////////////////////////////////////////////////////////////////
