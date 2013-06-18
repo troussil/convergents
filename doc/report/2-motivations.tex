@@ -9,12 +9,31 @@
 %-----------------------------------------------------------------
 \subsubsection{Du disque Euclidien au disque discret}
 
-Avant de s'attarder sur la représentation d'un disque discret, il convient de revenir un court instant au disque fermé Euclidien et à l'ensemble reprenant tous les points de son bord, le cercle Euclidien.
+
+Le disque discret $\mathcal{D}$ est défini par analogie avec le disque Euclidien $\mathcal{D}_e$ qui représente l'ensemble des points situé à une distance inférieur à $R$ de son centre $O$.
+
 
 \begin{Definition}{Disque fermé Euclidien}
 \label{def:disk-euc}
- $$\mathcal{D}_e =  \left\{ (x,y) \in \mathbb{R}^{2} |  (x - u)^2 + (y - v)^2 \leq R^2 \right\}$$
+ $$\mathcal{D}_e =  \left\{ p=(x,y) \in \mathbb{R}^{2} |  (x - u)^2 + (y - v)^2 \leq R^2 \right\}$$
 \end{Definition}
+
+\begin{Definition}{Disque fermé discret}
+\label{def:disk-dis}
+  $$\mathcal{D} =  \left\{ p=(x,y) \in \mathbb{Z}^{2} |  ax + by + c( x^2 + y^2 ) + d = 0. \right\}$$
+  
+  avec $(u,v) = ( -a/(2c) , -b/(2c) )) \in \mathbb{Z}^{2}$ les coordonnées du centre et $R = \sqrt{ (a^2 + b^2 - 4cd) / 4c^2 } \in \mathbb{Z}^{+*}$ le rayon.\\
+\end{Definition}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=6cm]{fig/2-mot/circle/circle-euc-0.pdf}
+  \includegraphics[width=6cm]{fig/2-mot/circle/circle-dis-0.pdf}
+  \caption{Disque Euclidiens et Discret}
+\end{figure}
+
+
+Si la définition du disque fermé discret dans $\mathbb{Z}^{2}$ (appelé pour la suite du rapport uniquement disque discret) reste très proche de la définition Euclidienne, l'équivalent discret de son cercle afin de récupérer tous les points du bord change quant à elle considérablement. L'ensemble des points représentés en rouge sur le dessin, appartenant à l'ensemble : $\left\{ (x,y) \in \mathbb{Z}^{2} |  (x - u)^2 + (y - v)^2 = R^2 \right\}$, étant donc positionnés exactement sur le cercle Euclidien ne suffisent pas pour représenter le disque discret et son ensemble de points sur le bord. Il faut choisir une définition plus générale.
 
 \begin{Definition}{Cercle Euclidien}
 \label{def:cer-euc}
@@ -22,51 +41,30 @@ Avant de s'attarder sur la représentation d'un disque discret, il convient de r
   avec $(u,v) \in \mathbb{R}^{2}$ les coordonnées du centre et $R \in \mathbb{R}^{+*}$ le rayon.\\
 \end{Definition}
 
-
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=6cm]{fig/2-mot/circle/circle-euc-0.pdf}
-  \caption{Disque et Cercle Euclidiens}
-\end{figure}
-%PICS et PICS de disque et de cercle euclidien
-
-Si la définition du disque fermé discret dans $\mathbb{Z}^{2}$ (appelé pour la suite du rapport uniquement disque discret) reste très proche de la définition Euclidienne, l'équivalent discret de son cercle afin de récupérer tous les points du bord change quant à elle considérablement.
-
-\begin{Definition}{Disque discret}
-\label{def:disk-dis}
-  $$\mathcal{D} =  \left\{ (x,y) \in \mathbb{Z}^{2} |  (x - u)^2 + (y - v)^2 = R^2 \right\}$$
-  avec $(u,v) \in \mathbb{R}^{2}$ les coordonnées du centre et $R \in \mathbb{R}^{+*}$ le rayon.\\
-\end{Definition}
-
-
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=6cm]{fig/2-mot/circle/circle-dis-0.pdf}
-  \caption{Disque discret et Ensemble }
-\end{figure}
-
-L'ensemble des points représentés en rouge sur le dessin, appartenant à l'ensemble : $\left\{ (x,y) \in \mathbb{Z}^{2} |  (x - u)^2 + (y - v)^2 = R^2 \right\}$, étant donc positionnés exactement sur le cercle Euclidien ne suffisent pas pour représenter les points du bord du disque discret. Il faut choisir une définition plus générale.
-
 \begin{Definition}{Cercle discret}
 \label{def:cer-dis}
-  $$ \mathcal{C} =  \left\{ (x,y) \in \mathbb{Z}^{2} | \exists (i,j) \in \{ (0,1), (1,0), (0,-1), (-1,0)\}, | (x+i,y+j) \notin \mathcal{D} \right\}$$
+  $$ \mathcal{C} =  \left\{ p=(x,y) \in \mathbb{D} | \exists q \notin \mathbb{D} | d(p, q) = 1  \right\}$$
 \end{Definition}
-
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=6cm]{fig/2-mot/circle/circle-dis-1.pdf}
-  \caption{Cercle discrets}
+  \caption{Cercle Euclidiens}
 \end{figure}
+%PICS et PICS de disque et de cercle euclidien
+
 
 %-----------------------------------------------------------------
 \subsubsection{L'étude des points du bord}
 
-À partir de la définition précédente du cercle discret, il est possible de formuler plusieurs remarques. De par le fait de travailler sur $\mathbb{Z}^{2}$, on sait que les points sont ordonnées sur une grille régulière. Pour chaque point, il est possible d'atteindre quatre voisins en se dirigeant d'une unité vers les quatre points cardinaux. Chaque point possède donc un voisin, en haut, à gauche, en bas et à droite de lui. Or, on observe que les points strictement à l'intérieur du disque discret et non sur le bord (en bleu clair) possèdent tous leurs quatre voisins à l'intérieur du disque (maillage en rouge). 
+À partir de la définition précédente du cercle discret, il est possible de formuler plusieurs remarques. De par le fait de travailler sur $\mathbb{Z}^{2}$, on sait que les points sont ordonnées sur une grille régulière. Pour chaque point, il est possible d'atteindre quatre voisins en se dirigeant d'une unité vers les quatre points cardinaux. Chaque point possède donc un voisin, en haut, à gauche, en bas et à droite de lui. Or, on observe que les points strictement à l'intérieur du disque discret et non sur le bord (en bleu clair) possèdent tous leurs quatre voisins à l'intérieur du disque (maillage en rouge).
 
-Pour autant, les points du bords du disque discret possèdent eux une distribution différente. Chacun des points du bord possède entre un et trois voisins à l'extérieur du disque (en vert clair) et son complémentaire à quatre à l'intérieur.\\
+\begin{Definition}{Ensemble de points strictement à l'intérieur d'un disque}
+\label{def:cer-dis}
+  $$ \stackrel{\ \circ}{D} =  \left\{ p=(x,y) \in \stackrel{\ \circ}{D} | d(p, q) = 1 \Rightarrow q \in \mathcal{D} \right\}$$
+\end{Definition}
+
+Pour autant, les points du bords du disque discret \RefDef{def:cer-dis}, possèdent eux une distribution différente. Chacun des points du bord possède entre un et trois voisins à l'extérieur du disque (en vert clair).
 
 \begin{figure}[H]
   \centering
@@ -85,12 +83,28 @@ On se retrouve alors avec deux ensembles disjoints pour définir et représenter
 %-----------------------------------------------------------------
 \subsubsection{Définition générale}
 
-En s'intéressant principalement à des contours de formes discrètes, un ensemble d'outil nous est apparu comme particulièrement opportun. Il s'agit des $\alpha$-hull et des $\alpha$-shape définit pour la première fois dans \cite{EdeKirSei83} de la manière suivante.
+En s'intéressant principalement à des contours de formes discrètes, un ensemble d'outil nous est apparu comme particulièrement opportun. Il s'agit des $\alpha$-hull et des $\alpha$-shape définit pour la première fois dans \cite{EdeKirSei83} de la manière suivante.\\
+
+
+
+\begin{Definition}{$\alpha$-hull de $\mathcal{S}$}
+\label{def:ah-txt}
+    Intersection de tous les disques généralisés de rayon $1/\alpha$ qui contiennent tous les points de l'ensemble.
+\end{Definition}
+
+Un disque généralisé permet de définir des disques avec des rayons négatifs en faisant appel au complémentaire.
+
+\begin{Definition}{Disques génralisés de rayon $1/\alpha$}
+\label{def:ah-txt}
+   Si $\alpha > 0$, $\mathcal{D}_{\alpha}$ est le disque fermé de rayon $1/\alpha$.\\
+   Si $\alpha > 0$, $\mathcal{D}_{\alpha}$ est le complémentaire fermé du disque de rayon $1/\alpha$.
+\end{Definition}
+
+On en déduit une nouvelle définition pour les $\alpha$-hulls.
 
 \begin{Definition}{$\alpha$-hull de $\mathcal{S}$}
 \label{def:ah}
-    $$\left\{ \cap \mathcal{D}_{\alpha} | \forall (x,y)\in \mathcal{S} \subset \mathbb{Z}^{2} \Rightarrow (x,y) \in \mathcal{D}_{\alpha} \right\}$$
-    Intersection de tous les disques généralisés de rayon $1/\alpha$ qui contiennent tous les points de l'ensemble.
+    $$\left\{ \cap \mathcal{D}_{\alpha} | \forall (x,y)\in \mathcal{S} \Rightarrow (x,y) \in \mathcal{D}_{\alpha} \right\}$$
 \end{Definition}
 
 \begin{figure}[h!]
@@ -100,14 +114,13 @@ En s'intéressant principalement à des contours de formes discrètes, un ensemb
   \caption{$\alpha$-Hull négative et $\alpha$-Hull positive }
 \end{figure}
 
-
        
 
-Les sommets de $\alpha$-hull, les points appartenant à son bord de l'$\alpha$-hull sont appelés points $\alpha$-extreme. S'ils sont situés sur le même bord en étant relié par un arc de cercle de rayon 1/ $\lvert \alpha \rvert$, on dit alors qu'ils sont adjacents.
+Les sommets de $\alpha$-hull sont appelés points $\alpha$-extreme. S'ils sont relié par un arc de cercle de rayon 1/ $\lvert \alpha \rvert$ qui n'exclue pas de points, on dit alors qu'ils sont adjacents.
 
 \begin{Definition}{$\alpha$-shape}\\
 \label{def:as}
-      Enveloppe reliant tous les $\alpha$-extremes adjacents.
+      Graphe "plongé" reliant tous les $\alpha$-extremes adjacents par des segments de droite discrète.
 \end{Definition}
 
 \begin{figure}[h!]
@@ -131,12 +144,11 @@ En prenant un panel assez large d'$\alpha$-shape avec $\alpha$ succéssivement n
 \subsubsection{Plusieurs remarques}
 
 \paragraph{}
-Le cas central de $\alpha = 0$ représente une intersection de disque de rayon infini, cela peut être interprété comme une intersection de demi-plan. On retrouve exactement le calcul de l'enveloppe convexe.
+Le cas central de $\alpha = 0$ représente une intersection de disque de rayon infini, cela peut être interprété comme une intersection de demi-plan. On retrouve exactement l'enveloppe convexe.
 
 \paragraph{}
-Les plus petits $\alpha = -2$ et $\alpha = -1$ représenter les cas bien connus de suivi de bord. En effet, en ne pouvant s'éloigner au plus de disques de rayon -2 et -1, on ne peut suivre le bord de nos disques que par l'intermédiaire des voisins 4-connexes et 8-connexes de chaque point du bord.
+Les plus petits $\alpha = -2$ et $\alpha = -\sqrt{2}$ représenter les bords. En effet, en ne pouvant s'éloigner au plus de disques de rayon $1/2$ et $\sqrt{2}/2$, on ne peut suivre le bord de nos disques que par l'intermédiaire des voisins 4-connexes et 8-connexes de chaque point du bord.
 
 \paragraph{}
-En réalisant l'union de nos $\alpha$-shape pour le cas négatif et le cas positif, il semblerait que l'on s'appuie également sur les triangulations d'ordre 0 et n de Delaunay. Mais nous reviendrons dessus plus en détail dans la section "Existants".\\
-
+En réalisant l'union de nos $\alpha$-shape pour le cas négatif et le cas positif, on s'appuie également sur les triangulations d'ordre 0 et n de Delaunay. 
 % need more 
