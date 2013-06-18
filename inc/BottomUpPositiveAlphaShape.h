@@ -1,10 +1,9 @@
-#ifndef OutputSensitiveAlphaShape_h
-#define OutputSensitiveAlphaShape_h
+#ifndef BottomUpPositiveAlphaShape_h
+#define BottomUpPositiveAlphaShape_h
 
 #include<cmath>
 
 #include"CircumcircleRadiusPredicate.h"
-#include "RayIntersectableStraightLine.h"
 
 #include "ConvexHullHelpers.h"
 
@@ -21,7 +20,7 @@
  * given three points, the operator() returns a bool.  
  */
 template <typename TShape, typename TPredicate>
-class PositiveAlphaShape
+class BottomUpPositiveAlphaShape
 {
   public:
     /////////////////////// inner types /////////////////
@@ -53,7 +52,7 @@ class PositiveAlphaShape
      * @param aShape any 'ray-intersectable' shape
      * @param aPredicate any predicate
      */
-    PositiveAlphaShape(const Shape& aShape, const Predicate& aPredicate)
+    BottomUpPositiveAlphaShape(const Shape& aShape, const Predicate& aPredicate)
       : myShape(aShape), myPredicate(aPredicate) {}
 
   private:
@@ -61,14 +60,14 @@ class PositiveAlphaShape
      * Copy constructor
      * @param other other object to copy
      */
-    PositiveAlphaShape(const PositiveAlphaShape& other) {}
+    BottomUpPositiveAlphaShape(const BottomUpPositiveAlphaShape& other) {}
 
     /**
      * Assignement operator
      * @param other other object to copy
      * @return reference on *this
      */
-    PositiveAlphaShape& operator=(const PositiveAlphaShape& other)
+    BottomUpPositiveAlphaShape& operator=(const BottomUpPositiveAlphaShape& other)
     { return *this; }
 
   public:
@@ -84,7 +83,7 @@ class PositiveAlphaShape
     /**
      * Default destructor
      */
-    ~PositiveAlphaShape() {}
+    ~BottomUpPositiveAlphaShape() {}
 
 
     ///////////////////// main methods ///////////////////
@@ -152,5 +151,6 @@ class PositiveAlphaShape
 
 }; 
 #endif
+
 
 

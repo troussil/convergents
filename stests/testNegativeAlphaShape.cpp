@@ -14,13 +14,13 @@
 // Core geometry
 #include "../inc/PointVector2D.h"
 // Circle
-#include "../inc/RayIntersectableCircle.h"
+#include "../inc/ExactRayIntersectableCircle.h"
 // Convex Hull
 
 #include "../inc/OutputSensitiveConvexHull.h"
 
 // Alpha-shape
-#include "../inc/OutputSensitiveAlphaShape.h"
+#include "../inc/IncrementalNegativeAlphaShape.h"
 
 // BigInteger
 #include <DGtal/base/Common.h>
@@ -34,7 +34,7 @@ template <typename Shape, typename Point, typename OutputIterator,
 void alphaShape(const Shape& aShape, const Point& aStartingPoint, 
     OutputIterator res, const Predicate& aPredicate)
 {
-  OutputSensitiveAlphaShape<Shape, Predicate> ch(aShape, aPredicate);
+  IncrementalNegativeAlphaShape<Shape, Predicate> ch(aShape, aPredicate);
   ch.all(res); 
 }
 ///////////////////////////////////////////////////////////////////////
@@ -107,7 +107,7 @@ int main()
 {
   typedef PointVector2D<int> Point; //type redefinition
   typedef PointVector2D<int> Vector; //type redefinition
-  typedef RayIntersectableCircle<Point> Circle; 
+  typedef ExactRayIntersectableCircle<Point> Circle; 
 
   int nbok = 0; //number of tests ok
   int nb = 0;   //total number of tests
