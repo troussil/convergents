@@ -1,7 +1,7 @@
 LOG=evince
 TEX=tl-rapport
 
-FIGSRC = $(wildcard fig/2-mot/circle/*.ipe  fig/2-mot/as/*.ipe)
+FIGSRC = $(wildcard fig/2-mot/circle/*.ipe  fig/2-mot/as/*.ipe fig/4-exi/suivi/*.ipe )
 FIGOBJ = $(FIGSRC:.ipe=.pdf)
  
 all: fig paper show  
@@ -11,6 +11,8 @@ fig: $(FIGOBJ)
 fig/2-mot/circle/%.pdf: fig/2-mot/circle/%.ipe
 	ipetoipe -pdf $<
 fig/2-mot/as/%.pdf: fig/2-mot/as/%.ipe
+	ipetoipe -pdf $<
+fig/4-exi/suivi/%.pdf: fig/4-exi/suivi/%.ipe
 	ipetoipe -pdf $<
 	
 paper:

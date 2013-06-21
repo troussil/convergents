@@ -6,6 +6,42 @@
 \subsection{Suivi de Bord}
 %-----------------------------------------------------------------
 
+La méthode du suivi de bord d'un bord d'un disque discret est un processus étudié et connu. Elle est également senseiblement la même suivant le cas souhaité : 4-connexes et respectivement 8-connexes. La méthode comporte deux étapes. 
+% on - nous
+
+%-----------------------------------------------------------------
+\subsubsection{Trouver le point de départ}
+
+La première étape consiste à établir un point de départ pour notre algorithme. Nous devons en éffet trouver un premier point sur le bord du disque. Nous avons choisi de rechercher le point d'ordonnée minimale et d'abscisse maximal à l'intérieur du disque. Pour ce faire, nous prennons le point de $\mathcal{Z}^2$ possédant les coordonnées entières de notre centre. À partir de ce point, nous descendons le long de l'axe verticale d'une longeur égale au rayon pour commencer la recherche du point à l'intérieur du disque de plus petite abscisse. Une fois ce point trouvé, nous tranlatons suivant l'axe horizontal afin de trouver notre point de départ à l'intérieur du cercle avec une ordonnée minimale et un abscisse maximal : a. 
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.4\linewidth,page=1]{fig/4-exi/suivi/exi-depart-0.pdf}
+  \includegraphics[width=0.4\linewidth,page=1]{fig/4-exi/suivi/exi-depart-1.pdf}
+  \caption{Suivi de bord 4-connexes et 8-connexes}
+\end{figure}
+  
+
+%-----------------------------------------------------------------
+\subsubsection{Trouver le point de départ}
+
+La deuxième étape s'appuie sur une recherche incrémentale des différents points de notre bord du disque.
+
+\begin{Definition}{Méthode incrémentale}\\
+\label{def:os}
+      Une méthode incrémentale calcul succéssivement les éléments solutions à partir de la réponse précédementtrouvée.
+\end{Definition}
+Cela se traduit dans notre cas par la possibilité d'à partir d'un sommet de notre bord de connaitre le sommet suivant.
+
+Le sommet suivant est choisi suivant la position des voisins 4-connexes (resp 8-connexes) et du sens de rotation. Pour notre étude nous avons délibérement pris le parti de tourner dans le sens trigonométrique. En partance de notre point de départ et afin de tourner dans le sens trigonométrique nous choisirons le premier voisin à l'intérieur parmi le choix ordonnée de $\left\{EST, NORD, OUEST, SUD\right\{$ dans le cas 4-connnexes(resp :  $\left\{E, NE, N, NO, O, SO, S, SE\right\{$ dans le cas 8-connexes).
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.4\linewidth,page=1]{fig/4-exi/suivi/exi-suivi-0.pdf}
+  \caption{Suivi de bord 4-connexes et 8-connexes}
+\end{figure}
+  
+
 %-----------------------------------------------------------------
 \subsection{Enveloppe Convexe}
 %-----------------------------------------------------------------
@@ -19,11 +55,6 @@ Le calcul d'une $\alpha$-shape pour $\alpha$ = 0 revient à calculer l'enveloppe
 
 Une méthode particulièrement performante à néanmoins retenue notre attention. Elle a été introduite par Har-Peled en 98 dans la publication suivante : \cite{HarPeled98}. Il y présente un algorithme de calcul de l'enveloppe convexe qui est incrémental et output sensitive.
 
-\begin{Definition}{Méthode incrémentale}\\
-\label{def:os}
-      L'aspect incrémental de l'algorithme permet de découvrir les éléments succéssivements. 
-\end{Definition}
-Cela se traduit dans notre cas par la possibilité de trouver le prochain sommet de l'enveloppe à partir de n'importe quel sommet.  
 
 \begin{Definition}{Output sensitive}\\
 \label{def:os}
@@ -58,8 +89,7 @@ La méthode s’arrêtant quand enfin un convergent $p_{k}$ est exactement sur l
 %-----------------------------------------------------------------
 \subsubsection{Passage au disque}
 
-La première étape de l'algorithme consiste à trouver un premier point effectivement sommet de l'enveloppe convexe. Plusieurs moyens sont possible. Nous avons choisit de trouver le point le plus en bas puis le plus à droite de tous les points du disque en cherchant à proximité d'un point éloigné du centre vers la bas d'une distance égale à celle du rayon.\\ 
-
+La première étape de l'algorithme consiste à trouver un premier point effectivement sommet de l'enveloppe convexe. 
 %dire comment
 
 Pour la suite, nous avons procéder de la même manière en construisant les convergents au plus prêt du bord du disque. En effet, nous allons successivement être à l'intérieur pour $k$ impaire et à l'extérieur du disque pour $k$ pair. Nous nous arrêterons quand le convergent se situe exactement sur le bord du disque ou bien au dernier convergent de degré impaire quand nous aboutirons à un rayon qui n'intersecte pas le disque.\\
