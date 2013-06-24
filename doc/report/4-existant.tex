@@ -6,13 +6,13 @@
 \subsection{Suivi de Bord}
 %-----------------------------------------------------------------
 
-La méthode du suivi de bord d'un bord d'un disque discret est un processus étudié et connu. Elle est également senseiblement la même suivant le cas souhaité : 4-connexes et respectivement 8-connexes. La méthode comporte deux étapes. 
+La méthode du suivi de bord d'un bord d'un disque discret est un processus étudié et connu. La méthode est sensiblement la même suivant le cas souhaité : 4-connexes et respectivement 8-connexes. La méthode comporte deux étapes. 
 % on - nous
 
 %-----------------------------------------------------------------
-\subsubsection{Trouver le point de départ}
+\subsubsection{Trouver le sommet de départ}
 
-La première étape consiste à établir un point de départ pour notre algorithme. Nous devons en éffet trouver un premier point sur le bord du disque. Nous avons choisi de rechercher le point d'ordonnée minimale et d'abscisse maximal à l'intérieur du disque. Pour ce faire, nous prennons le point de $\mathcal{Z}^2$ possédant les coordonnées entières de notre centre. À partir de ce point, nous descendons le long de l'axe verticale d'une longeur égale au rayon pour commencer la recherche du point à l'intérieur du disque de plus petite abscisse. Une fois ce point trouvé, nous tranlatons suivant l'axe horizontal afin de trouver notre point de départ à l'intérieur du cercle avec une ordonnée minimale et un abscisse maximal : a. 
+La première étape consiste à établir un point de départ pour notre algorithme. Nous devons en effet trouver un premier point sur le bord du disque. Nous avons choisi de rechercher le point d'ordonnée minimale et d'abscisse maximal à l'intérieur du disque. Pour ce faire, nous prenons le point de $\mathcal{Z}^2$ possédant les coordonnées entières de notre centre. À partir de ce point, nous descendons le long de l'axe verticale d'une longueur égale au rayon pour commencer la recherche du point à l'intérieur du disque de plus petite abscisse. Une fois ce point trouvé, nous tranlatons suivant l'axe horizontal afin de trouver notre point de départ à l'intérieur du cercle avec une ordonnée minimale et un abscisse maximal : a. 
 
 \begin{figure}[h!]
   \centering
@@ -23,17 +23,17 @@ La première étape consiste à établir un point de départ pour notre algorith
   
 
 %-----------------------------------------------------------------
-\subsubsection{Trouver le point de départ}
+\subsubsection{Trouver le sommet suivant}
 
 La deuxième étape s'appuie sur une recherche incrémentale des différents points de notre bord du disque.
 
 \begin{Definition}{Méthode incrémentale}\\
 \label{def:os}
-      Une méthode incrémentale calcul succéssivement les éléments solutions à partir de la réponse précédementtrouvée.
+      Une méthode incrémentale calcul successivement les éléments solutions à partir de la réponse précédementtrouvée.
 \end{Definition}
 Cela se traduit dans notre cas par la possibilité d'à partir d'un sommet de notre bord de connaitre le sommet suivant.
 
-Le sommet suivant est choisi suivant la position des voisins 4-connexes (resp 8-connexes) et du sens de rotation. Pour notre étude nous avons délibérement pris le parti de tourner dans le sens trigonométrique. En partance de notre point de départ et afin de tourner dans le sens trigonométrique nous choisirons le premier voisin à l'intérieur parmi le choix ordonnée de $\left\{EST, NORD, OUEST, SUD\right\{$ dans le cas 4-connnexes(resp :  $\left\{E, NE, N, NO, O, SO, S, SE\right\{$ dans le cas 8-connexes).
+Le sommet suivant est choisi suivant la position des voisins 4-connexes (resp 8-connexes) et du sens de rotation. Pour notre étude nous avons délibérément pris le parti de tourner dans le sens trigonométrique. En partance de notre point de départ et afin de tourner dans le sens trigonométrique nous choisirons le premier voisin à l'intérieur parmi le choix ordonnée de $\left\{EST, NORD, OUEST, SUD\right\{$ dans le cas 4-connnexes(resp :  $\left\{E, NE, N, NO, O, SO, S, SE\right\{$ dans le cas 8-connexes).
 
 \begin{figure}[h!]
   \centering
@@ -64,7 +64,7 @@ Une méthode particulièrement performante à néanmoins retenue notre attention
 Dans ce cas de figure bien précis, la méthode présentée dépend du nombre de sommets de notre enveloppe convexe. \\
 
 La méthode permet de construire successivement et rapidement les arêtes de notre polygone. Elle s'appuie sur le calcul de convergents, qui représente le pendant géométrique du calcul du pgcd de deux nombres entiers. 
-En effet, il a été démontré dans ce même article que la compléxité en temps de cette algorithme de cacul de l'envelope convexe d'un disque de rayon $R_D$ révèle d'une part de la recherche du prochain sommet en $O(log R_D)$ et également du nombre de sommet qui est $O( R_{D}^{2/3})$. Soit une compléxité totale en temps de  $O( R_{D}^{2/3} log R_D)$.
+En effet, il a été démontré dans ce même article que la complexité en temps de cette algorithme de calcul de l'enveloppe convexe d'un disque de rayon $R_D$ révèle d'une part de la recherche du prochain sommet en $O(log R_D)$ et également du nombre de sommet qui est $O( R_{D}^{2/3})$. Soit une complexité totale en temps de  $O( R_{D}^{2/3} log R_D)$.
 
 
 %-----------------------------------------------------------------

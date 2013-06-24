@@ -32,7 +32,7 @@ Le disque discret $\mathcal{D}$ est défini par analogie avec le disque Euclidie
   \caption{Disque Euclidiens et Discret}
 \end{figure}
 
-La définition du disque fermé discret dans $\mathbb{Z}^{2}$ (appelé pour la suite du rapport uniquement disque discret) reste très proche de la définition Euclidienne. La définittion du cercle Euclidien découle directement de la définition du disque Euclidien. Néanmoins, l'équivalent discret du cercle permettant de récupérer tous les points du bord change quant à elle considérablement. L'ensemble des points représentés en rouge sur le dessin, appartenant à l'ensemble : $\left\{ (x,y) \in \mathbb{Z}^{2} |  (x - u)^2 + (y - v)^2 = R^2 \right\}$, étant donc positionnés exactement sur le cercle Euclidien ne suffisent pas pour représenter le cercle discret et son ensemble de points sur le bord. 
+La définition du disque fermé discret dans $\mathbb{Z}^{2}$ (appelé pour la suite du rapport uniquement disque discret) reste très proche de la définition Euclidienne. La définition du cercle Euclidien découle directement de la définition du disque Euclidien. Néanmoins, l'équivalent discret du cercle permettant de récupérer tous les points du bord change quant à elle considérablement. L'ensemble des points représentés en rouge sur le dessin, appartenant à l'ensemble : $\left\{ (x,y) \in \mathbb{Z}^{2} |  (x - u)^2 + (y - v)^2 = R^2 \right\}$, étant donc positionnés exactement sur le cercle Euclidien ne suffisent pas pour représenter le cercle discret et son ensemble de points sur le bord. 
 
 \begin{Definition}{Cercle Euclidien}
 \label{def:cer-euc}
@@ -88,7 +88,7 @@ On peut revenir simplement à la définition du cercle discret représentant le 
   $$ \stackrel{\ \circ}{D} =  \left\{ (x,y) \in \mathcal{D} | \mathcal{N}_{4/8}(x,y) \cap \mathcal{D} = \mathcal{N}_{4/8}(x,y) \right\}$$
 \end{Definition}
 
-Pour autant, les points du bords du disque discret \RefDef{def:cer-dis}, possèdent eux une distribution différente. Chacun des points du bord possède au moins un voisins à l'extérieur du disque.
+Pour autant, les points du bords du disque discret \RefDef{def:cer-dis}, possèdent une distribution différente. Chacun des points du bord possède au moins un voisins à l'extérieur du disque.
 
 \begin{figure}[H]
   \centering
@@ -96,9 +96,9 @@ Pour autant, les points du bords du disque discret \RefDef{def:cer-dis}, possèd
   \caption{Réseau de point à strictement à l'intérieur.}
 \end{figure}
 
-On se retrouve alors avec deux ensembles disjoints pour définir et représenter un disque discret. Le premier est bien ordonnée. Il représente les points strictement à l'intérieur du disque. Le deuxième ensemble représente les points du bord du disque et propose une distribution de points non régulière. De part la régulartité du premier, seule l'étude des points du bord nous semble pertinente pour comprendre l'organisation et la structure des disque discret.\\
+On se retrouve alors avec deux ensembles disjoints pour définir et représenter un disque discret. Le premier est bien ordonnée. Il représente les points strictement à l'intérieur du disque. Le deuxième ensemble représente les points du bord du disque et propose une distribution de points non régulière. De part la régularité du premier, seule l'étude des points du bord nous semble pertinente pour comprendre l'organisation et la structure des disque discret.\\
 
-Nous allons chercher comment est organisée la structure des points du bord d'un disque discret.
+Nous allons chercher à comprendre comment est organisée la structure des points du bord d'un disque discret.
 
 
 %-----------------------------------------------------------------
@@ -117,7 +117,7 @@ En s'intéressant principalement à des contours de formes discrètes, un ensemb
 
 Un disque généralisé permet de définir des disques avec des rayons négatifs en faisant appel au complémentaire.
 
-\begin{Definition}{Disques génralisés de rayon $1/\alpha$}
+\begin{Definition}{Disques généralisés de rayon $1/\alpha$}
 \label{def:dis-gen}
    $\mathcal{D}_{\alpha}$ est le disque fermé de rayon $1/\alpha$ pour $\alpha > 0$.\\
    $\mathcal{D}_{\alpha}$ est le complémentaire fermé du disque de rayon $1/\alpha$ pour $\alpha > 0$.
@@ -156,7 +156,7 @@ Les sommets de $\alpha$-hull sont appelés points $\alpha$-extreme. S'ils sont r
 %-----------------------------------------------------------------
 \subsubsection{$\alpha$-shapes de disque discret}
 
-En choisissant succéssivement des valeurs de $\alpha$ variant de -2 à $R_D$ (le rayon du disque discret), on calcul un vaste ensemble d'$\alpha$-shape. on remarque que ses $\alpha$-shapes représentent à chaque fois un sous-ensemble des points du bord d'un disque discret.
+En choisissant successivement des valeurs de $\alpha$ variant de -2 à $R_D$ (le rayon du disque discret), on calcul un vaste ensemble d'$\alpha$-shape. on remarque que ses $\alpha$-shapes représentent à chaque fois un sous-ensemble des points du bord d'un disque discret.
 
 %PICS avec alpha shapes de disque.
 
@@ -170,7 +170,7 @@ Le cas central de $\alpha = 0$ représente une intersection de disque de rayon i
 Les plus petits cas où $\alpha = -2$ et $\alpha = -\sqrt{2}$ permet de récupérer exactement les points du bords dans le cas 4-connexes et 8-connexes. En effet, en ne pouvant s'éloigner au plus de disques de rayon $1/2$ et $\sqrt{2}/2$, on ne peut suivre le bord de nos disques que par l'intermédiaire des voisins 4-connexes et 8-connexes de chaque point du bord.
 
 \paragraph{}
-Prendre un $\alpha$ < -2 conserve un sens. Il représente le cas où l'$\alpha$-hull est consitué de l'ensemble disjoint des points appartenant au disque. L'$\alpha$-shape n'a pas d'existence propre dans ce cas au vue de l'ensemble pas connexe.
+Prendre un $\alpha$ < -2 conserve un sens. Il représente le cas où l'$\alpha$-hull est constitué de l'ensemble disjoint des points appartenant au disque. L'$\alpha$-shape n'a pas d'existence propre dans ce cas au vue de l'ensemble pas connexe.
 
 \paragraph{}
 On ne peut aller que jusqu'à un certain rayon $\alpha = 1/R_D$. Au delà, on aurait $R_{\alpha} < R_D$ et il serait alors impossible de récupérer l'ensemble des points de notre disque par l'intersection de disque avec un rayon inférieur.
