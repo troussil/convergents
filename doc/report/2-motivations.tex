@@ -38,12 +38,12 @@ Néanmoins, la définition du cercle discret ne descend pas explicitement de la 
 
 Pour étudier le cercle discret, nous avons besoin de définir la notion de voisinage et de revenir à une définition plus générale du bord de toute ensemble discret.\\
 
-\begin{Definition}{Voisinage 4-connexe au point $(u,v)$}
+\begin{Definition}{4-Voisinage d'un point $(u,v)$}
 \label{def:vois-4}
   $$\mathcal{V}_4(u,v) =  \left\{ (x,y) \in \mathbb{Z}^{2} |  |x-u|+|y-u| = 1 \right\}$$
 \end{Definition}
 
-\begin{Definition}{Voisinage 8-connexe au point $(u,v)$}
+\begin{Definition}{8-Voisinage d'un point $(u,v)$}
 \label{def:vois-8}
   $$\mathcal{V}_8(u,v) =  \left\{ (x,y) \in \mathbb{Z}^{2} |  max(|x-u|,|y-u|) = 1 \right\}$$
 \end{Definition}
@@ -56,7 +56,7 @@ Pour étudier le cercle discret, nous avons besoin de définir la notion de vois
 
 
 
-\begin{Definition}{Bord 4-connexes $(*=4)$ et 8-connexes $(*=8)$ d'un ensemble discret $\mathcal{S}$}
+\begin{Definition}{Bord 8-connexes et 4-connexes d'un ensemble discret $\mathcal{S}$}
 \label{def:bord-ens}
   $$ \partial \mathcal{S} =  \left\{ (x,y) \in \mathcal{S} | \left( \mathcal{V}_{*}(x,y) \cap \mathcal{S} \right) \neq \mathcal{V}_{*}(x,y) \right\}$$
 \end{Definition}
@@ -72,7 +72,7 @@ On peut revenir simplement à la définition du cercle discret représentant le 
   \centering
   \includegraphics[width=6cm]{fig/2-mot/circle/circle-dis-1a.pdf}
   \includegraphics[width=6cm]{fig/2-mot/circle/circle-dis-1b.pdf}
-  \caption{Cercle Discret 4-connexes et 8-connexes}
+  \caption{Cercle Discret 8-connexes et 4-connexes}
 \end{figure}
 
 
