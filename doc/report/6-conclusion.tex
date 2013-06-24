@@ -6,15 +6,21 @@
 \subsection{Poursuite du projet}
 %-----------------------------------------------------------------
 
-Étendre ses travaux de recheche à d'autres formes.
-Passage à la 3d.
-Intégrer travaux dans la librairie DGtal.
-Paralélliser, "hasher" les méthodes par segments de droite.
-Autre approche pour le cas alpha positif.
+Le projet scientifique commencé par l'intermédiaire de ce stage peut être étendu sur bien des points. 
+
+Sur le plan du développement informatique, il reste possible d'ajouter de nombreuses fonctionnalités. L'etude d'autres formes géométriques comme l'ellipse, l'union de deux droites discrètes semble être des ajouts intéressants. L'implémentation différentes des algorithmes déjà présents permettrait de mieux cerner les optimisations possibles et d'ainsi mieux cerner les contraintes et choix techniques a éffectuer ultérieurement. En s'intéressant au calcul des $\alpha$-shapes par arête de l'enveloppe convexe permettrait de tirer profit d'une possible parallélisation où bien d'une table de hâchage afin de conserver les points ajoutés pour les arêtes. Inversement, adopter une approche commençant du polygone minimal afin de remonter vers l'$\alpha$-shape quand $\alpha > 0$ serait une méthode avec une compléxité qui deviendrait intéressant à partir d'un certain rapport Rayon du disque / $\alpha$.
+
+Un projet plus ambitieux et plus long serait de chercher à généraliser la méthode à la dimension 3 même s'il faudrait repartir d'une nouvelle base avec des points dans $\mathbb{Z}^{3}$. 
+
+Un autre intérêt scientifique serait d'approfondir les résultats obtenus en réalisant une étude asymptotique du nombre de sommet d'une $\alpha$-shape en fonction de $\alpha$ et de R, le rayon du disque.
+
+Enfin, le but de tout algorithme étant d'être utilisé, il serait intéressant une fois le projet achevé de chercher à l'intégrer à la librairie DGtal afin de pouvoir utiliser les $\alpha$-shapes dans un cadre de reconnaissance de forme et d'échantillonage \cite{BernardiniB97}.
+
 
 %-----------------------------------------------------------------
 \subsection{Compétences acquises}
 %-----------------------------------------------------------------
+
 
 Apprentisage en Informatiques
 -C++, découverte de la programmation générique à base de template.
