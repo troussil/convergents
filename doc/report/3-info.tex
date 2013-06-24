@@ -2,28 +2,139 @@
 \section{Développement Informatiques}
 %------------------------------------------------
 
-% Je ne sais pas encore où et comment organisé cette section.
-
 %-----------------------------------------------------------------
-\subsection{Paradigme de Programmation}
-%-----------------------------------------------------------------
-
-Je souhaite parlé ici de ce que j'ai appris en informatiques et plus particulièrement en développemenet. Parler rapidement des paradigmes utilisés : c++ programmation générique : Point + shape Intersectable + algo, compilation automatisé, test unitaire...
-
-%-----------------------------------------------------------------
-\subsection{Espace de collaboration}
-%-----------------------------------------------------------------
-
-Je souhaite mettre en avant la plateforme utilisé et expliqué rapidement les méthodes de developpement utilisé et appréhender en parallèle. Utilisation de git, branch, de méthode agile.
-
-%-----------------------------------------------------------------
-\subsection{Structure du rendu}
+\subsection{Programmation}
 %-----------------------------------------------------------------
 
 %-----------------------------------------------------------------
-\subsubsection{Principaux concepts}
+\subsubsection{C++}
 
-Traiter un mot sur l'organisation du dépot et sur l'utilisation de celui-ci.
-Installation/ utilisation de DGtal.
-Les différentes commandes crée : stools, make test, stests...
+
+Le C++ est un langage de programmation née dans les années 1980 dans l'optique d'agrémenter le langage C de nouvelles fonctionnalités. Il fut d'abord nommée par son créateur Bjarne Stroustrup : C with Classes. L’appellation c++, rappelant l'opération d'incrémentation fut adopté peu de temps plus tard à partir de 1983 suite à l'ajout de nouvelles fonctionnalités. (Source \cite{Wiki-cpp})
+
+Aujourd'hui encore, de nombreuses fonctionnalités viennent agrémenter le langage C++ au fil des spécifications. Il est désormais possible de l'utiliser en s'appuyant sur de multiples paradigmes comme la programmation procédurale, la programmation orientée objet et la programmation générique.
+
+Le paradigme choisit dans ce stage est celui de la programmation générique. \cite{troussil-cpp}
+
+%-----------------------------------------------------------------
+\subsubsection{Programmation générique}
+
+
+Le paradigme de la programmation générique s'appuie sur des relations concepts-modèles. 
+
+Pour appartenir à un même concept, les objets doivent posséder les mêmes fonctionnalités et le même comportement. 
+
+\begin{Definition}{Concept sur les types}\\
+\label{def:cpp-con}
+    Un type est un modèle de concept s'il définit une certaine interface en terme de méthode et de type interne. Cela rassemble des contraintes sémantiques et syntaxique : le nom des méthodes et des types internes est fixé.
+\end{Definition}
+
+\begin{Definition}{Modèle}\\
+  Un modèle est un type qui satisfait les contraintes d'un concept.
+\label{def:cpp-mod}
+
+\end{Definition}
+
+On parle alors de polymorphisme dans le sens où un algorithme, une fonction peut s'exécuter avec des paramètres de différentes natures.
+
+%-----------------------------------------------------------------
+\subsubsection{Exemple concret}
+
+% Points
+L'espace de travail $\mathbb{Z}^{2}$ est une grille régulière représentant des points à coordonnées entières. Ce sont les principaux objets que nous allons manipuler. L'un des enjeux de la géométrie discrète est de baser ses calculs principalement sur l'usage d'entiers afin d'éviter tous les problèmes apportés par les incertitudes de précision dû aux flottants. Comme le C++ est un langage fortement typé, la représentation des entiers diffère selon la taille maximal autorisée souhaitée. On parle alors de concept "Type entier". Plusieurs modèles de base sont int, long. Nous utiliserons également un modèle BigInteger intégré par l'intermédiaire des librairie DGtal et GMP qui permet des calculs sur de très grand entier.
+
+
+Notre classe point s’appuiera ainsi sur le concept de type entier pour nous permettre des calculs à la fois performants sur des petites grandeurs et pertinents sur de très grandes valeurs. Nous avons naturellement agrémenté cette classe de différentes opérations notamment via la surcharge d'opérateur.
+
+
+Pour mettre à bien nos méthodes de calcul sur des objets dans $\mathbb{Z}^{2}$ , nous avons besoin d'être en mesure de répondre à trois questions.
+
+\begin{Definition}{ Fonctionnalités d'un concept de forme géométrique}\\
+\label{def:cpp-fonc}
+   Prédicat de position : Sommes-nous dedans, dehors ou exactement sur le bord de cette forme.\\
+   Intersection de rayon : Le rayon émanent de ce point dans cette direction intersecte-t-il cette forme et si oui, quelle est le point le plus proche et du même côté.\\
+   Point de départ : Il s'agit de trouver le point à l'intérieur avec l'ordonnée minimal et l'abscisse maximale. 
+\end{Definition}
+%Points
+
+Nous venons ainsi de définir un concept "Forme". Pour le moment, trois modèles ont été implémentés : RayIntersectableStraightLine : Le segment de droite discrète, ExactRayIntersectableCircle : Un disque discret implémentées avec des calculs sur des entiers, InexactRayIntersectableCircle : Un disque discret implémentées avec des calculs sur des entiers et des flottants.
+
+% graph contexte
+
+%\newpage
+%-----------------------------------------------------------------
+\subsubsection{Utilisation de code générique}
+
+\begin{verbatim}
+  // Noms de deux modèles de disques du concept Forme.
+  // ECircle utilise des calculs uniquement basés sur de très grands entiers
+  typedef ExactRayIntersectableCircle<DGtal::BigInteger> ECircle;
+  // ICircle utilise des calculs basés sur les entiers et les flottants
+  typedef InexactRayIntersectableCircle<DGtal::BigInteger> ICircle;
+    
+  // On définit des disques de rayon R dont le centre est placé aléatoirement
+  // dans le carré [0;1]x[0;1].
+  // D : ax + by + c(x^2 + b^b) + d >= 0
+    
+  DGtal::BigInteger c =  -25;
+  DGtal::BigInteger a = - rand() %(2*c);
+  DGtal::BigInteger b = - rand() %(2*c);  
+  DGtal::BigInteger d = ( a*a + b*b - 4*R*R*c*c)/(4*c);
+  
+  // Déclaration et affectation de deux disques
+  ECircle exactCircle( a, b, c, d );	
+  ICircle inexactCircle( a, b, c, d );	  
+  
+  // Déclaration des enveloppes convexes de nos deux disques.
+  OutputSensitiveConvexHull<ECircle> exactCH(exactCircle);
+  OutputSensitiveConvexHull<ICircle> inexactCH(inexactCircle);
+  
+  // Variables pour récupérer les sommets succéssifs.
+  // Ils sont des OutputIterators.
+  std::back_inserter( std::vector<Point>) exactVertices;
+  std::back_inserter( std::vector<Point>) inexactVertices;
+  
+  // Récupération de leurs sommets par la méthode all 
+  // appartenant à la classe OutputSensitiveConvexHull.
+
+  exactCH.all(exactVertices);  
+  inexactCH.all(inexactVertices); 
+\end{verbatim}
+
+La programmation générique nous a permis d'implémenter qu'une seule fois la classe OutputSensitiveConvexHull et sa méthode all qui récupère les sommets de l'enveloppe convexe. Nous avons pu ainsi utiliser nos méthodes sur différents modèles en toute transparence. Néanmoins la réalisation d'un projet comportant du développement informatique impose certaines contraintes au niveau du rendu. 
+
+%-----------------------------------------------------------------
+\subsection{Génie logiciel}
+%-----------------------------------------------------------------
+
+%-----------------------------------------------------------------
+\subsubsection{Répondre juste}
+
+La première question que l'on se pose quand l'on crée un algorithme et des méthodes de calcul est de savoir si l'on répond correctement à notre problème posé. L'une des difficultés rencontrés dans ce stage reste la faible présence d'outils susceptibles de nous répondre à notre question par d'autre chemin. Le calcul d'$\alpha$-shape est bien présent sous CGAL mais il n'était pas adapté comme outils de vérification pour notre travail sur des disques discrets. Pour vérifier nos calculs, nous avons implémenté des méthodes de tests s'appuyant sur le suivi de bord pour les méthodes recherchant des bords. En codant les tests unitaires avant nos méthodes de calcul, nous avons mis en place une logique de développement par les tests également appelé Stop The line. \cite{stoptheline}
+
+\begin{Definition}{Stop the line}\\
+\label{def:stopthline}
+   Cette méthode a été introduite par Taiichi Ohno dans les usines Toyota en proposant à chaque employé de pouvoir arrêter toute la chaine de production dès qu'un problème était rencontré afin de le résoudre directement. L'idée sous-jacente étant de ne pas permettre la création d'un objet défectueux.
+\end{Definition}
+
+Dans le cadre d'un développement informatique, cela consiste à essayer de provoquer l'ensemble des cas critiques et de chercher à les passer. Le but étant de pouvoir utiliser le code en production en minimisant le risque de trouver un résultat incorrecte.
+
+%-----------------------------------------------------------------
+\subsubsection{Test de régression}
+
+Le nombre de méthodes augmentant au fil du temps, les tests unitaires créés ont pu servir de test de régression en les cumulant. Ils nous ont permis de vérifier que chaque agrémenta de notre projet ne rende pas incorrecte les méthodes précédentes.\\
+
+
+%-----------------------------------------------------------------
+\subsubsection{Collaborer efficacement}
+
+Le projet crée à l'occasion de ce stage a été de développer des méthodes en s'appuyant sur un projet de plus grande envergure à travers l'utilisation de la librairie DGtal : \cite{DGtal}. En cherchant à rendre compatible notre travail, il faut accepter de suivre un certain formalisme pour d'homogénéiser l'ensemble. Il faut de suivre les conventions établies au niveau du nommage des variables, de la mise en place des commentaires et de la documentation. Une autre forme de formalisme à suivre se retrouve également à travers l'écriture directe du programme et de la gestion des longues lignes de codes et tout simplement des tabulations/espaces afin de pouvoir tirer au mieux profit de la puissance des gestionnaires de version, de git dans notre cas.\\
+
+La collaboration avec mon encadrant s'est grandement appuyée sur l'utilisation quotidienne du logiciel git et de l’hébergement de notre projet sur la plateforme github : \cite{github-tristan} et \cite{github-thomas} permettant de garder facilement une trace des travaux et modification effectués.
+
+%-----------------------------------------------------------------
+\subsubsection{conclure le projet}
+
+Un projet informatique n'a de sens et d'utilité que s'il est complet. Il est important dans un souci de pérennité de proposer un travail fini afin que celui-ci puisse être compris et utilisé ultérieurement. Cela a été l’occasion de retravailler le projet dans son ensemble avec du recul pour par exemple nommer correctement et avec des noms cohérents l'ensemble des classes.
+
 
