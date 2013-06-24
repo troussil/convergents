@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70005" creator="Ipe 7.1.1">
-<info created="D:20130524143309" modified="D:20130617153332"/>
+<info created="D:20130524143309" modified="D:20130618151921"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -259,9 +259,6 @@ h
 240 560 l
 240 544 l
 384 544 l
-</path>
-<path stroke="darkgray" pen="heavier">
-66.163 0 0 66.163 314.363 622.823 e
 </path>
 <path stroke="lightgray">
 384 544 m
@@ -523,7 +520,7 @@ h
 <use name="mark/disk(sx)" pos="304 688" size="normal" stroke="darkblue"/>
 <use name="mark/disk(sx)" pos="256 592" size="normal" stroke="darkblue"/>
 <use name="mark/disk(sx)" pos="256 592" size="normal" stroke="darkblue"/>
-<text layer="circle" matrix="1 0 0 1 -16.1059 6.65243" transformations="translations" pos="293.5 678.463" stroke="darkblue" type="label" width="5.827" height="6.808" depth="0" valign="baseline">$\mathcal{C}$</text>
+<text layer="circle" matrix="1 0 0 1 1.40049 -6.65243" transformations="translations" pos="293.5 678.463" stroke="darkblue" type="label" width="5.827" height="6.808" depth="0" valign="baseline">$\mathcal{C}$</text>
 <path stroke="darkblue">
 320 688 m
 304 688 l
@@ -543,6 +540,10 @@ h
 352 672 l
 336 672 l
 320 688 l
+</path>
+<text matrix="1 0 0 1 0.455166 -5.00683" transformations="translations" pos="358.561 568.23" stroke="black" type="label" width="11.399" height="6.812" depth="1.49" valign="baseline">$C_e$</text>
+<path stroke="black" pen="heavier">
+66.163 0 0 66.163 314.363 622.823 e
 </path>
 </page>
 </ipe>
