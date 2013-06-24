@@ -2,6 +2,36 @@
 \section{Contributions}
 %------------------------------------------------
 
+% Intro à refaire
+%-----------------------------------------------------------------
+\subsection{Triangulation de Delaunay d'un motif}
+%-----------------------------------------------------------------
+
+
+La construction de notre enveloppe convexe nous a amené à construire ses arêtes. Nous avons ainsi construit une série de segment de droite englobant tous les points à l'intérieur de notre disque. De manière encore plus fines, nous avons construit une série de motif associé à chaque segment de droite que nous pouvons relié à leur triangulation de Delaunay. Or, les $\alpha$-shapes s’appuient également sur l'utilisation de la triangulation de Delaunay, d'ordre 0 lorsque $\alpha \leq 0$ et d'ordre n lorsque $\alpha \geq 0$. On a également vu qu'il était possible d'utiliser un algorithme "Output Sensitive" pour le calcul de l'enveloppe convexe.
+
+La problématique de ce stage est de chercher à trouver s'il est possible de calculer les $\alpha$-shapes de manière output sensitive en s'appuyant sur le calcul des convergents et par la suite d'implémenter un tel algorithme.  
+
+
+
+%-----------------------------------------------------------------
+\subsubsection{Segment de droite discrète}
+
+On peut définir une droite discrète comme l'ensemble des points compris dans un tube d'une largeur de un.
+
+\begin{Definition}{Segment de droite discrète de direction $b / a$ partant de $0$}
+\label{def:sdd}
+    $$\mathcal{d} =  \left\{ (x,y) \in \mathbb{Z}^{2} |  0 \leq b x + a y \leq 1. \right\}$$
+\end{Definition}
+
+%PICS de droite discrètes.
+%passage aux motifs, rapport au fraction continue
+
+Les segments de droites discrètes sont des objets aux propriétés combinatoires et arithmétiques remarquables. Les morceaux spécifiques de ses segments qui se répètent sont appelés des motifs. Il a été montré que des relations entre les motifs et la triangulation de Delaunay existent. Il est donc possible de construire la triangulation de Delaunay à partir de l'étude de ses motifs et donc à partir du coefficient rationnel du segment de droite discrète.
+
+
+
+
 %-----------------------------------------------------------------
 \subsection{$\alpha$-shape, $\alpha \leq 0$ - Généralisation de Har-Peled}
 %-----------------------------------------------------------------

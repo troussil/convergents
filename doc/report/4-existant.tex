@@ -43,17 +43,12 @@ Le sommet suivant est choisi suivant la position des voisins 4-connexes (resp 8-
   
 
 %-----------------------------------------------------------------
-\subsection{Enveloppe Convexe}
+\subsection{Enveloppe Convexe : Algorithme de Har-Peled}
 %-----------------------------------------------------------------
 
 Le calcul d'une $\alpha$-shape pour $\alpha$ = 0 revient à calculer l'enveloppe convexe de notre disque discret. Calculer une enveloppe convexe est particulièrement étudié. De nombreux algorithmes existes : Parcours de Graham, Marche de Jarvis... 
 
-\begin{Definition}{$\alpha$-hull, $\alpha = 0$ - Enveloppe convexe}\\
-\label{def:ch}
-      L'intersection de tous les demi-plans qui contiennent tous les points à l’intérieur du disque.
-\end{Definition}
-
-Une méthode particulièrement performante à néanmoins retenue notre attention. Elle a été introduite par Har-Peled en 98 dans la publication suivante : \cite{HarPeled98}. Il y présente un algorithme de calcul de l'enveloppe convexe qui est incrémental et output sensitive.
+Une méthode particulièrement performante à néanmoins retenue notre attention. Elle a été introduite par Har-Peled en 98 \cite{HarPeled98}. Il y présente un algorithme de calcul de l'enveloppe convexe qui est incrémental et output sensitive.
 
 
 \begin{Definition}{Output sensitive}\\
@@ -122,12 +117,4 @@ Rayons & Nb Sommets & Nb Sommets / $R^{2/3}$\\
 \hline
 \end{tabular} 
 
-%-----------------------------------------------------------------
-\subsection{Triangulation de Delaunay d'un motif}
-%-----------------------------------------------------------------
-
-
-La construction de notre enveloppe convexe nous a amené à construire ses arêtes. Nous avons ainsi construit une série de segment de droite englobant tous les points à l'intérieur de notre disque. De manière encore plus fines, nous avons construit une série de motif associé à chaque segment de droite que nous pouvons relié à leur triangulation de Delaunay. Or, les $\alpha$-shapes s’appuient également sur l'utilisation de la triangulation de Delaunay, d'ordre 0 lorsque $\alpha \leq 0$ et d'ordre n lorsque $\alpha \geq 0$. On a également vu qu'il était possible d'utiliser un algorithme "Output Sensitive" pour le calcul de l'enveloppe convexe.
-
-La problématique de ce stage est de chercher à trouver s'il est possible de calculer les $\alpha$-shapes de manière output sensitive en s'appuyant sur le calcul des convergents et par la suite d'implémenter un tel algorithme.  
 
