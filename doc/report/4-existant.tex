@@ -75,9 +75,36 @@ $$p_{k} = p_{k-2} + q_k * p_{k-1}$$
 
 avec $q_k$ le plus grand entier tel que $p_{k}$ et $p_{k-2}$ soient du même côté de la droite.\\
 
-On se retrouve donc à effectuer un jeter de rayon de $p_{k-2}$ dans la direction de $p_{k-1}$ pour étudier l’intersection du vecteur et de la droite de direction $y_P / x_P$.\\
+On se retrouve donc à effectuer un jeter de rayon de $p_{k-2}$ dans la direction de $p_{k-1}$ pour étudier l’intersection du vecteur et le segment de droite de direction $y_P / x_P$.\\
 
 La méthode s’arrêtant quand enfin un convergent $p_{k}$ est exactement sur la droite.
+
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.4\linewidth]{fig/4-exi/har/exi-har-0.pdf}
+  \includegraphics[width=0.4\linewidth]{fig/4-exi/har/exi-har-1.pdf}
+  \caption{Calcul des convergents du point (3,8)}
+\end{figure}
+
+
+\begin{table}[h!]
+  \centering
+  \begin{tabular}{|p{0.04\linewidth}|p{0.04\linewidth}|p{0.04\linewidth}||p{0.04\linewidth}|p{0.04\linewidth}||p{0.2\linewidth}||p{0.35\linewidth}|}
+    \hline 
+    $k$ & $a$ & $b$ & $q_{k}$ & $r_k$ & (a,b) & $p_k$ \\
+    \hline 
+    -2 & - & - & - & - & -                    & $p_{-2} = (1,0)$\\
+    -1 & - & - & - & - & $3 p_{-2} + 8p_{-1}$ & $p_{-1} = (1,0)$\\
+     0 & 8 & 3 & 2 & 2 & $2 p_{-1} + 3p_{0}$  & $p_{0}  = p_{-2} + 2p_{-1} = (1,2)$\\ 
+     1 & 3 & 2 & 1 & 1 & $p_{0}  + 2p_{1}$    & $p_{1}  = p_{-1} + p_{0} = (1,3)$\\
+     2 & 2 & 1 & 2 & 0 & $p_{2}$              & $p_{2}  = p_{0} + 2p_{1} = (3,8)$\\
+    \hline
+  \end{tabular} 
+  \caption{Résultat du $PGCD(3,8)$ par la méthode d'Euclide et géométrique}
+\end{table}
+
+
 
 %relié le tout à la fraction continue et revenir un peu à la méthode d'Euclide.
 
@@ -102,7 +129,7 @@ On s'intéresse également à vérifié l'intérêt de notre algorithme par rapp
 
 \begin{figure}[h!]
   \centering
-  \includegraphics[width=0.8\linewidth]{fig/4-exi/ch/exi-ch-sommet.png}
+  \includegraphics[width=\linewidth]{fig/4-exi/ch/exi-ch-sommet.png}
   \caption{Sommets et bord de l'enveloppe convexe}
 \end{figure}
 
@@ -144,7 +171,7 @@ On s'intéresse également à vérifié l'intérêt de notre algorithme par rapp
 
 \begin{figure}[h!]
   \centering
-  \includegraphics[width=0.8\linewidth]{fig/4-exi/ch/exi-ch-temps.png}
+  \includegraphics[width=\linewidth]{fig/4-exi/ch/exi-ch-temps.png}
   \caption{Temps de calcul de l'enveloppe convexe}
 \end{figure}
 
