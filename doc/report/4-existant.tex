@@ -25,15 +25,9 @@ La première étape consiste à établir un point de départ pour notre algorith
 %-----------------------------------------------------------------
 \subsubsection{Trouver le sommet suivant}
 
-La deuxième étape s'appuie sur une recherche incrémentale des différents points de notre bord du disque.
+La deuxième étape s'appuie sur une recherche incrémentale cherchant successivement le sommet suivant à partir du sommet précédement trouvé.
 
-\begin{Definition}{Méthode incrémentale}\\
-\label{def:os}
-      Une méthode incrémentale calcul successivement les éléments solutions à partir de la réponse précédementtrouvée.
-\end{Definition}
-Cela se traduit dans notre cas par la possibilité d'à partir d'un sommet de notre bord de connaitre le sommet suivant.
-
-Le sommet suivant est choisi suivant la position des voisins 4-connexes (resp 8-connexes) et du sens de rotation. Pour notre étude nous avons délibérément pris le parti de tourner dans le sens trigonométrique. En partance de notre point de départ et afin de tourner dans le sens trigonométrique nous choisirons le premier voisin à l'intérieur parmi le choix ordonnée de $\left\{EST, NORD, OUEST, SUD\right\{$ dans le cas 4-connnexes(resp :  $\left\{E, NE, N, NO, O, SO, S, SE\right\{$ dans le cas 8-connexes).
+Le sommet suivant est choisi suivant la position des voisins 4-connexes (resp 8-connexes) et du sens de rotation. Pour notre étude nous avons délibérément pris le parti de tourner dans le sens trigonométrique. En partance de notre point de départ et afin de tourner dans le sens trigonométrique nous choisirons le premier voisin à l'intérieur parmi le choix ordonnée de $\left\{E, N, O, S\right\{$ dans le cas 4-connnexes(resp :  $\left\{E, NE, N, NO, O, SO, S, SE\right\{$ dans le cas 8-connexes).
 
 \begin{figure}[h!]
   \centering

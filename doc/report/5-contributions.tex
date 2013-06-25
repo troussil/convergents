@@ -30,8 +30,6 @@ On peut définir une droite discrète comme l'ensemble des points compris dans u
 Les segments de droites discrètes sont des objets aux propriétés combinatoires et arithmétiques remarquables. Les morceaux spécifiques de ses segments qui se répètent sont appelés des motifs. Il a été montré que des relations entre les motifs et la triangulation de Delaunay existent. Il est donc possible de construire la triangulation de Delaunay à partir de l'étude de ses motifs et donc à partir du coefficient rationnel du segment de droite discrète.
 
 
-
-
 %-----------------------------------------------------------------
 \subsection{$\alpha$-shape, $\alpha \leq 0$ - Généralisation de Har-Peled}
 %-----------------------------------------------------------------
@@ -39,7 +37,42 @@ Les segments de droites discrètes sont des objets aux propriétés combinatoire
 %-----------------------------------------------------------------
 \subsubsection{Construction de l'algorithme}
 
-Le principe de l’algorithme est assez simple. On cherche à reproduire le schéma du calcul de l’enveloppe convexe. Néanmoins, à chaque convergents à l'intérieur du disque on va contrôler s'il est possible pour lui d'être atteint par un le rayon d'un disque généralisé.
+Le principe de l’algorithme est assez simple. On cherche à reproduire le schéma du calcul de l’enveloppe convexe. Néanmoins, à chaque convergents à l'intérieur du disque on va contrôler s'il est possible pour lui d'être atteint par le rayon d'un disque généralisé. 
+
+L'algorithme commence de similairement avec la recherche d'un point de départ. La même méthode sera utilisée pour trouver le point le plus en bas à droite.
+À partir de ce point de départ, on va lancer les convergents pour étudier les sommets potentiels qui se trouve à l'intérieur de disque (convergent de degré impaire et convergent de degré pair exactement sur le bord du disque). À chaque convergent trouvé à l'intérieur, on va vérifier que la construction de l'$\alpha$-hull est possible et contient bien l'ensemble des points de notre disque. 
+
+\begin{figure}[h!]
+  \centering
+ % \includegraphics[width=0.4\linewidth]{fig/5-con/nas/con-depart-0.pdf}
+ % \includegraphics[width=0.4\linewidth]{fig/5-con/nas/con-depart-1.pdf}
+  \caption{Départ du calcul de l'$\alpha$-shape}
+\end{figure}
+
+Pour ce faire, on utilise un prédicat qui compare la taille du rayon du cercle circonscrit à un triangle formé par trois point T(a, b, c) : \textbf{r} à la taille du rayon de notre disque généralisé de rayon -1/$\alpha$ : \textbf{R_{$\alpha$}}. En éffet, si \textbf{r>Rf} alors le point b n'appartient pas à notre disque généralisé. Cela signifique que notre $\alpha$-hull ne peut rejoindre c par a sans au moins passé par b.
+
+
+\begin{figure}[h!]
+  \centering
+  %\includegraphics[width=0.8\linewidth]{fig/5-con/nas/con-depart-0.pdf}
+  \caption{Prédicat}
+\end{figure}
+
+Il faut donc vérifier tous les triangles formés par tous les points à l'intérieur de notre disque étant sur le jeté de rayon. Néanmoins de part la construction, la taille des rayons est croissante. Il suffit donc de tester le dernier et plus grand pour savoir si l'on peut continuer nos lancés de convergents ou si l'on peut lancer une recherche dichotomique pour trouver le point à l'intérieur qui deviendra un $\alpha$-extrême.
+
+\begin{figure}[h!]
+  \centering
+  %\includegraphics[width=0.8\linewidth]{fig/5-con/nas/con-depart-0.pdf}
+  \caption{Taille croissante des rayons des cerlces circonscrits au triangle.}
+\end{figure}
+
+Lorsque une recherche dichotomique est lancé et abouti sur un triangle. Cela signifie que tous les points à partir de b jusqu'à c appartiennent au bord de l'$\alpha$-shape.
+
+\begin{figure}[h!]
+  \centering
+  %\includegraphics[width=0.8\linewidth]{fig/5-con/nas/con-depart-0.pdf}
+  \caption{Nouveaux points et sommets de l'$\alpha$-shape.}
+\end{figure}
 
 %-----------------------------------------------------------------
 \subsubsection{Résultats}
