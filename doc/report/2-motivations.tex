@@ -52,7 +52,7 @@ Néanmoins, la définition du cercle discret ne dérive pas explicitement de la 
   \caption{4-connexité et 8-connexité}
 \end{figure}
 
-En définissant les points du bord du disque discrèt comme l'ensemble des points appartenant au disque dont le 4-voisinage n'est pas intégralement contenu dans le disque, on définit un ensemble 8-connexes alors que respectivement en choisissant un 8-voisinage, on obtient un ensemble 4-connexe.
+En définissant les points du bord du disque discret comme l'ensemble des points appartenant au disque dont le 4-voisinage n'est pas intégralement contenu dans le disque, on définit un ensemble 8-connexes alors que respectivement en choisissant un 8-voisinage, on obtient un ensemble 4-connexe.
 
 \begin{Definition}{Bord 8-connexes (*=4) et 4-connexes (*=8) d'un ensemble discret $\mathcal{S}$}
 \label{def:bord-ens}
@@ -152,10 +152,10 @@ En choisissant successivement des valeurs de $\alpha$ variant de -2 à $R_D$ (le
 %PICS avec alpha shapes de disque.
 
 %-----------------------------------------------------------------
-\subsubsection{Remarques}
+\subsubsection{Propriétés}
 
 \paragraph{}
-Le cas central de $\alpha = 0$ représente une intersection de disque de rayon infini, cela peut être interprété comme une intersection de demi-plan. On retrouve exactement l'enveloppe convexe.
+Le cas central lorsque $\alpha = 0$ représente une intersection de disque de rayon infini qui est interprété comme une intersection de demi-plan. On obtient une enveloppe convexe.
 
 \paragraph{}
 Les plus petits cas où $\alpha = -2$ et $\alpha = -\sqrt{2}$ permettent de récupérer exactement les points du bords dans le cas 4-connexes et 8-connexes. En effet, en ne pouvant s'éloigner au plus de disques de rayon $1/2$ et $\sqrt{2}/2$, on ne peut suivre le bord de nos disques que par l'intermédiaire des voisins 4-connexes et 8-connexes de chaque point du bord.
@@ -167,7 +167,7 @@ Prendre un $\alpha$ < -2 conserve un sens. Il représente le cas où l'$\alpha$-
 On ne peut aller que jusqu'à un certain rayon $\alpha = 1/R_D$. Au delà, on aurait $R_{\alpha} < R_D$ et il serait alors impossible de récupérer l'ensemble des points de notre disque par l'intersection de disque avec un rayon inférieur.
 
 \paragraph{}
-En réalisant l'union de nos $\alpha$-shape pour le cas négatif et le cas positif, on obtient des sous-ensembles des triangulations d'ordre 0 et d'ordre n de Delaunay. 
+Une propriété \cite{EdeKirSei83} des de l'union des $\alpha$-shape pour le cas négatif et le cas positif est d'obtenir des sous-ensembles des triangulations d'ordre 0 et d'ordre n de Delaunay.  
 % need more 
 
 %-----------------------------------------------------------------
@@ -175,9 +175,28 @@ En réalisant l'union de nos $\alpha$-shape pour le cas négatif et le cas posit
 %-----------------------------------------------------------------
 % à refaire
 
-%-----------------------------------------------------------------
-\subsubsection{Triangulation de Delaunay}
+Tout ensemble discret est représenté par un ensemble dénombrable de points. Il existe une multitude de combinaisons possibles pour relier les points entre eux. En étudiant leur diagramme de proximité : les diagrammes de Voronoï on construit implicitement leurs graphes duales, les triangulations de Delaunay.
 
+%-----------------------------------------------------------------
+\subsubsection{Diagramme de Voronoï}
+
+\begin{Definition}{Diagramme de Voronoï d'ordre 0 d'un ensemble de point $\mathcal{S}$}\\
+\label{def:tri-vor-0}
+  Le diagramme de Voronoï d'ordre 0 réalise une partition dans $\mathbb{R}^2$ où chaque point de $\mathcal{S}$ est inclue dans une partie contenant les points de $\mathbb{R}^2$ le plus proches de lui selon une certaine distance.
+\end{Definition}
+
+ \begin{Definition}{Diagramme de Voronoï d'ordre n de l'ensemble $\mathcal{S}$}\\
+\label{def:tri-vor-n}
+   Le diagramme de Voronoï d'ordre n réalise une partition dans $\mathbb{R}^2$ où chaque point de $\mathcal{S}$ est associé à une partie contenant les points de $\mathbb{R}^2$ plus loin de lui que de n'importe quels autres points selon une certaine distance.
+\end{Definition}
+
+\begin{figure}[h!]
+  \centering
+ % \includegraphics[width=0.8\linewidth,page=2]{fig/2-mot/tri/mot-voronoi.pdf}
+  \caption{Diagramme de Voronoï d'ordre 0 et d'ordre n}
+\end{figure}
+
+Leurs graphes duales, les triangulations de Delaunay possèdent des propriétés intéressantes.
 
 \begin{Definition}{Triangulation de Delaunay d'ordre 0 de l'ensemble $\mathcal{S}$}\\
 \label{def:tri-del-0}
@@ -186,7 +205,11 @@ En réalisant l'union de nos $\alpha$-shape pour le cas négatif et le cas posit
 
 \begin{Definition}{Triangulation de Delaunay d'ordre n de l'ensemble $\mathcal{S}$}\\
 \label{def:tri-del-n}
-  La triangulation de Delaunay d'ordre n est une triangulation ou chaque disque circonscrit au triangle contient tous les points de l'ensemble dans son intérieur.
+  La triangulation de Delaunay d'ordre n est une triangulation ou chaque disque circonscrit au triangle contient tous les points de l'ensemble.
 \end{Definition}
 
-% Dessins
+\begin{figure}[h!]
+  \centering
+ % \includegraphics[width=0.4\linewidth,page=2]{fig/2-mot/tri/mot-delaunay.pdf}
+  \caption{Triangulation de Delaunay d'ordre 0 et d'ordre n}
+\end{figure}

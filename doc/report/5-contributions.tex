@@ -49,7 +49,7 @@ L'algorithme commence de similairement avec la recherche d'un point de départ. 
   \caption{Départ du calcul de l'$\alpha$-shape}
 \end{figure}
 
-Pour ce faire, on utilise un prédicat qui compare la taille du rayon du cercle circonscrit à un triangle formé par trois point T(a, b, c) : \textbf{r} à la taille du rayon de notre disque généralisé de rayon -1/$\alpha$ : \textbf{R_{$\alpha$}}. En éffet, si \textbf{r>Rf} alors le point b n'appartient pas à notre disque généralisé. Cela signifique que notre $\alpha$-hull ne peut rejoindre c par a sans au moins passé par b.
+Pour ce faire, on utilise un prédicat qui compare la taille du rayon du cercle circonscrit à un triangle formé par trois point T(a, b, c) : \textbf{r} à la taille du rayon de notre disque généralisé de rayon -1/$\alpha$ : \textbf{$R_{\alpha}$}. En effet, si \textbf{r>Rf} alors le point b n'appartient pas à notre disque généralisé. Cela signifique que notre $\alpha$-hull ne peut rejoindre c par a sans au moins passé par b.
 
 
 \begin{figure}[h!]
@@ -78,15 +78,41 @@ Lorsque une recherche dichotomique est lancé et abouti sur un triangle. Cela si
 \subsubsection{Résultats}
 
 Les résultats présentés sont : 
-
-\begin{tabular}{|l|c||c|c|}
-\hline
-Rayons & Prédicat & Nb Sommets & Nb Sommets / $R^{2/3}$\\
-\hline
-
-\hline
-\end{tabular} 
-
+\begin{table}[h!]
+  \begin{tabular}{|p{0.09\linewidth}|p{0.13\linewidth}||p{0.23\linewidth}||p{0.23\linewidth}|p{0.23\linewidth}|}
+    \hline
+    \multicolumn{2}{|c||}{Rayon} & prédicat               & \multicolumn{2}{|c|}{$\alpha-shape$} \\  \hline 
+    $R=2^k$  &                   & $-\alpha = R^{2}/1000$ & \multicolumn{2}{|c|}{Nombre de sommets} \\ \hline
+    k        & R                 &                        & \# & $\# / R^{2/3}$ \\ 
+    \hline
+    5 & 32 & 1,024 & 179,02 & 17,761\\
+    6 & 64 & 4,096 & 272,92 & 17,0575\\
+    7 & 128 & 16,384 & 472,19 & 18,5913\\
+    8 & 256 & 65,536 & 774,45 & 19,2088\\
+    9 & 512 & 262,144 & 1,30E+03 & 20,3259\\
+    10 & 1024 & 1,05E+03 & 2,14E+03 & 21,0878\\
+    11 & 2048 & 4,19E+03 & 3,54E+03 & 21,9549\\
+    12 & 4096 & 1,68E+04 & 5,68E+03 & 22,1878\\
+    13 & 8192 & 6,71E+04 & 9,25E+03 & 22,7644\\
+    14 & 16384 & 2,68E+05 & 1,49E+04 & 23,0413\\
+    15 & 32768 & 1,07E+06 & 2,38E+04 & 23,2816\\
+    16 & 65536 & 4,29E+06 & 3,84E+04 & 23,6175\\
+    17 & 131072 & 1,72E+07 & 6,17E+04 & 23,9124\\
+    18 & 262144 & 6,87E+07 & 9,89E+04 & 24,15\\
+    19 & 524288 & 2,75E+08 & 1,59E+05 & 24,4137\\
+    20 & 1048576 & 1,10E+09 & 2,54E+05 & 24,5914\\
+    21 & 2097152 & 4,40E+09 & 4,06E+05 & 24,7603\\
+    22 & 4194304 & 1,76E+10 & 6,49E+05 & 24,9402\\
+    23 & 8388608 & 7,04E+10 & 1,04E+06 & 25,073\\
+    24 & 16777216 & 2,81E+11 & 1,65E+06 & 25,2002\\
+    25 & 33554432 & 1,13E+12 & 2,63E+06 & 25,3061\\
+    26 &  &  &  & \\
+    27 &  &  &  &  \\
+    28 &  &  &  &  \\
+    \hline
+  \end{tabular} 
+  \caption{Temps de calcul de l'enveloppe convexe}
+\end{table}
 
 
 %-----------------------------------------------------------------
@@ -104,12 +130,5 @@ Notre version de l'algorithme s'appuie ici sur les sommets de l'enveloppe convex
 
 Les résultats présentés sont : 
 
-\begin{tabular}{|l|c||c|c|}
-\hline
-Rayons & Prédicat & Nb Sommets & Nb Sommets / $R^{2/3}$\\
-\hline
-
-\hline
-\end{tabular} 
 
 
