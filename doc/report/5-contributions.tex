@@ -2,32 +2,28 @@
 \section{Contributions}
 %------------------------------------------------
 
-% Intro à refaire
+% Intro à refaire 
 %-----------------------------------------------------------------
-\subsection{Triangulation de Delaunay d'un motif}
+\subsection{Triangulation de Delaunay}
 %-----------------------------------------------------------------
 
-
-La construction de notre enveloppe convexe nous a amené à construire ses arêtes. Nous avons ainsi construit une série de segment de droite englobant tous les points à l'intérieur de notre disque. De manière encore plus fines, nous avons construit une série de motif associé à chaque segment de droite que nous pouvons relié à leur triangulation de Delaunay. Or, les $\alpha$-shapes s’appuient également sur l'utilisation de la triangulation de Delaunay, d'ordre 0 lorsque $\alpha \leq 0$ et d'ordre n lorsque $\alpha \geq 0$. On a également vu qu'il était possible d'utiliser un algorithme "Output Sensitive" pour le calcul de l'enveloppe convexe.
-
-La problématique de ce stage est de chercher à trouver s'il est possible de calculer les $\alpha$-shapes de manière output sensitive en s'appuyant sur le calcul des convergents et par la suite d'implémenter un tel algorithme.  
+Le calcul de l'enveloppe convexe donne les sommets adjacents. On peut construire le polygone convexe par arête. Ces arêtes forment une suite de segment. Chaque segment se compose d'une répétition de motif. Ces motifs possèdent une triangulation de Delaunay bien particulière pouvant être calculer. \cite{RoussillonL11}
 
 
+La triangulation de Delaunay des motif permet en s'appuyant sur certaines propriétés de construire les $\alpha$-shapes. \cite{EdKirSei83}
 
-%-----------------------------------------------------------------
-\subsubsection{Segment de droite discrète}
+Lemme 1,
+Une $\alpha$-shape de $\mathcal{S}$ est un sous-graphe de la triangulation de Delaunay.
 
-On peut définir une droite discrète comme l'ensemble des points compris dans un tube d'une largeur de un.
+Lemme 2,
+Pour tout point $p \in \mathcal{S}$, il existe un réel $\alpha_{max}(p)$ tel que $p$ soit un $\alpha$-extrême de $\mathcal{S}$ si et seulement si $\alpha \leq \alpha_{max}(p)$.
 
-\begin{Definition}{Segment de droite discrète de direction $b / a$ partant de $0$}
-\label{def:sdd}
-    $$\mathcal{d} =  \left\{ (x,y) \in \mathbb{Z}^{2} |  0 \leq b x + a y \leq 1. \right\}$$
-\end{Definition}
+Lemme 3,
+Toutes arêtes $e$ de notre triangulation de Delaunay est également une arête de l'$\alpha$-shape s'il existe $\alpha_{mi,}(e) \leq \alpha_{max}(e)$ tel que $\alpha_{min}(e) \leq \alpha \leq \alpha_{max}(e)$.
 
-%PICS de droite discrètes.
-%passage aux motifs, rapport au fraction continue
+En construisant les motiifs des segments de droite et en vérifiant si leurs triangluations de Delaunay vérifient des propriétés de comparaison, on peut construire les $\alpha$-shapes.
 
-Les segments de droites discrètes sont des objets aux propriétés combinatoires et arithmétiques remarquables. Les morceaux spécifiques de ses segments qui se répètent sont appelés des motifs. Il a été montré que des relations entre les motifs et la triangulation de Delaunay existent. Il est donc possible de construire la triangulation de Delaunay à partir de l'étude de ses motifs et donc à partir du coefficient rationnel du segment de droite discrète.
+Le problème posé lors de ce stage est de chercher comment est-il possible de calculer les $\alpha$-shapes de manières output sensitive en s'appuyant sur le calcul de convergents et d'implémenter la solution.
 
 
 %-----------------------------------------------------------------
@@ -37,15 +33,16 @@ Les segments de droites discrètes sont des objets aux propriétés combinatoire
 %-----------------------------------------------------------------
 \subsubsection{Construction de l'algorithme}
 
-Le principe de l’algorithme est assez simple. On cherche à reproduire le schéma du calcul de l’enveloppe convexe. Néanmoins, à chaque convergents à l'intérieur du disque on va contrôler s'il est possible pour lui d'être atteint par le rayon d'un disque généralisé. 
+Le principe de l’algorithme est assez simple. On cherche à reproduire le schéma du calcul de l’enveloppe convexe. Néanmoins, à chaque convergents à l'intérieur du disque on va contrôler s'il construit une arête de l'$\alpha$-shape.
 
-L'algorithme commence de similairement avec la recherche d'un point de départ. La même méthode sera utilisée pour trouver le point le plus en bas à droite.
-À partir de ce point de départ, on va lancer les convergents pour étudier les sommets potentiels qui se trouve à l'intérieur de disque (convergent de degré impaire et convergent de degré pair exactement sur le bord du disque). À chaque convergent trouvé à l'intérieur, on va vérifier que la construction de l'$\alpha$-hull est possible et contient bien l'ensemble des points de notre disque. 
+L'algorithme commence similairement avec la recherche d'un point de départ. La même méthode sera utilisée pour trouver le point le plus d'ordonnée minimale et d'abscisse maximale. Comme il appartient à l'enveloppe convexe, il appartient aussi à l'$\alpha$-shape.
+
+À partir de ce point de départ, on va lancer une série de convergents pour étudier les arêtes $e$ potentiels. Les convergents se trouvent alternativement à l'intérieur de disque (convergent de degré impaire et convergent de degré pair exactement sur le bord du disque). À chaque convergent trouvé à l'intérieur, on vérifie que la construction de l'$\alpha$-shape soit possible en comparant notre plus grand $\alpha_{max}(e)$ avec $\alpha$. 
 
 \begin{figure}[h!]
   \centering
- % \includegraphics[width=0.4\linewidth]{fig/5-con/nas/con-depart-0.pdf}
- % \includegraphics[width=0.4\linewidth]{fig/5-con/nas/con-depart-1.pdf}
+%\includegraphics[width=0.4\linewidth]{fig/5-con/nas/con-depart-0.pdf}
+% \includegraphics[width=0.4\linewidth]{fig/5-con/nas/con-depart-1.pdf}
   \caption{Départ du calcul de l'$\alpha$-shape}
 \end{figure}
 
@@ -58,7 +55,7 @@ Pour ce faire, on utilise un prédicat qui compare la taille du rayon du cercle 
   \caption{Prédicat}
 \end{figure}
 
-Il faut donc vérifier tous les triangles formés par tous les points à l'intérieur de notre disque étant sur le jeté de rayon. Néanmoins de part la construction, la taille des rayons est croissante. Il suffit donc de tester le dernier et plus grand pour savoir si l'on peut continuer nos lancés de convergents ou si l'on peut lancer une recherche dichotomique pour trouver le point à l'intérieur qui deviendra un $\alpha$-extrême.
+De part la construction, la taille des $\alpha_{max}(e)$ est croissante. Il suffit donc de tester le dernier et plus grand pour savoir si l'on peut continuer nos lancés de convergents ou si l'on peut lancer une recherche dichotomique pour trouver le point à l'intérieur qui deviendra un $\alpha$-extrême.
 
 \begin{figure}[h!]
   \centering
