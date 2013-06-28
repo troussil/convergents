@@ -6,13 +6,13 @@
 \subsection{Suivi de Bord}
 %-----------------------------------------------------------------
 
-La méthode du suivi de bord d'un bord d'un disque discret est un processus étudié et connu. La méthode est sensiblement la même suivant le cas souhaité : 4-connexes et respectivement 8-connexes. La méthode comporte deux étapes. 
+La méthode du suivi du bord d'un bord d'un disque discret est un processus étudié et connu. Elle est sensiblement la même suivant le cas souhaité : 4-connexes ou 8-connexes. Elle se décompose en deux étapes. Trouver un point sur le bord, puis chercher les points suivants jusqu'à retrouver le premier point.
 % on - nous
 
 %-----------------------------------------------------------------
 \subsubsection{Trouver le sommet de départ}
 
-La première étape consiste à établir un point de départ pour notre algorithme. Nous devons en effet trouver un premier point sur le bord du disque. Nous avons choisi de rechercher le point d'ordonnée minimale et d'abscisse maximal à l'intérieur du disque. Pour ce faire, nous prenons le point de $\mathcal{Z}^2$ possédant les coordonnées entières de notre centre. À partir de ce point, nous descendons le long de l'axe verticale d'une longueur égale au rayon pour commencer la recherche du point à l'intérieur du disque de plus petite abscisse. Une fois ce point trouvé, nous tranlatons suivant l'axe horizontal afin de trouver notre point de départ à l'intérieur du cercle avec une ordonnée minimale et un abscisse maximal : a. 
+Pour lancer l'algorithme, il faut rechercher un point sur le bord du disque. Nous avons choisi de récupérer le point d'ordonnée minimale et d'abscisse maximal à l'intérieur du disque. Par concstruction, ce point appartient toujours au bord. Pour ce faire, nous prenons le point de $\mathcal{Z}^2$ possédant les coordonnées entières de notre centre. À partir de ce point, nous descendons le long de l'axe verticale d'une longueur entière égale au rayon pour trouver un point d'ordonnée miniamle. Ensuite, nous tranlatons suivant l'axe horizontal afin de trouver le point d'abscisse maximal. On note a notre point de départ. 
 
 \begin{figure}[h!]
   \centering
@@ -25,9 +25,9 @@ La première étape consiste à établir un point de départ pour notre algorith
 %-----------------------------------------------------------------
 \subsubsection{Trouver le sommet suivant}
 
-La deuxième étape s'appuie sur une recherche incrémentale cherchant successivement le sommet suivant à partir du sommet précédement trouvé.
+La deuxième étape consiste à trouver le sommet suivant de appartenant à notre bord et d'itérer cette étape tant que le bord du disque n'est pas refermé.
 
-Le sommet suivant est choisi suivant la position des voisins 4-connexes (resp 8-connexes) et du sens de rotation. Pour notre étude nous avons délibérément pris le parti de tourner dans le sens trigonométrique. En partance de notre point de départ et afin de tourner dans le sens trigonométrique nous choisirons le premier voisin à l'intérieur parmi le choix ordonnée de $\left\{E, N, O, S\right\}$ dans le cas 4-connnexes(resp :  $\left\{E, NE, N, NO, O, SO, S, SE \right\}$ dans le cas 8-connexes).
+Le sommet suivant est choisi suivant la position des 4-voisins (resp 8-voisins) et du sens de rotation. Pour notre étude nous avons délibérément pris le parti de tourner dans le sens trigonométrique. En partance de notre point de départ et afin de tourner dans le sens trigonométrique nous choisirons le premier voisin à l'intérieur parmi le choix ordonnée de $\left\{E, N, O, S\right\}$ dans le cas 4-connnexes(resp :  $\left\{E, NE, N, NO, O, SO, S, SE \right\}$ dans le cas 8-connexes).
 
 \begin{figure}[h!]
   \centering
@@ -40,7 +40,7 @@ Le sommet suivant est choisi suivant la position des voisins 4-connexes (resp 8-
 \subsection{Enveloppe Convexe : Algorithme de Har-Peled}
 %-----------------------------------------------------------------
 
-Le calcul d'une $\alpha$-shape pour $\alpha$ = 0 revient à calculer l'enveloppe convexe de notre disque discret. Calculer une enveloppe convexe est particulièrement étudié. De nombreux algorithmes existes : Parcours de Graham, Marche de Jarvis... 
+Le calcul de l'enveloppe convexe est particulièrement étudié. De nombreux algorithmes existes : Parcours de Graham, Marche de Jarvis... 
 
 Une méthode particulièrement performante à néanmoins retenue notre attention. Elle a été introduite par Har-Peled en 98 \cite{HarPeled98}. Il y présente un algorithme de calcul de l'enveloppe convexe qui est incrémental et output sensitive.
 
@@ -99,7 +99,6 @@ La méthode s’arrêtant quand enfin un convergent $p_{k}$ est exactement sur l
 \end{table}
 
 
-
 %relié le tout à la fraction continue et revenir un peu à la méthode d'Euclide.
 
 %-----------------------------------------------------------------
@@ -119,9 +118,9 @@ Ainsi, nous récupérons successivement les sommets de l'enveloppe convexe jusqu
 
 \subsubsection{Résultats}
 
-On présente ici nos résultats obtenus qui sont conformes à ceux de la publication \cite{HarPeled98}. La procédure utilisée a été sensiblement la même en simulant pour chaque rayon augmentant d'un facteur deux, cent disques dont le centre est compris dans le carré $[0,1]\times[0,1]$.
+Les résultats suivant ont été obtenu en calculant une moyenne sur 100 disques de rayon $2^k$ possédant un centre à coordonnée rationnel compris dans $[0,1]\times[0,1]$. Afin de vérifié la convergence en $O(R_{D}^{2/3})$, nous avons également choisit de récuperer dans un tableau la moyenne par rayon de la division du nombre de sommets de l'enveloppe convexe sur le rayon à la puissance 2/3.
 
-On s'intéresse également à vérifié l'intérêt de notre algorithme par rapport à la marche de Graham qui nous a permit de vérifier la justesse de nos calculs. 
+On s'intéresse également à vérifié la complexité en temps de notre algorithme. On le compare notamment à la marche de Graham qui nous a été implémentée pour vérifier la justesse de nos calculs. 
 
 \begin{figure}[h!]
   \centering
@@ -178,35 +177,39 @@ On s'intéresse également à vérifié l'intérêt de notre algorithme par rapp
     $R=2^k$  &  &  \multicolumn{3}{c|}{Enveloppe Convexe}  \\ \hline
     k & R & Marche de Grahaam & Har-Peled - Sommets & Har-Peled - Bord \\
     \hline
-5 & 32 & 0,64 & 1,05 &  1,98\\
-6 & 64 & 1,18 & 1,87 &  3,77\\
-7 & 128 & 2,33 & 3,3 &  7,08\\
-8 & 256 & 4,64 & 5,86 &  13,02\\
-9 & 512 & 9,25 & 10,29 &  23,99\\
-10 & 1024 & 32,5 & 17,9 &  43,34\\
-11 & 2048 & 37,03 & 31,13 &  78,05\\
-12 & 4096 & 74,55 & 53,75 &  139,12\\
-13 & 8192 & 149,03 & 92,57 &  247,36\\
-14 & 16384 & 297,79 & 159,44 &  433,88\\
-15 & 32768 & 596,22 & 272,74 &  760,20\\
-16 & 65536 & 1,19E+03 & 466,51 &  1,32E+003\\
-17 & 131072 & 2,37E+03 & 795,09 &  2,30E+003\\
-18 & 262144 & 4,73E+03 &  1,35E+003  &  3,99E+003\\
-19 & 524288 & 9,47E+03 &  2,29E+003  &  6,88E+003\\
-20 & 1048576 & 1,89E+04 &  3,88E+003  &  1,18E+004\\
-21 & 2097152 & 3,79E+04 &  6,58E+003  &  2,02E+004\\
-22 & 4194304 & 7,58E+04 &  1,11E+004  &  3,45E+004\\
-23 & 8388608 & 1,52E+05 &  1,86E+004  &  5,88E+004\\
-24 & 16777216 & 3,03E+05 &  3,13E+004  &  1,00E+005\\
-25 & 33554432 &  &  5,26E+004  &  1,70E+005\\
-26 & 67108864 &  &  8,80E+004  &  2,87E+005\\
-27 & 134217728 &  &  1,46E+005  &  4,82E+005\\
-28 & 268435456 &  &  2,33E+005  &  8,85E+005\\
-
+    5 & 32 & 0,64 & 1,05 &  1,98\\
+    6 & 64 & 1,18 & 1,87 &  3,77\\
+    7 & 128 & 2,33 & 3,3 &  7,08\\
+    8 & 256 & 4,64 & 5,86 &  13,02\\
+    9 & 512 & 9,25 & 10,29 &  23,99\\
+    10 & 1024 & 32,5 & 17,9 &  43,34\\
+    11 & 2048 & 37,03 & 31,13 &  78,05\\
+    12 & 4096 & 74,55 & 53,75 &  139,12\\
+    13 & 8192 & 149,03 & 92,57 &  247,36\\
+    14 & 16384 & 297,79 & 159,44 &  433,88\\
+    15 & 32768 & 596,22 & 272,74 &  760,20\\
+    16 & 65536 & 1,19E+03 & 466,51 &  1,32E+003\\
+    17 & 131072 & 2,37E+03 & 795,09 &  2,30E+003\\
+    18 & 262144 & 4,73E+03 &  1,35E+003  &  3,99E+003\\
+    19 & 524288 & 9,47E+03 &  2,29E+003  &  6,88E+003\\
+    20 & 1048576 & 1,89E+04 &  3,88E+003  &  1,18E+004\\
+    21 & 2097152 & 3,79E+04 &  6,58E+003  &  2,02E+004\\
+    22 & 4194304 & 7,58E+04 &  1,11E+004  &  3,45E+004\\
+    23 & 8388608 & 1,52E+05 &  1,86E+004  &  5,88E+004\\
+    24 & 16777216 & 3,03E+05 &  3,13E+004  &  1,00E+005\\
+    25 & 33554432 &  &  5,26E+004  &  1,70E+005\\
+    26 & 67108864 &  &  8,80E+004  &  2,87E+005\\
+    27 & 134217728 &  &  1,46E+005  &  4,82E+005\\
+    28 & 268435456 &  &  2,33E+005  &  8,85E+005\\
     \hline
   \end{tabular} 
   \caption{Temps de calcul de l'enveloppe convexe}
 \end{table}
+
+
+Nos résultats obtenus sont conformes à ceux de la publication \cite{HarPeled98}. On remarque que la moyenne asymptotique par rayon de la division du nombre de sommets de l'enveloppe convexe sur le rayon à la puissance 2/3 est 3,45. Des anomalies commencent à apparaitre pour des rayons de la taille de $2^{27} = 134217728$. Il convient de chercher à comprendre d'où elles viennent afin de mieux cerner les possibles limitations de notre algorithme.\\
+
+Le graphique représentant les temps est également intéressant. On observe avec l'echelle logarithmique que la complexité en temps est sous-linéaire pour la méthode de Har-Peled. La méthode devient d'ailleurs plus intéressante en terme de temps de calcul à partir d'un certain rayon : .
 
 
 
