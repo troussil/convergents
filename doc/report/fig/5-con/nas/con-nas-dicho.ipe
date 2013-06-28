@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70005" creator="Ipe 7.1.1">
-<info created="D:20130604104208" modified="D:20130628164152"/>
+<info created="D:20130604104208" modified="D:20130628174714"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -455,7 +455,7 @@ h
 144 448 l
 208 464 l
 </path>
-<path stroke="black">
+<path stroke="black" arrow="normal/normal">
 64 384 m
 80 432 l
 </path>
@@ -643,5 +643,13 @@ h
 <text matrix="1 0 0 1 -8.28402 -18.9349" transformations="translations" pos="400.06 538.039" stroke="darkblue" type="label" width="8.745" height="6.923" depth="1.49" valign="baseline">$b_5$</text>
 <text matrix="1 0 0 1 -2.36686 -11.8343" transformations="translations" pos="456.865 543.365" stroke="darkblue" type="label" width="8.745" height="6.923" depth="1.49" valign="baseline">$b_6$</text>
 <text matrix="1 0 0 1 3.5503 -5.32544" transformations="translations" pos="65.7408 443.956" stroke="darkblue" type="label" width="8.745" height="6.923" depth="1.49" valign="baseline">$b_0$</text>
+<path stroke="black" arrow="normal/normal">
+80 432 m
+144 448 l
+</path>
+<text matrix="1 0 0 1 -32 0" transformations="translations" pos="192 400" stroke="darkblue" type="label" width="16.657" height="6.808" depth="2.49" valign="baseline">$R_{T_{0}}$</text>
+<text transformations="translations" pos="288 432" stroke="darkblue" type="label" width="16.657" height="6.808" depth="2.49" valign="baseline">$R_{T_{1}}$</text>
+<text transformations="translations" pos="416 464" stroke="darkblue" type="label" width="16.657" height="6.808" depth="2.49" valign="baseline">$R_{T_{2}}$</text>
+<text transformations="translations" pos="480 512" stroke="darkblue" type="label" width="16.657" height="6.808" depth="2.49" valign="baseline">$R_{T_{4}}$</text>
 </page>
 </ipe>
