@@ -8,12 +8,12 @@
 %-----------------------------------------------------------------
 
 
-L'enveloppe convexe est unique. Les algorithmes implantés fournissent les sommets dans l'ordre trigonométrique. Il est possible de reconstruire le polygône convexe et d'en déduire ses arêtes. Elles se décomposent en motif de droites discrètes. Un motif de droite discrète est inclue dans les segments de droites discrètes. La triangulation de Delaunay de ces motifs est connue. \cite{RoussillonL11}\\
+L'enveloppe convexe est unique. Les algorithmes implantés fournissent les sommets dans l'ordre trigonométrique. Il est possible de reconstruire le polygone convexe et d'en déduire ses arêtes. Elles se décomposent en motif de droites discrètes. Un motif de droite discrète est inclue dans les segments de droites discrètes. La triangulation de Delaunay de ces motifs est connue. \cite{RoussillonL11}\\
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.5\linewidth]{fig/5-con/tri/con-motif-0.pdf}
-  \caption{Triangulation de Delaunauy d'un motif de droite discrète}
+  \caption{Triangulation de Delaunay d'un motif de droite discrète}
 \end{figure}
 
 La triangulation de Delaunay dépend des convergents. Le dernier convergent différent de l'arête du segment de droite discrète est le sommet du triangle incident de la triangulation de Delaunay. À l'aide d'un calcul récursif, il est possible de construire l'intégralité de la triangulation de Delaunay.
@@ -21,10 +21,10 @@ La triangulation de Delaunay dépend des convergents. Le dernier convergent diff
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.5\linewidth]{fig/5-con/tri/con-conv-0.pdf}
-  \caption{Calcul de concvergent et triangulation de Delaunauy}
+  \caption{Calcul de convergents et triangulations de Delaunauy}
 \end{figure}
 
-Comme les convergents sont calculés dans l'algorihtme de Har-Peled, il est probable de pouvoir construire l'$\alpha$-shape directement. 
+Comme les convergents sont calculés dans l’algorithme de Har-Peled, il est probable de pouvoir construire l'$\alpha$-shape directement. 
 
 %-----------------------------------------------------------------
 \subsection{$\alpha$-shape, $\alpha \leq 0$ - Généralisation de Har-Peled}
@@ -37,7 +37,7 @@ La méthode de calcul de l'$\alpha$-shape pour $\alpha <0 $reproduit le schéma 
 
 L'algorithme commence similairement par la recherche du point de départ. La même méthode sera utilisée pour trouver le point d'ordonnée minimale et d'abscisse maximale. Comme il appartient à l'enveloppe convexe, il appartient également à l'$\alpha$-shape.
 
-À partir de ce point de départ, nous lancons une série de convergents pour étudier les arêtes $e$ potentiels. Les convergents se trouvent alternativement à l'intérieur de disque (convergent de degré impaire) et à l'extérieur où exactement sur le bord du disque (convergent de degré pair). À chaque convergent à l'intérieur (de couleur bleue foncé), on contrôle la possibilité d'avoir trouvé un sommet.
+À partir de ce point de départ, nous lançons une série de convergents pour étudier les arêtes $e$ potentiels. Les convergents se trouvent alternativement à l'intérieur de disque (convergent de degré impaire) et à l'extérieur où exactement sur le bord du disque (convergent de degré pair). À chaque convergent à l'intérieur (de couleur bleue foncé), on contrôle la possibilité d'avoir trouvé un sommet.
 
 \begin{figure}[H]
   \centering
@@ -55,7 +55,7 @@ Notons $b = p_{k-2} + (q_k - 1) * p_{k-1}$ et $c = p_k = p_{k-2} + q_k * p_{k-1}
 
 Si $\alpha = \alpha_{2}$ alors \textbf{$R_{\alpha_{2}} < R_T$} et le point b appartient au notre disque généralisé de rayon $-1/R_{\alpha_{2}}$ ( b appartient au complémentaire du disque de rayon $1/R_{\alpha_{2}}$). On ne sait pas encore si le convergent c sera un sommet de l'$\alpha$-shape, mais on sait que b n'en sera pas un. Nous pouvons continuer le calcul des convergents.\\ 
 
-Si $\alpha = \alpha_{1}$ alors \textbf{$R_{\alpha_{1}} > R_T$} et le point b n'appartient pas à notre disque généralisé de rayon $-1/R_{\alpha_{1}}$. L'$\alpha$-hull ne peut rejoindre c par a sans au moins passé par b. b et c appartiennent à notre $\alpha$-shape. Il faut maintenant vérifier si les points $b_i = p_{k-2} + i*p_{k-1} \forall i \in [0, q_k-2]$ appartiennent églament à l'$\alpha$-shape. \\
+Si $\alpha = \alpha_{1}$ alors \textbf{$R_{\alpha_{1}} > R_T$} et le point b n'appartient pas à notre disque généralisé de rayon $-1/R_{\alpha_{1}}$. L'$\alpha$-hull ne peut rejoindre c par a sans au moins passé par b. b et c appartiennent à notre $\alpha$-shape. Il faut maintenant vérifier si les points $b_i = p_{k-2} + i*p_{k-1} \forall i \in [0, q_k-2]$ appartiennent également à l'$\alpha$-shape. \\
 
 De part la construction des triangles, la taille des rayons de leur cercle circonscrit $R_{T_{i}}$ est croissante. Il suffit de tester le dernier et plus grand pour savoir si nous pouvons continuer notre algorithme et lancer les convergents suivants ou si nous devons déterminer quel sera le point $\alpha$-extrême par une recherche dichotomique. La recherche dichotomique permet de trouver en $log(q_k)$ le triangle adéquate $T_i = (a, b_{i}, b_{i+1}$ tel que $R_{T_i} > R_{\alpha}$ et $R_{T_{i-1}} \leq R_{\alpha}$.
 
@@ -133,7 +133,7 @@ Les processus de création des disques $\mathcal{D}$ est le même que lors du ca
 
 La méthode de calcul de l'$\alpha$-shape pour $\alpha > 0$ est fondamentalement différentes des méthodes de calculs présentées précédemment. La méthode n'est plus incrémentale mais de type ``Bottom-Up''. L'algorithme part du cas critique de l'enveloppe convexe. L'ensemble des sommets de l'$\alpha$-shape est un sous-ensemble des sommets de l'enveloppe convexe. 
 
-L'algorithme commence également différement des autres déjà présentés. Le départ est en deux phases. Il faut d'une part récupérer un point de départ pertinent mais également l'ensemble des sommets de l'enveloppe convexe. Le point d'ordonnée minimale et d'abscisse maximale n'est plus néccéssairement dans l'$\alpha$-shape. Un mauvais point de départ engendrerait un calcul potentiellement faux. Pour être certain de notre départ, nous ne le calculons pas mais le choisissons par construction parmi l'un des trois sommets du triangle composant le cercle circonscrit. Ensuite, nous récupérons à partir de ce point l'ensemble des sommets de l'enveloppe convexe du disque discret. On note $\mathcal{S}$ cet ensemble.
+L'algorithme commence également différemment des autres déjà présentés. Le départ est en deux phases. Il faut d'une part récupérer un point de départ pertinent mais également l'ensemble des sommets de l'enveloppe convexe. Le point d'ordonnée minimale et d'abscisse maximale n'est plus nécessairement dans l'$\alpha$-shape. Un mauvais point de départ engendrerait un calcul potentiellement faux. Pour être certain de notre départ, nous ne le calculons pas mais le choisissons par construction parmi l'un des trois sommets du triangle composant le cercle circonscrit. Ensuite, nous récupérons à partir de ce point l'ensemble des sommets de l'enveloppe convexe du disque discret. On note $\mathcal{S}$ cet ensemble.
 
 \begin{figure}[H]
   \centering
@@ -155,7 +155,7 @@ On note $b = p_{k-2} + (q_k - 1) * p_{k-1}$ et $c = p_k = p_{k-2} + q_k * p_{k-1
 \end{figure}
 
 
-Si $\alpha = \alpha_{1}$ alors \textbf{$R_{\alpha_{1}} < R_T$} et le point b appartient au notre disque généralisé de rayon $-1/R_{\alpha_{1}}$. Il est possible de rejoindre c par a à l'aide d'un arc de cercle dont le disque comprend l'ensemble des points de $\mathcal{D}$. b appartient à l'$\alpha$-hull, mais n'appartient pas à l'$\alpha$-shape. On continue la procedure pour étudier les sommets suivants. a reste inchangé, b devient c et c devient le sommet suivant de $\mathcal{S}$.
+Si $\alpha = \alpha_{1}$ alors \textbf{$R_{\alpha_{1}} < R_T$} et le point b appartient au notre disque généralisé de rayon $-1/R_{\alpha_{1}}$. Il est possible de rejoindre c par a à l'aide d'un arc de cercle dont le disque comprend l'ensemble des points de $\mathcal{D}$. b appartient à l'$\alpha$-hull, mais n'appartient pas à l'$\alpha$-shape. On continue la procédure pour étudier les sommets suivants. a reste inchangé, b devient c et c devient le sommet suivant de $\mathcal{S}$.
 
 \begin{figure}[H]
   \centering

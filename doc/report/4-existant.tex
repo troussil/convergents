@@ -12,7 +12,7 @@ La méthode du suivi du bord d'un bord d'un disque discret est un processus étu
 %-----------------------------------------------------------------
 \subsubsection{Trouver le sommet de départ}
 
-Pour lancer l'algorithme, il faut rechercher un point sur le bord du disque. Nous avons choisi de récupérer le point d'ordonnée minimale et d'abscisse maximal à l'intérieur du disque. Par concstruction, ce point appartient toujours au bord. Pour ce faire, nous prenons le point de $\mathcal{Z}^2$ possédant les coordonnées entières de notre centre. À partir de ce point, nous descendons le long de l'axe verticale d'une longueur entière égale au rayon pour trouver un point d'ordonnée miniamle. Ensuite, nous tranlatons suivant l'axe horizontal afin de trouver le point d'abscisse maximal. On note a notre point de départ. 
+Pour lancer l'algorithme, il faut rechercher un point sur le bord du disque. Nous avons choisi de récupérer le point d'ordonnée minimale et d'abscisse maximal à l'intérieur du disque. Par construction, ce point appartient toujours au bord. Pour ce faire, nous prenons le point de $\mathcal{Z}^2$ possédant les coordonnées entières de notre centre. À partir de ce point, nous descendons le long de l'axe verticale d'une longueur entière égale au rayon pour trouver un point d'ordonnée miniamle. Ensuite, nous translatons suivant l'axe horizontal afin de trouver le point d'abscisse maximal. On note a notre point de départ. 
 
 \begin{figure}[H]
   \centering
@@ -118,9 +118,9 @@ Ainsi, nous récupérons successivement les sommets de l'enveloppe convexe jusqu
 
 \subsubsection{Résultats}
 
-Les résultats suivant ont été obtenu en calculant une moyenne sur 100 disques de rayon $2^k$ possédant un centre à coordonnée rationnel compris dans $[0,1]\times[0,1]$. Afin de vérifié la convergence en $O(R_{D}^{2/3})$, nous avons également choisit de récuperer dans un tableau la moyenne par rayon de la division du nombre de sommets de l'enveloppe convexe sur le rayon à la puissance 2/3.
+Les résultats suivant ont été obtenu en calculant une moyenne sur 100 disques de rayon $2^k$ possédant un centre à coordonnée rationnel compris dans $[0,1]\times[0,1]$. Afin de vérifié la convergence en $O(R_{D}^{2/3})$, nous avons également choisit de récupérer dans un tableau la moyenne par rayon de la division du nombre de sommets de l'enveloppe convexe sur le rayon à la puissance 2/3.
 
-On s'intéresse également à vérifié la complexité en temps de notre algorithme. On le compare notamment à la marche de Graham qui nous a été implémentée pour vérifier la justesse de nos calculs. 
+On s'intéresse également à vérifié la complexité en temps de notre algorithme. On le compare notamment à la marche de Grahaam qui nous a été implémentée pour vérifier la justesse de nos calculs. 
 
 \begin{figure}[H]
   \centering
@@ -207,9 +207,9 @@ On s'intéresse également à vérifié la complexité en temps de notre algorit
 \end{table}
 
 
-Nos résultats obtenus sont conformes à ceux de la publication \cite{HarPeled98}. On remarque que la moyenne asymptotique de la division du nombre moyen de sommets de l'enveloppe convexe sur le rayon à la puissance 2/3 est 3,45. Des anomalies commencent à apparaitre pour des rayons de la taille de $2^{27} = 134217728$. Il convient de chercher à comprendre d'où elles viennent afin de mieux cerner les possibles limitations de notre algorithme.\\
+Nos résultats obtenus sont conformes à ceux de la publication \cite{HarPeled98}. On remarque que la moyenne asymptotique de la division du nombre moyen de sommets de l'enveloppe convexe sur le rayon à la puissance 2/3 est 3,45. Des anomalies commencent à apparaître pour des rayons de la taille de $2^{27} = 134217728$. Il convient de chercher à comprendre d'où elles viennent afin de mieux cerner les possibles limitations de notre algorithme.\\
 
-Le graphique représentant les temps est également intéressant. On observe avec l'echelle logarithmique que la complexité en temps est sous-linéaire pour la méthode de Har-Peled. La méthode devient d'ailleurs plus intéressante que la marche de Grahaam en terme de temps de calcul à partir d'un certain rayon : .
+Le graphique représentant les temps est également intéressant. On observe avec l'échelle logarithmique que la complexité en temps est sous-linéaire pour la méthode de Har-Peled. La méthode devient d'ailleurs plus intéressante que la marche de Grahaam en terme de temps de calcul à partir d'un certain rayon : .
 
 
 
