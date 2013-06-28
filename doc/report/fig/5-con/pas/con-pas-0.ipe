@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70005" creator="Ipe 7.1.3">
-<info created="D:20130628162130" modified="D:20130628225549"/>
+<info created="D:20130628223450" modified="D:20130628225518"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -233,63 +233,98 @@ h
 <layer name="alpha"/>
 <view layers="alpha" active="alpha"/>
 <path layer="alpha" stroke="lightgray">
-112 464 m
-288 464 l
-</path>
-<path stroke="lightgray">
-288 416 m
-112 416 l
-</path>
-<path stroke="lightgray">
-112 368 m
-288 368 l
-</path>
-<path stroke="lightgray">
-272 480 m
-272 336 l
-</path>
-<path stroke="lightgray">
-224 336 m
-224 480 l
-</path>
-<path stroke="lightgray">
-176 480 m
-176 336 l
-</path>
-<path stroke="lightgray">
-128 336 m
-128 480 l
+144 576 m
+144 352 l
+368 352 l
+368 576 l
+144 576 l
+144 560 l
+368 560 l
+368 544 l
+144 544 l
+144 528 l
+368 528 l
+368 512 l
+144 512 l
+144 496 l
+368 496 l
+368 480 l
+144 480 l
+144 464 l
+368 464 l
+368 448 l
+144 448 l
+144 432 l
+368 432 l
+368 416 l
+144 416 l
+144 400 l
+368 400 l
+368 384 l
+144 384 l
+144 368 l
+368 368 l
+368 352 l
+352 352 l
+352 576 l
+336 576 l
+336 352 l
+320 352 l
+320 576 l
+304 576 l
+304 352 l
+288 352 l
+288 576 l
+272 576 l
+272 352 l
+256 352 l
+256 576 l
+240 576 l
+240 352 l
+224 352 l
+224 576 l
+208 576 l
+208 352 l
+192 352 l
+192 576 l
+176 576 l
+176 352 l
+160 352 l
+160 576 l
 </path>
 <path stroke="black">
-272 464 m
-128 368 l
-128 368 l
+102.883 0 0 102.883 256 469 e
 </path>
 <path stroke="black">
-128 368 m
-176 416 l
-272 464 l
-</path>
-<use name="mark/disk(sx)" pos="176 416" size="normal" stroke="darkblue"/>
-<use name="mark/disk(sx)" pos="128 368" size="normal" stroke="darkblue"/>
-<use name="mark/disk(sx)" pos="272 464" size="normal" stroke="darkblue"/>
-<text matrix="1 0 0 1 125.549 107.317" transformations="translations" pos="134.738 360.299" stroke="darkblue" type="label" valign="baseline">a</text>
-<text matrix="1 0 0 1 -6.69354 -12.5996" transformations="translations" pos="169.78 431.172" stroke="darkblue" type="label" valign="baseline">b</text>
-<text matrix="1 0 0 1 -162.95 -87.0954" transformations="translations" pos="278.846 458.734" stroke="darkblue" type="label" valign="baseline">c</text>
-<path stroke="darkmagenta">
-121.596 336.015 m
-139.686 0 0 -139.686 260.827 324.745 288.043 461.754 a
+160 432 m
+352 432 l
+304 560 l
+160 432 l
 </path>
 <path stroke="darkblue">
-112.016 345.069 m
-273.151 0 0 -273.151 343.723 200.42 288.025 467.832 a
+352 432 m
+352 496 l
+336 528 l
+304 560 l
+208 560 l
+176 528 l
+160 496 l
+160 432 l
+208 384 l
+256 368 l
+304 384 l
+352 432 l
 </path>
-<path stroke="darkorange">
-287.978 470.58 m
-486.447 0 0 486.447 465.417 17.6502 111.972 351.876 a
-</path>
-<text matrix="1 0 0 1 -8.15433 -3.49471" transformations="translations" pos="194.97 438.143" stroke="darkblue" type="label" valign="baseline">$R_T$</text>
-<text matrix="1 0 0 1 -9.08625 -3.02875" transformations="translations" pos="179.826 449.559" stroke="darkmagenta" type="label" valign="baseline">$R_{\alpha_{1}}$</text>
-<text matrix="1 0 0 1 -11.649 -7.45539" transformations="translations" pos="221.763 423.465" stroke="darkorange" type="label" valign="baseline">$R_{\alpha_{2}}$</text>
+<use name="mark/disk(sx)" pos="208 560" size="normal" stroke="darkblue"/>
+<use name="mark/disk(sx)" pos="176 528" size="normal" stroke="darkblue"/>
+<use name="mark/disk(sx)" pos="160 496" size="normal" stroke="darkblue"/>
+<use name="mark/disk(sx)" pos="208 384" size="normal" stroke="darkblue"/>
+<use name="mark/disk(sx)" pos="256 368" size="normal" stroke="darkblue"/>
+<use name="mark/disk(sx)" pos="304 384" size="normal" stroke="darkblue"/>
+<use name="mark/disk(sx)" pos="352 496" size="normal" stroke="darkblue"/>
+<use name="mark/disk(sx)" pos="336 528" size="normal" stroke="darkblue"/>
+<use name="mark/disk(sx)" pos="304 560" size="normal" stroke="red"/>
+<use name="mark/disk(sx)" pos="352 432" size="normal" stroke="red"/>
+<use name="mark/disk(sx)" pos="160 432" size="normal" stroke="red"/>
 </page>
 </ipe>

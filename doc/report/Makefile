@@ -1,7 +1,7 @@
 LOG=evince
 TEX=tl-rapport
 
-FIGSRC = $(wildcard fig/2-mot/circle/*.ipe  fig/2-mot/as/*.ipe fig/2-mot/connexe/*.ipe fig/4-exi/suivi/*.ipe fig/4-exi/har/*.ipe fig/5-con/tri/*.ipe fig/5-con/nas/*.ipe)
+FIGSRC = $(wildcard fig/2-mot/circle/*.ipe  fig/2-mot/as/*.ipe fig/2-mot/connexe/*.ipe fig/4-exi/suivi/*.ipe fig/4-exi/har/*.ipe fig/5-con/tri/*.ipe fig/5-con/nas/*.ipe fig/5-con/pas/*.ipe)
 
 FIGOBJ = $(FIGSRC:.ipe=.pdf)
 
@@ -23,7 +23,10 @@ fig/5-con/tri/%.pdf: fig/5-con/tri/%.ipe
 	ipetoipe -pdf $<
 fig/5-con/nas/%.pdf: fig/5-con/nas/%.ipe
 	ipetoipe -pdf $<
-	
+fig/5-con/pas/%.pdf: fig/5-con/pas/%.ipe
+	ipetoipe -pdf $<
+
+
 paper:
 	pdflatex $(TEX).tex
 	bibtex $(TEX)
