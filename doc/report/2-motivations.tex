@@ -175,19 +175,22 @@ Une propriété \cite{EdeKirSei83} des de l'union des $\alpha$-shape pour le cas
 %-----------------------------------------------------------------
 % à refaire
 
-Tout ensemble discret est représenté par un ensemble dénombrable de points. Il existe une multitude de combinaisons possibles pour relier les points entre eux. En étudiant leur diagramme de proximité : les diagrammes de Voronoï on construit implicitement leurs graphes duales, les triangulations de Delaunay.
+Tout ensemble discret peut s'ecrire comme un ensemble dénombrable de points. Le construction d'une surface à partir de cet ensemble de points est souvent réaliser par l'étude des diagrammes de proximité : les diagrammes de Voronoï de l'ensemble de points. on construit implicitement leurs graphes duales, les triangulations de Delaunay.
+
 
 %-----------------------------------------------------------------
 \subsubsection{Diagramme de Voronoï}
 
+Les diagrammes de Voronoï sont nommés d'après le mathématicien russe Georgi Voronoï : 1868-1908.
+
 \begin{Definition}{Diagramme de Voronoï d'ordre 0 d'un ensemble de point $\mathcal{S}$}\\
 \label{def:tri-vor-0}
-  Le diagramme de Voronoï d'ordre 0 réalise une partition dans $\mathbb{R}^2$ où chaque point de $\mathcal{S}$ est inclue dans une partie contenant les points de $\mathbb{R}^2$ le plus proches de lui selon une certaine distance.
+  Le diagramme de Voronoï d'ordre 0 réalise une partition dans $\mathbb{R}^2$ où chaque point de $\mathcal{S}$ est inclue dans une cellule convexe contenant les points de $\mathbb{R}^2$ plus proches de ce point que de tous les autres selon une certaine distance.
 \end{Definition}
 
  \begin{Definition}{Diagramme de Voronoï d'ordre n de l'ensemble $\mathcal{S}$}\\
 \label{def:tri-vor-n}
-   Le diagramme de Voronoï d'ordre n réalise une partition dans $\mathbb{R}^2$ où chaque point de $\mathcal{S}$ est associé à une partie contenant les points de $\mathbb{R}^2$ plus loin de lui que de n'importe quels autres points selon une certaine distance.
+   Le diagramme de Voronoï d'ordre n réalise une partition dans $\mathbb{R}^2$ où chaque point de $\mathcal{S}$ est associé à une cellule convexe contenant les points de $\mathbb{R}^2$ plus loin de lui que de n'importe quels autres points selon une certaine distance.
 \end{Definition}
 
 \begin{figure}[h!]
@@ -196,7 +199,7 @@ Tout ensemble discret est représenté par un ensemble dénombrable de points. I
   \caption{Diagramme de Voronoï d'ordre 0 et d'ordre n}
 \end{figure}
 
-Leurs graphes duales, les triangulations de Delaunay possèdent des propriétés intéressantes.
+Leurs graphes duales, les triangulations de Delaunay possèdent des propriétés intéressantes.  Elles ont été nommées d'après le mathématicien russe Boris Delone : 1890-1980.
 
 \begin{Definition}{Triangulation de Delaunay d'ordre 0 de l'ensemble $\mathcal{S}$}\\
 \label{def:tri-del-0}
