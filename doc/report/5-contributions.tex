@@ -4,27 +4,27 @@
 
 % Intro à refaire 
 %-----------------------------------------------------------------
-\subsection{Triangulation de Delaunay}
+\subsection{Relations aux triangulations de Delaunay}
 %-----------------------------------------------------------------
 
-Le calcul de l'enveloppe convexe donne les sommets adjacents. On peut construire le polygone convexe par arête. Ces arêtes forment une suite de segment. Chaque segment se compose d'une répétition de motif. Ces motifs possèdent une triangulation de Delaunay bien particulière pouvant être calculer. \cite{RoussillonL11}
 
+L'enveloppe convexe est unique. Les algorithmes implantés fournissent les sommets dans l'ordre trigonométrique. Il est possible de reconstruire le polygône convexe et d'en déduire ses arêtes. Elles se décomposent en motif de droites discrètes. Un motif de droite discrète est inclue dans les segments de droites discrètes. La triangulation de Delaunay de ces motifs est connue. \cite{RoussillonL11}\\
 
-La triangulation de Delaunay des motif permet en s'appuyant sur certaines propriétés de construire les $\alpha$-shapes. \cite{EdKirSei83}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\linewidth]{fig/5-con/tri/con-motif-0.pdf}
+  \caption{Triangulation de Delaunauy d'un motif de droite discrète}
+\end{figure}
 
-Lemme 1,
-Une $\alpha$-shape de $\mathcal{S}$ est un sous-graphe de la triangulation de Delaunay.
+La triangulation de Delaunay dépend des convergents. Le dernier convergent différent de l'arête du segment de droite discrète est le sommet du triangle incident de la triangulation de Delaunay. À l'aide d'un calcul récursif, il est possible de construire l'intégralité de la triangulation de Delaunay.
 
-Lemme 2,
-Pour tout point $p \in \mathcal{S}$, il existe un réel $\alpha_{max}(p)$ tel que $p$ soit un $\alpha$-extrême de $\mathcal{S}$ si et seulement si $\alpha \leq \alpha_{max}(p)$.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\linewidth]{fig/5-con/tri/con-conv-0.pdf}
+  \caption{Calcul de concvergent et triangulation de Delaunauy}
+\end{figure}
 
-Lemme 3,
-Toutes arêtes $e$ de notre triangulation de Delaunay est également une arête de l'$\alpha$-shape s'il existe $\alpha_{mi,}(e) \leq \alpha_{max}(e)$ tel que $\alpha_{min}(e) \leq \alpha \leq \alpha_{max}(e)$.
-
-En construisant les motiifs des segments de droite et en vérifiant si leurs triangluations de Delaunay vérifient des propriétés de comparaison, on peut construire les $\alpha$-shapes.
-
-Le problème posé lors de ce stage est de chercher comment est-il possible de calculer les $\alpha$-shapes de manières output sensitive en s'appuyant sur le calcul de convergents et d'implémenter la solution.
-
+Comme les convergents sont calculés dans l'algorihtme de Har-Peled, il est probable de pouvoir construire l'$\alpha$-shape directement. 
 
 %-----------------------------------------------------------------
 \subsection{$\alpha$-shape, $\alpha \leq 0$ - Généralisation de Har-Peled}
@@ -33,49 +33,48 @@ Le problème posé lors de ce stage est de chercher comment est-il possible de c
 %-----------------------------------------------------------------
 \subsubsection{Construction de l'algorithme}
 
-Le principe de l’algorithme est assez simple. On cherche à reproduire le schéma du calcul de l’enveloppe convexe. Néanmoins, à chaque convergents à l'intérieur du disque on va contrôler s'il construit une arête de l'$\alpha$-shape.
+Pour construire notre $\alpha$-shape, nous allons reproduire le schéma du calcul de l’enveloppe convexe. Néanmoins, nous allons ajouter une étape pour chaque convergent à l'intérieur du disque afin de contrôler la possibilité d'avoir construit une arête de l'$\alpha$-shape.
 
-L'algorithme commence similairement avec la recherche d'un point de départ. La même méthode sera utilisée pour trouver le point le plus d'ordonnée minimale et d'abscisse maximale. Comme il appartient à l'enveloppe convexe, il appartient aussi à l'$\alpha$-shape.
+L'algorithme commence similairement par la recherche d'un point de départ. La même méthode sera utilisée pour trouver le point le plus d'ordonnée minimale et d'abscisse maximale. Comme il appartient à l'enveloppe convexe, il appartient également à l'$\alpha$-shape.
 
-À partir de ce point de départ, on va lancer une série de convergents pour étudier les arêtes $e$ potentiels. Les convergents se trouvent alternativement à l'intérieur de disque (convergent de degré impaire et convergent de degré pair exactement sur le bord du disque). À chaque convergent trouvé à l'intérieur, on vérifie que la construction de l'$\alpha$-shape soit possible en comparant notre plus grand $\alpha_{max}(e)$ avec $\alpha$. 
+À partir de ce point de départ, nous lancer une série de convergents pour étudier les arêtes $e$ potentiels. Les convergents se trouvent alternativement à l'intérieur de disque (convergent de degré impaire et convergent de degré pair exactement sur le bord du disque). À chaque convergent à l'intérieur (de couleur bleue foncé, on vérifie que la construction de l'$\alpha$-shape soit possible en comparant notre plus grand $\alpha_{max}(e)$ avec $\alpha$. 
 
-\begin{figure}[h!]
+\begin{figure}[H]
   \centering
-%\includegraphics[width=0.4\linewidth]{fig/5-con/nas/con-depart-0.pdf}
-% \includegraphics[width=0.4\linewidth]{fig/5-con/nas/con-depart-1.pdf}
-  \caption{Départ du calcul de l'$\alpha$-shape}
+  \includegraphics[width=0.6\linewidth]{fig/5-con/nas/con-nas-0.pdf}
+  \caption{Calcul des convergents}
 \end{figure}
 
 Pour ce faire, on utilise un prédicat qui compare la taille du rayon du cercle circonscrit à un triangle formé par trois point T(a, b, c) : \textbf{r} à la taille du rayon de notre disque généralisé de rayon -1/$\alpha$ : \textbf{$R_{\alpha}$}. En effet, si \textbf{r>Rf} alors le point b n'appartient pas à notre disque généralisé. Cela signifique que notre $\alpha$-hull ne peut rejoindre c par a sans au moins passé par b.
 
 
-\begin{figure}[h!]
+\begin{figure}[H]
   \centering
-  %\includegraphics[width=0.8\linewidth]{fig/5-con/nas/con-depart-0.pdf}
-  \caption{Prédicat}
+  \includegraphics[width=0.6\linewidth]{fig/5-con/nas/con-nas-1.pdf}
+  \caption{Calcul du Prédicat}
 \end{figure}
 
 De part la construction, la taille des $\alpha_{max}(e)$ est croissante. Il suffit donc de tester le dernier et plus grand pour savoir si l'on peut continuer nos lancés de convergents ou si l'on peut lancer une recherche dichotomique pour trouver le point à l'intérieur qui deviendra un $\alpha$-extrême.
 
-\begin{figure}[h!]
+\begin{figure}[H]
   \centering
-  %\includegraphics[width=0.8\linewidth]{fig/5-con/nas/con-depart-0.pdf}
+  \includegraphics[width=0.8\linewidth]{fig/5-con/nas/con-nas-dicho.pdf}
   \caption{Taille croissante des rayons des cerlces circonscrits au triangle.}
 \end{figure}
 
 Lorsque une recherche dichotomique est lancé et abouti sur un triangle. Cela signifie que tous les points à partir de b jusqu'à c appartiennent au bord de l'$\alpha$-shape.
 
-\begin{figure}[h!]
+\begin{figure}[H]
   \centering
   %\includegraphics[width=0.8\linewidth]{fig/5-con/nas/con-depart-0.pdf}
-  \caption{Nouveaux points et sommets de l'$\alpha$-shape.}
+  %\caption{Nouveaux points et sommets de l'$\alpha$-shape.}
 \end{figure}
 
 %-----------------------------------------------------------------
 \subsubsection{Résultats}
 
 Les résultats présentés sont : 
-\begin{table}[h!]
+\begin{table}[H]
   \begin{tabular}{|p{0.09\linewidth}|p{0.13\linewidth}||p{0.23\linewidth}||p{0.23\linewidth}|p{0.23\linewidth}|}
     \hline
     \multicolumn{2}{|c||}{Rayon} & prédicat               & \multicolumn{2}{|c|}{$\alpha-shape$} \\  \hline 

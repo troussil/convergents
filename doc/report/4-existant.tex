@@ -14,7 +14,7 @@ La méthode du suivi du bord d'un bord d'un disque discret est un processus étu
 
 Pour lancer l'algorithme, il faut rechercher un point sur le bord du disque. Nous avons choisi de récupérer le point d'ordonnée minimale et d'abscisse maximal à l'intérieur du disque. Par concstruction, ce point appartient toujours au bord. Pour ce faire, nous prenons le point de $\mathcal{Z}^2$ possédant les coordonnées entières de notre centre. À partir de ce point, nous descendons le long de l'axe verticale d'une longueur entière égale au rayon pour trouver un point d'ordonnée miniamle. Ensuite, nous tranlatons suivant l'axe horizontal afin de trouver le point d'abscisse maximal. On note a notre point de départ. 
 
-\begin{figure}[h!]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.4\linewidth,page=1]{fig/4-exi/suivi/exi-depart-0.pdf}
   \includegraphics[width=0.4\linewidth,page=1]{fig/4-exi/suivi/exi-depart-1.pdf}
@@ -29,7 +29,7 @@ La deuxième étape consiste à trouver le sommet suivant de appartenant à notr
 
 Le sommet suivant est choisi suivant la position des 4-voisins (resp 8-voisins) et du sens de rotation. Pour notre étude nous avons délibérément pris le parti de tourner dans le sens trigonométrique. En partance de notre point de départ et afin de tourner dans le sens trigonométrique nous choisirons le premier voisin à l'intérieur parmi le choix ordonnée de $\left\{E, N, O, S\right\}$ dans le cas 4-connnexes(resp :  $\left\{E, NE, N, NO, O, SO, S, SE \right\}$ dans le cas 8-connexes).
 
-\begin{figure}[h!]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.4\linewidth,page=1]{fig/4-exi/suivi/exi-suivi-0.pdf}
   \caption{Suivi de bord 4-connexes et 8-connexes}
@@ -74,7 +74,7 @@ On se retrouve donc à effectuer un jeter de rayon de $p_{k-2}$ dans la directio
 La méthode s’arrêtant quand enfin un convergent $p_{k}$ est exactement sur la droite.
 
 
-\begin{figure}[h!]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.4\linewidth]{fig/4-exi/har/exi-har-0.pdf}
   \includegraphics[width=0.4\linewidth]{fig/4-exi/har/exi-har-1.pdf}
@@ -82,7 +82,7 @@ La méthode s’arrêtant quand enfin un convergent $p_{k}$ est exactement sur l
 \end{figure}
 
 
-\begin{table}[h!]
+\begin{table}[H]
   \centering
   \begin{tabular}{|p{0.04\linewidth}|p{0.04\linewidth}|p{0.04\linewidth}||p{0.04\linewidth}|p{0.04\linewidth}||p{0.2\linewidth}||p{0.35\linewidth}|}
     \hline 
@@ -110,7 +110,7 @@ Pour la suite, nous procédons de manière similaire en calculant des suites de 
 
 Ainsi, nous récupérons successivement les sommets de l'enveloppe convexe jusqu'à retomber sur le premier sommet refermant ainsi notre enveloppe.
 
-\begin{figure}[h!]
+\begin{figure}[H]
   \centering
   %\includegraphics[width=0.4\linewidth]{fig/4-exi/har/exi-har-1.pdf}
   \caption{Adaptation du calcul à un disque}
@@ -122,13 +122,13 @@ Les résultats suivant ont été obtenu en calculant une moyenne sur 100 disques
 
 On s'intéresse également à vérifié la complexité en temps de notre algorithme. On le compare notamment à la marche de Graham qui nous a été implémentée pour vérifier la justesse de nos calculs. 
 
-\begin{figure}[h!]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig/4-exi/ch/exi-ch-sommet.png}
   \caption{Sommets et bord de l'enveloppe convexe}
 \end{figure}
 
-\begin{table}[h!]
+\begin{table}[H]
   \begin{tabular}{|p{0.09\linewidth}|p{0.13\linewidth}||p{0.2\linewidth}|p{0.13\linewidth}||p{0.2\linewidth}|p{0.13\linewidth}|}
     \hline
     \multicolumn{2}{|c||}{Rayon} & \multicolumn{4}{c|}{Enveloppe convexe} \\  \hline 
@@ -164,13 +164,13 @@ On s'intéresse également à vérifié la complexité en temps de notre algorit
   \caption{Sommet et bord de l'enveloppe convexe}
 \end{table}
 
-\begin{figure}[h!]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig/4-exi/ch/exi-ch-temps.png}
   \caption{Temps de calcul de l'enveloppe convexe}
 \end{figure}
 
-\begin{table}[h!]
+\begin{table}[H]
   \begin{tabular}{|p{0.09\linewidth}|p{0.13\linewidth}||p{0.23\linewidth}|p{0.23\linewidth}|p{0.23\linewidth}|}
     \hline
     \multicolumn{2}{|c||}{Rayon} & \multicolumn{3}{c|}{Temps de calcul (ms) } \\  \hline 

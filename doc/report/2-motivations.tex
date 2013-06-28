@@ -121,7 +121,7 @@ Un disque généralisé permet de définir des disques avec des rayons négatifs
     $$\cap \left\{ \mathcal{D}_{\alpha} | \mathcal{S} \in \mathcal{D}_{\alpha} \right\}$$
 \end{Definition}
 
-\begin{figure}[h!]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.4\linewidth,page=1]{fig/2-mot/as/mot-alpha-shape.pdf}
   \includegraphics[width=0.4\linewidth,page=3]{fig/2-mot/as/mot-alpha-shape.pdf}
@@ -136,7 +136,7 @@ Les sommets de $\alpha$-hull sont appelés points $\alpha$-extrêmes. S'ils sont
       Graphe plongé dans le plan reliant tous les points $\alpha$-extrêmes adjacents par des segments de droite.
 \end{Definition}
 
-\begin{figure}[h!]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.4\linewidth,page=2]{fig/2-mot/as/mot-alpha-shape.pdf}
   \includegraphics[width=0.4\linewidth,page=4]{fig/2-mot/as/mot-alpha-shape.pdf}
@@ -193,7 +193,7 @@ Les diagrammes de Voronoï sont nommés d'après le mathématicien russe Georgi 
    Le diagramme de Voronoï d'ordre n réalise une partition dans $\mathbb{R}^2$ où chaque point de $\mathcal{S}$ est associé à une cellule convexe contenant les points de $\mathbb{R}^2$ plus loin de lui que de n'importe quels autres points selon une certaine distance.
 \end{Definition}
 
-\begin{figure}[h!]
+\begin{figure}[H]
   \centering
  % \includegraphics[width=0.8\linewidth,page=2]{fig/2-mot/tri/mot-voronoi.pdf}
   \caption{Diagramme de Voronoï d'ordre 0 et d'ordre n}
@@ -211,8 +211,23 @@ Leurs graphes duales, les triangulations de Delaunay possèdent des propriétés
   La triangulation de Delaunay d'ordre n est une triangulation ou chaque disque circonscrit au triangle contient tous les points de l'ensemble.
 \end{Definition}
 
-\begin{figure}[h!]
+\begin{figure}[H]
   \centering
  % \includegraphics[width=0.4\linewidth,page=2]{fig/2-mot/tri/mot-delaunay.pdf}
   \caption{Triangulation de Delaunay d'ordre 0 et d'ordre n}
 \end{figure}
+
+
+Les triangulations de Delaunay sont reliées aux $\alpha$-shapes possèdent par certaines propriétés. \cite{EdeKirSei83}
+
+\begin{Lemma}
+  Une $\alpha$-shape de $\mathcal{S}$ est un sous-graphe de la triangulation de Delaunay.
+\end{Lemma}
+
+\begin{Lemma}
+  Pour tout point $p \in \mathcal{S}$, il existe un réel $\alpha_{max}(p)$ tel que $p$ soit un $\alpha$-extrême de $\mathcal{S}$ si et seulement si $\alpha \leq \alpha_{max}(p)$.
+\end{Lemma}
+
+\begin{Lemma}
+  Toutes arêtes $e$ de notre triangulation de Delaunay est également une arête de l'$\alpha$-shape s'il existe $\alpha_{mi,}(e) \leq \alpha_{max}(e)$ tel que $\alpha_{min}(e) \leq \alpha \leq \alpha_{max}(e)$.
+\end{Lemma}
