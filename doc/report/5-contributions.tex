@@ -33,11 +33,11 @@ Comme les convergents sont calculés dans l'algorihtme de Har-Peled, il est prob
 %-----------------------------------------------------------------
 \subsubsection{Construction de l'algorithme}
 
-Pour construire notre $\alpha$-shape, nous allons reproduire le schéma du calcul de l’enveloppe convexe. Néanmoins, nous allons ajouter une étape pour chaque convergent à l'intérieur du disque afin de contrôler la possibilité d'avoir construit une arête de l'$\alpha$-shape.
+La méthode de calcul de l'$\alpha$-shape reproduire le schéma de départ du calcul de l’enveloppe convexe. Néanmoins, nous ajoutons une étape pour chaque convergent à l'intérieur du disque afin de contrôler la possibilité d'avoir construit une arête de l'$\alpha$-shape.
 
-L'algorithme commence similairement par la recherche d'un point de départ. La même méthode sera utilisée pour trouver le point le plus d'ordonnée minimale et d'abscisse maximale. Comme il appartient à l'enveloppe convexe, il appartient également à l'$\alpha$-shape.
+L'algorithme commence similairement par la recherche du point de départ. La même méthode sera utilisée pour trouver le point d'ordonnée minimale et d'abscisse maximale. Comme il appartient à l'enveloppe convexe, il appartient également à l'$\alpha$-shape.
 
-À partir de ce point de départ, nous lancer une série de convergents pour étudier les arêtes $e$ potentiels. Les convergents se trouvent alternativement à l'intérieur de disque (convergent de degré impaire et convergent de degré pair exactement sur le bord du disque). À chaque convergent à l'intérieur (de couleur bleue foncé, on vérifie que la construction de l'$\alpha$-shape soit possible en comparant notre plus grand $\alpha_{max}(e)$ avec $\alpha$. 
+À partir de ce point de départ, nous lancons une série de convergents pour étudier les arêtes $e$ potentiels. Les convergents se trouvent alternativement à l'intérieur de disque (convergent de degré impaire) et à l'extérieur où exactement sur le bord du disque (convergent de degré pair). À chaque convergent à l'intérieur (de couleur bleue foncé), on contrôle la possibilité d'avoir trouvé un sommet.
 
 \begin{figure}[H]
   \centering
@@ -45,8 +45,7 @@ L'algorithme commence similairement par la recherche d'un point de départ. La m
   \caption{Calcul des convergents}
 \end{figure}
 
-Pour ce faire, on utilise un prédicat qui compare la taille du rayon du cercle circonscrit à un triangle formé par trois point T(a, b, c) : \textbf{r} à la taille du rayon de notre disque généralisé de rayon -1/$\alpha$ : \textbf{$R_{\alpha}$}. En effet, si \textbf{r>Rf} alors le point b n'appartient pas à notre disque généralisé. Cela signifique que notre $\alpha$-hull ne peut rejoindre c par a sans au moins passé par b.
-
+On note $b = p_{k-2} + (q_k - 1) * p_{k-1}$ et $c = p_k = p_{k-2} + q_k * p_{k-1}$. Pour savoir si c est un sommet, on utilise un prédicat qui compare la taille du rayon \textbf{R_T} du cercle circonscrit au triangle : T(a, b, c) à la taille du rayon de notre disque généralisé : \textbf{$R_{\alpha}} = -1/\alpha$. Il faut distinguer deux cas de figures.\\
 
 \begin{figure}[H]
   \centering
@@ -54,15 +53,20 @@ Pour ce faire, on utilise un prédicat qui compare la taille du rayon du cercle 
   \caption{Calcul du Prédicat}
 \end{figure}
 
-De part la construction, la taille des $\alpha_{max}(e)$ est croissante. Il suffit donc de tester le dernier et plus grand pour savoir si l'on peut continuer nos lancés de convergents ou si l'on peut lancer une recherche dichotomique pour trouver le point à l'intérieur qui deviendra un $\alpha$-extrême.
+Si \textbf{$R_{\alpha_{1}} > R_T$} alors le point b appartient au notre disque généralisé de rayon $-1/R_{\alpha_{1}}$ ( b appartient au complémentaire du disque de rayon $-1/R_{\alpha_{1}}$). On ne sait pas encore si le convergent c sera un sommet de l'$\alpha$-shape, mais on sait que b n'en sera pas un. Nous pouvons continuer le calcul des convergents.\\ 
+
+Si \textbf{$R_{\alpha_{1}} < R_T$} alors le point b n'appartient pas à notre disque généralisé de rayon $-1/R_{\alpha_{1}}$ ( b n'appartient pas au complémentaire du disque de rayon $-1/R_{\alpha_{1}}$). L'$\alpha$-hull ne peut rejoindre c par a sans au moins passé par b. b et c appartiennent à notre $\alpha$-shape. Il faut maintenant vérifier si les points $b_i = p_{k-2} + i*p_{k-1} \forall i \in [0, q_k-2]$ appartiennent églament à l'$\alpha$-shape. \\
+
+De part la construction des triangles, la taille des rayons de leur cercle circonscrit $R_{T_{i}}$ est croissante. Il suffit de tester le dernier et plus grand pour savoir si nous pouvons continuer notre algorithme et lancer les convergents suivants ou si nous devons déterminer quel sera le point $\alpha$-extrême par une recherche dichotomique. La recherche dichotomique permet de trouver en log(q_k) le triangle adéquate $T_i = (a, b_i, b_{i+1}$ tel que $ R_{T_i} > R_{\alpha}$ et $ R_{T_{i-1}} \leq R_{\alpha}$.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.8\linewidth]{fig/5-con/nas/con-nas-dicho.pdf}
+  \includegraphics[width=\linewidth]{fig/5-con/nas/con-nas-dicho.pdf}
   \caption{Taille croissante des rayons des cerlces circonscrits au triangle.}
 \end{figure}
 
-Lorsque une recherche dichotomique est lancé et abouti sur un triangle. Cela signifie que tous les points à partir de b jusqu'à c appartiennent au bord de l'$\alpha$-shape.
+Le triangle renvoyé par la méthode dichotomique assure que l'ensemble $\left\{ b_i,..., b_{q_k}, c \rigt\}$ appartient à l'$\alpha$-shape.
+ 
 
 \begin{figure}[H]
   \centering
