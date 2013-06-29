@@ -6,13 +6,12 @@
 \subsection{Suivi de Bord}
 %-----------------------------------------------------------------
 
-La méthode du suivi du bord d'un bord d'un disque discret est un processus étudié et connu. Elle est sensiblement la même suivant le cas souhaité : 4-connexes ou 8-connexes. Elle se décompose en deux étapes. Trouver un point sur le bord, puis chercher les points suivants jusqu'à retrouver le premier point.
-% on - nous
+La méthode du suivi du bord d'un disque discret est un processus étudié et connu. Elle est sensiblement la même suivant le cas souhaité : 4-connexes ou 8-connexes. Elle se décompose en deux étapes. Trouver un point sur le bord, puis chercher les points suivants jusqu'à retrouver le premier point pour refermer le cercle.
 
 %-----------------------------------------------------------------
 \subsubsection{Trouver le sommet de départ}
 
-Pour lancer l'algorithme, il faut rechercher un point sur le bord du disque. Nous avons choisi de récupérer le point d'ordonnée minimale et d'abscisse maximal à l'intérieur du disque. Par construction, ce point appartient toujours au bord. Pour ce faire, nous prenons le point de $\mathcal{Z}^2$ possédant les coordonnées entières de notre centre. À partir de ce point, nous descendons le long de l'axe verticale d'une longueur entière égale au rayon pour trouver un point d'ordonnée miniamle. Ensuite, nous translatons suivant l'axe horizontal afin de trouver le point d'abscisse maximal. On note a notre point de départ. 
+Afin de lancer l'algorithme, il faut rechercher un point de départ sur le bord du disque. Nous avons choisi de récupérer le point d'ordonnée minimale et d'abscisse maximal à l'intérieur du disque. Par construction, ce point appartient toujours au bord. Pour ce faire, nous prenons le point de $\mathcal{Z}^2$ possédant les coordonnées entières de notre centre. À partir de là, nous descendons le long de l'axe vertical d'une longueur entière égale au rayon pour trouver un point d'ordonnée miniamle. Ensuite, nous translatons suivant l'axe horizontal afin de trouver le point d'abscisse maximal. On note \textbf{a} notre point de départ. 
 
 \begin{figure}[H]
   \centering
@@ -27,7 +26,7 @@ Pour lancer l'algorithme, il faut rechercher un point sur le bord du disque. Nou
 
 La deuxième étape consiste à trouver le sommet suivant de appartenant à notre bord et d'itérer cette étape tant que le bord du disque n'est pas refermé.
 
-Le sommet suivant est choisi suivant la position des 4-voisins (resp 8-voisins) et du sens de rotation. Pour notre étude nous avons délibérément pris le parti de tourner dans le sens trigonométrique. En partance de notre point de départ et afin de tourner dans le sens trigonométrique nous choisirons le premier voisin à l'intérieur parmi le choix ordonnée de $\left\{E, N, O, S\right\}$ dans le cas 4-connnexes(resp :  $\left\{E, NE, N, NO, O, SO, S, SE \right\}$ dans le cas 8-connexes).
+Le sommet suivant est choisi suivant la position des 4-voisins (resp 8-voisins) et du sens de rotation. Pour notre étude nous tournons dans le sens trigonométrique. En partance de notre point de départ et afin de satisfaire le sens de rotaton nous choisissons le premier voisin à l'intérieur parmi le choix ordonnée de $\left\{E, N, O, S\right\}$ dans le cas 4-connnexes(resp :  $\left\{E, NE, N, NO, O, SO, S, SE \right\}$ dans le cas 8-connexes).
 
 \begin{figure}[H]
   \centering
@@ -40,8 +39,8 @@ Le sommet suivant est choisi suivant la position des 4-voisins (resp 8-voisins) 
 \subsection{Enveloppe Convexe : Algorithme de Har-Peled}
 %-----------------------------------------------------------------
 
-Le calcul de l'enveloppe convexe est particulièrement étudié. De nombreux algorithmes existes : Parcours de Graham, Marche de Jarvis... 
-
+L'enveloppe convexe est un objet particulièrement étudié. De nombreux algorithmes existes pour le calculer : Parcours de Graham, Marche de Jarvis... 
+%rebosser
 Une méthode particulièrement performante à néanmoins retenue notre attention. Elle a été introduite par Har-Peled en 98 \cite{HarPeled98}. Il y présente un algorithme de calcul de l'enveloppe convexe qui est incrémental et output sensitive.
 
 
@@ -50,28 +49,24 @@ Une méthode particulièrement performante à néanmoins retenue notre attention
       Un algorithme output sensitive possède un temps d’exécution qui dépend de la taille de la sortie.
 \end{Definition}
 
-Dans ce cas de figure bien précis, la méthode présentée dépend du nombre de sommets de notre enveloppe convexe. \\
-
-La méthode permet de construire successivement et rapidement les arêtes de notre polygone. Elle s'appuie sur le calcul de convergents, qui représente le pendant géométrique du calcul du pgcd de deux nombres entiers. 
-En effet, il a été démontré dans ce même article que la complexité en temps de cette algorithme de calcul de l'enveloppe convexe d'un disque de rayon $R_D$ révèle d'une part de la recherche du prochain sommet en $O(log R_D)$ et également du nombre de sommet qui est $O( R_{D}^{2/3})$. Soit une complexité totale en temps de  $O( R_{D}^{2/3} log R_D)$.
-
+Dans notre ce cas, la méthode présentée dépend du nombre de sommets de notre enveloppe convexe. Elle permet de construire successivement et rapidement les arêtes de notre polygone. Elle s'appuie sur le calcul de convergents, qui représente le pendant géométrique du calcul du pgcd de deux nombres entiers (Preuve de l'équivalence en annexe). Il a été démontré dans ce même article que la complexité en temps de cette algorithme de calcul de l'enveloppe convexe d'un disque de rayon $R_D$ révèle d'une part de la recherche du prochain sommet en $O(log R_D)$ et également du nombre de sommet qui est $O( R_{D}^{2/3})$. Soit une complexité totale en temps de  $O( R_{D}^{2/3} log R_D)$.
 
 %-----------------------------------------------------------------
 \subsubsection{Calcul des convergents}
 
-Cette méthode de calcul est géométrique. On transforme notre deux nombres entiers $x, y$ en un point de $\mathbb{Z}^{2}$ qu'on appellera $P = (P_x, P_y)$. À partir de l’origine $O=(0,0)$, on va chercher à trouver le premier point appartenant au segment de droite [O,P]. Le coefficient trouvé correspondant finalement au pgcd de $P_x$ et $P_y$.\\
+Cette méthode de calcul est géométrique. Elle transforme deux nombres entiers $x, y$ en un point de $\mathbb{Z}^{2}$ que nous appellerons $P = (P_x, P_y)$. À partir de l’origine $O=(0,0)$, nous cherchons à trouver le premier point appartenant au segment de droite [O,P]. Le coefficient trouvé correspond au pgcd de $P_x$ et $P_y$.\\
 
-Pour cela on met en place une méthode récursive.\\
+Pour cela nous mettons en place une méthode récursive.\\
 Soient $p_{-2} = (1,0)$ et $p_{-1} = (0,1)$ les deux premiers convergents.\\
 
-Pour trouver les convergents suivants, on va chercher :
+Pour trouver les convergents suivants, nous calculons :
 $$p_{k} = p_{k-2} + q_k * p_{k-1}$$
 
 avec $q_k$ le plus grand entier tel que $p_{k}$ et $p_{k-2}$ soient du même côté de la droite.\\
 
-On se retrouve donc à effectuer un jeter de rayon de $p_{k-2}$ dans la direction de $p_{k-1}$ pour étudier l’intersection du vecteur et le segment de droite de direction $y_P / x_P$.\\
+Nous effectuons un jeter de rayon de $p_{k-2}$ dans la direction de $p_{k-1}$ pour étudier l’intersection du vecteur et du segment de droite de direction $y_P / x_P$.\\
 
-La méthode s’arrêtant quand enfin un convergent $p_{k}$ est exactement sur la droite.
+La méthode s’arrête quand enfin un convergent $p_{k}$ est exactement sur la droite.
 
 
 \begin{figure}[H]
@@ -104,9 +99,9 @@ La méthode s’arrêtant quand enfin un convergent $p_{k}$ est exactement sur l
 %-----------------------------------------------------------------
 \subsubsection{Passage au disque}
 
-La première étape de notre méthode de calcul est identique à celle du suivi de bord. Nous appliquons la même procédure pour trouver le point avec l'ordonnée minimale et l'abscisse maximale. Par définition ce point appartient également à l'enveloppe convexe. 
+La première étape de notre méthode de calcul est identique à celle du suivi de bord. Nous appliquons la même procédure pour trouver le point avec l'ordonnée minimale et l'abscisse maximale. Par définition ce point appartient à l'enveloppe convexe.\\
 
-Pour la suite, nous procédons de manière similaire en calculant des suites de convergents le plus proche du bord du disque. Nous allons alternativement trouver des convergents à l'intérieur du disque lorsque $k$ est impaire et à l'extérieur du disque lorsque $k$ est pair. Nous nous arrêterons si le convergent se situe exactement sur le bord du disque ou bien au dernier convergent de degré impaire lorsque que le jeté de rayon n'est plus effectif.\\
+Pour la suite, nous procédons de manière similaire en calculant les convergents les plus proches du bord du disque. Nous allons alternativement trouver des convergents à l'intérieur du disque lorsque $k$ est impaire et à l'extérieur du disque lorsque $k$ est pair. Nous nous arrêterons si le convergent se situe exactement sur le bord du disque ou bien au dernier convergent de degré impaire lorsque que le jeté de rayon n'est plus effectif.\\
 
 Ainsi, nous récupérons successivement les sommets de l'enveloppe convexe jusqu'à retomber sur le premier sommet refermant ainsi notre enveloppe.
 
@@ -118,7 +113,7 @@ Ainsi, nous récupérons successivement les sommets de l'enveloppe convexe jusqu
 
 \subsubsection{Résultats}
 
-Les résultats suivant ont été obtenu en calculant une moyenne sur 100 disques de rayon $2^k$ possédant un centre à coordonnée rationnel compris dans $[0,1]\times[0,1]$. Afin de vérifié la convergence en $O(R_{D}^{2/3})$, nous avons également choisit de récupérer dans un tableau la moyenne par rayon de la division du nombre de sommets de l'enveloppe convexe sur le rayon à la puissance 2/3.
+Les résultats suivant ont été obtenu en calculant sur une moyenne de 100 disques de rayon $2^k$ possédant un centre à coordonnée rationnel compris dans $[0,1]\times[0,1]$. Afin de vérifier la convergence en $O(R_{D}^{2/3})$, nous avons également récupéré la moyenne par rayon de la division du nombre de sommets de l'enveloppe convexe sur le rayon à la puissance 2/3.
 
 On s'intéresse également à vérifié la complexité en temps de notre algorithme. On le compare notamment à la marche de Grahaam qui nous a été implémentée pour vérifier la justesse de nos calculs. 
 
