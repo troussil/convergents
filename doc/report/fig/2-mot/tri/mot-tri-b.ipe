@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70005" creator="Ipe 7.1.1">
-<info created="D:20130701121531" modified="D:20130701122953"/>
+<info created="D:20130701121531" modified="D:20130701183904"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -481,37 +481,7 @@ h
 136.5 510 l
 </path>
 </group>
-<group layer="delta">
-<path stroke="darkblue">
-248 632 m
-252 624 l
-</path>
-<path stroke="darkblue">
-255.273 668.364 m
-248 632 l
-</path>
-<path stroke="darkblue">
-271.2 560 m
-252 624 l
-</path>
-<path stroke="darkblue">
-248 632 m
-160 632 l
-</path>
-<path stroke="darkblue">
-255.273 668.364 m
-270 688 l
-</path>
-<path stroke="darkblue">
-255.273 668.364 m
-252 688 l
-</path>
-<path stroke="darkblue">
-252 624 m
-320 624 l
-</path>
-</group>
-<path stroke="darkcyan">
+<path layer="delta" stroke="black">
 160 640 m
 160 608 l
 224 560 l
@@ -522,6 +492,20 @@ h
 320 688 l
 160 608 l
 320 576 l
+</path>
+<path stroke="darkcyan">
+93.3809 0 0 93.3809 252 624 e
+</path>
+<path stroke="darkcyan">
+91.214 0 0 91.214 248 632 e
+</path>
+<path stroke="darkcyan">
+357.267 716.618 m
+112.82 0 0 -112.82 255.284 668.373 166.313 737.745 a
+</path>
+<path stroke="darkcyan">
+135.923 527.945 m
+139.203 0 0 -139.203 271.993 557.312 408.084 528.037 a
 </path>
 </page>
 </ipe>

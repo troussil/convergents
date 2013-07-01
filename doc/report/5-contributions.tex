@@ -86,33 +86,34 @@ Les processus de création des disques $\mathcal{D}$ est le même que lors du ca
   \begin{tabular}{|p{0.09\linewidth}|p{0.13\linewidth}||p{0.23\linewidth}||p{0.23\linewidth}|p{0.23\linewidth}|}
     \hline
     \multicolumn{2}{|c||}{Rayon} & prédicat               & \multicolumn{2}{|c|}{$\alpha-shape$} \\  \hline 
-    $R=2^k$  &                   & $-\alpha = R^{2}/1000$ & \multicolumn{2}{|c|}{Nombre de sommets} \\ \hline
+    $R=2^k$  &                   & $-\alpha = R/33$ & \multicolumn{2}{|c|}{Nombre de sommets} \\ \hline
     k        & R                 &                        & \# & $\# / R^{2/3}$ \\ 
     \hline
-    5  & 32        & 1,024    & 179,02   & 17,7610\\
-    6  & 64        & 4,096    & 272,92   & 17,0575\\
-    7  & 128       & 16,384   & 472,19   & 18,5913\\
-    8  & 256       & 65,536   & 774,45   & 19,2088\\
-    9  & 512       & 262,144  & 1,30E+03 & 20,3259\\
-    10 & 1024      & 1,05E+03 & 2,14E+03 & 21,0878\\
-    11 & 2048      & 4,19E+03 & 3,54E+03 & 21,9549\\
-    12 & 4096      & 1,68E+04 & 5,68E+03 & 22,1878\\
-    13 & 8192      & 6,71E+04 & 9,25E+03 & 22,7644\\
-    14 & 16384     & 2,68E+05 & 1,49E+04 & 23,0413\\
-    15 & 32768     & 1,07E+06 & 2,38E+04 & 23,2816\\
-    16 & 65536     & 4,29E+06 & 3,84E+04 & 23,6175\\
-    17 & 131072    & 1,72E+07 & 6,17E+04 & 23,9124\\
-    18 & 262144    & 6,87E+07 & 9,89E+04 & 24,1500\\
-    19 & 524288    & 2,75E+08 & 1,59E+05 & 24,4137\\
-    20 & 1048576   & 1,10E+09 & 2,54E+05 & 24,5914\\
-    21 & 2097152   & 4,40E+09 & 4,06E+05 & 24,7603\\
-    22 & 4194304   & 1,76E+10 & 6,49E+05 & 24,9402\\
-    23 & 8388608   & 7,04E+10 & 1,04E+06 & 25,0730\\
-    24 & 16777216  & 2,81E+11 & 1,65E+06 & 25,2002\\
-    25 & 33554432  & 1,13E+12 & 2,63E+06 & 25,3061\\
-    26 & 67108864  &  &  & \\
-    27 & 134217728 &  &  & \\
-    28 & 268435456 &  &  & \\
+    5  & 32        & 3,2        & 179,02   & 17,7610\\
+    6  & 64        & 6,4        & 272,92   & 17,0575\\
+    7  & 128       & 12,8       & 472,19   & 18,5913\\
+    8  & 256       & 25,6       & 774,45   & 19,2088\\
+    9  & 512       & 51,2       & 1,30E+03 & 20,3259\\
+    10 & 1024      & 102,4      & 2,14E+03 & 21,0878\\
+    11 & 2048      & 204,8      & 3,54E+03 & 21,9549\\
+    12 & 4096      & 409,6      & 5,68E+03 & 22,1878\\
+    13 & 8192      & 819,2      & 9,25E+03 & 22,7644\\
+    14 & 16384     & 1638,4     & 1,49E+04 & 23,0413\\
+    15 & 32768     & 3276,8     & 2,38E+04 & 23,2816\\
+    16 & 65536     & 6553,6     & 3,84E+04 & 23,6175\\
+    17 & 131072    & 13107,2    & 6,17E+04 & 23,9124\\
+    18 & 262144    & 26214,4    & 9,89E+04 & 24,1500\\
+    19 & 524288    & 52428,8    & 1,59E+05 & 24,4137\\
+    20 & 1048576   & 104857,6   & 2,54E+05 & 24,5914\\
+    21 & 2097152   & 209715,2   & 4,06E+05 & 24,7603\\
+    22 & 4194304   & 419430,4   & 6,49E+05 & 24,9402\\
+    23 & 8388608   & 838860,8   & 1,04E+06 & 25,0730\\
+    24 & 16777216  & 1677721,6  & 1,65E+06 & 25,2002\\
+    25 & 33554432  & 3355443,2  & 2,63E+06 & 25,3061\\
+    26 & 67108864  & 6710886,4  &    &  \\
+    27 & 134217728 & 13421772,8 &    &  \\
+    28 & 268435456 & 26843545,6 &    &  \\
+
     \hline
   \end{tabular} 
   \caption{Nombre de sommets de l'$\alpha$-shape}
@@ -163,24 +164,8 @@ Si $\alpha = \alpha_{2}$ alors \textbf{$R_{\alpha_{2}} > R_T$} et le point b n'a
 \end{figure}
 
 %-----------------------------------------------------------------
-\subsubsection{Résultats}
+\subsubsection{Compléxité et perspective}
 
-\begin{figure}[H]
-  \centering
-  %\includegraphics[width=\linewidth]{fig/4-exi/ch/exi-ch-sommet.png}
-  \caption{Nombre de sommets de l'$\alpha$-shape en fonction de la taille des rayons. (Échelle log)}
-\end{figure}
+La version présente de l'algorithme s'appuie sur l'enveloppe convexe selon la méthode de Har-Peled qui récupère les sommets en $O(R^{2/3}_{D})$. On parcourt cette liste une seule fois en éliminant des sommets potentiel ou en ajoutant le sommet à l'alpha-shape. 
 
-
-\begin{table}[H]
-  \begin{tabular}{|p{0.09\linewidth}|p{0.13\linewidth}||p{0.23\linewidth}||p{0.23\linewidth}|p{0.23\linewidth}|}
-    \hline
-    \multicolumn{2}{|c||}{Rayon} & prédicat               & \multicolumn{2}{|c|}{$\alpha-shape$} \\  \hline 
-    $R=2^k$  &                   & $-alpha = k*R^{2}$ & \multicolumn{2}{|c|}{Nombre de sommets} \\ \hline
-    k        & R                 &                        & \# & $\# / R^{2/3}$ \\ 
-    \hline
-    
-    \hline
-  \end{tabular} 
-  \caption{Nombre de sommets de l'$\alpha$-shape}
-\end{table}
+Une perspective de travail serait d'adopter une approche "top-down" qui partant d'un point, ajouterait incrémentalement les sommets de l'alpha-shape. 

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70005" creator="Ipe 7.1.1">
-<info created="D:20130701121531" modified="D:20130701121758"/>
+<info created="D:20130701121531" modified="D:20130701183644"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -233,7 +233,7 @@ h
 <layer name="alpha"/>
 <layer name="beta"/>
 <layer name="gamma"/>
-<view layers="alpha beta gamma" active="gamma"/>
+<view layers="alpha beta" active="beta"/>
 <use layer="alpha" name="mark/disk(sx)" pos="224 688" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="160 640" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="224 560" size="normal" stroke="black"/>
@@ -248,119 +248,119 @@ h
 <use name="mark/disk(sx)" pos="160 608" size="normal" stroke="black"/>
 <use name="mark/disk(sx)" pos="224 592" size="normal" stroke="black"/>
 <group layer="beta">
-<path stroke="darkcyan">
+<path stroke="black">
 320 656 m
 304 608 l
 </path>
-<path stroke="darkcyan">
+<path stroke="black">
 320 576 m
 320 656 l
 </path>
-<path stroke="darkcyan">
+<path stroke="black">
 304 608 m
 320 576 l
 </path>
-<path stroke="darkcyan">
+<path stroke="black">
 224 560 m
 304 608 l
 </path>
-<path stroke="darkcyan">
+<path stroke="black">
 288 640 m
 320 656 l
 </path>
-<path stroke="darkcyan">
+<path stroke="black">
 288 672 m
 320 656 l
 </path>
-<path stroke="darkcyan">
+<path stroke="black">
 320 688 m
 320 656 l
 </path>
-<path stroke="darkcyan">
+<path stroke="black">
 224 592 m
 304 608 l
 </path>
-<path stroke="darkcyan">
+<path stroke="black">
 256 624 m
 224 592 l
 </path>
-<path stroke="darkcyan">
+<path stroke="black">
 288 672 m
 320 688 l
 </path>
-<path stroke="darkcyan">
+<path stroke="black">
 224 688 m
 288 672 l
 </path>
-<path stroke="darkcyan">
+<path stroke="black">
 304 608 m
 288 640 l
 </path>
-<path stroke="darkcyan">
+<path stroke="black">
 256 624 m
 304 608 l
 </path>
-<path stroke="darkcyan">
+<path stroke="black">
 208 640 m
 256 624 l
 </path>
-<path stroke="darkcyan">
+<path stroke="black">
 256 624 m
 224 688 l
 </path>
-<path stroke="darkcyan">
+<path stroke="black">
 256 624 m
 288 640 l
 </path>
-<path stroke="darkcyan">
+<path stroke="black">
 288 672 m
 256 624 l
 </path>
-<path stroke="darkcyan">
+<path stroke="black">
 288 640 m
 288 672 l
 </path>
-<path stroke="darkcyan">
+<path stroke="black">
 224 688 m
 320 688 l
 </path>
-<path stroke="darkcyan">
+<path stroke="black">
 208 640 m
 224 688 l
 </path>
-<path stroke="darkcyan">
+<path stroke="black">
 160 640 m
 208 640 l
 </path>
-<path stroke="darkcyan">
+<path stroke="black">
 224 592 m
 208 640 l
 </path>
-<path stroke="darkcyan">
+<path stroke="black">
 208 640 m
 160 608 l
 </path>
-<path stroke="darkcyan">
+<path stroke="black">
 320 576 m
 224 560 l
 </path>
-<path stroke="darkcyan">
+<path stroke="black">
 160 608 m
 160 640 l
 </path>
-<path stroke="darkcyan">
+<path stroke="black">
 160 640 m
 224 688 l
 </path>
-<path stroke="darkcyan">
+<path stroke="black">
 224 560 m
 224 592 l
 </path>
-<path stroke="darkcyan">
+<path stroke="black">
 224 592 m
 160 608 l
 </path>
-<path stroke="darkcyan">
+<path stroke="black">
 224 560 m
 160 608 l
 </path>
@@ -479,5 +479,23 @@ h
 136.5 510 l
 </path>
 </group>
+<path stroke="black">
+42.1637 0 0 42.1637 184 674.667 e
+</path>
+<path layer="beta" stroke="darkcyan">
+42.1637 0 0 42.1637 184 674.667 e
+</path>
+<path stroke="darkcyan">
+28.2843 0 0 28.2843 228 620 e
+</path>
+<path stroke="darkcyan">
+28.8444 0 0 28.8444 184 624 e
+</path>
+<path stroke="darkcyan">
+35.7771 0 0 35.7771 240 656 e
+</path>
+<path stroke="darkcyan">
+34.1896 0 0 34.1896 194.182 608.727 e
+</path>
 </page>
 </ipe>
