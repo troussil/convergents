@@ -5,7 +5,7 @@ FIGSRC = $(wildcard fig/2-mot/circle/*.ipe  fig/2-mot/as/*.ipe fig/2-mot/connexe
 
 FIGOBJ = $(FIGSRC:.ipe=.pdf)
 
-all: fig paper show  
+all: fig gnup paper show  
 
 fig: $(FIGOBJ)
 
@@ -28,7 +28,11 @@ fig/5-con/nas/%.pdf: fig/5-con/nas/%.ipe
 fig/5-con/pas/%.pdf: fig/5-con/pas/%.ipe
 	ipetoipe -pdf $<
 
-	
+gnup:
+	gnuplot ../../tools/nas.gp
+	gnuplot ../../tools/ch-time.gp
+	gnuplot ../../tools/ch.gp
+
 paper:
 	pdflatex $(TEX).tex
 	bibtex $(TEX)
