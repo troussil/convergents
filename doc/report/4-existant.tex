@@ -6,36 +6,29 @@
 \subsection{Suivi de Bord}
 %-----------------------------------------------------------------
 
-La méthode du suivi de bord d'un bord d'un disque discret est un processus étudié et connu. La méthode est sensiblement la même suivant le cas souhaité : 4-connexes et respectivement 8-connexes. La méthode comporte deux étapes. 
-% on - nous
+La méthode du suivi du bord d'un disque discret est un processus étudié et connu. Elle est sensiblement la même suivant le cas souhaité : 4-connexes ou 8-connexes. Elle se décompose en deux étapes. Trouver un point sur le bord, puis itérer la cherche de points suivants jusqu'à retrouver le premier point et refermer le cercle.
 
 %-----------------------------------------------------------------
 \subsubsection{Trouver le sommet de départ}
 
-La première étape consiste à établir un point de départ pour notre algorithme. Nous devons en effet trouver un premier point sur le bord du disque. Nous avons choisi de rechercher le point d'ordonnée minimale et d'abscisse maximal à l'intérieur du disque. Pour ce faire, nous prenons le point de $\mathcal{Z}^2$ possédant les coordonnées entières de notre centre. À partir de ce point, nous descendons le long de l'axe verticale d'une longueur égale au rayon pour commencer la recherche du point à l'intérieur du disque de plus petite abscisse. Une fois ce point trouvé, nous tranlatons suivant l'axe horizontal afin de trouver notre point de départ à l'intérieur du cercle avec une ordonnée minimale et un abscisse maximal : a. 
+Pour chercher un point de départ sur le bord du disque, nous avons choisi de récupérer le point d'ordonnée minimale et d'abscisse maximal à l'intérieur du disque. Nous prenons le point de $\mathcal{Z}^2$ avec les coordonnées entières du centre du disque. Puis, nous descendons le long de l'axe vertical d'une longueur entière égale au rayon pour trouver un point d'ordonnée miniamle. Ensuite, nous translatons suivant l'axe horizontal afin de récupérer le point d'abscisse maximal. On note \textbf{a} ce point de départ. 
 
-\begin{figure}[h!]
+\begin{figure}[H]
   \centering
-  \includegraphics[width=0.4\linewidth,page=1]{fig/4-exi/suivi/exi-depart-0.pdf}
-  \includegraphics[width=0.4\linewidth,page=1]{fig/4-exi/suivi/exi-depart-1.pdf}
-  \caption{Suivi de bord 4-connexes et 8-connexes}
+  \includegraphics[width=0.3\linewidth,page=1]{fig/4-exi/suivi/exi-depart-0.pdf}
+  \includegraphics[width=0.3\linewidth,page=1]{fig/4-exi/suivi/exi-depart-1.pdf}
+  \caption{Recherche de $a$.}
 \end{figure}
   
 
 %-----------------------------------------------------------------
 \subsubsection{Trouver le sommet suivant}
 
-La deuxième étape s'appuie sur une recherche incrémentale des différents points de notre bord du disque.
+La deuxième étape consiste à trouver le sommet suivant appartenant au bord. On répète cette étape jusqu'à retrouver tant que le point a.
 
-\begin{Definition}{Méthode incrémentale}\\
-\label{def:os}
-      Une méthode incrémentale calcul successivement les éléments solutions à partir de la réponse précédementtrouvée.
-\end{Definition}
-Cela se traduit dans notre cas par la possibilité d'à partir d'un sommet de notre bord de connaitre le sommet suivant.
+Le sommet suivant est choisi suivant la position des 4-voisins (resp 8-voisins) et du sens de rotation. Pour notre étude nous tournons dans le sens trigonométrique. En partance de notre point de départ et afin de satisfaire le sens de rotaton nous choisissons le premier voisin à l'intérieur parmi le choix ordonnée de $\left\{E, N, O, S\right\}$ dans le cas 4-connnexes (resp :  $\left\{E, NE, N, NO, O, SO, S, SE \right\}$ dans le cas 8-connexes).
 
-Le sommet suivant est choisi suivant la position des voisins 4-connexes (resp 8-connexes) et du sens de rotation. Pour notre étude nous avons délibérément pris le parti de tourner dans le sens trigonométrique. En partance de notre point de départ et afin de tourner dans le sens trigonométrique nous choisirons le premier voisin à l'intérieur parmi le choix ordonnée de $\left\{EST, NORD, OUEST, SUD\right\{$ dans le cas 4-connnexes(resp :  $\left\{E, NE, N, NO, O, SO, S, SE\right\{$ dans le cas 8-connexes).
-
-\begin{figure}[h!]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.4\linewidth,page=1]{fig/4-exi/suivi/exi-suivi-0.pdf}
   \caption{Suivi de bord 4-connexes et 8-connexes}
@@ -43,17 +36,10 @@ Le sommet suivant est choisi suivant la position des voisins 4-connexes (resp 8-
   
 
 %-----------------------------------------------------------------
-\subsection{Enveloppe Convexe}
+\subsection{Enveloppe Convexe : Algorithme de Har-Peled}
 %-----------------------------------------------------------------
 
-Le calcul d'une $\alpha$-shape pour $\alpha$ = 0 revient à calculer l'enveloppe convexe de notre disque discret. Calculer une enveloppe convexe est particulièrement étudié. De nombreux algorithmes existes : Parcours de Graham, Marche de Jarvis... 
-
-\begin{Definition}{$\alpha$-hull, $\alpha = 0$ - Enveloppe convexe}\\
-\label{def:ch}
-      L'intersection de tous les demi-plans qui contiennent tous les points à l’intérieur du disque.
-\end{Definition}
-
-Une méthode particulièrement performante à néanmoins retenue notre attention. Elle a été introduite par Har-Peled en 98 dans la publication suivante : \cite{HarPeled98}. Il y présente un algorithme de calcul de l'enveloppe convexe qui est incrémental et output sensitive.
+De nombreux algorithmes existent pour calculer l'enveloppe convexe. Le parcours de Grahaam l'implémente avec une complexité en $O(n log n)$ avec n le nombre de point à l'intérieur du disque. Un algorithme géométrique introduit par Har-Peled en 98 l'implémente également de manière intéressante de manière incrémental et output sensitive.
 
 
 \begin{Definition}{Output sensitive}\\
@@ -61,73 +47,157 @@ Une méthode particulièrement performante à néanmoins retenue notre attention
       Un algorithme output sensitive possède un temps d’exécution qui dépend de la taille de la sortie.
 \end{Definition}
 
-Dans ce cas de figure bien précis, la méthode présentée dépend du nombre de sommets de notre enveloppe convexe. \\
-
-La méthode permet de construire successivement et rapidement les arêtes de notre polygone. Elle s'appuie sur le calcul de convergents, qui représente le pendant géométrique du calcul du pgcd de deux nombres entiers. 
-En effet, il a été démontré dans ce même article que la complexité en temps de cette algorithme de calcul de l'enveloppe convexe d'un disque de rayon $R_D$ révèle d'une part de la recherche du prochain sommet en $O(log R_D)$ et également du nombre de sommet qui est $O( R_{D}^{2/3})$. Soit une complexité totale en temps de  $O( R_{D}^{2/3} log R_D)$.
-
+La méthode de Har-Peled dépend du nombre de sommets de l'enveloppe convexe. Elle construit successivement les arêtes du polygone à l'aide des convergents qui représente le pendant géométrique du calcul du pgcd de deux nombres entiers (\ref{annexe-euc-geo}). La complexité en temps de cet algorithme pour un disque de rayon $R_D$ relève d'une part de la recherche du prochain sommet en $O(log R_D)$ et également du nombre de sommet qui est $O(R_{D}^{2/3})$. Soit une complexité totale en temps de $O( R_{D}^{2/3} log R_D)$.
 
 %-----------------------------------------------------------------
 \subsubsection{Calcul des convergents}
 
-Cette méthode de calcul est géométrique. On transforme notre deux nombres entiers $x, y$ en un point de $\mathbb{Z}^{2}$ qu'on appellera $P = (P_x, P_y)$. À partir de l’origine $O=(0,0)$, on va chercher à trouver le premier point appartenant au segment de droite [O,P]. Le coefficient trouvé correspondant finalement au pgcd de $P_x$ et $P_y$.\\
+Cette méthode de calcul est géométrique. Soient l’origine $O=(0,0)$ et $P = (P_x, P_y)$ un poit à coordonnées entières. Nous cherchons le premier point de $\mathbb{Z}^{2}$ appartenant au segment de droite [O,P]. Le coefficient trouvé correspond au pgcd de $P_x$ et $P_y$.\\
 
-Pour cela on met en place une méthode récursive.\\
-Soient $p_{-2} = (1,0)$ et $p_{-1} = (0,1)$ les deux premiers convergents.\\
+Soient $p_{-2} = (1,0)$ et $p_{-1} = (0,1)$ les deux premiers convergents. Pour trouver les convergents suivants, nous mettons en place une méthode récursive.  :
 
-Pour trouver les convergents suivants, on va chercher :
 $$p_{k} = p_{k-2} + q_k * p_{k-1}$$
 
-avec $q_k$ le plus grand entier tel que $p_{k}$ et $p_{k-2}$ soient du même côté de la droite.\\
+$q_k$ est le plus grand entier tel que $p_{k}$ et $p_{k-2}$ soient du même côté de la droite.\\
 
-On se retrouve donc à effectuer un jeter de rayon de $p_{k-2}$ dans la direction de $p_{k-1}$ pour étudier l’intersection du vecteur et de la droite de direction $y_P / x_P$.\\
+L'opération correspond à jeter un rayon de $p_{k-2}$ dans la direction de $p_{k-1}$ pour étudier l’intersection du vecteur et du segment de droite de direction $y_P / x_P$. La méthode s’arrête quand un convergent $p_{k}$ est exactement sur la droite.\\
 
-La méthode s’arrêtant quand enfin un convergent $p_{k}$ est exactement sur la droite.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.4\linewidth]{fig/4-exi/har/exi-har-0.pdf}
+  \includegraphics[width=0.4\linewidth]{fig/4-exi/har/exi-har-1.pdf}
+  \caption{Calcul des convergents du point (3,8)}
+\end{figure}
+
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|p{0.04\linewidth}|p{0.04\linewidth}|p{0.04\linewidth}||p{0.04\linewidth}|p{0.04\linewidth}||p{0.2\linewidth}||p{0.35\linewidth}|}
+    \hline 
+    $k$ & $a$ & $b$ & $q_{k}$ & $r_k$ & (a,b) & $p_k$ \\
+    \hline 
+    -2 & - & - & - & - & -                    & $p_{-2} = (1,0)$\\
+    -1 & - & - & - & - & $3 p_{-2} + 8p_{-1}$ & $p_{-1} = (0,1)$\\
+     0 & 8 & 3 & 2 & 2 & $2 p_{-1} + 3p_{0}$  & $p_{0}  = p_{-2} + 2p_{-1} = (1,2)$\\ 
+     1 & 3 & 2 & 1 & 1 & $p_{0}  + 2p_{1}$    & $p_{1}  = p_{-1} + p_{0} = (1,3)$\\
+     2 & 2 & 1 & 2 & 0 & $p_{2}$              & $p_{2}  = p_{0} + 2p_{1} = (3,8)$\\
+    \hline
+  \end{tabular} 
+  \caption{Résultat du $PGCD(3,8)$ par la méthode d'Euclide et géométrique}
+\end{table}
+
 
 %relié le tout à la fraction continue et revenir un peu à la méthode d'Euclide.
 
 %-----------------------------------------------------------------
 \subsubsection{Passage au disque}
 
-La première étape de l'algorithme consiste à trouver un premier point effectivement sommet de l'enveloppe convexe. 
-%dire comment
 
-Pour la suite, nous avons procéder de la même manière en construisant les convergents au plus prêt du bord du disque. En effet, nous allons successivement être à l'intérieur pour $k$ impaire et à l'extérieur du disque pour $k$ pair. Nous nous arrêterons quand le convergent se situe exactement sur le bord du disque ou bien au dernier convergent de degré impaire quand nous aboutirons à un rayon qui n'intersecte pas le disque.\\
+La méthode de calcul de l'enveloppe convexe d'un disque se décompose en deux étapes. La première consiste à trouver un point de départ. Nous appliquons la même procédure que lors du suivi de bord pour récupérer le point a d'ordonnée minimale et d'abscisse maximale. Par définition ce point appartient à l'enveloppe convexe.\\
 
-Ainsi, nous récupérons successivement les sommets de l'enveloppe convexe jusqu'à retomber sur le premier sommet fermant ainsi notre enveloppe.
+Ensuite, nous cherchons le sommet suivant jusqu'à retrouver le point a. Cette étape est réaliser en calculant les convergents les plus proches du bord du disque. Nous allons alternativement être à l'intérieur du disque lorsque $k$ est impaire et à l'extérieur du disque lorsque $k$ est pair. Nous repartons d'un convergent s'il se situe exactement sur le bord du disque. Sinon, nous repartons du dernier convergent de degré impaire lorsque que le lancer de rayon n'est pas effectif.\\
 
-%pics pour rajouter du cachet
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.4\linewidth]{fig/4-exi/har/exi-har-10.pdf}
+  \includegraphics[width=0.4\linewidth]{fig/4-exi/har/exi-har-11.pdf}
+  \caption{Calcul de l'enveloppe convexe d'un disque}
+\end{figure}
 
 \subsubsection{Résultats}
 
+Les résultats suivant ont été obtenus en calculant sur une moyenne de 100 disques de rayon $2^k$ possédant un centre à coordonnée rationnel compris dans $[0,1]\times[0,1]$. Afin de vérifier la convergence en $O(R_{D}^{2/3})$, nous avons également récupéré la moyenne par rayon de la division du nombre de sommets de l'enveloppe convexe sur le rayon à la puissance 2/3. La zone bleuté de la figure correspond à l'intervale entre le minimum et le maximum obtenu.
 
-On présente ici nos résultats obtenus qui sont conformes à ceux de la publication \cite{HarPeled98}. La procédure utilisée a été sensiblement la même en simulant pour chaque rayon augmentant d'un facteur deux, cent disques dont le centre est compris dans le carré $[0,1]\times[0,1]$.
+On s'intéresse également à vérifié la complexité en temps de notre algorithme. On le compare notamment à la marche de Grahaam qui nous a été implémentée pour vérifier la justesse de nos calculs. 
 
-On s'intéresse également à vérifié l'intérêt de notre algorithme par rapport à la marche de Graham qui nous a permit de vérifier la justesse de nos calculs. 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig/4-exi/ch/exi-ch-sommet.png}
+  \caption{Sommets et bord de l'enveloppe convexe}
+\end{figure}
+
+\begin{table}[H]
+  \begin{tabular}{|p{0.09\linewidth}|p{0.13\linewidth}||p{0.2\linewidth}|p{0.13\linewidth}||p{0.2\linewidth}|p{0.13\linewidth}|}
+    \hline
+    \multicolumn{2}{|c||}{Rayon} & \multicolumn{4}{c|}{Enveloppe convexe} \\  \hline 
+    $R=2^k$  &  & \multicolumn{2}{c||}{Nombre de Sommets} &  \multicolumn{2}{c|}{Nombre de points sur le bord} \\ \hline 
+    k & R &   & $\# / R^{2/3}$  &   & $\# / R^{2/3}$ \\    
+    \hline
+    5 & 32         & 35,36     & 3,51 & 102,05   &  10,12\\
+    6 & 64         & 55,78     & 3,49 & 170,16   &  10,64\\
+    7 & 128        & 87,78     & 3,46 & 283,69   &  11,17\\
+    8 & 256        & 139,71    & 3,47 & 465,06   &  11,53\\
+    9 & 512        & 222,07    & 3,47 & 761,01   &  11,89\\
+    10 & 1024      & 351,72    & 3,46 & 1,24E+03 &  12,21\\
+    11 & 2048      & 558,18    & 3,46 & 2,01E+03 &  12,45\\
+    12 & 4096      & 883,86    & 3,45 & 3,24E+03 &  12,68\\
+    13 & 8192      & 1,40E+003 & 3,45 & 5,25E+03 &  12,92\\
+    14 & 16384     & 2,23E+003 & 3,45 & 8,41E+03 &  13,03\\
+    15 & 32768     & 3,54E+003 & 3,45 & 1,35E+04 &  13,19\\
+    16 & 65536     & 5,62E+003 & 3,46 & 2,16E+04 &  13,28\\
+    17 & 131072    & 8,91E+003 & 3,45 & 3,47E+04 &  13,45\\
+    18 & 262144    & 1,41E+004 & 3,45 & 5,54E+04 &  13,53\\
+    19 & 524288    & 2,25E+004 & 3,45 & 8,87E+04 &  13,64\\
+    20 & 1048576   & 3,56E+004 & 3,45 & 1,42E+05 &  13,75\\
+    21 & 2097152   & 5,66E+004 & 3,45 & 2,26E+05 &  13,81\\
+    22 & 4194304   & 8,98E+004 & 3,45 & 3,61E+05 &  13,88\\
+    23 & 8388608   & 1,43E+005 & 3,45 & 5,76E+05 &  13,94\\
+    24 & 16777216  & 2,26E+005 & 3,45 & 9,19E+05 &  14,02\\
+    25 & 33554432  & 3,59E+005 & 3,45 & 1,46E+06 &  14,07\\
+    26 & 67108864  & 5,70E+005 & 3,45 & 2,33E+06 &  14,10\\
+    27 & 134217728 & 8,98E+005 & 3,42 & 3,74E+06 &  14,27\\
+    28 & 268435456 & 1,35E+06  & 3,24 & 6,62E+06 &  15,90\\
+    \hline
+  \end{tabular} 
+  \caption{Sommet et bord de l'enveloppe convexe}
+\end{table}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig/4-exi/ch/exi-ch-temps.png}
+  \caption{Temps de calcul de l'enveloppe convexe (échelle log / log)}
+\end{figure}
+
+\begin{table}[H]
+  \begin{tabular}{|p{0.09\linewidth}|p{0.13\linewidth}||p{0.23\linewidth}|p{0.23\linewidth}|p{0.23\linewidth}|}
+    \hline
+    \multicolumn{2}{|c||}{Rayon} & \multicolumn{3}{c|}{Temps de calcul (ms) } \\  \hline 
+    $R=2^k$  &  &  \multicolumn{3}{c|}{Enveloppe Convexe}  \\ \hline
+    k & R & Marche de Grahaam & Har-Peled - Sommets & Har-Peled - Bord \\
+    \hline
+    5  & 32        & 0,64     & 1,05     & 1,98\\
+    6  & 64        & 1,18     & 1,87     & 3,77\\
+    7  & 128       & 2,33     & 3,3      & 7,08\\
+    8  & 256       & 4,64     & 5,86     & 13,02\\
+    9  & 512       & 9,25     & 10,29    & 23,99\\
+    10 & 1024      & 32,5     & 17,9     & 43,34\\
+    11 & 2048      & 37,03    & 31,13    & 78,05\\
+    12 & 4096      & 74,55    & 53,75    & 139,12\\
+    13 & 8192      & 149,03   & 92,57    & 247,36\\
+    14 & 16384     & 297,79   & 159,44   & 433,88\\
+    15 & 32768     & 596,22   & 272,74   & 760,20\\
+    16 & 65536     & 1,19E+03 & 466,51   & 1,32E+03\\
+    17 & 131072    & 2,37E+03 & 795,09   & 2,30E+03\\
+    18 & 262144    & 4,73E+03 & 1,35E+03 & 3,99E+03\\
+    19 & 524288    & 9,47E+03 & 2,29E+03 & 6,88E+03\\
+    20 & 1048576   & 1,89E+04 & 3,88E+03 & 1,18E+04\\
+    21 & 2097152   & 3,79E+04 & 6,58E+03 & 2,02E+04\\
+    22 & 4194304   & 7,58E+04 & 1,11E+04 & 3,45E+04\\
+    23 & 8388608   & 1,52E+05 & 1,86E+04 & 5,88E+04\\
+    24 & 16777216  & 3,03E+05 & 3,13E+04 & 1,00E+05\\
+    25 & 33554432  & 6.04E+05 & 5,26E+04 & 1,70E+05\\
+    26 & 67108864  & 1.20E+06 & 8,80E+04 & 2,87E+05\\
+    27 & 134217728 & 2.42E+06 & 1,46E+05 & 4,82E+05\\
+    28 & 268435456 &          & 2,33E+05 & 8,85E+05\\
+    \hline
+  \end{tabular} 
+  \caption{Temps de calcul de l'enveloppe convexe}
+\end{table}
+
+Nos résultats obtenus sont conformes à ceux de la publication \cite{HarPeled98}. On remarque que la moyenne asymptotique de la division du nombre moyen de sommets de l'enveloppe convexe sur le rayon à la puissance 2/3 est 3,45. Des anomalies commencent à apparaître pour des rayons de la taille de $2^{27} = 134217728$. Il convient de chercher à comprendre d'où elles viennent afin de mieux cerner les possibles limitations de notre algorithme.\\
+
+Le graphique représentant les temps est également intéressant. On observe avec l'échelle logarithmique que la complexité en temps est sous-linéaire pour la méthode de Har-Peled. La méthode devient d'ailleurs plus intéressante que la marche de Grahaam en terme de temps de calcul assez rapidement à partir d'un rayon $2^{10} = 1024$ unités alors que la méthode qui récupère également les points sur les sommets devient plus rapide qu'à partir de $2^{17} = 131072$.
 
 
-\begin{tabular}{|l||c|c|}
-\hline
-Rayons & Nb Sommets & Nb Sommets / $R^{2/3}$\\
-\hline
 
-\hline
-\end{tabular} 
-
-\begin{tabular}{|l||c|c|}
-\hline
-Rayons & Nb Sommets & Nb Sommets / $R^{2/3}$\\
-\hline
-
-\hline
-\end{tabular} 
-
-%-----------------------------------------------------------------
-\subsection{Triangulation de Delaunay d'un motif}
-%-----------------------------------------------------------------
-
-
-La construction de notre enveloppe convexe nous a amené à construire ses arêtes. Nous avons ainsi construit une série de segment de droite englobant tous les points à l'intérieur de notre disque. De manière encore plus fines, nous avons construit une série de motif associé à chaque segment de droite que nous pouvons relié à leur triangulation de Delaunay. Or, les $\alpha$-shapes s’appuient également sur l'utilisation de la triangulation de Delaunay, d'ordre 0 lorsque $\alpha \leq 0$ et d'ordre n lorsque $\alpha \geq 0$. On a également vu qu'il était possible d'utiliser un algorithme "Output Sensitive" pour le calcul de l'enveloppe convexe.
-
-La problématique de ce stage est de chercher à trouver s'il est possible de calculer les $\alpha$-shapes de manière output sensitive en s'appuyant sur le calcul des convergents et par la suite d'implémenter un tel algorithme.  
 
