@@ -10,7 +10,7 @@
 \subsubsection{Du disque Euclidien au disque discret}
 
 
-Le disque discret $\mathcal{D}$ est défini par analogie avec le disque Euclidien $\mathcal{D}_e$. Il représente l'ensemble des points situés à une distance inférieure à $R$ de son centre $O(u,v)$.
+Le  disque fermé discret $\mathcal{D}$ dans $\mathbb{Z}^{2}$ (appelé pour la suite du rapport uniquement disque discret) est défini par analogie avec le disque Euclidien $\mathcal{D}_e$. Il représente l'ensemble des points situés à une distance inférieure à $R$ de son centre $O(u,v)$.
 
 
 \begin{Definition}{Disque fermé Euclidien}
@@ -32,9 +32,7 @@ Le disque discret $\mathcal{D}$ est défini par analogie avec le disque Euclidie
   \caption{Disque Euclidiens et Discret}
 \end{figure}
 
-La définition du disque fermé discret dans $\mathbb{Z}^{2}$ (appelé pour la suite du rapport uniquement disque discret) reste très proche de la définition Euclidienne. De plus, la définition du cercle Euclidien découle directement de la définition du disque Euclidien.
-
-Néanmoins, la définition du cercle discret ne dérive pas explicitement de la définition du disque discret. En effet, l'ensemble de points, représentés en rouge sur le dessin et appartenant à l'ensemble : $\left\{ (x,y) \in \mathbb{Z}^{2} |  (x - u)^2 + (y - v)^2 = R^2 \right\}$ ne suffit pas à représenter le cercle discret. Pour étudier le cercle discret, nous avons besoin de revenir à une définition plus générale du bord de toute ensemble discret en faisant appel à la notion de voisinage.\\
+La définition du cercle Euclidien découle directement de la définition du disque Euclidien en changeant l'inégalité par une égalité. Cependant, la définition du cercle discret ne dérive pas explicitement de la définition du disque discret. L'ensemble des points, représentés en rouge sur le dessin et appartenant à l'ensemble : $\left\{ (x,y) \in \mathbb{Z}^{2} |  (x - u)^2 + (y - v)^2 = R^2 \right\}$ ne suffit pas à représenter un cercle discret. Nous avons besoin de revenir à une définition plus générale du bord de tout ensemble discret en faisant appel à la notion de voisinage.\\
 
 \begin{Definition}{4-Voisinage d'un point $(u,v)$}
 \label{def:vois-4}
@@ -48,18 +46,16 @@ Néanmoins, la définition du cercle discret ne dérive pas explicitement de la 
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=.6\linewidth]{fig/2-mot/connexe/connexite.pdf}
+  \includegraphics[width=.5\linewidth]{fig/2-mot/connexe/connexite.pdf}
   \caption{4-connexité et 8-connexité}
 \end{figure}
 
-En définissant le bord d'un disque discret comme l'ensemble des points appartenant au disque dont le 4-voisinage (respectivement 8) n'est pas intégralement contenu dans le disque, on définit un ensemble 8-connexes (respectivement 4).
+Le bord d'un ensemble discret se traduit par l'ensemble des points à l'intérieur de l'ensemble dont le 4-voisinage (respectivement 8) n'est pas intégralement contenu dans cet ensemble. Le bord récupéré est un ensemble 8-connexes (respectivement 4). La cercle discret est définit commme le bord d'un disque discret.
 
 \begin{Definition}{Bord 8-connexes (*=4) et 4-connexes (*=8) d'un ensemble discret $\mathcal{S}$}
 \label{def:bord-ens}
   $$ \partial \mathcal{S}_{*} =  \left\{ (x,y) \in \mathcal{S} | \left( \mathcal{V}_{*}(x,y) \cap \mathcal{S} \right) \neq \mathcal{V}_{*}(x,y) \right\}$$
 \end{Definition}
-
-On revient à la définition du cercle discret représentant le bord d'un disque discret.
 
 \begin{Definition}{Cercle discret}
 \label{def:cer-dis}
@@ -77,11 +73,11 @@ On revient à la définition du cercle discret représentant le bord d'un disque
 %-----------------------------------------------------------------
 \subsubsection{Énoncé de la problématique}
 
-Les points sont organisés sur une grille régulière : $\mathbb{Z}^{2}$. Pour chaque point, il est possible d'atteindre quatre voisins en se dirigeant d'une unité vers les quatre points cardinaux. Chaque point possède donc un voisin, en haut, à gauche, en bas et à droite de lui. Or, les points strictement à l'intérieur du disque discret et non sur le bord (en bleu clair) possèdent tous leurs quatre plus proches voisins à l'intérieur du disque (maillage en rouge).
+Les points sont organisés sur la grille régulière : $\mathbb{Z}^{2}$. Pour chaque point, il est possible d'atteindre quatre voisins en se dirigeant d'une unité vers les quatre points cardinaux. Chaque point possède donc un voisin, en haut, à gauche, en bas et à droite de lui. Or, les points strictement à l'intérieur du disque discret et non sur le bord (en bleu clair) possèdent tous leurs quatre plus proches voisins à l'intérieur du disque (maillage en rouge).
 
 \begin{Definition}{Ensemble de points strictement à l'intérieur d'un disque}
 \label{def:int-ens}
-  $$\stackrel{\ \circ}{\mathcal{D}}_{*} = \mathcal{D} \ \mathcal{C_{*}} $$
+  $$\stackrel{\ \circ}{\mathcal{D}}_{*} = \mathcal{D} / \mathcal{C_{*}} $$
   $$ \stackrel{\ \circ}{\mathcal{D}}_{*} =  \left\{ (x,y) \in \mathcal{D} | \mathcal{N}_{*}(x,y) \cap \mathcal{D} = \mathcal{N}_{*}(x,y) \right\}$$
 \end{Definition}
 
@@ -91,10 +87,9 @@ Les points sont organisés sur une grille régulière : $\mathbb{Z}^{2}$. Pour c
   \caption{Réseau de point à strictement à l'intérieur.}
 \end{figure}
 
-On se retrouve avec deux ensembles disjoints dont l'union définit un disque discret. Le premier est bien organisé, il représente les points strictement à l'intérieur du disque. Le deuxième ensemble représente les points du bord du disque et son organisation est moins triviale. De part la connaissance des points appartenant au  premier ensenmble, seule l'étude des points du bord nous semble pertinente pour comprendre l'organisation et la structure des disque discret.\\
+Le disque discret est définit comme l'union de deux ensembles disjoints. Le premier est organisé, il représente l'ensemble des points strictement à l'intérieur du disque. Le deuxième ensemble possède une organisation moins triviale, il représente les points du bord du disque. De part la connaissance apportée par la structure des points appartenant au premier ensenmble, seule l'étude des points du bord nous intéresse pour comprendre l'organisation et la structure des disques discrets.\\
 
-Nous allons chercher à comprendre comment est organisée la structure des points du bord d'un disque discret.
-
+Nous allons étudier comment est organisée la structure des points du bord d'un disque discret.
 
 %-----------------------------------------------------------------
 \subsection{Alpha-Shape}
@@ -144,7 +139,7 @@ Les sommets de $\alpha$-hull sont appelés points $\alpha$-extrêmes. S'ils sont
 %-----------------------------------------------------------------
 \subsubsection{$\alpha$-shapes de disque discret}
 
-En choisissant successivement des valeurs de $\alpha$ variant de -2 à $R_D$ (le rayon du disque discret), on calcul un vaste ensemble d'$\alpha$-shape. on remarque que ses $\alpha$-shapes représentent à chaque fois un sous-ensemble des points du bord d'un disque discret.
+En choisissant successivement des valeurs de $\alpha$ variant de -2 à $R_D$ (le rayon du disque discret), on calcule un vaste ensemble d'$\alpha$-shape. Les $\alpha$-shapes représentent un sous-ensemble des points du bord du disque discret.
 
 \begin{figure}[H]
   \centering
@@ -166,16 +161,16 @@ En choisissant successivement des valeurs de $\alpha$ variant de -2 à $R_D$ (le
 \subsubsection{Propriétés}
 
 \paragraph{}
-$\alpha = 0$ représente une intersection de disque de rayon infini. Elle est interprété comme une intersection de demi-plan. On retrouve l'enveloppe convexe.
+$\alpha = 0$ représente une intersection de disque de rayon infini. Ce cas s'interprète comme une intersection de demi-plan et calcule l'enveloppe convexe.
 
 \paragraph{}
-Les plus petits cas où $\alpha = -2$ et $\alpha = -\sqrt{2}$ récupère exactement les points du bords dans le cas 4-connexes et 8-connexes. En ne pouvant s'éloigner au plus de disques de rayon $1/2$ et $\sqrt{2}/2$, on ne peut suivre le bord de nos disques que par l'intermédiaire des plus proches 4-voisins et 8-voisins.
+Les plus petits cas où $\alpha = -2$ et $\alpha = -\sqrt{2}$ récupère exactement les points du bord dans le cas 4-connexes et 8-connexes. En ne pouvant s'éloigner au plus de disques de rayon $1/2$ et $\sqrt{2}/2$, on ne peut suivre le bord de nos disques que par l'intermédiaire des plus proches 4-voisins et 8-voisins.
 
 \paragraph{}
-Prendre un $\alpha$ < -2 conserve un sens pour l'$\alpha$-hull. Elle devient constitué de l'ensemble disjoint des points appartenant au disque. L'$\alpha$-shape n'a pas d'existence propre dans ce cas au vue la non-connexité de l'ensemble.
+Prendre un $\alpha$ < -2 conserve un sens pour l'$\alpha$-hull. Elle est constitué de l'ensemble disjoint des points appartenant au disque. L'$\alpha$-shape n'a pas d'existence propre dans ce cas au vu la non-connexité de l'ensemble.
 
 \paragraph{}
-Au delà d'un certain rayon, nous avons $R_{\alpha} < R_D$ et il est alors impossible de récupérer l'ensemble des points de notre disque par l'intersection de disques avec un rayon inférieur.
+Au-delà d'un certain rayon, nous avons $R_{\alpha} < R_D$ et il est alors impossible de récupérer l'ensemble des points de notre disque par l'intersection de disques avec un rayon inférieur.
 
 \paragraph{}
 Une propriété \cite{EdeKirSei83} de de l'union des $\alpha$-shape pour le cas négatif et le cas positif est d'obtenir des sous-ensembles des triangulations d'ordre 0 et d'ordre n de Delaunay.  
@@ -185,13 +180,13 @@ Une propriété \cite{EdeKirSei83} de de l'union des $\alpha$-shape pour le cas 
 \subsection{Triangulation de Delaunay}
 %-----------------------------------------------------------------
 
-Tout ensemble discret peut s'écrire comme un ensemble dénombrable de points. Le construction d'une surface à partir de cet ensemble de points est souvent réaliser par l'étude des diagrammes de proximité : les diagrammes de Voronoï de l'ensemble de points. on construit implicitement leurs graphes duales, les triangulations de Delaunay.
+Tout ensemble discret peut s'écrire comme un ensemble dénombrable de points. La construction d'une surface à partir de cet ensemble de points peut être réalisé par l'étude des diagrammes de proximité : les diagrammes de Voronoï de l'ensemble de points. Leurs graphes duales sont les triangulations de Delaunay.
 
 Les diagrammes de Voronoï sont nommés d'après le mathématicien russe Georgi Voronoï : 1868-1908.
 
 \begin{Definition}{Diagramme de Voronoï d'ordre 0 d'un ensemble de point $\mathcal{S}$}\\
 \label{def:tri-vor-0}
-  Le diagramme de Voronoï d'ordre 0 réalise une partition dans $\mathbb{R}^2$ où chaque point de $\mathcal{S}$ est inclue dans une cellule convexe contenant les points de $\mathbb{R}^2$ plus proches de ce point que de tous les autres selon une certaine distance.
+  Le diagramme de Voronoï d'ordre 0 réalise une partition dans $\mathbb{R}^2$ où chaque point de $\mathcal{S}$ est inclu dans une cellule convexe contenant les points de $\mathbb{R}^2$ plus proches de ce point que de tous les autres selon une certaine distance.
 \end{Definition}
 
  \begin{Definition}{Diagramme de Voronoï d'ordre n de l'ensemble $\mathcal{S}$}\\
