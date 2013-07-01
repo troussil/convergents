@@ -33,5 +33,5 @@ set ylabel ' temps (ms)';
 set key on inside center top
      
 
-plot 'outcome/ch-time.txt' u 2:4 w l title 'Temps Har-Peled', 'outcome/ch-time.txt' u 2:3 w l title 'Temps Marche de Grahaam'
+plot 'outcome/ch-time.txt' u 2:4 w l title 'Temps Har-Peled', 'outcome/ch-time.txt' u 2:3 w l title 'Temps Marche de Grahaam', 'outcome/ch-time.txt' u 2:5 w l title 'Temps Har-Peled avec les points sur les arêtes'
 
