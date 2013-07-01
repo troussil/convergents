@@ -95,7 +95,7 @@ Nous allons étudier comment est organisée la structure des points du bord d'un
 \subsection{Alpha-Shape}
 %-----------------------------------------------------------------
 
-En s'intéressant à des contours de formes discrètes, un panel d'outil nous est apparu comme particulièrement opportun. Il s'agit des $\alpha$-hull et des $\alpha$-shape définit pour la première fois par Edelsbrunner \cite{EdeKirSei83} et faisant appel à des disques généralisés.\\
+En s'intéressant à des contours de formes discrètes, un panel d'outils nous est apparu comme particulièrement opportun. Il s'agit des $\alpha$-hull et des $\alpha$-shape définit pour la première fois par Edelsbrunner \cite{EdeKirSei83} et faisant appel aux disques généralisés.\\
 
 Un disque généralisé permet de définir des disques avec des rayons négatifs en faisant appel au complémentaire.
 
@@ -111,7 +111,7 @@ Un disque généralisé permet de définir des disques avec des rayons négatifs
 \begin{Definition}{$\alpha$-hull de $\mathcal{S}$}\\
 \label{def:ah-txt}
     Intersection de tous les disques généralisés de rayon $1/\alpha$ qui contiennent tous les points de l'ensemble.
-    $$\cap \left\{ \mathcal{D}_{\alpha} | \mathcal{S} \in \mathcal{D}_{\alpha} \right\}$$
+    $$ \alpha_h(\mathcal{S}) = \cap \left\{ \mathcal{D}_{\alpha} | \mathcal{S} \subseteq \mathcal{D}_{\alpha} \right\}$$
 \end{Definition}
 
 \begin{figure}[H]
@@ -160,27 +160,20 @@ En choisissant successivement des valeurs de $\alpha$ variant de -2 à $R_D$ (le
 %-----------------------------------------------------------------
 \subsubsection{Propriétés}
 
-\paragraph{}
-$\alpha = 0$ représente une intersection de disque de rayon infini. Ce cas s'interprète comme une intersection de demi-plan et calcule l'enveloppe convexe.
 
-\paragraph{}
-Les plus petits cas où $\alpha = -2$ et $\alpha = -\sqrt{2}$ récupère exactement les points du bord dans le cas 4-connexes et 8-connexes. En ne pouvant s'éloigner au plus de disques de rayon $1/2$ et $\sqrt{2}/2$, on ne peut suivre le bord de nos disques que par l'intermédiaire des plus proches 4-voisins et 8-voisins.
-
-\paragraph{}
-Prendre un $\alpha$ < -2 conserve un sens pour l'$\alpha$-hull. Elle est constitué de l'ensemble disjoint des points appartenant au disque. L'$\alpha$-shape n'a pas d'existence propre dans ce cas au vu la non-connexité de l'ensemble.
-
-\paragraph{}
-Au-delà d'un certain rayon, nous avons $R_{\alpha} < R_D$ et il est alors impossible de récupérer l'ensemble des points de notre disque par l'intersection de disques avec un rayon inférieur.
-
-\paragraph{}
-Une propriété \cite{EdeKirSei83} de de l'union des $\alpha$-shape pour le cas négatif et le cas positif est d'obtenir des sous-ensembles des triangulations d'ordre 0 et d'ordre n de Delaunay.  
-% need more 
-
+\begin{itemize}
+  \item $\alpha = 0$ est une intersection de disques de rayon infini. Ce cas s'interprète comme l'intersection de demi-plans et calcule l'enveloppe convexe.
+  \item Les plus petits cas où $\alpha = -2$ et $\alpha = -\sqrt{2}$ récupère exactement les points du bord dans le cas 4-connexes et 8-connexes. En ne pouvant s'éloigner au plus de disques de rayon $1/2$ et $\sqrt{2}/2$, on ne peut suivre le bord de nos disques que par l'intermédiaire des plus proches 4-voisins et 8-voisins.
+  \item Le cas où $\alpha$ < -2 conserve un sens pour l'$\alpha$-hull. Elle est constitué de l'ensemble disjoint des points appartenant au disque. L'$\alpha$-shape n'a pas d'existence propre dans ce cas au vu la non-connexité de l'ensemble.
+  \item Au-delà d'un certain rayon, nous avons $R_{\alpha} < R_D$ et il devient impossible de récupérer l'ensemble des points de notre disque par l'intersection de disques de un rayon plus petit.
+  \item L'union des $\alpha$-shape \cite{EdeKirSei83} pour le cas négatif et le cas positif représente des sous-ensembles des triangulations d'ordre 0 et d'ordre n de Delaunay.   
+\end{itemize}
+ 
 %-----------------------------------------------------------------
 \subsection{Triangulation de Delaunay}
 %-----------------------------------------------------------------
 
-Tout ensemble discret peut s'écrire comme un ensemble dénombrable de points. La construction d'une surface à partir de cet ensemble de points peut être réalisé par l'étude des diagrammes de proximité : les diagrammes de Voronoï de l'ensemble de points. Leurs graphes duales sont les triangulations de Delaunay.
+Tout ensemble discret peut s'écrire comme un ensemble dénombrable de points. La reconstruction d'une surface à partir de cet ensemble de points se réalise par l'étude des diagrammes de proximité : les diagrammes de Voronoï. Leurs graphes duales sont les triangulations de Delaunay.
 
 Les diagrammes de Voronoï sont nommés d'après le mathématicien russe Georgi Voronoï : 1868-1908.
 
@@ -215,7 +208,7 @@ Leurs graphes duales, les triangulations de Delaunay possèdent des propriétés
 \end{figure}
 
 
-Les triangulations de Delaunay sont reliées aux $\alpha$-shapes possèdent par certaines propriétés. \cite{EdeKirSei83}
+Les triangulations de Delaunay sont reliées aux $\alpha$-shapes par plusieurs propriétés. \cite{EdeKirSei83}
 
 \begin{Lemma}
   Une $\alpha$-shape de $\mathcal{S}$ est un sous-graphe de la triangulation de Delaunay.
