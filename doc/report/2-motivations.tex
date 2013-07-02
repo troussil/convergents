@@ -22,7 +22,7 @@ Le  disque fermé discret $\mathcal{D}$ dans $\mathbb{Z}^{2}$ (appelé pour la s
 \label{def:disk-dis}
   $$\mathcal{D} =  \left\{ (x,y) \in \mathbb{Z}^{2} |  (x - u)^2 + (y - v)^2 \leq R^2 \right\}$$
   
-  avec $(u,v) \in \mathbb{Q}^{2}$ les coordonnées du centre et $R^2 \in \mathbb{Q}$ le rayon.\\
+  avec $O(u,v) \in \mathbb{Q}^{2}$ les coordonnées du centre et $R^2 \in \mathbb{Q}$ le rayon.\\
 \end{Definition}
 
 \begin{figure}[H]
@@ -47,17 +47,17 @@ La définition du cercle Euclidien découle directement de la définition du dis
 \begin{figure}[H]
   \centering
   \includegraphics[width=.5\linewidth]{fig/2-mot/connexe/connexite.pdf}
-  \caption{4-connexité et 8-connexité}
+  \caption{4-voisinage et 8-voisinage}
 \end{figure}
 
-Le bord d'un ensemble discret se traduit par l'ensemble des points à l'intérieur de l'ensemble dont le 4-voisinage (respectivement 8) n'est pas intégralement contenu dans cet ensemble. Le bord récupéré est un ensemble 8-connexes (respectivement 4). La cercle discret est définit commme le bord d'un disque discret.
+Le bord d'un ensemble discret $S$ se traduit par l'ensemble des points à l'intérieur de $S$ dont le 4-voisinage (respectivement 8) n'est pas intégralement contenu dans $S$. Le bord récupéré est un ensemble 8-connexes (respectivement 4). Le cercle discret est défini commme le bord d'un disque discret. Nous utilisons le joker * pour désigner arbitrairement $4$ ou $8$. 
 
-\begin{Definition}{Bord 8-connexes (*=4) et 4-connexes (*=8) d'un ensemble discret $\mathcal{S}$}
+\begin{Definition}{Bord *-connexe d'un ensemble discret $S$}
 \label{def:bord-ens}
-  $$ \partial \mathcal{S}_{*} =  \left\{ (x,y) \in \mathcal{S} | \left( \mathcal{V}_{*}(x,y) \cap \mathcal{S} \right) \neq \mathcal{V}_{*}(x,y) \right\}$$
+  $$ \partial S_{*} =  \left\{ (x,y) \in S | \left( \mathcal{V}_{*}(x,y) \cap S \right) \neq \mathcal{V}_{*}(x,y) \right\}$$
 \end{Definition}
 
-\begin{Definition}{Cercle discret}
+\begin{Definition}{Cercle discret défini par le *-voisinage}
 \label{def:cer-dis}
   $$ \mathcal{C}_{*} =  \left\{ (x,y) \in \mathcal{D} | \left( \mathcal{V}_{*}(x,y) \cap \mathcal{D} \right) \neq \mathcal{V}_{*}(x,y) \right\}$$
 \end{Definition}
@@ -73,7 +73,7 @@ Le bord d'un ensemble discret se traduit par l'ensemble des points à l'intérie
 %-----------------------------------------------------------------
 \subsubsection{Énoncé de la problématique}
 
-Les points sont organisés sur la grille régulière : $\mathbb{Z}^{2}$. Pour chaque point, il est possible d'atteindre quatre voisins en se dirigeant d'une unité vers les quatre points cardinaux. Chaque point possède donc un voisin, en haut, à gauche, en bas et à droite de lui. Or, les points strictement à l'intérieur du disque discret et non sur le bord (en bleu clair) possèdent tous leurs quatre plus proches voisins à l'intérieur du disque (maillage en rouge).
+Les points discrets sont organisés sur la grille régulière $\mathbb{Z}^{2}$. Chaque point discret possède donc quatre plus proches voisins à une distance d'une unité, en haut, à gauche, en bas et à droite de lui. Or, les points strictement à l'intérieur du disque discret et non sur le bord (en bleu clair) possèdent tous leurs quatre plus proches voisins à l'intérieur du disque (maillage en rouge).
 
 \begin{Definition}{Ensemble de points strictement à l'intérieur d'un disque}
 \label{def:int-ens}
@@ -84,18 +84,18 @@ Les points sont organisés sur la grille régulière : $\mathbb{Z}^{2}$. Pour ch
 \begin{figure}[H]
   \centering
   \includegraphics[width=.3\linewidth]{fig/2-mot/circle/circle-dis-2.pdf}
-  \caption{Réseau de point à strictement à l'intérieur.}
+  \caption{Réseau de points strictement à l'intérieur d'un disque.}
 \end{figure}
 
-Le disque discret est définit comme l'union de deux ensembles disjoints. Le premier est organisé, il représente l'ensemble des points strictement à l'intérieur du disque. Le deuxième ensemble possède une organisation moins triviale, il représente les points du bord du disque. De part la connaissance apportée par la structure des points appartenant au premier ensenmble, seule l'étude des points du bord nous intéresse pour comprendre l'organisation et la structure des disques discrets.\\
+Le disque discret est l'union de deux ensembles disjoints : l'intérieur et le bord. La structure du premier est évidente. C'est pourquoi, seule l'étude du second, le bord, nous intéresse pour comprendre l'organisation des points des disques discrets.\\
 
-Nous allons étudier comment est organisée la structure des points du bord d'un disque discret.
+Notre objectif est de comprendre comment sont organisés spatialement les points du bord d'un disque discret, de comprendre comment cette structure est déterminée par les paramètres du disque (position et taille) par rapport à la grille sous-jacente.   
 
 %-----------------------------------------------------------------
 \subsection{Alpha-Shape}
 %-----------------------------------------------------------------
 
-En s'intéressant à des contours de formes discrètes, un panel d'outils nous est apparu comme particulièrement opportun. Il s'agit des $\alpha$-hull et des $\alpha$-shape définit pour la première fois par Edelsbrunner \cite{EdeKirSei83} et faisant appel aux disques généralisés.\\
+En s'intéressant à des bords d'objets discrets, un panel d'outils nous est apparu comme particulièrement opportun. Il s'agit des $\alpha$-hull et des $\alpha$-shape définis pour la première fois par Edelsbrunner \emph{et. al.} \cite{EdeKirSei83} et faisant appel aux disques généralisés.\\
 
 Un disque généralisé permet de définir des disques avec des rayons négatifs en faisant appel au complémentaire.
 
@@ -107,6 +107,8 @@ Un disque généralisé permet de définir des disques avec des rayons négatifs
 
 %-----------------------------------------------------------------
 \subsubsection{Définition}
+
+Soit $\mathcal{S}$ un ensemble fini de points. 
 
 \begin{Definition}{$\alpha$-hull de $\mathcal{S}$}\\
 \label{def:ah-txt}
@@ -121,7 +123,7 @@ Un disque généralisé permet de définir des disques avec des rayons négatifs
   \caption{$\alpha$-Hull négative et $\alpha$-Hull positive }
 \end{figure}
   
-Les sommets de $\alpha$-hull sont appelés points $\alpha$-extrêmes. S'ils sont reliés par un arc de cercle de rayon $1/ \alpha$ qui n'exclut aucun autres points, on dit qu'ils sont adjacents.
+Les sommets de $\alpha$-hull sont appelés points $\alpha$-extrêmes. S'ils sont reliés par un arc de cercle de rayon $\pm 1/ \alpha$ qui ne contient aucun autre point que ses extrémités et qui se trouve sur le bord d'un disque généralisé contenant l'ensemble des points, on dit qu'ils sont adjacents.
 
 \begin{Definition}{$\alpha$-shape}\\
 \label{def:as}
@@ -139,7 +141,9 @@ Les sommets de $\alpha$-hull sont appelés points $\alpha$-extrêmes. S'ils sont
 %-----------------------------------------------------------------
 \subsubsection{$\alpha$-shapes de disque discret}
 
-En choisissant successivement des valeurs de $\alpha$ variant de -2 à $R_D$ (le rayon du disque discret), on calcule un vaste ensemble d'$\alpha$-shape. Les $\alpha$-shapes représentent un sous-ensemble des points du bord du disque discret.
+Le paramètre $\alpha$ est défini dans l'intervalle allant de $-2$ à $R_{min}$ (le rayon du plus petit cercle englobant). 
+Dans cet intervalle un vaste ensemble d'$\alpha$-shape est possible.  
+%Les $\alpha$-shapes représentent un sous-ensemble des points du bord du disque discret.
 
 \begin{figure}[H]
   \centering
@@ -162,10 +166,11 @@ En choisissant successivement des valeurs de $\alpha$ variant de -2 à $R_D$ (le
 
 
 \begin{itemize}
-  \item $\alpha = 0$ est une intersection de disques de rayon infini. Ce cas s'interprète comme l'intersection de demi-plans et calcule l'enveloppe convexe.
-  \item Les plus petits cas où $\alpha = -2$ et $\alpha = -\sqrt{2}$ récupère exactement les points du bord dans le cas 4-connexes et 8-connexes. En ne pouvant s'éloigner au plus de disques de rayon $1/2$ et $\sqrt{2}/2$, on ne peut suivre le bord de nos disques que par l'intermédiaire des plus proches 4-voisins et 8-voisins.
-  \item Le cas où $\alpha$ < -2 conserve un sens pour l'$\alpha$-hull. Elle est constitué de l'ensemble disjoint des points appartenant au disque. L'$\alpha$-shape n'a pas d'existence propre dans ce cas au vu la non-connexité de l'ensemble.
-  \item Au-delà d'un certain rayon, nous avons $R_{\alpha} < R_D$ et il devient impossible de récupérer l'ensemble des points de notre disque par l'intersection de disques de un rayon plus petit.
+  \item Le cas où $\alpha = 0$ est une intersection de disques généralisés de rayon infini. Ce cas s'interprète comme une intersection de demi-plans, menant à la définition de l'enveloppe convexe.
+  \item Les cas où $\alpha = -2$ et $\alpha = -\sqrt{2}$ correspondent aux bords définis au moyen du 8 et 4-voisinage. 
+%En ne pouvant s'éloigner au plus de disques de rayon $1/2$ et $\sqrt{2}/2$, on ne peut suivre le bord de nos disques que par l'intermédiaire des plus proches 4-voisins et 8-voisins.
+%  \item Le cas où $\alpha$ < -2 conserve un sens pour l'$\alpha$-hull. Elle est constitué de l'ensemble disjoint des points appartenant au disque. L'$\alpha$-shape n'a pas d'existence propre dans ce cas au vu la non-connexité de l'ensemble.
+%  \item Au-delà d'un certain rayon, nous avons $R_{\alpha} < R_D$ et il devient impossible de récupérer l'ensemble des points de notre disque par l'intersection de disques de un rayon plus petit.
   \item L'union des $\alpha$-shape \cite{EdeKirSei83} pour le cas négatif et le cas positif représente des sous-ensembles des triangulations d'ordre 0 et d'ordre n de Delaunay.   
 \end{itemize}
  
@@ -173,16 +178,16 @@ En choisissant successivement des valeurs de $\alpha$ variant de -2 à $R_D$ (le
 \subsection{Triangulation de Delaunay}
 %-----------------------------------------------------------------
 
-Dans l'optique de relier les points d'un ensemble entre eux, il faut effectuer une triangulation. Les triangulations de Delaunay possèdent des propriétés intéressantes.  Elles ont été nommées d'après le mathématicien russe Boris Delone : 1890-1980.
+La triangulation est un moyen de relier les points d'un ensemble entre eux. Les triangulations de Delaunay possèdent des propriétés intéressantes.  Elles ont été nommées d'après le mathématicien russe Boris Delone : 1890-1980.
 
 \begin{Definition}{Triangulation de Delaunay d'ordre 0 de l'ensemble $\mathcal{S}$}\\
 \label{def:tri-del-0}
-  La triangulation de Delaunay d'ordre 0 est une triangulation ou chaque disque circonscrit au triangle ne contient aucun autre point que les sommets du triangle.
+  La triangulation de Delaunay d'ordre 0 est une triangulation où chaque disque circonscrit au triangle ne contient aucun autre point que les sommets du triangle.
 \end{Definition}
 
 \begin{Definition}{Triangulation de Delaunay d'ordre n de l'ensemble $\mathcal{S}$}\\
 \label{def:tri-del-n}
-  La triangulation de Delaunay d'ordre n est une triangulation ou chaque disque circonscrit au triangle contient tous les points de l'ensemble.
+  La triangulation de Delaunay d'ordre n est une triangulation de l'enveloppe convexe de $\mathcal{S}$ où chaque disque circonscrit au triangle contient tous les points de l'ensemble.
 \end{Definition}
 
 \begin{figure}[H]
@@ -204,5 +209,5 @@ Les triangulations de Delaunay sont reliées aux $\alpha$-shapes par plusieurs p
 \end{Lemma}
 
 \begin{Lemma}
-  Toutes arêtes $e$ de notre triangulation de Delaunay est également une arête de l'$\alpha$-shape s'il existe $\alpha_{mi,}(e) \leq \alpha_{max}(e)$ tel que $\alpha_{min}(e) \leq \alpha \leq \alpha_{max}(e)$.
+  Toutes arêtes $e$ de notre triangulation de Delaunay est également une arête de l'$\alpha$-shape s'il existe $\alpha_{min}(e) \leq \alpha_{max}(e)$ tel que $\alpha_{min}(e) \leq \alpha \leq \alpha_{max}(e)$.
 \end{Lemma}
