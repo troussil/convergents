@@ -6,26 +6,26 @@
 \subsection{Poursuite du projet}
 %-----------------------------------------------------------------
 
-Étendre ses travaux de recheche à d'autres formes.
-Passage à la 3d.
-Intégrer travaux dans la librairie DGtal.
-Paralélliser, "hasher" les méthodes par segments de droite.
-Autre approche pour le cas alpha positif.
+Le projet scientifique commencé par l'intermédiaire de ce stage peut être étendu sur bien des points. 
+
+Sur le plan du développement informatique, il reste possible d'ajouter de nombreuses fonctionnalités. L’étude d'autres formes géométriques comme l'ellipse, l'union de deux droites discrètes semble être des ajouts intéressants. L'implémentation différentes des algorithmes déjà présents permettrait de mieux cerner les optimisations possibles et d'ainsi mieux cerner les contraintes et choix techniques a effectuer ultérieurement. Le calcul des $\alpha$-shapes par arête permettrait de tirer profit d'une possible parallélisation où bien d'une table de hachage afin de conserver les points ajoutés pour les arêtes. Inversement, adopter une approche ``top-down'' afin de calculer incrémentalement l'$\alpha$-shape quand $\alpha > 0$ serait une méthode avec une complexité intéressante à partir d'un certain rapport Rayon du disque / $\alpha$.
+
+Un projet plus ambitieux et plus long serait de chercher à généraliser la méthode à la dimension 3 même s'il faudrait repartir d'une nouvelle base avec des points dans $\mathbb{Z}^{3}$. 
+
+Un autre intérêt scientifique serait d'approfondir les résultats obtenus en réalisant une étude asymptotique du nombre de sommet d'une $\alpha$-shape en fonction de $\alpha$ et de R, le rayon du disque.
+
+Enfin, le but de tout algorithme étant d'être utilisé, il serait intéressant une fois le projet achevé de chercher à l'intégrer à la librairie DGtal afin de pouvoir utiliser les $\alpha$-shapes dans un cadre de reconnaissance de forme et d’échantillonnage \cite{BernardiniB97}.
+
 
 %-----------------------------------------------------------------
 \subsection{Compétences acquises}
 %-----------------------------------------------------------------
 
-Apprentisage en Informatiques
--C++, découverte de la programmation générique à base de template.
--Utilisation de make, cmake.
--Utilisation quotidienne de Git.
-
-Découverte de la géométrie discrète.
+À l'occasion de ce stage, j'ai pu m'améliorer dans des domaines bien distincts. D'un point de vu scientifique, j'ai découvert un domaine de recherche : la géométrie discrète particulièrement intéressant et original dans ses approches de résolutions. À travers l'implémentation des méthodes de résolution couvertes lors de mon stage, j'ai beaucoup appris sur le développement informatique en général. En particulier, j'ai grandement apprécié renouer au C++ à travers la découverte de la programmation générique. Cet apprentissage technique doit être mis en parallèle de l’acquisition de compétences dans le domaine du travail collaboratif et de la gestion de projet. L'utilisation quotidienne de git et de nombreux outils automatisant le projet ont faciliter la discussion et le partage autour du programme.
 
 %-----------------------------------------------------------------
 \subsection{Ouverture personnelle}
 %-----------------------------------------------------------------
 
-
+Je n'aurai pu souhaiter meilleurs fin pour ce manuscrit qui ne signifie pas seulement la fin de ce stage mais aussi la fin d'un cycle entamé il y a deçà plusieurs années : celui de mes études et de mon enseignement scientifique supérieur. Fort de cette expérience gratifiante et enrichissante, je possède aujourd'hui le sentiment d'être prêt à refermer cette porte pour m'ouvrir vers ce nouvel environnement qui je l'espère gravitera autour d'un domaine scientifique et continuera à m'apprendre et m'enseigner dans des domaines divers et variés.
 

@@ -28,10 +28,11 @@
 \usepackage[english,francais]{babel}
 \usepackage[utf8]{inputenc} %codage
 \usepackage{lmodern}
-\usepackage{amssymb}
-\usepackage{amsmath}
 
-\usepackage{amsthm}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+
+\usepackage[linesnumbered, ruled, vlined]{algorithm2e}
+\SetAlFnt{\small\sffamily}
 
 \usepackage{url}
 
@@ -118,7 +119,7 @@ Tristan \textsc{Roussillon} % Supervisor's Name
 
 \tableofcontents % Include a table of contents
 
-\newpage % Begins the essay on a new page instead of on the same page as the table of contents 
+\newpage % Première section sur une nouvelle page. 
 
 \include{1-introduction}
 
@@ -131,6 +132,9 @@ Tristan \textsc{Roussillon} % Supervisor's Name
 \include{3-info}
 
 \include{6-conclusion}
+
+\appendix
+\include{a-annexe}
 
 %-----------------------
 % Biblio
