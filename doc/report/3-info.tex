@@ -9,7 +9,6 @@
 %-----------------------------------------------------------------
 \subsubsection{C++}
 
-
 Le C++ est un langage de programmation née dans les années 1980 dans l'optique d'agrémenter le langage C de nouvelles fonctionnalités. Il fut d'abord nommée par son créateur Bjarne Stroustrup : C with Classes. L’appellation c++, rappelant l'opération d'incrémentation fut adopté peu de temps plus tard à partir de 1983 suite à l'ajout de nouvelles fonctionnalités. (Source \cite{Wiki-cpp})
 
 Aujourd'hui encore, de nombreuses fonctionnalités viennent agrémenter le langage C++ au fil des spécifications. Il est désormais possible de l'utiliser en s'appuyant sur de multiples paradigmes comme la programmation procédurale, la programmation orientée objet et la programmation générique.
@@ -43,6 +42,11 @@ On parle alors de polymorphisme statique dans le sens où un algorithme, une fon
 % Points
 L'espace de travail $\mathbb{Z}^{2}$ est une grille régulière représentant des points à coordonnées entières. Ce sont les principaux objets que nous allons manipuler. L'un des enjeux de la géométrie discrète est de baser ses calculs principalement sur l'usage d'entiers afin d'éviter tous les problèmes apportés par les incertitudes de précision dû aux flottants. Comme le C++ est un langage fortement typé, la représentation des entiers diffère selon la taille maximal autorisée souhaitée. On parle alors de concept "Entier". Plusieurs modèles de base sont présents : int, long. Nous utiliserons également un modèle BigInteger intégré par l'intermédiaire des librairie DGtal et GMP qui permet de manipuler de très grands entiers.
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[trim = 2cm 14cm 2cm 2cm, clip, width=0.5\linewidth, ]{fig/6-info/dia-conv.pdf}
+  \caption{Modèles et concepts utilisés.}
+\end{figure}
 
 Notre classe point possède deux variables internes myX et myY de type Entier. Elle est muni de diverses opérations.
 
