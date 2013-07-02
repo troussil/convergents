@@ -29,10 +29,11 @@ Le  disque fermé discret $\mathcal{D}$ dans $\mathbb{Z}^{2}$ (appelé pour la s
   \centering
   \includegraphics[width=6cm]{fig/2-mot/circle/circle-euc-0.pdf}
   \includegraphics[width=6cm]{fig/2-mot/circle/circle-dis-0.pdf}
-  \caption{Disque Euclidiens et Discret}
+  \caption{Disque Euclidiens et Discret de centre O et de rayon R}
+\label{fig:disk}
 \end{figure}
 
-La définition du cercle Euclidien découle directement de la définition du disque Euclidien en changeant l'inégalité par une égalité. Cependant, la définition du cercle discret ne dérive pas explicitement de la définition du disque discret. L'ensemble des points, représentés en rouge sur le dessin et appartenant à l'ensemble : $\left\{ (x,y) \in \mathbb{Z}^{2} |  (x - u)^2 + (y - v)^2 = R^2 \right\}$ ne suffit pas à représenter un cercle discret. Nous avons besoin de revenir à une définition plus générale du bord de tout ensemble discret en faisant appel à la notion de voisinage.\\
+La définition du cercle Euclidien découle directement de la définition du disque Euclidien en changeant l'inégalité par une égalité. Cependant, la définition du cercle discret ne dérive pas explicitement de la définition du disque discret. L'ensemble des points, représentés en rouge sur \textsc{figure} \ref{fig:disk} et appartenant à l'ensemble : $\left\{ (x,y) \in \mathbb{Z}^{2} |  (x - u)^2 + (y - v)^2 = R^2 \right\}$ ne suffit pas à représenter un cercle discret. Nous avons besoin de revenir à une définition plus générale du bord de tout ensemble discret en faisant appel à la notion de voisinage.\\
 
 \begin{Definition}{4-Voisinage d'un point $(u,v)$}
 \label{def:vois-4}
@@ -50,7 +51,7 @@ La définition du cercle Euclidien découle directement de la définition du dis
   \caption{4-voisinage et 8-voisinage}
 \end{figure}
 
-Le bord d'un ensemble discret $S$ se traduit par l'ensemble des points à l'intérieur de $S$ dont le 4-voisinage (respectivement 8) n'est pas intégralement contenu dans $S$. Le bord récupéré est un ensemble 8-connexes (respectivement 4). Le cercle discret est défini commme le bord d'un disque discret. Nous utilisons le joker * pour désigner arbitrairement $4$ ou $8$. 
+Le bord d'un ensemble discret $S$ se traduit par l'ensemble des points à l'intérieur de $S$ dont le 4-voisinage (respectivement 8) n'est pas intégralement contenu dans $S$. Le bord récupéré est un ensemble 8-connexes (respectivement 4). Une illustration est donnée \textsc{figure} \ref{fig:bord}. Le cercle discret est défini commme le bord d'un disque discret. Nous utilisons le joker * pour désigner arbitrairement $4$ ou $8$. 
 
 \begin{Definition}{Bord *-connexe d'un ensemble discret $S$}
 \label{def:bord-ens}
@@ -67,13 +68,14 @@ Le bord d'un ensemble discret $S$ se traduit par l'ensemble des points à l'int�
   \includegraphics[width=.3\linewidth]{fig/2-mot/circle/circle-dis-1a.pdf}
   \includegraphics[width=.3\linewidth]{fig/2-mot/circle/circle-dis-1b.pdf}
   \caption{Cercle Discret 8-connexes et 4-connexes}
+\label{fig:bord}
 \end{figure}
 
 
 %-----------------------------------------------------------------
 \subsubsection{Énoncé de la problématique}
 
-Les points discrets sont organisés sur la grille régulière $\mathbb{Z}^{2}$. Chaque point discret possède donc quatre plus proches voisins à une distance d'une unité, en haut, à gauche, en bas et à droite de lui. Or, les points strictement à l'intérieur du disque discret et non sur le bord (en bleu clair) possèdent tous leurs quatre plus proches voisins à l'intérieur du disque (maillage en rouge).
+Les points discrets sont organisés sur la grille régulière $\mathbb{Z}^{2}$. Chaque point discret possède donc quatre plus proches voisins à une distance d'une unité, en haut, à gauche, en bas et à droite de lui. Or, les points strictement à l'intérieur du disque discret et non sur le bord (en bleu clair sur \textsc{figure} \ref{fig:disque-bord}) possèdent tous leurs quatre plus proches voisins à l'intérieur du disque (maillage en rouge sur \textsc{figure} \ref{fig:disque-bord}).
 
 \begin{Definition}{Ensemble de points strictement à l'intérieur d'un disque}
 \label{def:int-ens}
@@ -85,6 +87,7 @@ Les points discrets sont organisés sur la grille régulière $\mathbb{Z}^{2}$. 
   \centering
   \includegraphics[width=.3\linewidth]{fig/2-mot/circle/circle-dis-2.pdf}
   \caption{Réseau de points strictement à l'intérieur d'un disque.}
+\label{fig:disque-bord}
 \end{figure}
 
 Le disque discret est l'union de deux ensembles disjoints : l'intérieur et le bord. La structure du premier est évidente. C'est pourquoi, seule l'étude du second, le bord, nous intéresse pour comprendre l'organisation des points des disques discrets.\\
