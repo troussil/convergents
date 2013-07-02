@@ -2,13 +2,14 @@
 \section{Contributions}
 %------------------------------------------------
 
-% Intro à refaire 
+% Intro à refaire
+%% OUI 
 %-----------------------------------------------------------------
 \subsection{Relations aux triangulations de Delaunay}
 %-----------------------------------------------------------------
 
 
-L'enveloppe convexe est unique. Les algorithmes implantés fournissent les sommets dans l'ordre trigonométrique. Il est possible de reconstruire le polygone convexe et d'en déduire ses arêtes. Elles se décomposent en motif de droites discrètes. Un motif de droite discrète est inclue dans les segments de droites discrètes. La triangulation de Delaunay de ces motifs est connue. \cite{RoussillonL11}\\
+L'enveloppe convexe est unique. Les algorithmes implémentés fournissent les sommets dans l'ordre trigonométrique. Il est possible de reconstruire le polygone convexe et d'en déduire ses arêtes. Elles se décomposent en motifs de droites discrètes. Les motifs de droite discrète sont inclus dans les segments de droites discrètes. Ce sont des discrétisations de segments de droite dont les extrémités sont des points de $\mathbb{Z}^2$. La pente d'un motif est défini comme la pente du segment de droite dont il est la discrétisation. La triangulation de Delaunay de ces motifs est connue \cite{RoussillonL11}.\\
 
 \begin{figure}[H]
   \centering
@@ -16,7 +17,7 @@ L'enveloppe convexe est unique. Les algorithmes implantés fournissent les somme
   \caption{Triangulation de Delaunay d'un motif de droite discrète}
 \end{figure}
 
-La triangulation de Delaunay dépend des convergents. Le dernier convergent n'appartenant pas au segment de droite discrète est le sommet du triangle incident de la triangulation de Delaunay. Il est appelé le point de bézout. À l'aide d'un calcul récursif, il est possible de construire l'intégralité de la triangulation de Delaunay.
+La triangulation de Delaunay d'un motif dépend des convergents de sa pente. Le dernier convergent n'appartenant pas au motif est le sommet du triangle incident au segment de droite. Il est appelé le point de bézout. À l'aide d'un calcul récursif, il est possible de construire l'intégralité de la triangulation de Delaunay.
 
 \begin{figure}[H]
   \centering
@@ -24,7 +25,7 @@ La triangulation de Delaunay dépend des convergents. Le dernier convergent n'ap
   \caption{Calcul de convergents et triangulations de Delaunauy}
 \end{figure}
 
-Comme les convergents sont calculés dans l’algorithme de Har-Peled, il est probable de pouvoir construire l'$\alpha$-shape directement. 
+Comme les convergents sont calculés dans l’algorithme de Har-Peled, il est probable que cet algorithme puisse être généralisé pour calculer les $\alpha$-shape. C'est ce que nous allons montrer.  
 
 %-----------------------------------------------------------------
 \subsection{$\alpha$-shape, $\alpha \leq 0$ - Généralisation de Har-Peled}

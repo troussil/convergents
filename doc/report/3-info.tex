@@ -9,7 +9,7 @@
 %-----------------------------------------------------------------
 \subsubsection{C++}
 
-Le C++ est un langage de programmation née dans les années 1980 dans l'optique d'agrémenter le langage C de nouvelles fonctionnalités. Il fut d'abord nommée par son créateur Bjarne Stroustrup : C with Classes. L’appellation c++, rappelant l'opération d'incrémentation fut adopté peu de temps plus tard à partir de 1983 suite à l'ajout de nouvelles fonctionnalités. (Source \cite{Wiki-cpp})
+Le C++ est un langage de programmation né dans les années 1980 dans l'optique d'agrémenter le langage C de nouvelles fonctionnalités. Il fut d'abord nommée par son créateur Bjarne Stroustrup : C with Classes. L’appellation c++, rappelant l'opération d'incrémentation fut adopté peu de temps plus tard à partir de 1983 suite à l'ajout de nouvelles fonctionnalités. (Source \cite{Wiki-cpp})
 
 Aujourd'hui encore, de nombreuses fonctionnalités viennent agrémenter le langage C++ au fil des spécifications. Il est désormais possible de l'utiliser en s'appuyant sur de multiples paradigmes comme la programmation procédurale, la programmation orientée objet et la programmation générique.
 
@@ -19,17 +19,17 @@ Le paradigme choisit dans ce stage est celui de la programmation générique. \c
 \subsubsection{Programmation générique}
 
 
-Le paradigme de la programmation générique s'appuie sur des relations concepts-modèles. 
+Le paradigme de la programmation générique s'appuie sur des relations concepts-modèles entre les types de données.  
 
-Pour appartenir à un même concept, les objets doivent posséder les mêmes fonctionnalités et le même comportement. 
+Pour appartenir à un même concept, les types doivent posséder un même interface. 
 
 \begin{Definition}{Concept}\\
 \label{def:cpp-con}
-    Un concept définit une certaine interface en terme de méthodes et de types internes. Cela rassemble des contraintes sémantiques et syntaxiques : le nom des méthodes et des types internes est fixé.
+    Un concept définit une interface en terme de données, méthodes et types internes. Il rassemble des contraintes syntaxiques (les noms sont fixes) et sémantiques (les comportements doivent être équivalents). 
 \end{Definition}
 
 \begin{Definition}{Modèle}\\
-  Un modèle est un type, un objet ou une classe qui satisfait les contraintes d'un concept.
+  Un modèle est un type qui satisfait les contraintes d'un concept.
 \label{def:cpp-mod}
 
 \end{Definition}
@@ -40,7 +40,10 @@ On parle alors de polymorphisme statique dans le sens où un algorithme, une fon
 \subsubsection{Exemple concret}
 
 % Points
-L'espace de travail $\mathbb{Z}^{2}$ est une grille régulière représentant des points à coordonnées entières. Ce sont les principaux objets que nous allons manipuler. L'un des enjeux de la géométrie discrète est de baser ses calculs principalement sur l'usage d'entiers afin d'éviter tous les problèmes apportés par les incertitudes de précision dû aux flottants. Comme le C++ est un langage fortement typé, la représentation des entiers diffère selon la taille maximal autorisée souhaitée. On parle alors de concept "Entier". Plusieurs modèles de base sont présents : int, long. Nous utiliserons également un modèle BigInteger intégré par l'intermédiaire des librairie DGtal et GMP qui permet de manipuler de très grands entiers.
+
+L'espace de travail $\mathbb{Z}^{2}$ est une grille régulière représentant des points à coordonnées entières. Ce sont les principaux objets que nous allons manipuler. L'un des enjeux de la géométrie discrète est de baser ses calculs principalement sur l'usage d'entiers afin d'éviter tous les problèmes apportés par les incertitudes de précision dû aux flottants. Comme le C++ est un langage fortement typé, la représentation des entiers diffère selon la taille maximale autorisée souhaitée. On parle alors de concept d'``Entier''. Plusieurs modèles de base sont présents : int, long. Nous utiliserons également un modèle BigInteger intégré par l'intermédiaire des librairie DGtal et GMP qui permet de manipuler de très grands entiers.
+
+Nous avons aussi un concept de ``Point''. Dans un premier temps, nous avons implémenté une classe PointVector2d, comme un modèle de ``Point''. Dans un second temps, nous avons utilisé le modèle PointVector de la librairie DGtal.  
 
 \begin{figure}[H]
   \centering
@@ -48,35 +51,39 @@ L'espace de travail $\mathbb{Z}^{2}$ est une grille régulière représentant de
   \caption{Modèles et concepts utilisés.}
 \end{figure}
 
-Notre classe point possède deux variables internes myX et myY de type Entier. Elle est muni de diverses opérations.
+%% Notre classe point possède deux variables internes myX et myY de type Entier. Elle est muni de diverses opérations.
 
-\begin{table}[H]
-  \begin{tabular}{|p{0.2\linewidth}|p{0.7\linewidth}|}
-    \hline
-     Opérations & Fonctionalités\\ 
-    \hline
-    +, -               & Addition et Soutraction\\
-    =                  & Affectation par un autre point\\
-    +=, -=             & Addition, soustraction et affectation\\
-    ==, !=             & Comparaison\\
-    $[i], i = 1 \text{ ou } 2$     & Accès aux coordonnées\\
-    (,)                & Affectation par les coordonnées\\
-    normL1(), normL2() & Diverses normes\\
-    std::cout          & Sortie standart\\
-    \hline
-  \end{tabular} 
-  \caption{Nombre de sommets de l'$\alpha$-shape}
-\end{table}
+%% TRI pas utile!
+%% ce que je demandais, ce sont les opérations associés à un concept pas à une classe. 
+%% \begin{table}[H]
+%%   \begin{tabular}{|p{0.2\linewidth}|p{0.7\linewidth}|}
+%%     \hline
+%%      Opérations & Fonctionalités\\ 
+%%     \hline
+%%     +, -               & Addition et Soutraction\\
+%%     =                  & Affectation par un autre point\\
+%%     +=, -=             & Addition, soustraction et affectation\\
+%%     ==, !=             & Comparaison\\
+%%     $[i], i = 1 \text{ ou } 2$     & Accès aux coordonnées\\
+%%     (,)                & Affectation par les coordonnées\\
+%%     normL1(), normL2() & Diverses normes\\
+%%     std::cout          & Sortie standart\\
+%%     \hline
+%%   \end{tabular} 
+%%   \caption{Nombre de sommets de l'$\alpha$-shape}
+%% \end{table}
 
-Pour mettre à bien nos méthodes de calcul sur des objets dans $\mathbb{Z}^{2}$ , nous avons implémenté un concept Forme. Il permet de répondre à trois questions.
+Pour mettre en oeuvre nos méthodes de calcul sur des objets dans $\mathbb{Z}^{2}$ , nous avons implémenté un concept de ``FormeIntersectable'', 
+représentant un objet géométrique pour lequel on est capable de calculer son intersection avec un rayon. Les modèles de ``FormeIntersectable''
+doivent posséder au moins trois méthodes: 
 
 \begin{itemize}
-  \item Prédicat de position : Sommes-nous dedans, dehors ou exactement sur le bord de cette forme.
-  \item Intersection de rayon : Le rayon émanent de ce point dans cette direction intersecte-t-il cette forme et si oui, quelle est le point le plus proche et du même côté.
-  \item Point de départ : Il s'agit de trouver le point à l'intérieur avec l'ordonnée minimal et l'abscisse maximale. 
+  \item un opérateur parenthèse pour le prédicat de position : est point est-il à l'intérieur ou à l'extérieur de la forme ?
+  \item une méthode dray: le rayon émanent d'un point donné, dans une direction donnée intersecte-t-il cette forme et si oui, quelle est le point le plus proche et du même côté ?
+  \item une méthode getConvexHullVertex pour obtenir le point de départ, situé à l'intérieur avec l'ordonnée minimale et l'abscisse maximale. 
 \end{itemize}
 
-Pour le moment, trois modèles ont été implémentés : RayIntersectableStraightLine : Le segment de droite discrète, ExactRayIntersectableCircle : Un disque discret implémentées avec des calculs sur des entiers, InexactRayIntersectableCircle : Un disque discret implémentées avec des calculs sur des entiers et des flottants.
+Pour le moment, trois modèles ont été implémentés : RayIntersectableStraightLine (pour un segment de droite discrète), ExactRayIntersectableCircle (pour un disque discret implémentées avec des calculs sur des entiers), InexactRayIntersectableCircle (pour un disque discret implémentées avec des calculs sur des entiers et des flottants).
 
 % graph contexte
 
@@ -84,67 +91,38 @@ Pour le moment, trois modèles ont été implémentés : RayIntersectableStraigh
 %-----------------------------------------------------------------
 \subsubsection{Dans la pratique}
 
+Le code suivant permet de stocker les sommets de l'enveloppe convexe
+d'un disque discret dans un STL vector. 
+
 \begin{verbatim}
-  // ECircle utilise un modèle Forme de disque avec des calculs exactes et de 
-  // très grands entiers
-  typedef ExactRayIntersectableCircle<DGtal::BigInteger> ECircle;
-    
-  // On définit des disques de rayon R dont le centre est placé aléatoirement
-  // dans le carré [0;1]x[0;1].
-  // D : ax + by + c(x^2 + b^b) + d >= 0
-    
-  DGtal::BigInteger c =  -25;
-  DGtal::BigInteger a = - rand() %(2*c);
-  DGtal::BigInteger b = - rand() %(2*c);  
-  DGtal::BigInteger d = ( a*a + b*b - 4*R*R*c*c)/(4*c);
-  
-  // Déclaration et affectation du disque
-  ECircle exactCircle( a, b, c, d );	 
+  ... // Lire a, b, c, d
+
+  // On définit un disque de paramètres a, b, c, d
+  // tels que ax + by + c(x^2 + y^2) + d <= 0
+  Disk aDisk( a, b, c, d );	 
   
   // Déclaration de l'enveloppe convexe de notre disque.
-  OutputSensitiveConvexHull<ECircle> exactCH(exactCircle);
+  OutputSensitiveConvexHull<Disk> algo(aDisk);
   
-  // Variables pour récupérer les sommets succéssifs.
-  // C'est un OutputIterator.
-  std::back_inserter( std::vector<Point>) exactVertices;
+  // Variable stockant les sommets succéssifs.
+  std::vector<Point> convexHullVertices
   
-  // Récupération de ses sommets par la méthode all 
-  // appartenant à la classe OutputSensitiveConvexHull.
-
-  exactCH.all(exactVertices);  
+  // Récupération des sommets par un itérateur 
+  algo.all( std::back_inserter( convexHullVertices ) );  
 \end{verbatim}
+
+Auparavant, on a le choix d'utiliser différents modèles de disques. 
+Soit un modèle où les calculs sont possiblement inexacts (mais plus rapides): 
 \begin{verbatim}
-  // ICircle utilise un modèle Forme de disque avec des calculs flottants et de 
-  // grands entiers 
-  typedef InexactRayIntersectableCircle<long> ICircle;
-    
-  // On définit des disques de rayon R dont le centre est placé aléatoirement
-  // dans le carré [0;1]x[0;1].
-  // D : ax + by + c(x^2 + b^b) + d >= 0
-    
-  long c =  -25;
-  long a = - rand() %(2*c);
-  long b = - rand() %(2*c);  
-  long d = ( a*a + b*b - 4*R*R*c*c)/(4*c);
-  
-  // Déclaration et affectation du disque
-  ICircle inexactCircle( a, b, c, d );	  
-  
-  // Déclaration de l'enveloppe convexe de notre disque.
-  OutputSensitiveConvexHull<ICircle> inexactCH(inexactCircle);
-  
-  // Variables pour récupérer les sommets succéssifs.
-  // C'est un OutputIterator.
-  std::back_inserter( std::vector<Point>) inexactVertices;
-  
-  // Récupération de ses sommets par la méthode all 
-  // appartenant à la classe OutputSensitiveConvexHull.
-
-  inexactCH.all(inexactVertices); 
+  typedef InexactRayIntersectableCircle<int> Disk;
+\end{verbatim}
+Soit un modèle où les calculs sont exacts (mais plus lents):
+\begin{verbatim}
+  typedef ExactRayIntersectableCircle<DGtal::BigInteger> Disk;
 \end{verbatim}
 
-
-La programmation générique nous a permis d'implémenter qu'une seule fois la classe OutputSensitiveConvexHull et sa méthode all qui récupère les sommets de l'enveloppe convexe. Nous avons pu ainsi utiliser nos méthodes sur différents modèles en toute transparence. Néanmoins la réalisation d'un projet comportant du développement informatique impose certaines contraintes au niveau du rendu. 
+La programmation générique nous a permis d'implémenter qu'une seule fois la classe OutputSensitiveConvexHull et sa méthode all qui récupère les sommets de l'enveloppe convexe. Nous avons pu ainsi utiliser nos méthodes sur différents modèles en toute transparence. 
+%Néanmoins la réalisation d'un projet comportant du développement informatique impose certaines contraintes au niveau du rendu. 
 
 %-----------------------------------------------------------------
 \subsection{Génie logiciel}
@@ -153,10 +131,11 @@ La programmation générique nous a permis d'implémenter qu'une seule fois la c
 %-----------------------------------------------------------------
 \subsubsection{Tests}
 
-Le but de tout algorithme est de répondre juste à la question qui lui est posée. L'une des difficultés rencontrés dans ce stage reste la faible présence d'outils susceptibles de nous répondre à notre question par d'autre chemin. Pour vérifier nos calculs, nous avons implémenté des méthodes de tests s'appuyant sur le suivi de bord pour les méthodes recherchant des bords. En codant les tests unitaires avant nos méthodes de calcul, nous avons mis en place une logique de développement par les tests utilisant le principe : Stop The line. \cite{stoptheline}
+Le but de tout algorithme est de répondre juste à la question qui lui est posée. L'une des difficultés rencontrés dans ce stage reste la faible présence d'outils susceptibles de nous répondre à notre question par d'autre chemin. Pour vérifier nos calculs, nous avons implémenté des méthodes de tests s'appuyant sur le suivi de bord pour les méthodes recherchant des bords. En codant les tests unitaires avant nos méthodes de calcul, nous avons mis en place une logique de développement par les tests. 
+%% utilisant le principe : Stop The line. \cite{stoptheline}
+%%TRI: pas très pertinent
 
-Dans le cadre d'un développement informatique, cela consiste à essayer de provoquer l'ensemble des cas critiques et de chercher à les passer. Le but étant de pouvoir utiliser le code en production en minimisant le risque de trouver un résultat incorrecte.\\
-
+Dans le cadre d'un développement informatique, cela consiste à essayer de provoquer l'ensemble des cas critiques et de chercher à les passer. Le but étant de pouvoir utiliser le code en production en minimisant le risque de trouver un résultat incorrect.\\
 
 Les tests unitaires ont été générés aléatoirement sur un grand nombre de cas et se sont concentré sur certains cas particuliers critiques. Ses tests ont été automatisés avec l'utilisation de make et cmake. L'appel à la commande make test permettant de lancer tous les tests et d'ainsi vérifier l'intégration et la non-régression lors de l'ajout de nouvelles méthodes. 
 
@@ -164,9 +143,9 @@ Les tests unitaires ont été générés aléatoirement sur un grand nombre de c
 %-----------------------------------------------------------------
 \subsubsection{Espace de collaboration}
 
-Le projet crée à l'occasion de ce stage a été de développer des méthodes en s'appuyant sur un projet de plus grande envergure à travers l'utilisation de la librairie DGtal : \cite{DGtal}. Afin d'être compatible, il faut accepter de suivre un certain formalisme pour homogénéiser l'ensemble. Il faut de suivre les conventions établies au niveau du nommage des variables, de la mise en place des commentaires et de la documentation. Une autre forme de formalisme à suivre se retrouve également à travers l'écriture directe du programme et de la gestion des longues lignes de codes et tout simplement des tabulations/espaces afin de pouvoir tirer au mieux profit de la puissance des gestionnaires de version, de git dans notre cas.\\
+Le projet crée à l'occasion de ce stage a été de développer des méthodes en s'appuyant sur un projet de plus grande envergure à travers l'utilisation de la librairie DGtal : \cite{DGtal}. Afin d'être compatible, il faut accepter de suivre un certain formalisme pour homogénéiser l'ensemble. Il faut suivre les conventions établies au niveau du nommage des variables, de la mise en place des commentaires et de la documentation. Une autre forme de formalisme à suivre se retrouve également à travers l'écriture directe du programme et de la gestion des longues lignes de codes et tout simplement des tabulations/espaces afin de pouvoir tirer au mieux profit de la puissance des gestionnaires de version, de git dans notre cas.\\
 
-La collaboration avec mon encadrant s'est grandement appuyée sur l'utilisation quotidienne du logiciel git et de l’hébergement de notre projet sur la plateforme github : \cite{github-tristan} et \cite{github-thomas} permettant de garder facilement une trace des travaux et modification effectués. Environ 270 commits sont venues répondre à une soixantaine de problèmes soulevés.\\
+La collaboration avec mon encadrant s'est grandement appuyée sur l'utilisation quotidienne du logiciel git et de l’hébergement de notre projet sur la plateforme github : \cite{github-tristan} et \cite{github-thomas} permettant de garder facilement une trace des travaux et modifications effectués. Environ 270 commits sont venus répondre à une soixantaine de problèmes soulevés.\\
 
 Un projet informatique n'a de sens et d'utilité que s'il est complet. Il est important dans un souci de pérennité de proposer un travail fini afin que celui-ci puisse être compris et utilisé ultérieurement. Cela a été l’occasion de retravailler le projet dans son ensemble avec du recul pour par exemple nommer correctement et avec des noms cohérents l'ensemble des classes.
 
