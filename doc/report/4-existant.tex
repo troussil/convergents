@@ -11,7 +11,7 @@ La méthode du suivi du bord d'un disque discret est un processus étudié et co
 %-----------------------------------------------------------------
 %\subsubsection{Trouver le sommet de départ}
 
-Pour chercher un point de départ sur le bord du disque discret à partir de la seule connaissance de ses paramètres, nous avons choisi de récupérer le point d'ordonnée minimale et d'abscisse maximale à l'intérieur du disque. Nous prenons le point de $\mathbb{Z}^2$ avec les coordonnées entières du centre du disque. Puis, nous descendons le long de l'axe vertical d'une longueur entière égale au rayon pour trouver un point d'ordonnée miniamle. Ensuite, nous translatons suivant l'axe horizontal afin de récupérer le point d'abscisse maximal. On note \textbf{a} ce point de départ. Cette procédure prend un temps constant. 
+Pour chercher un point de départ sur le bord du disque discret à partir de la seule connaissance de ses paramètres, nous avons choisi de récupérer le point d'ordonnée minimale et d'abscisse maximale à l'intérieur du disque. Nous prenons le point de $\mathbb{Z}^2$ avec les coordonnées entières du centre du disque. Puis, nous descendons le long de l'axe vertical d'une longueur entière égale au rayon pour trouver un point d'ordonnée minimale. Ensuite, nous translatons suivant l'axe horizontal afin de récupérer le point d'abscisse maximal. On note \textbf{a} ce point de départ. Cette procédure prend un temps constant. 
 
 \begin{figure}[H]
   \centering
@@ -40,7 +40,7 @@ Cette étape prend un temps constant, limité par la taille constante du voisina
 \subsection{Enveloppe Convexe : Algorithme de Har-Peled}
 %-----------------------------------------------------------------
 
-De nombreux algorithmes existent pour calculer l'enveloppe convexe d'un ensemble de points. L'algorithme de Graham l'implémente en $O(n \log n)$ pour un ensemble quelconque de $n$ points. Quand les $n$ points sont ordonnés, comme le sont les points du bord d'un disque discret, le parcours de Graham est en $O(n)$. Par conséquent, calculer l'enveloppe convexe des points d'un disque discret se calcule par suivi de bord et parcours de Graham en $O(R)$. Cependant un algorithme géométrique introduit par Har-Peled en 1998 calcule l'enveloppe convexe des points d'un disque discret de manière incrémentale et ``output-sensitive''.
+De nombreux algorithmes existent pour calculer l'enveloppe convexe d'un ensemble de points. L'algorithme de Graham \cite{Graham1972} l'implémente en $O(n \log n)$ pour un ensemble quelconque de $n$ points. Quand les $n$ points sont ordonnés, comme le sont les points du bord d'un disque discret, le parcours de Graham est en $O(n)$. Par conséquent, calculer l'enveloppe convexe des points d'un disque discret se calcule par suivi de bord et parcours de Graham en $O(R)$. Cependant un algorithme géométrique introduit par Har-Peled en 1998 \cite{HarPeled98} calcule l'enveloppe convexe des points d'un disque discret de manière incrémentale et ``output-sensitive''.
 %% reference pour Graham
 %% reference pour Har-Peled
 
