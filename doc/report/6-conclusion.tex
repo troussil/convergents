@@ -3,6 +3,10 @@
 %------------------------------------------------
 
 %%TRI: TODO: réponse à la question posée 
+%Notre objectif est de comprendre comment sont organisés spatialement les points du bord d’un disque discret, de comprendre comment cette structure est déterminée par les paramètres du disque (position et taille) par rapport à la grille sous-jacente.
+
+L'algorithme de calcul de l'$\alpha$-shape pour $\alpha < 0$ output-sensitive fonctionne comme une boite noire. À partir d'un certain sommet, il va à la recherche du sommet suivant selon la taille et la position du disque. Il propose une réponse à la question de la position du prochain sommet suivant les paramètres du disque. Cela permet de comprendre l'organisation spatiale des points entre deux sommets de l'enveloppe convexe. Néanmoins, la relation de distance entre les points reste encore à étudier par l'intermédiaire d'une approche différente de calcul pour le cas $\alpha > 0$.
+
 
 %-----------------------------------------------------------------
 \subsection{Poursuite du projet}
@@ -11,16 +15,12 @@
 Le projet scientifique commencé par l'intermédiaire de ce stage peut être étendu sur bien des points. 
 
 Sur le plan du développement informatique, il reste possible d'ajouter de nombreuses fonctionnalités. L’étude d'autres formes géométriques comme l'ellipse, l'union de deux droites discrètes semble être des ajouts intéressants. L'implémentation différentes des algorithmes déjà présents permettrait de mieux cerner les optimisations possibles et d'ainsi mieux cerner les contraintes et choix techniques à effectuer ultérieurement. 
-%% TRI: reformuler
-Le calcul des $\alpha$-shapes par arête permettrait de tirer profit d'une possible parallélisation où bien d'une table de hachage afin de conserver les points ajoutés pour les arêtes. 
-%%TRI: reformuler et a mettre en parallèle de l'approche bottom-up
-Inversement, adopter une approche ``top-down'' afin de calculer incrémentalement l'$\alpha$-shape quand $\alpha > 0$ serait une méthode avec une complexité intéressante à partir d'un certain rapport Rayon du disque / $\alpha$.
 
-Un projet plus ambitieux et plus long serait de chercher à généraliser la méthode à la dimension 3 même s'il faudrait repartir d'une nouvelle base avec des points dans $\mathbb{Z}^{3}$. 
-%% TRI dire que la borne $O(R^2/3)$ tient en dimension n. 
+Le calcul des $\alpha$-shapes lorsque $\alpha < 0$ où $\alpha > 0$ permet deux approches distinctes. ``Top-down'' propose de rechercher les sommets suivants de l'$\alpha$-shape à partir d'un sommet. ``Bottom-up'' recherche le sous-ensemble correspondant à l'$\alpha$-shape parmi un ensemble de sommets pertinent. Implémenter l'approche ``top-down'' pour le cas $\alpha > 0$ permettrait de mieux comprendre la relation de distance dans l'organisation spatiale des points du bord d'un disque discret tout en proposant une complexité plus intéressante. Implémenter l'approche ``bottom-up'' pour le cas $\alpha < 0$ permettrait d'identifier toutes les pentes présentes dans une table de hachage et de tirer profit d'une parallélisation pour calculer quels sommets rajouter ou enlever selon la pente de l'arête. Le nombre de sommet de l'enveloppe convexe d'un disque en dimension n est asymptotique à $O(R^{2/3})$. 
 
-%% à préciser
-Un autre intérêt scientifique serait d'approfondir les résultats obtenus en réalisant une étude asymptotique du nombre de sommet d'une $\alpha$-shape en fonction de $\alpha$ et de R, le rayon du disque.
+Il serait intéressant d'étudier et d'implémenter la recherche du prochain sommet dans une dimension supérieure en commençant par l'espace des points de $\mathbb{Z}^{3}$. Les $\alpha$-shapes restant basées sur les triangulations de Delaunay, il faudrait également s'intéresser aux triangulations de Delaunay des motifs de plans discrets.
+
+La preuve de la complexité du calcul de l'enveloppe convexe d'un disque discret en $O(R^{2/3} \log r)$ a été apporté par Har-Peled  \cite{HarPeled98}. Il serait particulièrement intéressant de continuer l'investigation de la complexité du calcul des $\alpha$-shapes pour trouver une formulation asymptotique en fonction du rayon.
 
 Enfin, le but de tout algorithme étant d'être utilisé, il serait intéressant une fois le projet achevé de chercher à l'intégrer à la librairie DGtal afin de pouvoir utiliser les $\alpha$-shapes dans un cadre de reconnaissance de forme et d’échantillonnage \cite{BernardiniB97}.
 
@@ -29,11 +29,11 @@ Enfin, le but de tout algorithme étant d'être utilisé, il serait intéressant
 \subsection{Compétences acquises}
 %-----------------------------------------------------------------
 
-À l'occasion de ce stage, j'ai pu m'améliorer dans des domaines bien distincts. D'un point de vu scientifique, j'ai découvert un domaine de recherche : la géométrie discrète particulièrement intéressant et original dans ses approches de résolutions. À travers l'implémentation des méthodes de résolution couvertes lors de mon stage, j'ai beaucoup appris sur le développement informatique en général. En particulier, j'ai grandement apprécié renouer au C++ à travers la découverte de la programmation générique. Cet apprentissage technique doit être mis en parallèle de l’acquisition de compétences dans le domaine du travail collaboratif et de la gestion de projet. L'utilisation quotidienne de git et de nombreux outils automatisant le projet ont faciliter la discussion et le partage autour du programme.
+À l'occasion de ce stage, j'ai pu m'améliorer dans des domaines bien distincts. D'un point de vue scientifique, j'ai découvert un domaine de recherche : la géométrie discrète particulièrement intéressant et original dans ses approches de résolutions. À travers l'implémentation des méthodes de résolution couvertes lors de mon stage, j'ai beaucoup appris sur le développement informatique en général. En particulier, j'ai grandement apprécié renouer au C++ à travers la découverte de la programmation générique. Cet apprentissage technique doit être mis en parallèle de l’acquisition de compétences dans le domaine du travail collaboratif et de la gestion de projet. L'utilisation quotidienne de git et de nombreux outils automatisant le projet ont facilités la discussion et le partage autour du programme.
 
 %-----------------------------------------------------------------
 \subsection{Ouverture personnelle}
 %-----------------------------------------------------------------
 
-Je n'aurai pu souhaiter meilleurs fin pour ce manuscrit qui ne signifie pas seulement la fin de ce stage mais aussi la fin d'un cycle entamé il y a deçà plusieurs années : celui de mes études et de mon enseignement scientifique supérieur. Fort de cette expérience gratifiante et enrichissante, je possède aujourd'hui le sentiment d'être prêt à refermer cette porte pour m'ouvrir vers ce nouvel environnement qui je l'espère gravitera autour d'un domaine scientifique et continuera à m'apprendre et m'enseigner dans des domaines divers et variés.
+Je n'aurai pu souhaiter meilleure fin pour ce manuscrit qui ne signifie pas seulement la fin de ce stage, mais aussi la fin d'un cycle entamé il y a deçà plusieurs années : celui de mes études et de mon enseignement scientifique supérieur. Fort de cette expérience gratifiante et enrichissante, je possède aujourd'hui le sentiment d'être prêt à refermer cette porte pour m'ouvrir vers ce nouvel environnement, qui je l'espère gravitera autour d'un domaine scientifique et continuera à m'apprendre et m'enseigner dans des domaines divers et variés.
 

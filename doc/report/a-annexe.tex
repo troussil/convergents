@@ -88,6 +88,26 @@ q_{n+1} &= - \lfloor\frac{a x_{n-1} + b y_{n-1}}{ a x_{n} + b y_{n}}\rfloor \\
 
 On a montré que \textbf{$q_{n+1}= k_{n+1}$}. Comme la relation est vraie au rang 0 et au rang (n+1),  \textbf{elle est vraie pour tout n > 0}.
 
+%-----------------------------------------------------------------
+%%THOM
+\subsubsection{Exemple d'équivalence pour le calcul du pgcd et des convergents de (3,8)}
+
+%% TRI: je ne vois pas l'intérêt ici: en annexe ?
+ \begin{table}[H]
+   \centering
+   \begin{tabular}{|p{0.04\linewidth}|p{0.04\linewidth}|p{0.04\linewidth}||p{0.04\linewidth}|p{0.04\linewidth}||p{0.2\linewidth}||p{0.35\linewidth}|}
+     \hline 
+     $k$ & $a$ & $b$ & $q_{k}$ & $r_k$ & (a,b) & $p_k$ \\
+     \hline 
+     -2 & - & - & - & - & -                    & $p_{-2} = (1,0)$\\
+     -1 & - & - & - & - & $3 p_{-2} + 8p_{-1}$ & $p_{-1} = (0,1)$\\
+      0 & 8 & 3 & 2 & 2 & $2 p_{-1} + 3p_{0}$  & $p_{0}  = p_{-2} + 2p_{-1} = (1,2)$\\ 
+      1 & 3 & 2 & 1 & 1 & $p_{0}  + 2p_{1}$    & $p_{1}  = p_{-1} + p_{0} = (1,3)$\\
+      2 & 2 & 1 & 2 & 0 & $p_{2}$              & $p_{2}  = p_{0} + 2p_{1} = (3,8)$\\
+     \hline
+   \end{tabular} 
+   \caption{Résultat du $PGCD(3,8)$ par la méthode d'Euclide et géométrique}
+ \end{table}
 
 %-----------------------------------------------------------------
 \subsection{Algorithme du calcul de l'$\alpha$-shape pour $\alpha <0$}
