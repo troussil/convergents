@@ -141,18 +141,13 @@ La méthode de calcul de l'$\alpha$-shape pour $\alpha > 0$ est différente des 
 
 L'algorithme commence également différemment des autres déjà présentés. Tous les sommets de l'enveloppe convexe n'appartienent pas obligatoirement à l'alpha-shape. Il n'y a donc pas de raison que le point d'ordonnée minimale et d'abscisse maximale lui appartienne. Nous devons choisir un sommet appartenant au plus petit cercle englobant. Nous le choisissons par construction parmi l'un des trois sommets du triangle composant le cercle circonscrit. Ensuite, nous récupérons l'ensemble des sommets de l'enveloppe convexe du disque discret par l'intermédiaire de notre algorithme ``Output Sensitive''. On note $\mathcal{S}$ cet ensemble.
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.4\linewidth]{fig/5-con/pas/con-pas-0.pdf}
-  \caption{Le cercle circonscrit au triangle et l'enveloppe convexe de son disque.}
-\end{figure}
-
 Soient a,b et c trois points successifs appartenant à S. Nous utilisons un \textbf{prédicat} qui compare la taille du rayon \textbf{$R_T$} du cercle circonscrit au triangle : $T(a, b, c)$ à la taille du rayon $R_{\alpha}$ de notre disque généralisé. Il faut distinguer deux cas de figures.\\
 
 \begin{figure}[H]
   \centering
+  \includegraphics[width=0.4\linewidth]{fig/5-con/pas/con-pas-0.pdf}  
   \includegraphics[width=0.5\linewidth]{fig/5-con/nas/con-nas-1.pdf}
-  \caption{Calcul du Prédicat}
+  \caption{Le cercle circonscrit au triangle et l'enveloppe convexe de son disque. Le calcul du Prédicat}
 \end{figure}
 
 Si $\alpha = \alpha_{1}$ (en violet) alors \textbf{$R_{\alpha_{1}} < R_T$}. Le point b appartient au disque généralisé de rayon $R_{\alpha_{1}}$. Il existe un disque généralisé $\mathcal{D}_{\alpha_2}$ avec a et c comme points $\alpha$-adjacents contenant tous les points de S. \textbf{b n'est pas un sommmet de l'$\alpha$-shape}. On le supprime de la liste des sommets potentiels et on poursuit la procédure pour étudier les sommets suivants. a reste inchangé, b devient c et c devient le sommet suivant de $\mathcal{S}$.
