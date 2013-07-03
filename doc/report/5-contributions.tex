@@ -37,7 +37,7 @@ L'enveloppe convexe est unique. L'algorithme de Har-Peled fournit les sommets de
 \label{fig:tri}   
 \end{figure}
 
-La triangulation de Delaunay d'un motif dépend des convergents de sa pente. Leur relation est illustré sur les \textsc{figures} \ref{fig:tri}. Le dernier convergent n'appartenant pas au motif est le sommet du triangle incident au segment de droite. Les autres triangles peuvent être obtenus par récursion. 
+La triangulation de Delaunay d'un motif dépend des convergents de sa pente. Leur relation est illustré \textsc{figure} \ref{fig:tri}. Le dernier convergent n'appartenant pas au motif est le sommet du triangle incident au segment de droite. Les autres triangles peuvent être obtenus par récursion. 
 
 Comme les convergents successifs sont calculés dans l’algorithme de Har-Peled, il est probable que cet algorithme puisse être généralisé pour calculer les $\alpha$-shape. C'est ce que nous allons montrer.  
 
@@ -52,7 +52,7 @@ La méthode de calcul de l'$\alpha$-shape pour $\alpha <0$ reproduit le schéma 
 
 L'algorithme commence similairement à l'enveloppe convexe avec la recherche d'un point de départ. La même méthode est utilisée pour trouver le point $a$ d'ordonnée minimale et d'abscisse maximale. Comme il appartient à l'enveloppe convexe, il appartient également à l'$\alpha$-shape.
 
-À partir de ce point, nous lançons une série de convergents pour récupérer les sommets $e$ potentiels. Les convergents se trouvent alternativement à l'intérieur de disque (convergent de degré impaire) et à l'extérieur où exactement sur le bord du disque (convergent de degré pair). À chaque convergent à l'intérieur (de couleur bleue foncé), on contrôle la possibilité d'avoir trouvé un sommet.
+À partir de ce point, nous lançons une série de convergents pour récupérer les sommets $e$ potentiels. Les convergents se trouvent alternativement à l'intérieur de disque (convergent de degré impaire) et à l'extérieur où exactement sur le bord du disque (convergent de degré pair). À chaque convergent à l'intérieur (de couleur bleue foncé sur la \textsc{figure} \ref{fig:nas1}), on contrôle la possibilité d'avoir trouvé un sommet.
 
 Soient  $b = p_{k-2} + (q_k - 1) * p_{k-1}$ et $c = p_k = p_{k-2} + q_k * p_{k-1}$. Pour savoir si c est un sommet, nous utilisons un prédicat qui compare la taille du rayon \textbf{$R_T$} du cercle circonscrit au triangle : $T(a, b, c)$ à la taille du rayon de notre disque généralisé : \textbf{$R_{\alpha}$} $= -1/\alpha$. Il faut distinguer deux cas de figures.\\
 
@@ -61,11 +61,12 @@ Soient  $b = p_{k-2} + (q_k - 1) * p_{k-1}$ et $c = p_k = p_{k-2} + q_k * p_{k-1
   \includegraphics[width=0.45\linewidth]{fig/5-con/nas/con-nas-0.pdf}
   \includegraphics[width=0.45\linewidth]{fig/5-con/nas/con-nas-1.pdf}
   \caption{Calcul des convergents et du Prédicat}
+  \label{fig:nas1}
 \end{figure}
 
-Si $\alpha = \alpha_{2}$ (en jaune) alors \textbf{$R_{\alpha_{2}} < R_T$} et le point b appartient au notre disque généralisé de rayon $-1/R_{\alpha_{2}}$ ( b appartient au complémentaire du disque de rayon $1/R_{\alpha_{2}}$). On ne sait pas encore si le convergent c sera un sommet de l'$\alpha$-shape, mais on sait que b n'en sera pas un. Nous pouvons continuer le calcul des convergents.\\ 
+Si $\alpha = \alpha_{2}$ (en jaune) alors \textbf{$R_{\alpha_{2}} > R_T$} et le point b appartient au disque généralisé de rayon $-R_{\alpha_{2}}$ ( b appartient au complémentaire du disque de rayon $R_{\alpha_{2}}$). On ne sait pas encore si le convergent c sera un sommet de l'$\alpha$-shape, mais on sait que b n'en sera pas un. Nous pouvons continuer le calcul des convergents.\\ 
 
-Si $\alpha = \alpha_{1}$ (en violet) alors \textbf{$R_{\alpha_{1}} > R_T$} et le point b n'appartient pas à notre disque généralisé de rayon $-1/R_{\alpha_{1}}$. L'$\alpha$-hull ne peut rejoindre c par a sans au moins passé par b. b et c appartiennent à notre $\alpha$-shape. Il faut maintenant vérifier si les points $b_i = p_{k-2} + i*p_{k-1} \forall i \in [0, q_k-2]$ appartiennent également à l'$\alpha$-shape. \\
+Si $\alpha = \alpha_{1}$ (en violet) alors \textbf{$R_{\alpha_{1}} < R_T$} et le point b n'appartient pas à notre disque généralisé de rayon $-R_{\alpha_{1}}$. L'$\alpha$-hull ne peut rejoindre c par a sans au moins passé par b. b et c appartiennent à notre $\alpha$-shape. Il faut maintenant vérifier si les points $b_i = p_{k-2} + i*p_{k-1} \forall i \in [0, q_k-2]$ appartiennent également à l'$\alpha$-shape. \\
 
 De part la construction des triangles, la taille des rayons de leur cercle circonscrit $R_{T_{i}}$ est croissante. Il suffit de tester le dernier avec le plus grand cercle pour savoir si nous pouvons continuer notre algorithme et lancer les convergents suivants ou si nous devons déterminer quel sera le point $\alpha$-extrême par une recherche dichotomique. La recherche dichotomique permet de trouver en $log(q_k)$ le triangle adéquate $T_i = (a, b_{i}, b_{i+1}$ tel que $R_{T_i} > R_{\alpha}$ et $R_{T_{i-1}} \leq R_{\alpha}$.
 
