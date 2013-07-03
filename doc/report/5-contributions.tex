@@ -2,14 +2,32 @@
 \section{Contributions}
 %------------------------------------------------
 
-% Intro à refaire
-%% OUI 
+Un ensemble d'indices indiquent qu'il pourrait exister 
+un algorithme incrémental et output sensitive calculant 
+les $\alpha$-shapes de la discrétisation d'un disque
+(quand $\alpha$ est négatif). 
+
+\begin{enumerate}
+\item Le bord de la discrétisation d'un disque est convexe 
+(au sens discret) et tout bord convexe se décompose de manière 
+unique en motifs de droite discrète \cite{roussillonPR2011}. 
+\item Comme on l'a vu, il existe un algorithme incrémental et output sensitive 
+calculant les motifs de la discrétisation d'un disque par les 
+convergents approchant leur pente \cite{HarPeled98}. 
+\item L'union des alpha-shapes lorsque $\alpha$ est négatif 
+est un sous-ensemble de la triangulation de Delaunay \cite{EdeKirSei83}
+et la triangulation de Delaunay d'un motif est déterminé par 
+les convergents de sa pente \cite{RoussillonL11}. 
+\end{enumerate}
+
+Nous allons préciser ce dernier élément. 
+
 %-----------------------------------------------------------------
 \subsection{Relations aux triangulations de Delaunay}
 %-----------------------------------------------------------------
 
 
-L'enveloppe convexe est unique. Les algorithmes implémentés fournissent les sommets dans l'ordre trigonométrique. Il est possible de reconstruire le polygone convexe et d'en déduire ses arêtes. Elles se décomposent en motifs de droites discrètes. Les motifs de droite discrète sont inclus dans les segments de droites discrètes. Ce sont des discrétisations de segments de droite dont les extrémités sont des points de $\mathbb{Z}^2$. La pente d'un motif est défini comme la pente du segment de droite dont il est la discrétisation. La triangulation de Delaunay de ces motifs est connue \cite{RoussillonL11}.\\
+L'enveloppe convexe est unique. L'algorithme de Har-Peled fournit les sommets de l'enveloppe convexe dans l'ordre trigonométrique. Comme un disque discret est convexe, la séquence des points de son bord entre deux sommets de l'enveloppe convexe est un motif ou une répétition de motifs de droite discrète de même pente. Les motifs de droite discrète, inclus dans les segments de droites discrètes, eux-mêmes inclus dans les droites discrètes, sont des discrétisations de segments de droite dont les extrémités sont des points discrets. La pente d'un motif est défini comme la pente du segment de droite dont il est la discrétisation. La triangulation de Delaunay de ces motifs est connue \cite{RoussillonL11}.\\
 
 \begin{figure}[H]
   \centering
@@ -19,9 +37,9 @@ L'enveloppe convexe est unique. Les algorithmes implémentés fournissent les so
 \label{fig:tri}   
 \end{figure}
 
-La triangulation de Delaunay d'un motif dépend des convergents de sa pente. Leur relation est illustré sur les \textsc{figures} \ref{fig:tri}. Le dernier convergent n'appartenant pas au motif est le sommet du triangle incident au segment de droite. Il est appelé le point de bézout. À l'aide d'un calcul récursif, il est possible de construire l'intégralité de la triangulation de Delaunay.
+La triangulation de Delaunay d'un motif dépend des convergents de sa pente. Leur relation est illustré sur les \textsc{figures} \ref{fig:tri}. Le dernier convergent n'appartenant pas au motif est le sommet du triangle incident au segment de droite. Les autres triangles peuvent être obtenus par récursion. 
 
-Comme les convergents sont calculés dans l’algorithme de Har-Peled, il est probable que cet algorithme puisse être généralisé pour calculer les $\alpha$-shape. C'est ce que nous allons montrer.  
+Comme les convergents successifs sont calculés dans l’algorithme de Har-Peled, il est probable que cet algorithme puisse être généralisé pour calculer les $\alpha$-shape. C'est ce que nous allons montrer.  
 
 %-----------------------------------------------------------------
 \subsection{$\alpha$-shape, $\alpha \leq 0$ - Généralisation de Har-Peled}
