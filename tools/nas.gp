@@ -25,13 +25,13 @@ set grid;
 set logscale;
 
 # -- X --
-set xrange [32:33554432];
-set xtics 50;
+set xrange [32:268435456];
+set xtics 10;
 set xlabel ' Rayon (unité)';
 
 # -- Y --
-set yrange [170:	2640000];
-set ytics 50;
+set yrange [170:	10695000];
+set ytics 10;
 set ylabel ' # sommets (unité), temps (ms)';
 
 

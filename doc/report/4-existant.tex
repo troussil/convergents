@@ -17,7 +17,7 @@ Pour chercher un point de départ sur le bord du disque discret à partir de la 
   \centering
   \includegraphics[width=0.3\linewidth,page=1]{fig/4-exi/suivi/exi-depart-0.pdf}
   \includegraphics[width=0.3\linewidth,page=1]{fig/4-exi/suivi/exi-depart-1.pdf}
-  \caption{Recherche du premire point $a$ à partir du centre et du rayon du disque.}
+  \caption{Recherche du premire point \textbf{a} à partir du centre et du rayon du disque.}
 \label{fig:depart}
 \end{figure}
   
@@ -25,9 +25,7 @@ Pour chercher un point de départ sur le bord du disque discret à partir de la 
 %-----------------------------------------------------------------
 %\subsubsection{Trouver le sommet suivant}
 
-La deuxième étape consiste à trouver le sommet suivant appartenant au bord. On répète cette étape jusqu'à retrouver le point a.
-
-A partir d'un point quelconque du bord $p$ ($a$ au début), le point suivant est choisi suivant la position des 4 voisins (resp 8 voisins) de $p$ par rapport au disque et d'un sens arbitraire de rotation. En tournant dans le sens trigonométrique et en partant d'un voisin situé à l'extérieur du disque, le point suivant est le premier voisin situé à l'intérieur du disque. 
+La deuxième étape consiste à trouver le sommet suivant appartenant au bord. Cette étape est répétée jusqu'à retrouver le point a. A partir d'un point quelconque du bord $p$ ($a$ au début), le point suivant est choisi suivant la position des 4 voisins (resp 8 voisins) de $p$ par rapport au disque et d'un sens arbitraire de rotation. En tournant dans le sens trigonométrique et en partant d'un voisin situé à l'extérieur du disque, le point suivant est le premier voisin situé à l'intérieur du disque. 
 
 \begin{figure}[H]
   \centering
@@ -42,8 +40,6 @@ Cette étape prend un temps constant, limité par la taille constante du voisina
 %-----------------------------------------------------------------
 
 De nombreux algorithmes existent pour calculer l'enveloppe convexe d'un ensemble de points. L'algorithme de Graham \cite{Graham1972} l'implémente en $O(n \log n)$ pour un ensemble quelconque de $n$ points. Quand les $n$ points sont ordonnés, comme le sont les points du bord d'un disque discret, le parcours de Graham est en $O(n)$. Par conséquent, calculer l'enveloppe convexe des points d'un disque discret se calcule par suivi de bord et parcours de Graham en $O(R)$. Cependant un algorithme géométrique introduit par Har-Peled en 1998 \cite{HarPeled98} calcule l'enveloppe convexe des points d'un disque discret de manière incrémentale et ``output-sensitive''.
-%% reference pour Graham
-%% reference pour Har-Peled
 
 \begin{Definition}{Output sensitive}\\
 \label{def:os}
@@ -73,17 +69,15 @@ L'opération correspond à jeter un rayon de $p_{k-2}$ dans la direction de $p_{
   \label{fig:conv}
 \end{figure}
 
-Le calcul des convergents est illustré en \textsc{figure} \ref{fig:conv} avec le point (3,8). Après avoir positionné $p_{-2} = (1,0)$ et de $p_{-1} = (0,1)$, on calcule successivement $p_{0} = p_{-1} + 2p_{-2} = (1,2)$,  $p_{1} = p_{-1} + p_{0} = (1,3)$. On obtient $p_{2} = p_{0} + 2p_{1} = (3,8)$, le premier point sur le segment. 3 et 8 sont premiers entre eux.
+Le calcul des convergents est illustré en \textsc{figure} \ref{fig:conv} avec le point (3,8). Après avoir positionné $p_{-2} = (1,0)$ et de $p_{-1} = (0,1)$, nous calculons successivement $p_{0} = p_{-1} + 2p_{-2} = (1,2)$ et  $p_{1} = p_{-1} + p_{0} = (1,3)$. Le dernier convergent calculé est $p_{2} = p_{0} + 2p_{1} = (3,8)$ qui est le premier point sur le segment. 3 et 8 sont premiers entre eux.
 
 %-----------------------------------------------------------------
 \subsubsection{Passage au disque}
 
 
-La méthode de calcul de l'enveloppe convexe d'un disque se décompose en deux étapes. La première consiste à trouver un point de départ. Nous appliquons la même procédure que lors du suivi de bord pour récupérer le point de départ d'ordonnée minimale et d'abscisse maximale. Par définition ce point appartient à l'enveloppe convexe.\\
+La méthode de calcul de l'enveloppe convexe d'un disque se décompose en deux étapes. La première consiste à trouver un point de départ. Nous appliquons la même procédure que lors du suivi de bord pour récupérer le point à l'intérieur du disque d'ordonnée minimale et d'abscisse maximale. Par définition ce point appartient à l'enveloppe convexe.\\
 
-Ensuite, nous cherchons le sommet suivant jusqu'à retrouver le point de départ. Cette étape est réalisée en calculant les convergents les plus proches du bord du disque. Nous allons alternativement être à l'intérieur du disque lorsque $k$ est impair et à l'extérieur du disque lorsque $k$ est pair. Nous repartons d'un convergent s'il se situe exactement sur le bord du disque. Sinon, nous repartons du dernier convergent de degré impair lorsque que le lancer de rayon n'intersecte pas notre disque.\\
-%% effectif: pas clair 
-%% liens avec la figure ?
+Ensuite nous cherchons le sommet suivant appartenant au bord et répétons cette étape jusqu'à retrouver le point a, notre point de départ. Cette étape est réalisée en calculant les convergents les plus proches du bord du disque. Nous allons alternativement être à l'intérieur du disque lorsque $k$ est impair et à l'extérieur du disque lorsque $k$ est pair. Nous repartons d'un convergent s'il se situe exactement sur le bord du disque. Sinon, nous repartons du dernier convergent de degré impair lorsque que le lancer de rayon n'intersecte pas notre disque.\\
 
 \begin{figure}[H]
   \centering
@@ -93,13 +87,13 @@ Ensuite, nous cherchons le sommet suivant jusqu'à retrouver le point de départ
 \label{fig:disque-conv}  
 \end{figure}
 
-L'application de l'algorithme pour s'illustré en \textsc{figure} \ref{fig:disque-conv} en partant d'un sommet sur l'origine. Avec $p_{-2} = (1,0)$ et de $p_{-1} = (0,1)$, on trouve $p_{0} = p_{-1} + 2p_{-2} = (1,2)$ à l'extérieur du cercle puis $p_{1} = p_{-1} + 2p_{0} = (2,5)$ à l'intérieur du cercle. Le rayon $p_{2}$ n'intersectant pas le disque, on arrête l'algorithme et on repart du dernier convergent à l'intérieur du disque : $p_{1}$.
+L'application de l'algorithme est illustrée \textsc{figure} \ref{fig:disque-conv} en partant d'un sommet sur l'origine. Avec $p_{-2} = (1,0)$ et de $p_{-1} = (0,1)$, on trouve $p_{0} = p_{-1} + 2p_{-2} = (1,2)$ à l'extérieur du cercle puis $p_{1} = p_{-1} + 2p_{0} = (2,5)$ à l'intérieur du cercle. Le rayon $p_{2}$ n'intersectant pas le disque, on arrête l'algorithme et on repart du dernier convergent à l'intérieur du disque : $p_{1}$.
 
 \subsubsection{Résultats}
 
-Les résultats illustrés \textsc{figure} \ref{fig:ch} et écrits \textsc{table} \ref{tab:ch} ont été obtenus en calculant sur une moyenne de 100 disques de rayon $2^k$ possédant un centre à coordonnée rationnel compris dans $[0,1]\times[0,1]$. Afin de vérifier la convergence en $O(R^{2/3})$, nous avons également récupéré la moyenne par rayon de la division du nombre de sommets de l'enveloppe convexe sur le rayon à la puissance 2/3. La zone bleue de la figure correspond à l'intervale entre le minimum et le maximum obtenu.
+Les résultats illustrés \textsc{figure} \ref{fig:ch} et écrits \textsc{table} \ref{tab:ch} ont été obtenus en calculant le nombre de sommets sur une moyenne de 100 disques de rayon $2^k$ et avec un centre à coordonnée rationnel compris dans $[0,1]\times[0,1]$. Afin de vérifier la convergence en $O(R^{2/3})$, nous avons également récupéré la moyenne par rayon de la division du nombre de sommets de l'enveloppe convexe sur le rayon à la puissance 2/3. La zone bleue de la figure correspond à l'intervale entre le minimum et le maximum obtenu.
 
-On s'intéresse également à vérifié la complexité en temps de notre algorithme. On le compare à la marche de Graham sur la \textsc{figure} \ref{tab:ch-time}. 
+On s'intéresse également à vérifié la complexité en temps de notre algorithme. On compare son temps d'exécution avec celui de la marche de Graham sur la \textsc{figure} \ref{tab:ch-time}. 
 
 \begin{figure}[H]
   \centering
@@ -153,11 +147,10 @@ On s'intéresse également à vérifié la complexité en temps de notre algorit
 \end{figure}
 
 
-Nos résultats obtenus sont conformes à ceux de la publication \cite{HarPeled98}. On remarque que la moyenne asymptotique de la division du nombre moyen de sommets de l'enveloppe convexe sur le rayon à la puissance 2/3 est 3,45. Des anomalies commencent à apparaître pour des rayons de la taille de $2^{27} = 134217728$. Il convient de chercher à comprendre d'où elles viennent afin de mieux cerner les possibles limitations de notre algorithme.\\
+Les résultats obtenus sont conformes à ceux de la publication \cite{HarPeled98}. On remarque que la moyenne asymptotique de la division du nombre moyen de sommets de l'enveloppe convexe sur le rayon à la puissance 2/3 est 3,45. Des anomalies commencent à apparaître pour des rayons de la taille de $2^{27} = 134217728$. Il convient de chercher à comprendre d'où elles viennent afin de mieux cerner les possibles limitations de notre algorithme.\\
 
 Le graphique représentant les temps est également intéressant. On observe avec l'échelle logarithmique que la complexité en temps est sous-linéaire pour la méthode de Har-Peled. La méthode devient d'ailleurs plus intéressante que la marche de Grahaam en terme de temps de calcul assez rapidement à partir d'un rayon $2^{10} = 1024$ unités. 
-% alors que la méthode qui récupère également les points sur les sommets devient plus rapide qu'à partir de $2^{17} = 131072$.
-%% TRI: non pertinent, enlevé la courbe de temps avec les points sur le bord
+
 
 
 

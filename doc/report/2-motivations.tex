@@ -21,7 +21,6 @@ Le  disque fermé discret $\mathcal{D}$ dans $\mathbb{Z}^{2}$ (appelé pour la s
 \begin{Definition}{Disque fermé discret}
 \label{def:disk-dis}
   $$\mathcal{D} =  \left\{ (x,y) \in \mathbb{Z}^{2} |  (x - u)^2 + (y - v)^2 \leq R^2 \right\}$$
-  
   avec $O(u,v) \in \mathbb{Q}^{2}$ les coordonnées du centre et $R^2 \in \mathbb{Q}$ le rayon.\\
 \end{Definition}
 
@@ -29,7 +28,7 @@ Le  disque fermé discret $\mathcal{D}$ dans $\mathbb{Z}^{2}$ (appelé pour la s
   \centering
   \includegraphics[width=6cm]{fig/2-mot/circle/circle-euc-0.pdf}
   \includegraphics[width=6cm]{fig/2-mot/circle/circle-dis-0.pdf}
-  \caption{Disque Euclidiens et Discret de centre O et de rayon R}
+  \caption{Disque Euclidien et Discret de centre O et de rayon R}
 \label{fig:disk}
 \end{figure}
 
@@ -98,14 +97,16 @@ Notre objectif est de comprendre comment sont organisés spatialement les points
 \subsection{Alpha-Shape}
 %-----------------------------------------------------------------
 
-En s'intéressant à des bords d'objets discrets, un panel d'outils nous est apparu comme particulièrement opportun. Il s'agit des $\alpha$-hull et des $\alpha$-shape définis pour la première fois par Edelsbrunner \emph{et. al.} \cite{EdeKirSei83} et faisant appel aux disques généralisés.\\
+En s'intéressant à des bords d'objets discrets, un panel d'outils nous est apparu comme particulièrement opportun. Il s'agit des $\alpha$-hulls et des $\alpha$-shapes définis pour la première fois par Edelsbrunner \emph{et. al.} \cite{EdeKirSei83} et faisant appel aux disques généralisés.\\
 
 Un disque généralisé permet de définir des disques avec des rayons négatifs en faisant appel au complémentaire.
 
-\begin{Definition}{Disques généralisés de rayon $1/\alpha$}\\
+\begin{Definition}{Disques généralisés de rayon $1/\alpha$}
 \label{def:dis-gen}
-   \noindent - $\mathcal{D}_{\alpha}$ est le disque fermé de rayon $1/\alpha$ pour $\alpha > 0$.\\
-   \noindent - $\mathcal{D}_{\alpha}$ est le complémentaire fermé du disque de rayon $- 1/\alpha$ pour $\alpha < 0$.
+\begin{itemize}
+  \item $\mathcal{D}_{\alpha}$ est le disque fermé de rayon $1/\alpha$ pour $\alpha > 0$.
+  \item $\mathcal{D}_{\alpha}$ est le complémentaire fermé du disque de rayon $- 1/\alpha$ pour $\alpha < 0$. 
+\end{itemize}
 \end{Definition}
 
 %-----------------------------------------------------------------
@@ -126,7 +127,7 @@ Soit $\mathcal{S}$ un ensemble fini de points.
   \caption{$\alpha$-Hull négative et $\alpha$-Hull positive }
 \end{figure}
   
-Les sommets de $\alpha$-hull sont appelés points $\alpha$-extrêmes. S'ils sont reliés par un arc de cercle de rayon $\pm 1/ \alpha$ qui ne contient aucun autre point que ses extrémités et qui se trouve sur le bord d'un disque généralisé contenant l'ensemble des points, on dit qu'ils sont adjacents.
+Les sommets de $\alpha$-hull sont appelés points $\alpha$-extrêmes. S'ils sont reliés par un arc de cercle de rayon $\pm 1/ \alpha$ qui ne contient aucun autre point que ses extrémités et qui se trouve sur le bord d'un disque généralisé contenant l'ensemble des points, on dit qu'ils sont $\alpha$-adjacents.
 
 \begin{Definition}{$\alpha$-shape}\\
 \label{def:as}
@@ -171,9 +172,6 @@ Dans cet intervalle un vaste ensemble d'$\alpha$-shape est possible.
 \begin{itemize}
   \item Le cas où $\alpha = 0$ est une intersection de disques généralisés de rayon infini. Ce cas s'interprète comme une intersection de demi-plans, menant à la définition de l'enveloppe convexe.
   \item Les cas où $\alpha = -2$ et $\alpha = -\sqrt{2}$ correspondent aux bords définis au moyen du 8 et 4-voisinage. 
-%En ne pouvant s'éloigner au plus de disques de rayon $1/2$ et $\sqrt{2}/2$, on ne peut suivre le bord de nos disques que par l'intermédiaire des plus proches 4-voisins et 8-voisins.
-%  \item Le cas où $\alpha$ < -2 conserve un sens pour l'$\alpha$-hull. Elle est constitué de l'ensemble disjoint des points appartenant au disque. L'$\alpha$-shape n'a pas d'existence propre dans ce cas au vu la non-connexité de l'ensemble.
-%  \item Au-delà d'un certain rayon, nous avons $R_{\alpha} < R_D$ et il devient impossible de récupérer l'ensemble des points de notre disque par l'intersection de disques de un rayon plus petit.
   \item L'union des $\alpha$-shape \cite{EdeKirSei83} pour le cas négatif et le cas positif représente des sous-ensembles des triangulations d'ordre 0 et d'ordre n de Delaunay.   
 \end{itemize}
  
@@ -183,12 +181,14 @@ Dans cet intervalle un vaste ensemble d'$\alpha$-shape est possible.
 
 La triangulation est un moyen de relier les points d'un ensemble entre eux. Les triangulations de Delaunay possèdent des propriétés intéressantes.  Elles ont été nommées d'après le mathématicien russe Boris Delone : 1890-1980.
 
-\begin{Definition}{Triangulation de Delaunay d'ordre 0 de l'ensemble $\mathcal{S}$}\\
+Soit $\mathcal{S}$ un ensemble fini de points. 
+
+\begin{Definition}{Triangulation de Delaunay d'ordre 0 de $\mathcal{S}$}\\
 \label{def:tri-del-0}
   La triangulation de Delaunay d'ordre 0 est une triangulation où chaque disque circonscrit au triangle ne contient aucun autre point que les sommets du triangle.
 \end{Definition}
 
-\begin{Definition}{Triangulation de Delaunay d'ordre n de l'ensemble $\mathcal{S}$}\\
+\begin{Definition}{Triangulation de Delaunay d'ordre n de $\mathcal{S}$}\\
 \label{def:tri-del-n}
   La triangulation de Delaunay d'ordre n est une triangulation de l'enveloppe convexe de $\mathcal{S}$ où chaque disque circonscrit au triangle contient tous les points de l'ensemble.
 \end{Definition}
