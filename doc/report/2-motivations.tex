@@ -102,10 +102,12 @@ En s'intéressant à des bords d'objets discrets, un panel d'outils nous est app
 
 Un disque généralisé permet de définir des disques avec des rayons négatifs en faisant appel au complémentaire.
 
-\begin{Definition}{Disques généralisés de rayon $1/\alpha$}\\
+\begin{Definition}{Disques généralisés de rayon $1/\alpha$}
 \label{def:dis-gen}
-   \noindent - $\mathcal{D}_{\alpha}$ est le disque fermé de rayon $1/\alpha$ pour $\alpha > 0$.\\
-   \noindent - $\mathcal{D}_{\alpha}$ est le complémentaire fermé du disque de rayon $- 1/\alpha$ pour $\alpha < 0$.
+\begin{itemize}
+  \item $\mathcal{D}_{\alpha}$ est le disque fermé de rayon $1/\alpha$ pour $\alpha > 0$.
+  \item $\mathcal{D}_{\alpha}$ est le complémentaire fermé du disque de rayon $- 1/\alpha$ pour $\alpha < 0$. 
+\end{itemize}
 \end{Definition}
 
 %-----------------------------------------------------------------
@@ -183,12 +185,14 @@ Dans cet intervalle un vaste ensemble d'$\alpha$-shape est possible.
 
 La triangulation est un moyen de relier les points d'un ensemble entre eux. Les triangulations de Delaunay possèdent des propriétés intéressantes.  Elles ont été nommées d'après le mathématicien russe Boris Delone : 1890-1980.
 
-\begin{Definition}{Triangulation de Delaunay d'ordre 0 de l'ensemble $\mathcal{S}$}\\
+Soit $\mathcal{S}$ un ensemble fini de points. 
+
+\begin{Definition}{Triangulation de Delaunay d'ordre 0 de $\mathcal{S}$}\\
 \label{def:tri-del-0}
   La triangulation de Delaunay d'ordre 0 est une triangulation où chaque disque circonscrit au triangle ne contient aucun autre point que les sommets du triangle.
 \end{Definition}
 
-\begin{Definition}{Triangulation de Delaunay d'ordre n de l'ensemble $\mathcal{S}$}\\
+\begin{Definition}{Triangulation de Delaunay d'ordre n de $\mathcal{S}$}\\
 \label{def:tri-del-n}
   La triangulation de Delaunay d'ordre n est une triangulation de l'enveloppe convexe de $\mathcal{S}$ où chaque disque circonscrit au triangle contient tous les points de l'ensemble.
 \end{Definition}
