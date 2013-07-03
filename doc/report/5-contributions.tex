@@ -14,16 +14,12 @@ L'enveloppe convexe est unique. Les algorithmes implémentés fournissent les so
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.4\linewidth]{fig/5-con/tri/con-motif-0.pdf}
-  \caption{Triangulation de Delaunay d'un motif de droite discrète}
-\end{figure}
-
-La triangulation de Delaunay d'un motif dépend des convergents de sa pente. Le dernier convergent n'appartenant pas au motif est le sommet du triangle incident au segment de droite. Il est appelé le point de bézout. À l'aide d'un calcul récursif, il est possible de construire l'intégralité de la triangulation de Delaunay.
-
-\begin{figure}[H]
-  \centering
   \includegraphics[width=0.4\linewidth]{fig/5-con/tri/con-conv-0.pdf}
-  \caption{Calcul de convergents et triangulations de Delaunauy}
+  \caption{Triangulation de Delaunay d'un motif de droite discrète et calcul des convergents pour un segment de même pente.}
+\label{fig:tri}   
 \end{figure}
+
+La triangulation de Delaunay d'un motif dépend des convergents de sa pente. Leur relation est illustré sur les \textsc{figures} \ref{fig:tri}. Le dernier convergent n'appartenant pas au motif est le sommet du triangle incident au segment de droite. Il est appelé le point de bézout. À l'aide d'un calcul récursif, il est possible de construire l'intégralité de la triangulation de Delaunay.
 
 Comme les convergents sont calculés dans l’algorithme de Har-Peled, il est probable que cet algorithme puisse être généralisé pour calculer les $\alpha$-shape. C'est ce que nous allons montrer.  
 

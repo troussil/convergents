@@ -9,7 +9,6 @@
 %-----------------------------------------------------------------
 \subsubsection{C++}
 
-
 Le C++ est un langage de programmation né dans les années 1980 dans l'optique d'agrémenter le langage C de nouvelles fonctionnalités. Il fut d'abord nommée par son créateur Bjarne Stroustrup : C with Classes. L’appellation c++, rappelant l'opération d'incrémentation fut adopté peu de temps plus tard à partir de 1983 suite à l'ajout de nouvelles fonctionnalités. (Source \cite{Wiki-cpp})
 
 Aujourd'hui encore, de nombreuses fonctionnalités viennent agrémenter le langage C++ au fil des spécifications. Il est désormais possible de l'utiliser en s'appuyant sur de multiples paradigmes comme la programmation procédurale, la programmation orientée objet et la programmation générique.
@@ -22,7 +21,7 @@ Le paradigme choisit dans ce stage est celui de la programmation générique. \c
 
 Le paradigme de la programmation générique s'appuie sur des relations concepts-modèles entre les types de données.  
 
-Pour appartenir à un même concept, les types doivent posséder un même interface. 
+Pour appartenir à un même concept, les types doivent posséder une même interface. 
 
 \begin{Definition}{Concept}\\
 \label{def:cpp-con}
@@ -41,6 +40,7 @@ On parle alors de polymorphisme statique dans le sens où un algorithme, une fon
 \subsubsection{Exemple concret}
 
 % Points
+
 L'espace de travail $\mathbb{Z}^{2}$ est une grille régulière représentant des points à coordonnées entières. Ce sont les principaux objets que nous allons manipuler. L'un des enjeux de la géométrie discrète est de baser ses calculs principalement sur l'usage d'entiers afin d'éviter tous les problèmes apportés par les incertitudes de précision dû aux flottants. Comme le C++ est un langage fortement typé, la représentation des entiers diffère selon la taille maximale autorisée souhaitée. On parle alors de concept d'``Entier''. Plusieurs modèles de base sont présents : int, long. Nous utiliserons également un modèle BigInteger intégré par l'intermédiaire des librairie DGtal et GMP qui permet de manipuler de très grands entiers.
 
 Nous avons aussi un concept de ``Point''. Dans un premier temps, nous avons implémenté une classe PointVector2d, comme un modèle de ``Point''. Dans un second temps, nous avons utilisé le modèle PointVector de la librairie DGtal.  
@@ -72,16 +72,20 @@ représentant un objet géométrique pour lequel on est capable de calculer son 
 doivent posséder au moins trois méthodes: 
 
 \begin{itemize}
-  \item un opérateur parenthèse pour le prédicat de position : est point est-il à l'intérieur ou à l'extérieur de la forme ?
+  \item un opérateur parenthèse pour le prédicat de position : le point est-il à l'intérieur ou à l'extérieur de la forme ?
   \item une méthode dray: le rayon émanent d'un point donné, dans une direction donnée intersecte-t-il cette forme et si oui, quelle est le point le plus proche et du même côté ?
   \item une méthode getConvexHullVertex pour obtenir le point de départ, situé à l'intérieur avec l'ordonnée minimale et l'abscisse maximale. 
 \end{itemize}
 
 Pour le moment, trois modèles ont été implémentés : RayIntersectableStraightLine (pour un segment de droite discrète), ExactRayIntersectableCircle (pour un disque discret implémentées avec des calculs sur des entiers), InexactRayIntersectableCircle (pour un disque discret implémentées avec des calculs sur des entiers et des flottants).
 
-% graph contexte
+\begin{figure}[H]
+  \centering
+  \includegraphics[trim = 2.5cm 12cm 2.5cm 2.5cm, clip, width=0.6\linewidth, ]{fig/6-info/dia-conv.pdf}
+  \caption{Modèles et concepts utilisés.}
+\end{figure}
 
-%\newpage
+
 %-----------------------------------------------------------------
 \subsubsection{Dans la pratique}
 
@@ -125,7 +129,7 @@ La programmation générique nous a permis d'implémenter qu'une seule fois la c
 %-----------------------------------------------------------------
 \subsubsection{Tests}
 
-Le but de tout algorithme est de répondre juste à la question qui lui est posée. L'une des difficultés rencontrés dans ce stage reste la faible présence d'outils susceptibles de nous répondre à notre question par d'autre chemin. Pour vérifier nos calculs, nous avons implémenté des méthodes de tests s'appuyant sur le suivi de bord pour les méthodes recherchant des bords. En codant les tests unitaires avant nos méthodes de calcul, nous avons mis en place une logique de développement par les tests. 
+Le but de tout algorithme est de répondre juste à la question qui lui est posée. L'une des difficultés rencontrés dans ce stage reste la faible présence d'outils susceptibles de répondre à notre question par d'autre chemin. Pour vérifier nos calculs, nous avons implémenté des méthodes de tests s'appuyant sur le suivi de bord pour les méthodes recherchant des bords. En codant les tests unitaires avant nos méthodes de calcul, nous avons mis en place une logique de développement par les tests. 
 %% utilisant le principe : Stop The line. \cite{stoptheline}
 %%TRI: pas très pertinent
 
