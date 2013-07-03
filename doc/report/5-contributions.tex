@@ -145,7 +145,7 @@ Le processus de création des disques $\mathcal{D}$ est le même que lors du cal
 
 La méthode de calcul de l'$\alpha$-shape pour $\alpha > 0$ est fondamentalement différente des méthodes de calculs présentées précédemment. La méthode n'est plus incrémentale mais de type ``Bottom-Up''. L'algorithme part du cas critique de l'enveloppe convexe. L'ensemble des sommets de l'$\alpha$-shape est un sous-ensemble de l'enveloppe convexe. 
 
-L'algorithme commence différemment des autres déjà présentés. Le départ est en deux phases. Il faut d'une part récupérer un point de départ pertinent mais également l'ensemble des sommets de l'enveloppe convexe. Le point d'ordonnée minimale et d'abscisse maximale n'est plus nécessairement dans l'$\alpha$-shape. Un mauvais point de départ engendrerait un calcul potentiellement faux. Pour être certain de notre départ, nous ne le calculons pas mais le choisissons par construction parmi l'un des trois sommets du triangle composant le cercle circonscrit. Ensuite, nous récupérons à partir de ce point l'ensemble des sommets de l'enveloppe convexe du disque discret. On note $\mathcal{S}$ cet ensemble.
+L'algorithme commence différemment des autres déjà présentés. Le départ est en deux phases. Il faut d'une part récupérer un point de départ pertinent mais également l'ensemble des sommets de l'enveloppe convexe. Le point d'ordonnée minimale et d'abscisse maximale n'est plus nécessairement dans l'$\alpha$-shape et produirait un un calcul potentiellement faux. Pour être certain de notre départ, nous ne le calculons pas mais le choisissons par construction parmi l'un des trois sommets du triangle composant le cercle circonscrit. Ensuite, nous récupérons à partir de ce point l'ensemble des sommets de l'enveloppe convexe du disque discret par l'intermédiaire de notre algorithme ``Output Sensitive''. On note $\mathcal{S}$ cet ensemble.
 
 \begin{figure}[H]
   \centering
@@ -154,7 +154,7 @@ L'algorithme commence différemment des autres déjà présentés. Le départ es
 \end{figure}
 
 
-Notons a,b et c trois sommets successifs appartenant à S. Supposant que a appartient à l'$\alpha$-shape, nous allons vérifier la présence de b et c dans l'$\alpha$-shape. Nous utilisons un prédicat qui compare la taille du rayon \textbf{$R_T$} du cercle circonscrit au triangle : $T(a, b, c)$ à la taille du rayon de notre disque généralisé : \textbf{$R_{\alpha}$} $= 1/\alpha$. Il faut distinguer deux cas de figures.\\
+Notons a,b et c trois sommets successifs appartenant à S. Supposant que a appartient à l'$\alpha$-shape, nous vérifions la présence de b et c dans l'$\alpha$-shape. Nous utilisons un prédicat qui compare la taille du rayon \textbf{$R_T$} du cercle circonscrit au triangle : $T(a, b, c)$ à la taille du rayon de notre disque généralisé : \textbf{$R_{\alpha}$} $= 1/\alpha$. Il faut distinguer deux cas de figures.\\
 
 \begin{figure}[H]
   \centering
@@ -162,22 +162,22 @@ Notons a,b et c trois sommets successifs appartenant à S. Supposant que a appar
   \caption{Calcul du Prédicat}
 \end{figure}
 
-Si $\alpha = \alpha_{1}$ alors \textbf{$R_{\alpha_{1}} < R_T$} et le point b appartient au disque généralisé de rayon $-1/R_{\alpha_{1}}$. Il est possible de rejoindre c par a à l'aide d'un arc de cercle dont le disque comprend l'ensemble des points de $\mathcal{D}$. b appartient à l'$\alpha$-hull, mais n'appartient pas à l'$\alpha$-shape. On continue la procédure pour étudier les sommets suivants. a reste inchangé, b devient c et c devient le sommet suivant de $\mathcal{S}$.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.4\linewidth]{fig/5-con/pas/con-pas-1.pdf}
-  \includegraphics[width=0.4\linewidth]{fig/5-con/pas/con-pas-2.pdf}
-  \caption{Calcul du Prédicat}
-\end{figure}
-
-Si $\alpha = \alpha_{2}$ alors \textbf{$R_{\alpha_{2}} > R_T$} et le point b n'appartient pas à notre disque généralisé de rayon $1/R_{\alpha_{1}}$. L'$\alpha$-hull ne peut rejoindre c par a sans au moins passer par b. \textbf{b appartient à l'$\alpha$-shape}. Il faut poursuivre la procédure afin de réaliser un tour complet. b devient a, c devient b et c devient le sommet suivant de $\mathcal{S}$.\\
+Si $\alpha = \alpha_{1}$ (en violet) alors \textbf{$R_{\alpha_{1}} < R_T$}. Le point b appartient au disque généralisé de rayon $-1/R_{\alpha_{1}}$. Il est possible de rejoindre c par a via un arc de cercle dont le disque comprend l'ensemble des points de $\mathcal{D}$. b appartient à l'$\alpha$-hull, mais n'appartient pas à l'$\alpha$-shape. On continue la procédure pour étudier les sommets suivants. a reste inchangé, b devient c et c devient le sommet suivant de $\mathcal{S}$.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.4\linewidth]{fig/5-con/pas/con-pas-3.pdf}
   \includegraphics[width=0.4\linewidth]{fig/5-con/pas/con-pas-4.pdf}
-  \caption{Calcul du Prédicat}
+  \caption{Cas $R_{\alpha_{1}} < R_T$}
+\end{figure}
+
+Si $\alpha = \alpha_{2}$ (en jaune) alors \textbf{$R_{\alpha_{2}} > R_T$}. Le point b n'appartient pas au disque généralisé de rayon $1/R_{\alpha_{1}}$. L'$\alpha$-hull ne peut rejoindre c par a sans au moins passer par b. \textbf{b appartient à l'$\alpha$-shape}. Il faut poursuivre la procédure afin de réaliser un tour complet. b devient a, c devient b et c devient le sommet suivant de $\mathcal{S}$.\\
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.4\linewidth]{fig/5-con/pas/con-pas-1.pdf}
+  \includegraphics[width=0.4\linewidth]{fig/5-con/pas/con-pas-2.pdf}
+  \caption{Cas $R_{\alpha_{2}} > R_T$}
 \end{figure}
 
 %-----------------------------------------------------------------
