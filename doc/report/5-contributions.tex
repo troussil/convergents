@@ -37,7 +37,7 @@ L'enveloppe convexe est unique. L'algorithme de Har-Peled fournit les sommets de
 \label{fig:tri}   
 \end{figure}
 
-La triangulation de Delaunay d'un motif dépend des convergents de sa pente. Leur relation est illustré \textsc{figure} \ref{fig:tri}. Le dernier convergent n'appartenant pas au motif est le sommet du triangle incident au segment de droite. Les autres triangles peuvent être obtenus par récursion. 
+La triangulation de Delaunay d'un motif dépend des convergents de sa pente. Leur relation est illustrée \textsc{figure} \ref{fig:tri}. Le dernier convergent n'appartenant pas au motif est le sommet du triangle incident au segment de droite. Les autres triangles peuvent être obtenus par récursion. 
 
 Comme les convergents successifs sont calculés dans l’algorithme de Har-Peled, il est probable que cet algorithme puisse être généralisé pour calculer les $\alpha$-shape. C'est ce que nous allons montrer.  
 
@@ -64,19 +64,20 @@ Soient  $b = p_{k-2} + (q_k - 1) * p_{k-1}$ et $c = p_k = p_{k-2} + q_k * p_{k-1
   \label{fig:nas1}
 \end{figure}
 
-Si $\alpha = \alpha_{2}$ (en jaune) alors \textbf{$R_{\alpha_{2}} > R_T$} et le point b appartient au disque généralisé de rayon $-R_{\alpha_{2}}$ ( b appartient au complémentaire du disque de rayon $R_{\alpha_{2}}$). On ne sait pas encore si le convergent c sera un sommet de l'$\alpha$-shape, mais on sait que b n'en sera pas un. Nous pouvons continuer le calcul des convergents.\\ 
+Si $\alpha = \alpha_{2}$ (en jaune) alors \textbf{$|R_{\alpha_{2}}| > R_T$} et le point b appartient au disque généralisé de rayon $R_{\alpha_{2}}$ ( b appartient au complémentaire du disque de rayon $R_{\alpha_{2}}$). On ne sait pas encore si le convergent c sera un sommet de l'$\alpha$-shape, mais on sait que b n'en sera pas un. Nous pouvons poursuivre le calcul des convergents.\\
 
-Si $\alpha = \alpha_{1}$ (en violet) alors \textbf{$R_{\alpha_{1}} < R_T$} et le point b n'appartient pas à notre disque généralisé de rayon $-R_{\alpha_{1}}$. L'$\alpha$-hull ne peut rejoindre c par a sans au moins passé par b. b et c appartiennent à notre $\alpha$-shape. Il faut maintenant vérifier si les points $b_i = p_{k-2} + i*p_{k-1} \forall i \in [0, q_k-2]$ appartiennent également à l'$\alpha$-shape. \\
+Si $\alpha = \alpha_{1}$ (en violet) alors \textbf{$|R_{\alpha_{1}}| < R_T$} et le point b n'appartient pas à notre disque généralisé de rayon $R_{\alpha_{1}}$. L'$\alpha$-hull ne peut rejoindre c par a sans au moins passer par b. b et c appartiennent à l'$\alpha$-shape. Il faut de plus vérifier si les points $b_i = p_{k-2} + i*p_{k-1} \forall i \in [0, q_k-2]$ appartiennent également à l'$\alpha$-shape. \\
 
-De part la construction des triangles, la taille des rayons de leur cercle circonscrit $R_{T_{i}}$ est croissante. Il suffit de tester le dernier avec le plus grand cercle pour savoir si nous pouvons continuer notre algorithme et lancer les convergents suivants ou si nous devons déterminer quel sera le point $\alpha$-extrême par une recherche dichotomique. La recherche dichotomique permet de trouver en $log(q_k)$ le triangle adéquate $T_i = (a, b_{i}, b_{i+1}$ tel que $R_{T_i} > R_{\alpha}$ et $R_{T_{i-1}} \leq R_{\alpha}$.
+De part la construction des triangles, la taille des rayons de leur cercle circonscrit $R_{T_{i}}$ est croissante (Un exemple probant est donné \textsc{figure} \ref{fig:nas-dicho}). Il suffit de tester le dernier, avec le plus grand cercle pour savoir si nous pouvons continuer l'algorithme avec la recherche des convergents suivants ou si nous devons déterminer le point $\alpha$-extrême par une recherche dichotomique. La recherche dichotomique permet de trouver en $log(q_k)$ le triangle adéquate $T_i = (a, b_{i}, b_{i+1}$ tel que $R_{T_i} > R_{\alpha}$ et $R_{T_{i-1}} \leq R_{\alpha}$ où $q_k$ est le coefficient trouvé par le calcul du convergent $p_k = p_{k-2} + q_k * p_{k-1}$.
 
 \begin{figure}[H]
   \centering
   \includegraphics[trim = 1.2cm 1.2cm 1.2cm 0.6cm, clip,width=\linewidth]{fig/5-con/nas/con-nas-dicho.pdf}
   \caption{Taille croissante des rayons des cerlces circonscrits au triangle.}
+  \label{fig:nas-dicho}
 \end{figure}
 
-Le triangle renvoyé par la méthode dichotomique assure que l'ensemble des points $\left\{ b_{i},\ldots, b_{q_k}, c \right\}$ appartiennent à l'$\alpha$-shape. Nous continuons la méthode en repartant du sommet c.
+Le triangle renvoyé par la méthode dichotomique assure que l'ensemble des points $\left\{ b_{i},\ldots, b_{q_k}, c \right\}$ appartiennent à l'$\alpha$-shape. Nous continuons la méthode en repartant du sommet c. Dans l'exemple suivant supposons que $R_{T_{2}}$ > $R_{\alpha} >  R_{T_{1}}$, alors tous les points : $b_{2}, b_{3}, b_{4}, b_{5}, b_{6}$ et $c$ appartiennent à l'$\alpha$-shape. c devient le prochain point de départ.
  
 \begin{figure}[H]
   \centering
@@ -88,7 +89,7 @@ Le triangle renvoyé par la méthode dichotomique assure que l'ensemble des poin
 %-----------------------------------------------------------------
 \subsubsection{Résultats}
 
-Les processus de création des disques $\mathcal{D}$ est le même que lors du calcul de l'enveloppe convexe. Néanmoins, pour chaque disque il est possible de tester de nombreuses valeurs de $\alpha$ correspondant au différentes $\alpha$-shapes souhaitées. Pour ce tableau, nous avons voulu vérifier si la propriété de complexité du cas particulier de l'enveloppe convexe pour $\alpha = 0$ se généralisait pour certaine valeur de $\alpha$. Nous avons donc décidé de prendre pour l'ensemble des disques un $\alpha$ proportionnel à l'inverse du rayon avec $\alpha = -\frac{k}{R_{\mathcal{D}}}$ de tel sorte que $R_{\alpha} = -\frac{R_{\mathcal{D}}}{k}$.
+Le processus de création des disques $\mathcal{D}$ est le même que lors du calcul de l'enveloppe convexe. Néanmoins, pour chaque disque il est possible de tester de nombreuses valeurs de $\alpha$ correspondant aux différentes $\alpha$-shapes souhaitées. Pour ce tableau, nous avons voulu vérifier si la propriété de complexité du cas particulier de l'enveloppe convexe pour $\alpha = 0$ se généralisait pour certaine valeur de $\alpha$. Nous avons donc décidé de prendre pour l'ensemble des disques un $\alpha$ proportionnel à l'inverse du rayon avec $\alpha = -\frac{k}{R_{\mathcal{D}}}$ de telle sorte que $R_{\alpha} = -\frac{R_{\mathcal{D}}}{k}$.
  
 
 \begin{figure}[H]
@@ -142,7 +143,7 @@ Les processus de création des disques $\mathcal{D}$ est le même que lors du ca
 %-----------------------------------------------------------------
 \subsubsection{Construction de l'algorithme}
 
-La méthode de calcul de l'$\alpha$-shape pour $\alpha > 0$ est fondamentalement différentes des méthodes de calculs présentées précédemment. La méthode n'est plus incrémentale mais de type ``Bottom-Up''. L'algorithme part du cas critique de l'enveloppe convexe. L'ensemble des sommets de l'$\alpha$-shape est un sous-ensemble de l'enveloppe convexe. 
+La méthode de calcul de l'$\alpha$-shape pour $\alpha > 0$ est fondamentalement différente des méthodes de calculs présentées précédemment. La méthode n'est plus incrémentale mais de type ``Bottom-Up''. L'algorithme part du cas critique de l'enveloppe convexe. L'ensemble des sommets de l'$\alpha$-shape est un sous-ensemble de l'enveloppe convexe. 
 
 L'algorithme commence différemment des autres déjà présentés. Le départ est en deux phases. Il faut d'une part récupérer un point de départ pertinent mais également l'ensemble des sommets de l'enveloppe convexe. Le point d'ordonnée minimale et d'abscisse maximale n'est plus nécessairement dans l'$\alpha$-shape. Un mauvais point de départ engendrerait un calcul potentiellement faux. Pour être certain de notre départ, nous ne le calculons pas mais le choisissons par construction parmi l'un des trois sommets du triangle composant le cercle circonscrit. Ensuite, nous récupérons à partir de ce point l'ensemble des sommets de l'enveloppe convexe du disque discret. On note $\mathcal{S}$ cet ensemble.
 
@@ -161,7 +162,7 @@ Notons a,b et c trois sommets successifs appartenant à S. Supposant que a appar
   \caption{Calcul du Prédicat}
 \end{figure}
 
-Si $\alpha = \alpha_{1}$ alors \textbf{$R_{\alpha_{1}} < R_T$} et le point b appartient au notre disque généralisé de rayon $-1/R_{\alpha_{1}}$. Il est possible de rejoindre c par a à l'aide d'un arc de cercle dont le disque comprend l'ensemble des points de $\mathcal{D}$. b appartient à l'$\alpha$-hull, mais n'appartient pas à l'$\alpha$-shape. On continue la procédure pour étudier les sommets suivants. a reste inchangé, b devient c et c devient le sommet suivant de $\mathcal{S}$.
+Si $\alpha = \alpha_{1}$ alors \textbf{$R_{\alpha_{1}} < R_T$} et le point b appartient au disque généralisé de rayon $-1/R_{\alpha_{1}}$. Il est possible de rejoindre c par a à l'aide d'un arc de cercle dont le disque comprend l'ensemble des points de $\mathcal{D}$. b appartient à l'$\alpha$-hull, mais n'appartient pas à l'$\alpha$-shape. On continue la procédure pour étudier les sommets suivants. a reste inchangé, b devient c et c devient le sommet suivant de $\mathcal{S}$.
 
 \begin{figure}[H]
   \centering
@@ -170,7 +171,7 @@ Si $\alpha = \alpha_{1}$ alors \textbf{$R_{\alpha_{1}} < R_T$} et le point b app
   \caption{Calcul du Prédicat}
 \end{figure}
 
-Si $\alpha = \alpha_{2}$ alors \textbf{$R_{\alpha_{2}} > R_T$} et le point b n'appartient pas à notre disque généralisé de rayon $1/R_{\alpha_{1}}$. L'$\alpha$-hull ne peut rejoindre c par a sans au moins passé par b. \textbf{b appartient à l'$\alpha$-shape}. Il faut poursuivre la procédure afin de réaliser un tour complet. b devient a, c devient b et c devient le sommet suivant de $\mathcal{S}$.\\
+Si $\alpha = \alpha_{2}$ alors \textbf{$R_{\alpha_{2}} > R_T$} et le point b n'appartient pas à notre disque généralisé de rayon $1/R_{\alpha_{1}}$. L'$\alpha$-hull ne peut rejoindre c par a sans au moins passer par b. \textbf{b appartient à l'$\alpha$-shape}. Il faut poursuivre la procédure afin de réaliser un tour complet. b devient a, c devient b et c devient le sommet suivant de $\mathcal{S}$.\\
 
 \begin{figure}[H]
   \centering
@@ -182,6 +183,6 @@ Si $\alpha = \alpha_{2}$ alors \textbf{$R_{\alpha_{2}} > R_T$} et le point b n'a
 %-----------------------------------------------------------------
 \subsubsection{Compléxité et perspective}
 
-La version présente de l'algorithme s'appuie sur l'enveloppe convexe selon la méthode de Har-Peled qui récupère les sommets en $O(R^{2/3}_{D})$. On parcourt cette liste une seule fois en éliminant des sommets potentiel ou en ajoutant le sommet à l'alpha-shape. 
+La version présente de l'algorithme s'appuie sur l'enveloppe convexe selon la méthode de Har-Peled qui récupère les sommets en $O(R^{2/3}_{D})$. On parcourt cette liste une seule fois en éliminant des sommets potentiels ou en ajoutant le sommet à l'alpha-shape. 
 
 Une perspective de travail serait d'adopter une approche "top-down" qui partant d'un point, ajouterait incrémentalement les sommets de l'alpha-shape. 
