@@ -84,7 +84,7 @@
     \end{column}
     \begin{column}{0.5\linewidth}
       \begin{block}{Cercle Discret : $\mathcal{C}$}
-        Nécéssité de passer par la notion de \textbf{voisinage}.
+        Notion de \textbf{voisinage}.
         \vspace{0.24cm}
         \begin{figure}[h!]
           \centering
@@ -199,7 +199,7 @@
 \frametitle{Un outil particulièrement opportun}
 
 \begin{block}{$\alpha$-hulls et $\alpha$-shapes}
-  Les $\alpha$-hulls et les $\alpha$-shapes ont été définies pour la première fois par Edelsbrunner \emph{et. al.} et font appel aux disques généralisés.\\
+  Les $\alpha$-hulls et les $\alpha$-shapes ont été définies pour la première fois par Edelsbrunner \emph{et. al.} [EKS83] et font appel aux disques généralisés.\\
 \end{block}
 
 \begin{block}{Disques généralisés }
@@ -226,9 +226,9 @@
 
 \begin{frame}
 \frametitle{Définitions}
-\only<1,2>
-{ 
-  \begin{block}{$\alpha$-hull de $\mathcal{S}$, $\mathcal{S}$ un ensemble fini de points}
+\only<1>
+{ Soit $\mathcal{S}$ un ensemble fini de points.
+  \begin{block}{$\alpha$-hull de $\mathcal{S}$}
     Intersection de tous les disques généralisés de rayon $1/\alpha$ qui contiennent tous les points de l'ensemble.
     $$ \alpha_h(\mathcal{S}) = \cap \left\{ \mathcal{D}_{\alpha} | \mathcal{S} \subseteq \mathcal{D}_{\alpha} \right\}$$
     \begin{figure}[H]
@@ -237,19 +237,33 @@
       \includegraphics[width=0.3\linewidth,page=3]{fig/2-mot/as/mot-alpha-shape.pdf}
     \end{figure} 
   \end{block}
-}
-\only<2,3>
-{
-  \begin{exampleblock}{Sommets}
+
+  \begin{block}{Sommets}
     \begin{itemize}
       \item Les sommets de $\alpha$-hull sont appelés points $\alpha$-extrêmes.
       \item S'ils sont reliés par un arc de cercle de rayon $\pm 1/ \alpha$ qui ne contient aucun autre point que ses extrémités et qui se trouve sur le bord d'un disque généralisé contenant l'ensemble des points, on dit qu'ils sont $\alpha$-adjacents.
     \end{itemize}
-  \end{exampleblock}
+  \end{block}
 }
-\only<3>
+\only<2>
 {
-  \begin{block}{$\alpha$-shape de $\mathcal{S}$, $\mathcal{S}$ un ensemble fini de points}
+  \begin{block}{}
+    \vspace{-0.2cm}
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.2\linewidth,page=1]{fig/2-mot/as/mot-alpha-shape.pdf}
+      \includegraphics[width=0.2\linewidth,page=3]{fig/2-mot/as/mot-alpha-shape.pdf}
+    \end{figure} 
+    \vspace{-1cm}
+    \begin{itemize}
+      \item $\alpha$-hull :
+      \item Les sommets de $\alpha$-hull sont appelés points $\alpha$-extrêmes.
+      \item S'ils sont reliés par un arc de cercle de rayon $\pm 1/ \alpha$ qui ne contient aucun autre point que ses extrémités et qui se trouve sur le bord d'un disque généralisé contenant l'ensemble des points, on dit qu'ils sont $\alpha$-adjacents.
+    \end{itemize}
+  \end{block}
+
+
+  \begin{block}{$\alpha$-shape de $\mathcal{S}$}
         Graphe plongé dans le plan reliant tous les points $\alpha$-extrêmes adjacents par des segments de droite.
     \begin{figure}[H]
       \centering
@@ -295,12 +309,12 @@
   \begin{column}{0.5\linewidth}
     \begin{block}{}
       \begin{itemize}
-        \item<1-> Cas $\alpha = 0$\\
+        \item<1-> Cas $\alpha = 0$.\\
         Intersection de disques généralisés de rayon infini.\\
         Interpréter comme l'enveloppe convexe.
-        \item<2-> Cas $\alpha = -2$ et $\alpha = -\sqrt{2}$\\
+        \item<2-> Cas $\alpha = -2$ et $\alpha = -\sqrt{2}$.\\
         Bords définis au moyen du 8 et 4-voisinage.
-        \item<3-> Union d'$\alpha$-shape\\
+        \item<3-> Union d'$\alpha$-shape [EKS83].\\
         Sous-ensembles des triangulations d’ordre 0 ($\alpha < 0$) et d’ordre n ($\alpha > 0$) de Delaunay.
       \end{itemize}
     \end{block} 
@@ -315,6 +329,23 @@
 %-----------------------------------------------------------------
 
 \begin{frame}
-\frametitle{La triangulation de Delaunay}
+\frametitle{Les triangulations de Delaunay}
+
+Soit $\mathcal{S}$ un ensemble fini de points
+
+\begin{block}{Triangulation de Delaunay d'ordre 0 de $\mathcal{S}$}
+  Triangulation où chaque disque circonscrit au triangle ne contient aucun autre point que les sommets du triangle.
+\end{block}
+   
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.3\linewidth]{fig/2-mot/tri/mot-tri-a.pdf}
+  \includegraphics[width=0.3\linewidth]{fig/2-mot/tri/mot-tri-b.pdf}
+  \caption{Triangulations de Delaunay d'ordre 0 et n}
+\end{figure}
+
+\begin{block}{La triangulation de Delaunay d'ordre n de $\mathcal{S}$}
+  Triangulation de l'enveloppe convexe de $\mathcal{S}$ où chaque disque circonscrit au triangle contient tous les points de l'ensemble.
+\end{block}
 
 \end{frame}
