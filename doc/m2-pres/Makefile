@@ -1,15 +1,21 @@
 LOG=evince
 TEX=tl-pres-m2
 
-#FIGSRC = $(wildcard )
-#FIGOBJ = $(FIGSRC:.ipe=.pdf)
+FIGSRC = $(wildcard fig/2-mot/circle/*.ipe  fig/2-mot/as/*.ipe fig/2-mot/connexe/*.ipe fig/2-mot/tri/*.ipe)
+FIGOBJ = $(FIGSRC:.ipe=.pdf)
  
 all: fig paper show 
 
 fig: $(FIGOBJ)
 
-#fig/2-motivation/geometrie/%.pdf: fig/2-motivation/geometrie/%.ipe
-#	ipetoipe -pdf $<
+fig/2-mot/circle/%.pdf: fig/2-mot/circle/%.ipe
+	ipetoipe -pdf $<
+fig/2-mot/as/%.pdf: fig/2-mot/as/%.ipe
+	ipetoipe -pdf $<
+fig/2-mot/connexe/%.pdf: fig/2-mot/connexe/%.ipe
+	ipetoipe -pdf $<
+fig/2-mot/tri/%.pdf: fig/2-mot/tri/%.ipe
+	ipetoipe -pdf $<
 
 	
 paper:
