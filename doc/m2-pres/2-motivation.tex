@@ -1,0 +1,203 @@
+%------------------------------------------------
+\section{Motivations}
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Du disque Euclident au disque discret}
+\only<1>
+{
+  \begin{columns}[t]
+    \begin{column}{0.5\linewidth}
+      \begin{block}{Disque Euclidien : $\mathcal{D}_e$}
+        $$\left\{ (x,y) \in \mathbb{R}^{2} | (x - u)^2 + (y - v)^2 \leq R^2 \right\}$$
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=0.6\linewidth]{fig/2-mot/circle/circle-euc-0.pdf}
+        \end{figure}
+      \end{block}
+    
+    \end{column}
+    \begin{column}{0.5\linewidth}
+      \begin{block}{Disque Discret : $\mathcal{D}$}
+        $$\left\{ (x,y) \in \alert{\mathbb{Z}^{2}} | (x - u)^2 + (y - v)^2 \leq R^2 \right\}$$
+
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=0.6\linewidth]{fig/2-mot/circle/circle-dis-0.pdf}
+        \end{figure}
+      \end{block}  
+    \end{column}
+  \end{columns} 
+
+  \begin{exampleblock}{}
+  avec $O(u,v) \in \mathbb{Q}^{2}$ les coordonnées du centre et $R^2 \in \mathbb{Q}$ le rayon.\\
+  \end{exampleblock}
+}
+        
+\only<2>
+{
+  \begin{columns}[t]
+    \begin{column}{0.5\linewidth}
+      \begin{block}{Cercle Euclidien : $\mathcal{C}_e$}
+        $$\left\{ (x,y) \in \mathbb{R}^{2} | (x - u)^2 + (y - v)^2 \alert{=} R^2 \right\}$$
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=0.6\linewidth]{fig/2-mot/circle/circle-euc-0.pdf}
+        \end{figure}
+      \end{block}
+    
+    \end{column}
+    \begin{column}{0.5\linewidth}
+      \begin{block}{Cercle Discret : $\mathcal{C}$}
+        $$\left\{ (x,y) \in \alert{\mathbb{Z}^{2}} | (x - u)^2 + (y - v)^2 \alert{\stackrel{?}{=}} R^2 \right\}$$
+        \vspace{-0.24cm}
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=0.6\linewidth]{fig/2-mot/circle/circle-dis-0.pdf}
+        \end{figure}
+      \end{block}  
+    \end{column}
+  \end{columns} 
+
+  \begin{exampleblock}{}
+  avec $O(u,v) \in \mathbb{Q}^{2}$ les coordonnées du centre et $R^2 \in \mathbb{Q}$ le rayon.\\
+  \end{exampleblock}
+}
+
+\only<3>
+{
+  \begin{columns}[t]
+    \begin{column}{0.5\linewidth}
+      \begin{block}{Cercle Euclidien : $\mathcal{C}_e$}
+        $$\left\{ (x,y) \in \mathbb{R}^{2} | (x - u)^2 + (y - v)^2 \alert{=} R^2 \right\}$$
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=0.6\linewidth]{fig/2-mot/circle/circle-euc-0.pdf}
+        \end{figure}
+      \end{block}
+    
+    \end{column}
+    \begin{column}{0.5\linewidth}
+      \begin{block}{Cercle Discret : $\mathcal{C}$}
+        Nécéssité de passer par la notion de \textbf{voisinage}.
+        \vspace{0.24cm}
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=0.6\linewidth]{fig/2-mot/circle/circle-dis-0.pdf}
+        \end{figure}
+      \end{block}  
+    \end{column}
+  \end{columns} 
+
+  \begin{exampleblock}{}
+  avec $O(u,v) \in \mathbb{Q}^{2}$ les coordonnées du centre et $R^2 \in \mathbb{Q}$ le rayon.\\
+  \end{exampleblock}
+}
+  
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Le voisinage et la connexité}
+
+\begin{block}{}
+  \begin{columns}[t]
+    \begin{column}{0.5\linewidth}
+      4-voisinage d'un point (u,v) : $\mathcal{V}_4(u,v)$
+      $$ \left\{ (x,y) \in \mathbb{Z}^{2} |  |x-u|+|y-u| = 1 \right\}$$
+    \end{column}
+    \hspace{-1cm}
+    \begin{column}{0.5\linewidth}
+      8-voisinage d'un point (u,v) : $\mathcal{V}_8(u,v)$
+      $$ \left\{ (x,y) \in \mathbb{Z}^{2} |  max(|x-u|,|y-u|) = 1 \right\}$$  
+    \end{column}
+  \end{columns} 
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=.3\linewidth]{fig/2-mot/connexe/connexite.pdf}
+  \end{figure}
+\end{block}
+
+\begin{block}{Cercle Discret 8-connexes et 4-connexes}
+  \begin{columns}[t]
+    \begin{column}{0.5\linewidth}
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=.5\linewidth]{fig/2-mot/circle/circle-dis-1a.pdf}
+
+      \end{figure}
+      
+    \end{column}
+    \begin{column}{0.5\linewidth}
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=.5\linewidth]{fig/2-mot/circle/circle-dis-1b.pdf}
+      \end{figure}
+    \end{column}
+  \end{columns} 
+
+  $$ \mathcal{C}_{*} =  \left\{ (x,y) \in \mathcal{D} | \left( \mathcal{V}_{*}(x,y) \cap \mathcal{D} \right) \neq \mathcal{V}_{*}(x,y) \right\}$$
+\end{block}
+
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Énoncé de la problématique}
+\begin{block}{Le disque discret est l’union de deux ensembles disjoints}
+  \begin{columns}[t]
+    \begin{column}{0.65\linewidth}
+      \begin{itemize}      
+        \item Son intérieur strict :
+        $\stackrel{\ \circ}{\mathcal{D}}_{*} =  \left\{ (x,y) \in \mathcal{D} | \mathcal{V}_{*}(x,y) \cap \mathcal{D} = \mathcal{V}_{*}(x,y) \right\}$\\
+        Les points possèdent tous leurs quatre plus proches voisins à l’intérieur du disque.
+        \item Son bord : \\ 
+        $\mathcal{C}_{*} =  \left\{ (x,y) \in \mathcal{D} | \left( \mathcal{V}_{*}(x,y) \cap \mathcal{D} \right) \neq \mathcal{V}_{*}(x,y) \right\}$\\
+        Organisation spatiale des points moins triviale.
+      \end{itemize}
+    \end{column}
+ 
+    \begin{column}{0.35\linewidth}
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=.7\linewidth]{fig/2-mot/circle/circle-dis-2.pdf}
+       \end{figure}
+    \end{column}
+  \end{columns}
+\end{block}
+
+
+\only<1>
+{
+  \begin{exampleblock}{Remarques}
+    \begin{itemize}
+      \item La structure de l’intérieur d'un disque discret est évidente.
+      \item Seule l’étude du bord, nous intéresse pour comprendre l’organisation des points des disques discrets.
+    \end{itemize}
+  \end{exampleblock} 
+}
+\only<2>
+{
+  \begin{alertblock}{Problématique}
+    Comprendre comment sont organisés spatialement les points du bord d’un disque discret et comment cette structure est déterminée par les paramètres du disque (position et taille) par rapport à la grille sous-jacente.
+  \end{alertblock}
+
+}
+
+
+
+
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Les $\alpha$-shapes}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{La triangulation de Delaunay}
+
+\end{frame}
