@@ -80,21 +80,28 @@
 \begin{frame}
 \frametitle{Enveloppe Convexe}
 \begin{block}{Marche de Graham}
-\only<1>
-{
+  \only<1>
+  {
   Soit n le nombre d'éléments de $\mathcal{D}$.
   Principe :
   \begin{enumerate}
     \item Trier les n points.
     \item Étudier l'orientation du sommet suivant par rapport au deux précédents. (puissance)
   \end{enumerate}
-}  
+
   \begin{itemize}
     \item Complexité en $O(n \log n)$.
-    \item Si on part d'un port : Déjà S est déjà triés.
+    \item Les points du bord : S sont déjà triés. 
+    \item Il y a S=4R sommets sur le bord 4-connexes.
     \item Complexité en $O(R)$.
   \end{itemize}
- 
+ }
+ \only<2> 
+  {
+  \begin{itemize}
+    \item Complexité en $O(R)$.
+  \end{itemize}
+ }  
 \end{block}
 
 \only<1>
@@ -171,7 +178,7 @@
       \begin{columns}[t]
         \begin{column}{0.6\linewidth}
           \alert{$$p_{k} = p_{k-2} + q_k p_{k-1}$$}\\
-          $p_{k}$ et $p_{k-2}$ sont dans le même domaine.
+          $p_{k}$ et $p_{k-1}$ sont de part et d'autre du cercle.
           \begin{itemize}
             \item k impairs : $p_k \in \mathcal{D}$.
             \item k pairs : $p_k \not\in \mathcal{D}$.
@@ -337,9 +344,10 @@
       \end{figure}
       \vspace{-0.3cm}
       \begin{exampleblock}{}
-        La division du nombre de sommets par $R^{2/3}$ se stabilise :\\
-        Nombre de sommets $ \approx 3.45 * R^{2/3}$.  
-        Le nombre de sommet \textbf{converge asymptotiquement} vers $R^{2/3}$ : \\
+       \textbf{Nombre de sommet de l'enveloppe convexe}\\
+        La division du nombre de sommets par $R^{2/3}$ se stabilise.\\
+        Le nombre de sommet \textbf{converge asymptotiquement} en $O(R^{2/3})$. \\
+        Nombre de sommets $ \approx 3.45 * R^{2/3}$.\\
         Les résultats sont conformes à la publication. \\
 
      \end{exampleblock}
@@ -361,12 +369,4 @@
        
   \end{column}  
 \end{columns}
-
-
-
 \end{frame}
-
-
-
-
-
