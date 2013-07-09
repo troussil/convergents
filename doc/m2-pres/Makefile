@@ -22,9 +22,9 @@ fig/3-exi/har/%.pdf: fig/3-exi/har/%.ipe
 	ipetoipe -pdf $<
 fig/4-con/tri/%.pdf: fig/4-con/tri/%.ipe
 	ipetoipe -pdf $<
-fig/4-con/nas/%.pdf: fig/4-con/tri/%.ipe
+fig/4-con/nas/%.pdf: fig/4-con/nas/%.ipe
 	ipetoipe -pdf $<
-fig/4-con/pas/%.pdf: fig/4-con/tri/%.ipe
+fig/4-con/pas/%.pdf: fig/4-con/pas/%.ipe
 	ipetoipe -pdf $<	
 	
 gnup:
