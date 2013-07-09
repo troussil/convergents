@@ -9,27 +9,24 @@
 \only<1>
 {
   \begin{block}{}
-	\textbf{Motifs de droites discrètes :}\\
-	\begin{itemize}
-    \item Ce sont des discrétisations de segments de droite dont les extrémités sont des points discrets.
-    \item La pente d'un motif est défini comme la pente du segment de droite dont il est la discrétisation.
-    \item La triangulation de Delaunay de ces motifs est connue.
-  \end{itemize}
-	
-	
-	\textbf{Arêtes d'un disque discret :}\\
-	\begin{itemize}
-    \item Un disque discret est convexe.
-    \item La séquence des points entre deux sommets de l'enveloppe convexe est un motif ou une répétition de motifs de droite discrète de même pente.
-  \end{itemize}
-
+    \textbf{Arêtes d'un disque discret :}\\
+	  \begin{itemize}
+      \item Un disque discret est convexe.
+      \item La séquence des points entre deux sommets de l'enveloppe convexe est un motif ou une répétition de motifs de droite discrète de même pente.
+    \end{itemize}
+    
+	  \textbf{Motifs de droites discrètes :}\\
+	  \begin{itemize}
+      \item Ce sont des discrétisations de segments de droite dont les extrémités sont des points discrets.
+    \end{itemize}
   \end{block}
 
   \begin{columns}[t]
     \begin{column}{0.5\linewidth}
     	\begin{figure}[H]
 	      \centering
-	      \includegraphics[width=0.6\linewidth]{fig/4-con/tri/con-motif-1.pdf}
+	      \includegraphics[width=0.4\linewidth]{fig/4-con/tri/con-motif-1.pdf}
+	      \includegraphics[width=0.4\linewidth]{fig/4-con/tri/con-motif-1.pdf}	      
 	    \end{figure}
 
     \end{column}
@@ -50,51 +47,34 @@
   \end{columns}   
 }
 
-\only<2>
+\only<2,3>
 {
   \begin{block}{}
 	  \begin{enumerate}
 		\item Les arêtes de l'enveloppe convexe se décomposent en motifs.
 		\item La triangulation de Delaunay d'un motif est connue.
+	  \item<3> Elle est liée au convergent.
 	  \end{enumerate}
   \end{block}
 
 }
-\only<3,4>
-{
-  \begin{block}{}
-	  \begin{enumerate}
-		\item Les arêtes de l'enveloppe convexe se décomposent en motifs.
-		\item La triangulation de Delaunay d'un motif est connue.
-		\item Elle est également liée au convergent.
-	  \end{enumerate}
-  \end{block}
-}
-\only<2,3,4>
+\only<2>
 {
 	\begin{figure}[H]
 	  \centering
-	  \includegraphics[width=0.3\linewidth]{fig/4-con/tri/con-motif-0.pdf}
-	  \includegraphics[width=0.3\linewidth]{fig/4-con/tri/con-conv-0.pdf}
+	  \includegraphics[width=0.5\linewidth]{fig/4-con/tri/con-motif-0.pdf}
+	  \includegraphics[width=0.5\linewidth]{fig/4-con/tri/con-conv-0.pdf}
 	\end{figure}
 }
-\only<2>
+\only<3>
 {
-  \begin{block}{}
-    La triangulation de Delaunay d'un motif dépend des convergents de sa pente.\\
-	  Le dernier convergent n'appartenant pas au motif est le sommet du triangle incident au segment de droite.\\
-	  Les autres triangles peuvent être obtenus par récursion.\\
-  \end{block}
+	\begin{figure}[H]
+	  \centering
+	  \includegraphics[width=0.5\linewidth]{fig/4-con/tri/con-motif-10.pdf}
+	  \includegraphics[width=0.5\linewidth]{fig/4-con/tri/con-conv-10.pdf}
+	\end{figure}
 }
 
-
-
-\only<4>
-{
-	\begin{alertblock}{}
-	  Il est probable que l'algorithme de Har-Peled puisse être généralisé pour calculer les $\alpha$-shape.
-	\end{alertblock}
-}
 \end{frame}
 
 
