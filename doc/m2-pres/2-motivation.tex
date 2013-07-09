@@ -1,0 +1,317 @@
+%------------------------------------------------
+\section{Motivations}
+%------------------------------------------------
+
+%-----------------------------------------------------------------
+\subsection{Du disque Euclidien au disque discret}
+%-----------------------------------------------------------------
+
+
+\begin{frame}
+\frametitle{Du disque Euclident au disque discret}
+\only<1>
+{
+  \begin{columns}[t]
+    \begin{column}{0.5\linewidth}
+      \begin{block}{Disque Euclidien : $\mathcal{D}_e$}
+        $$\left\{ (x,y) \in \mathbb{R}^{2} | (x - u)^2 + (y - v)^2 \leq R^2 \right\}$$
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=0.6\linewidth]{fig/2-mot/circle/circle-euc-0.pdf}
+        \end{figure}
+      \end{block}
+    
+    \end{column}
+    \begin{column}{0.5\linewidth}
+      \begin{block}{Disque Discret : $\mathcal{D}$}
+        $$\left\{ (x,y) \in \alert{\mathbb{Z}^{2}} | (x - u)^2 + (y - v)^2 \leq R^2 \right\}$$
+
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=0.6\linewidth]{fig/2-mot/circle/circle-dis-0.pdf}
+        \end{figure}
+      \end{block}  
+    \end{column}
+  \end{columns} 
+}
+        
+\only<2>
+{
+  \begin{columns}[t]
+    \begin{column}{0.5\linewidth}
+      \begin{block}{Cercle Euclidien : $\mathcal{C}_e$}
+        $$\left\{ (x,y) \in \mathbb{R}^{2} | (x - u)^2 + (y - v)^2 \alert{=} R^2 \right\}$$
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=0.6\linewidth]{fig/2-mot/circle/circle-euc-0.pdf}
+        \end{figure}
+      \end{block}
+    
+    \end{column}
+    \begin{column}{0.5\linewidth}
+      \begin{block}{Cercle Discret : $\mathcal{C}$}
+        $$\left\{ (x,y) \in \alert{\mathbb{Z}^{2}} | (x - u)^2 + (y - v)^2 \alert{\stackrel{?}{=}} R^2 \right\}$$
+        \vspace{-0.24cm}
+        \begin{figure}[h!]
+          \centering
+          \includegraphics[width=0.6\linewidth]{fig/2-mot/circle/circle-dis-0.pdf}
+        \end{figure}
+      \end{block}  
+    \end{column}
+  \end{columns} 
+}
+
+\begin{exampleblock}{}
+  avec $O(u,v) \in \mathbb{Q}^{2}$ les coordonnées du centre et $R^2 \in \mathbb{Q}$ le rayon.\\
+\end{exampleblock}
+\end{frame}
+
+%-----------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Le voisinage et la connexité}
+
+\begin{block}{}
+  \begin{columns}[t]
+    \begin{column}{0.5\linewidth}
+      4-voisinage d'un point (u,v) : $\mathcal{V}_4(u,v)$
+      $$ \left\{ (x,y) \in \mathbb{Z}^{2} |  |x-u|+|y-u| = 1 \right\}$$
+    \end{column}
+    \hspace{-1cm}
+    \begin{column}{0.5\linewidth}
+      8-voisinage d'un point (u,v) : $\mathcal{V}_8(u,v)$
+      $$ \left\{ (x,y) \in \mathbb{Z}^{2} |  max(|x-u|,|y-u|) = 1 \right\}$$  
+    \end{column}
+  \end{columns} 
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=.3\linewidth]{fig/2-mot/connexe/connexite.pdf}
+  \end{figure}
+\end{block}
+
+\begin{block}{Cercle Discret 8-connexes et 4-connexes}
+  \begin{columns}[t]
+    \begin{column}{0.5\linewidth}
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=.5\linewidth]{fig/2-mot/circle/circle-dis-1a.pdf}
+
+      \end{figure}
+      
+    \end{column}
+    \begin{column}{0.5\linewidth}
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=.5\linewidth]{fig/2-mot/circle/circle-dis-1b.pdf}
+      \end{figure}
+    \end{column}
+  \end{columns} 
+
+  $$ \mathcal{C}_{*} =  \left\{ (x,y) \in \mathcal{D} | \left( \mathcal{V}_{*}(x,y) \cap \mathcal{D} \right) \neq \mathcal{V}_{*}(x,y) \right\}$$
+\end{block}
+\end{frame}
+
+%-----------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Énoncé de la problématique}
+\begin{block}{Le disque discret est l’union de deux ensembles disjoints}
+  \begin{columns}[t]
+    \begin{column}{0.65\linewidth}
+      \begin{itemize}      
+        \item Son intérieur strict : (bleu clair)
+        $\stackrel{\ \circ}{\mathcal{D}}_{*} =  \left\{ (x,y) \in \mathcal{D} | \mathcal{V}_{*}(x,y) \cap \mathcal{D} = \mathcal{V}_{*}(x,y) \right\}$\\
+        Les points possèdent tous leurs quatre plus proches voisins à l’intérieur du disque.
+        \item Son bord : (bleu foncé)
+        $\mathcal{C}_{*} =  \left\{ (x,y) \in \mathcal{D} | \left( \mathcal{V}_{*}(x,y) \cap \mathcal{D} \right) \neq \mathcal{V}_{*}(x,y) \right\}$\\
+        Organisation spatiale des points moins triviale.
+      \end{itemize}
+    \end{column}
+ 
+    \begin{column}{0.35\linewidth}
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=.7\linewidth]{fig/2-mot/circle/circle-dis-2.pdf}
+       \end{figure}
+    \end{column}
+  \end{columns}
+\end{block}
+
+
+\only<1>
+{
+  \begin{exampleblock}{Remarques}
+    \begin{itemize}
+      \item La structure de l’intérieur d'un disque discret est évidente.
+      \item Seule l’étude du bord, nous intéresse pour comprendre l’organisation des points des disques discrets.
+    \end{itemize}
+  \end{exampleblock} 
+}
+\only<2>
+{
+  \begin{alertblock}{Problématique}
+    Comprendre comment sont organisés spatialement les points du bord d’un disque discret et comment cette structure est déterminée par les paramètres du disque (position et taille) par rapport à la grille sous-jacente.
+  \end{alertblock}
+
+}
+\end{frame}
+
+%-----------------------------------------------------------------
+\subsection{$\alpha$-hulls et $\alpha$-shapes}
+%-----------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Un outil particulièrement opportun}
+
+\begin{block}{$\alpha$-hulls et $\alpha$-shapes}
+  Les $\alpha$-hulls et les $\alpha$-shapes ont été définies pour la première fois par Edelsbrunner \emph{et. al.} [EKS83] et font appel aux disques généralisés.\\
+\end{block}
+
+\begin{block}{Disques généralisés }
+  Ils nous permettent de définir des disques avec des rayons positifs et négatifs en faisant appel au complémentaire :
+
+  \begin{itemize}
+    \item $\mathcal{D}_{\alpha}$ est le disque fermé de rayon $1/\alpha$ pour $\alpha > 0$.
+    \item $\mathcal{D}_{\alpha}$ est le complémentaire fermé du disque de rayon $- 1/\alpha$ pour $\alpha < 0$. 
+  \end{itemize}
+\end{block}
+
+%----- Begin biblio -----
+\scriptsize
+\begin{thebibliography}{alpha}
+  \bibitem{EKS83}
+  [EKS83] Edelsbrunner, H., Kirkpatrick, D., Seidel, R.
+  \newblock On the Shape of a Set of Points in the Plane
+  \newblock {\em IEEE Transactions on Information Theory}, 29(4):551--559, 1983.
+\end{thebibliography}
+%----- End biblio   -----
+\end{frame}
+
+%-----------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Définitions}
+\only<1>
+{ Soit $\mathcal{S}$ un ensemble fini de points.
+  \begin{block}{$\alpha$-hull de $\mathcal{S}$}
+    Intersection de tous les disques généralisés de rayon $1/\alpha$ contiennant tous les points de l'ensemble.
+    $$ \alpha_h(\mathcal{S}) = \cap \left\{ \mathcal{D}_{\alpha} | \mathcal{S} \subseteq \mathcal{D}_{\alpha} \right\}$$
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.3\linewidth,page=1]{fig/2-mot/as/mot-alpha-shape.pdf}
+      \includegraphics[width=0.3\linewidth,page=3]{fig/2-mot/as/mot-alpha-shape.pdf}
+    \end{figure} 
+  \end{block}
+
+  \begin{block}{Sommets}
+    \begin{itemize}
+      \item Les sommets de $\alpha$-hull sont appelés points $\alpha$-extrêmes.
+      \item S'ils sont reliés par un arc de cercle de rayon $\pm 1/ \alpha$ qui ne contient aucun autre point que ses extrémités et qui se trouve sur le bord d'un disque généralisé contenant l'ensemble des points, on dit qu'ils sont $\alpha$-adjacents.
+    \end{itemize}
+  \end{block}
+}
+\only<2>
+{
+  \begin{block}{}
+    \vspace{-0.2cm}
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.2\linewidth,page=1]{fig/2-mot/as/mot-alpha-shape.pdf}
+      \includegraphics[width=0.2\linewidth,page=3]{fig/2-mot/as/mot-alpha-shape.pdf}
+    \end{figure} 
+    \vspace{-1cm}
+    \begin{itemize}
+      \item $\alpha$-hull :
+      \item Les sommets de $\alpha$-hull sont appelés points $\alpha$-extrêmes.
+      \item S'ils sont reliés par un arc de cercle de rayon $\pm 1/ \alpha$ qui ne contient aucun autre point que ses extrémités et qui se trouve sur le bord d'un disque généralisé contenant l'ensemble des points, on dit qu'ils sont $\alpha$-adjacents.
+    \end{itemize}
+  \end{block}
+
+
+  \begin{block}{$\alpha$-shape de $\mathcal{S}$}
+        Graphe plongé dans le plan reliant tous les points $\alpha$-extrêmes adjacents par des segments de droite.
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.3\linewidth,page=2]{fig/2-mot/as/mot-alpha-shape.pdf}
+      \includegraphics[width=0.3\linewidth,page=4]{fig/2-mot/as/mot-alpha-shape.pdf}
+    \end{figure}
+  \end{block}
+}
+\end{frame}
+
+%-----------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Propriétés}
+\begin{columns}[t]
+  \begin{column}{0.5\linewidth}
+    \only<1>
+    {
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{fig/2-mot/as/mot-as-3.pdf}
+        \caption{Enveloppe convexe : $\alpha = 0$}
+      \end{figure}
+    }
+    \only<2>
+    {
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{fig/2-mot/as/mot-as-1.pdf}
+        \caption{Bord 4-connexe : $\alpha = -2$}
+      \end{figure}
+    }
+    \only<3>
+    {
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth, page=8]{fig/2-mot/as/mot-as-5.pdf}
+        \caption{Union d'$\alpha$-shape, $\alpha < 0$}
+      \end{figure}
+    }  
+  
+  \end{column}
+  \begin{column}{0.5\linewidth}
+    \begin{block}{}
+      \begin{itemize}
+        \item<1-> Cas $\alpha = 0$.\\
+        Intersection de disques généralisés de rayon infini.\\
+        Interpréter comme l'enveloppe convexe.
+        \item<2-> Cas $\alpha = -2$ et $\alpha = -\sqrt{2}$.\\
+        Bords définis au moyen du 8 et 4-voisinage.
+        \item<3-> Union d'$\alpha$-shape [EKS83].\\
+        Sous-ensembles des triangulations d’ordre 0 ($\alpha < 0$) et d’ordre n ($\alpha > 0$) de Delaunay.
+      \end{itemize}
+    \end{block} 
+  \end{column}
+\end{columns}
+
+
+\end{frame}
+
+%-----------------------------------------------------------------
+\subsection{Triangulation de Delaunay}
+%-----------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Les triangulations de Delaunay}
+
+Soit $\mathcal{S}$ un ensemble fini de points
+
+\begin{block}{Triangulation de Delaunay d'ordre 0 de $\mathcal{S}$}
+  Triangulation où chaque disque circonscrit au triangle ne contient aucun autre point que les sommets du triangle.
+\end{block}
+   
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.3\linewidth]{fig/2-mot/tri/mot-tri-a.pdf}
+  \includegraphics[width=0.3\linewidth]{fig/2-mot/tri/mot-tri-b.pdf}
+  \caption{Triangulations de Delaunay d'ordre 0 et n}
+\end{figure}
+
+\begin{block}{La triangulation de Delaunay d'ordre n de $\mathcal{S}$}
+  Triangulation de l'enveloppe convexe de $\mathcal{S}$ où chaque disque circonscrit au triangle contient tous les points de l'ensemble.
+\end{block}
+
+\end{frame}

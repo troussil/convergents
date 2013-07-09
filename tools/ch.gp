@@ -2,7 +2,7 @@
 
 # -- Export png 
 set terminal png size 1200,800
-set output 'fig/4-exi/ch/exi-ch-sommet.png'
+set output 'fig/3-exi/har/exi-ch-sommet.png'
 
 # Radius	predicate	time	# Vertices
 set title ' temps calcul en fonction du Rayon - Échelle log'
