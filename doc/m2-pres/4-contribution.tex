@@ -542,14 +542,14 @@
 \begin{block}{ Complexité}
   Le calcul se base sur l'enveloppe convexe selon la méthode de Har-Peled. 
   \begin{itemize}
-    \item Parcours maximum de deux fois de l'ensemble des sommets de l'enveloppe convexe ($O(R^{2/3})$). 
+    \item Parcours d'au maximum deux fois l'ensemble des sommets de l'enveloppe convexe ($O(R^{2/3})$). 
   \end{itemize}
   
   \begin{enumerate}
-    \item Calcul linéaire par rapport au nombre de sommet de l'enveloppe convexe avec une compléxité de $O(R^{2/3} \log R )$.
+    \item Calcul linéaire par rapport au nombre de sommet de l'enveloppe convexe avec une compléxité en $O(R^{2/3} \log R )$.
     \item La complexité dépend du nombre de sommets de l'enveloppe convexe et non du nombre de sommet de l'$\alpha$-shape.\\
   \end{enumerate}
-  Méthode non ``output sensitive''. 
+  \alert{Méthode non ``output sensitive''.} 
 \end{block}
 
 \begin{block}{Perspective}
