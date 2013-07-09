@@ -53,12 +53,84 @@
 
 \end{frame}
 
-
-
 \begin{frame}
 \frametitle{Relations aux triangulations de Delaunay}
 
+
+\only<1>
+{
+  \begin{block}{}
+	\textbf{Motif de droites discrètes :}\\
+	\begin{itemize}
+    \item Ce sont des discrétisations de segments de droite dont les extrémités sont des points discrets.
+    \item La pente d'un motif est défini comme la pente du segment de droite dont il est la discrétisation.
+    \item La triangulation de Delaunay de ces motifs est connue.
+  \end{itemize}
+	
+	
+	\textbf{Arêtes d'un disque discret :}\\
+	\begin{itemize}
+    \item Un disque discret est convexe.
+    \item La séquence des points de son bord entre deux sommets de l'enveloppe convexe est un motif ou une répétition de motifs de droite discrète de même pente.
+
+  \end{itemize}
+
+  \end{block}
+ 
+	\begin{figure}[H]
+	  \centering
+	  \includegraphics[width=0.3\linewidth]{fig/4-con/tri/con-motif-1.pdf}
+	\end{figure}
+
+}
+
+\only<2>
+{
+  \begin{block}{}
+	  \begin{enumerate}
+		\item Les arêtes de l'enveloppe convexe se décomposent en motifs.
+		\item La triangulation de Delaunay d'un motif est connue.
+	  \end{enumerate}
+  \end{block}
+
+}
+\only<3,4>
+{
+  \begin{block}{}
+	  \begin{enumerate}
+		\item Les arêtes de l'enveloppe convexe se décomposent en motifs.
+		\item La triangulation de Delaunay d'un motif est connue.
+		\item Elle est également liée au convergent.
+	  \end{enumerate}
+  \end{block}
+}
+\only<2,3,4>
+{
+	\begin{figure}[H]
+	  \centering
+	  \includegraphics[width=0.3\linewidth]{fig/4-con/tri/con-motif-0.pdf}
+	  \includegraphics[width=0.3\linewidth]{fig/4-con/tri/con-conv-0.pdf}
+	\end{figure}
+}
+\only<2>
+{
+  \begin{block}{}
+    La triangulation de Delaunay d'un motif dépend des convergents de sa pente.\\
+	  Le dernier convergent n'appartenant pas au motif est le sommet du triangle incident au segment de droite.\\
+	  Les autres triangles peuvent être obtenus par récursion.\\
+  \end{block}
+}
+
+
+
+\only<4>
+{
+	\begin{alertblock}{}
+	  Il est probable que l'algorithme de Har-Peled puisse être généralisé pour calculer les $\alpha$-shape.
+	\end{alertblock}
+}
 \end{frame}
+
 
 %-----------------------------------------------------------------
 \subsection{$\alpha$-shape, $\alpha \leq 0$ - Généralisation de Har-Peled}
@@ -67,16 +139,246 @@
 \begin{frame}
 \frametitle{$\alpha$-shape, $\alpha \leq 0$ - Généralisation de Har-Peled - Présentation}
 
+\begin{block}{Principe}
+  La méthode de calcul de l'$\alpha$-shape pour $\alpha <0$ reproduit le schéma du calcul de l’enveloppe convexe.\\ 
+  Une étape supplémentaire pour chaque convergent à l'intérieur du disque afin de contrôler la possibilité d'avoir obtenu un sommet de l'$\alpha$-shape.
+
+\end{block}
+
 \end{frame}
 
 \begin{frame}
-\frametitle{Algorithme}
+\frametitle{Algorithme - départ}
 
+\begin{columns}[t]
+  \begin{column}{0.7\linewidth}
+    \only<1>
+    {
+      \begin{block}{Point de départ : a}
+        Le point d'abscisse minimal et d'ordonnée maximal appartient à l'enveloppe convexe donc il appartient à l'$\alpha$-shape.\\
+      \end{block}
+    }
+    \only<1,2>
+    {  
+      \begin{block}{Calcul des convergents}
+        $p_{-2} = (1,0)$ et $p_{-1} = (0,1)$.\\
+        $p_{k} = p_{k-2} + q_k p_{k-1}$\\
+        $q_k$ est le plus grand entier tel que $p_{k}$ et $p_{k-2}$ soient dans le même domaine.
+      \end{block}
+    }
+    \only<2,3>
+    {
+      \begin{block}{Comvergent à l'intérieur du disque}
+        \begin{itemize}
+          \item k impaire.
+          \item k paire et $p_k$ exaxtement sur le bord du disque.
+        \end{itemize}
+        Vérification de si $p_k$ est un sommet de l'$\alpha$-shape.
+        On utilise un \textbf{prédicat}.
+      \end{block}
+    }
+    \only<3,4>
+    {
+      \begin{block}{Prédicat}
+      \begin{itemize}
+        \item \textbf{$R_T$} : Rayon du cercle circonscrit au triangle : $T(a, b, c)$.
+        \item \textbf{$R_{\alpha}$} $= -1/\alpha$ : Rayon de notre disque généralisé.
+      \end{itemize}      
+        Compare la longueur de \textbf{$R_T$} par rapport à \textbf{$R_{\alpha}$}.\\
+      \end{block}
+    }
+
+    \only<4>
+    {
+      \begin{alertblock}{Deux cas}
+        \begin{itemize}
+          \item $\alpha = \alpha_{2}$ (en orange), \textbf{$|R_{\alpha_{2}}| > R_T$}
+          \item $\alpha = \alpha_{1}$ (en violet), \textbf{$|R_{\alpha_{1}}| < R_T$}
+        \end{itemize}
+       \end{alertblock}
+    }
+  \end{column}
+  \begin{column}{0.3\linewidth}
+    \only<1>
+    {
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=.9\linewidth]{fig/4-con/nas/con-nas-0.pdf}
+      \end{figure}
+    }
+    \only<2>
+    {
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=.9\linewidth]{fig/4-con/nas/con-nas-1.pdf}
+      \end{figure}
+    }
+    \only<3,4>
+    {
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=.9\linewidth]{fig/4-con/nas/con-nas-2.pdf}
+      \end{figure}
+    }
+  \end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}
+\frametitle{Algorithme - Cas 1 - $\alpha = \alpha_{2}$, $|R_{\alpha_{2}}| > R_T$}
+\only<1>
+{
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=.5\linewidth]{fig/4-con/nas/con-nas-2.pdf}
+  \end{figure}
+}
+
+\begin{block}{}
+\begin{itemize}
+  \item $b \in \mathcal{D}_{\alpha_2}$
+  \item \alert{b n'est pas un sommet de l'$\alpha$-shape.}
+\end{itemize}
+
+\end{block}
+
+\only<2>
+{
+  \begin{block}{}
+    On poursuit le calcul des prochains convergents.
+  \end{block}
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.25\linewidth]{fig/4-con/nas/con-nas-10.pdf}
+    \includegraphics[width=0.25\linewidth]{fig/4-con/nas/con-nas-11.pdf}
+  \end{figure}
+}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Algorithme - Cas 2 - $\alpha = \alpha_{1}$, $|R_{\alpha_{1}}| < R_T$}
+\only<1>
+{
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=.5\linewidth]{fig/4-con/nas/con-nas-2.pdf}
+  \end{figure}
+
+  \begin{block}{}
+    \begin{itemize}
+      \item $b \not\in \mathcal{D}_{\alpha_1}$
+      \item $\not\exists \mathcal{D}_{\alpha_1}$, avec a et c comme points $\alpha-extrêmes$ contenant b
+      \item a et c ne sont pas des points $\alpha$-adjacents.
+      \item \alert{c n'en est pas un sommet de l'$\alpha$-shape.}
+      \item \alert{Chercher l'ensemble des sommets entre a et c.}
+        Étude des points du segment $[b,c]$.
+    \end{itemize}
+  \end{block}
+}
+\only<2>
+{
+  \begin{block}{Étude des sommets entre a et c.}
+    \begin{itemize}
+      \item Point : $b_i = p_{k-2} + i*p_{k-1}$
+      \item Triangle : $T_i = T(a, b_{i}, b_{i+1})$.
+      \item Rayon du cercle circonscrit $R_{T_{i}}$
+     \end{itemize}
+   
+     \begin{enumerate}
+       \item \alert{Les rayons $R_{T_{i}}$ sont ordonnés et croissants.}
+       \item Recherche dichotomique de i tq : $R_{T_{i}} > R_{\alpha} > R_{T_{i-1}}$
+     \end{enumerate}
+  \end{block}
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=.8\linewidth]{fig/4-con/nas/con-nas-20.pdf}
+  \end{figure}
+}
+\only<3>
+{
+  \begin{block}{$R_{T_{2}} > R_{\alpha} > R_{T_{1}}$}
+    \alert{L'ensemble des points $\left\{ b_{i}, \ldots, b_{q_k}, c \right\}$ appartiennent à l'$\alpha$-shape.}
+  \end{block}
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=.8\linewidth]{fig/4-con/nas/con-nas-21.pdf}
+  \end{figure}
+}
 \end{frame}
 
 \begin{frame}
 \frametitle{Résultats}
 
+\begin{columns}[t]
+  \begin{column}{0.35\linewidth}
+    \vspace{-0.8cm}
+    \begin{tiny}
+    \begin{table}[H]
+      \begin{tabular}{|p{0.018cm}|p{0.8cm}|p{0.8cm}|p{0.45cm}|}
+        \hline
+        R & $-\alpha$   & \#       & $/R^{2/3}$\\
+        \hline
+        5  & 3,2        & 179,02   & 17,7610\\
+        6  & 6,4        & 272,92   & 17,0575\\
+        7  & 12,8       & 472,19   & 18,5913\\
+        8  & 25,6       & 774,45   & 19,2088\\
+        9  & 51,2       & 1,30E+03 & 20,3259\\
+        10 & 102,4      & 2,14E+03 & 21,0878\\
+        11 & 204,8      & 3,54E+03 & 21,9549\\
+        12 & 409,6      & 5,68E+03 & 22,1878\\
+        13 & 819,2      & 9,25E+03 & 22,7644\\
+        14 & 1638,4     & 1,49E+04 & 23,0413\\
+        15 & 3276,8     & 2,38E+04 & 23,2816\\
+        16 & 6553,6     & 3,84E+04 & 23,6175\\
+        17 & 13107,2    & 6,17E+04 & 23,9124\\
+        18 & 26214,4    & 9,89E+04 & 24,1500\\
+        19 & 52428,8    & 1,59E+05 & 24,4137\\
+        20 & 104857,6   & 2,54E+05 & 24,5914\\
+        21 & 209715,2   & 4,06E+05 & 24,7603\\
+        22 & 419430,4   & 6,49E+05 & 24,9402\\
+        23 & 838860,8   & 1,04E+06 & 25,0730\\
+        24 & 1677721,6  & 1,65E+06 & 25,2002\\
+        25 & 3355443,2  & 2,63E+06 & 25,3061\\
+        26 & 6710886,4  & 4.20E+06 & 25.4220\\
+        27 & 13421772,8 & 6.70E+06 & 25.5612\\
+        28 & 26843545,6 & 1.07E+07 & 25.7011\\
+        \hline
+      \end{tabular} 
+    \end{table}
+    \end{tiny}
+  \end{column}
+  \begin{column}{0.9\linewidth}
+    \vspace{-0.6cm}
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=.75\linewidth]{fig/4-con/nas/nas.png}
+    \end{figure}
+
+  \end{column}
+\end{columns}
+
+\only<1>
+{
+\begin{exampleblock}{}
+  \textbf{Nombre de sommet des $\alpha-shapes$}\\
+  La division du nombre de sommets par $R^{2/3}$ croît légèrement.\\
+  Les résultats sont conformes à la publication.\\
+\end{exampleblock} 
+} 
+\only<2>
+{
+\begin{alertblock}{}
+  \begin{enumerate}
+    \item Nous avons développé un algorithme incrémental, ``output sensitive'' pour le calcul des $\alpha$-shapes dans le cas $\alpha \leq 0$. 
+    \item Nous souhaitons compléter notre programme afin de pouvoir calculer des $\alpha$-shapes dans le cas $\alpha \geq 0$.
+  \end{enumerate}
+\end{alertblock} 
+} 
+ 
 \end{frame}
 
 %-----------------------------------------------------------------

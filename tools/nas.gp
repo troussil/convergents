@@ -2,7 +2,7 @@
 
 # -- Export png 
 set terminal png size 1200,800
-set output 'fig/3-con/nas/nas.png'
+set output 'fig/4-con/nas/nas.png'
 
 # Radius	predicate	time	# Vertices
 set title ' temps calcul en fonction du Rayon - Échelle log'
