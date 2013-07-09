@@ -2,57 +2,6 @@
 \section{Contributions}
 %------------------------------------------------
 
-
-\begin{frame}
-\frametitle{Introduction}
-\begin{block}{Indices d'existance}
-% indiquant la possible existance d'un algorithme incrémental et output sensitive calculant les $\alpha$-shapes de la discrétisation d'un disque (quand $\alpha$ est négatif) : 
-
-\begin{enumerate}
-\item Le bord de la discrétisation d'un disque est convexe. Tout bord convexe se décompose de manière unique en motifs de droite discrète \cite{roussillonPR2011}. 
-\item Il existe un algorithme incrémental et output sensitive calculant les motifs de la discrétisation d'un disque par les convergents. \cite{HarPeled98}
-\item L'union des alpha-shapes lorsque $\alpha$ est négatif est un sous-ensemble de la triangulation de Delaunay \cite{EdeKirSei83}et la triangulation de Delaunay d'un motif est déterminé par les convergents de sa pente \cite{RoussillonL11}. 
-\end{enumerate}
-
-\end{block}
-
-%----- Begin biblio -----
-\begin{columns}[t]
-  \begin{column}{0.5\linewidth}
-    \scriptsize  
-    \begin{thebibliography}{alpha}
-      \bibitem{roussillonPR2011}
-      [RS11] T. Roussillon and I. Sivignon
-      \newblock Faithful Polygonal Representation of the Convex and Concave Parts of a Digital Curve
-      \newblock {\em Pattern Recognition}, 2011.
-      
-      \bibitem{HarPeled98}
-      [HP98] Har-Peled
-      \newblock An Output Sensitive Algorithm for Discrete Convex Hulls
-      \newblock {\em ICGTA: Computational Geometry: Theory and Applications}, 1998.  
-    \end{thebibliography}
-    \scriptsize
-  \end{column}
-  \begin{column}{0.5\linewidth}
-    \scriptsize
-    \begin{thebibliography}{alpha}
-      \bibitem{EKS83}
-      [EKS83] Edelsbrunner, H., Kirkpatrick, D., Seidel, R.
-      \newblock On the Shape of a Set of Points in the Plane
-      \newblock {\em IEEE Transactions on Information Theory}, 29(4):551--559, 1983.
-      
-      \bibitem{RoussillonL11}
-      [RL11] Tristan Roussillon and Jacques-Olivier Lachaud
-      \newblock Delaunay Properties of Digital Straight Segments
-      \newblock {\em Springer : Discrete Geometry for Computer Imagery - 16th {IAPR}}, 2011.
-     \end{thebibliography}
-    \scriptsize     
-  \end{column}
-\end{columns}  
-%----- End biblio   -----
-
-\end{frame}
-
 \begin{frame}
 \frametitle{Relations aux triangulations de Delaunay}
 
@@ -60,7 +9,7 @@
 \only<1>
 {
   \begin{block}{}
-	\textbf{Motif de droites discrètes :}\\
+	\textbf{Motifs de droites discrètes :}\\
 	\begin{itemize}
     \item Ce sont des discrétisations de segments de droite dont les extrémités sont des points discrets.
     \item La pente d'un motif est défini comme la pente du segment de droite dont il est la discrétisation.
@@ -71,17 +20,34 @@
 	\textbf{Arêtes d'un disque discret :}\\
 	\begin{itemize}
     \item Un disque discret est convexe.
-    \item La séquence des points de son bord entre deux sommets de l'enveloppe convexe est un motif ou une répétition de motifs de droite discrète de même pente.
-
+    \item La séquence des points entre deux sommets de l'enveloppe convexe est un motif ou une répétition de motifs de droite discrète de même pente.
   \end{itemize}
 
   \end{block}
- 
-	\begin{figure}[H]
-	  \centering
-	  \includegraphics[width=0.3\linewidth]{fig/4-con/tri/con-motif-1.pdf}
-	\end{figure}
 
+  \begin{columns}[t]
+    \begin{column}{0.5\linewidth}
+    	\begin{figure}[H]
+	      \centering
+	      \includegraphics[width=0.6\linewidth]{fig/4-con/tri/con-motif-1.pdf}
+	    \end{figure}
+
+    \end{column}
+    \begin{column}{0.5\linewidth}
+      \begin{thebibliography}{alpha}
+      \scriptsize
+        \bibitem{roussillonPR2011}
+        [RS11] T. Roussillon and I. Sivignon
+        \newblock Faithful Polygonal Representation of the Convex and Concave Parts of a Digital Curve
+        \newblock {\em Pattern Recognition}, 2011.    
+        \bibitem{RoussillonL11}
+        [RL11] Tristan Roussillon and Jacques-Olivier Lachaud
+        \newblock Delaunay Properties of Digital Straight Segments
+        \newblock {\em Springer : Discrete Geometry for Computer Imagery - 16th {IAPR}}, 2011.
+      \end{thebibliography}
+      \scriptsize     
+    \end{column}
+  \end{columns}   
 }
 
 \only<2>

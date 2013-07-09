@@ -12,8 +12,8 @@
 
 \begin{columns}[t]
   \begin{column}{0.6\linewidth}
-    \begin{block}{}
-      But  : Récupérer l'ensemble de sommets consécutifs sur le bord du disque.\\
+    \begin{block}{Cas particulier d'$\alpha-shape$ - $\alpha = -\sqrt{2}$}
+      Ensemble de sommets consécutifs récupérant le bord 4-connexe du disque.\\
       Méthode incrémentale :
       \begin{enumerate}
         \item<2-> Trouver un point de départ sur le bord.
@@ -61,7 +61,7 @@
     {  
       \begin{figure}[h!]
         \centering
-        \includegraphics[width=0.9\linewidth]{fig/3-exi/suivi/exi-suivi.pdf}
+        \includegraphics[width=0.9\linewidth]{fig/3-exi/suivi/exi-suivi-2.pdf}
       \end{figure}  
     }
   \end{column}
@@ -79,22 +79,23 @@
 
 \begin{frame}
 \frametitle{Enveloppe Convexe}
-\begin{block}{Marche de Graham}
+\begin{block}{Algorithme de Graham}
   \only<1>
   {
   Soit n le nombre d'éléments de $\mathcal{D}$.
   Principe :
   \begin{enumerate}
-    \item Trier les n points.
-    \item Étudier l'orientation du sommet suivant par rapport au deux précédents. (puissance)
+    \item Trier les n points. Complexité en $O(n \log n)$
+    \item Marche de Graham : Etude de l'orientation du sommet suivant par rapport au deux précédents. Complexité en $O(n)$
   \end{enumerate}
 
   \begin{itemize}
-    \item Complexité en $O(n \log n)$.
-    \item Les points du bord : S sont déjà triés. 
-    \item Il y a S=4R sommets sur le bord 4-connexes.
+    \item L'ensemble de point sur le bord 4-connexe : S est déjà triés.\\
+    On n'effectue que la marche de Graham.
+    \item Il y a \#S = 4R sommets sur le bord 4-connexes.
     \item Complexité en $O(R)$.
   \end{itemize}
+  
  }
  \only<2> 
   {
@@ -154,8 +155,7 @@
   \begin{enumerate}
     \item Trouver un point de départ sur le bord.\\
     \only{Même méthode que précédement.}
-    \item Chercher le prochain sommet de l'enveloppe convexe.\\
-    \only{Calcul des convergents.} 
+    \item Chercher le prochain sommet de l'enveloppe convexe à l'aide des convergents.\\
   \end{enumerate}
 \end{block}
 
@@ -164,7 +164,7 @@
   $p_{-2} = (1,0)$ et $p_{-1} = (0,1)$.
   Calcul réccursif : \\
   \alert{$$p_{k} = p_{k-2} + q_k p_{k-1}$$}
-  $q_k$ est le plus grand entier tel que $p_{k}$ et $p_{k-2}$ soient dans le même domaine.
+  $q_k$ est le plus grand entier tel que $p_{k}$ et $p_{k-1}$ sont de part et d'autre du cercle.
 \end{block}
 \end{frame}
 
