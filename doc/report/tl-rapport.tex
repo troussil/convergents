@@ -1,0 +1,158 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Simple Sectioned Essay Template
+% LaTeX Template
+%
+% This template has been downloaded from:
+% http://www.latextemplates.com
+%
+% Note:
+% The \lipsum[#] commands throughout this template generate dummy text
+% to fill the template out. These commands should all be removed when 
+% writing essay content.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[12pt]{article} % Default font size is 12pt, it can be changed here
+\usepackage{geometry} % Required to change the page size to A4
+\geometry{a4paper} % Set the page size to be A4 as opposed to the default US Letter
+
+\usepackage{graphicx} % Required for including pictures
+\usepackage{float} % Allows putting an [H] in \begin{figure} to specify the exact location of the figure
+
+
+\usepackage[T1]{fontenc} %codage
+\usepackage[english,francais]{babel}
+\usepackage[utf8]{inputenc} %codage
+\usepackage{lmodern}
+
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+
+\usepackage[linesnumbered, ruled, vlined]{algorithm2e}
+\SetAlFnt{\small\sffamily}
+
+\usepackage{url}
+
+\usepackage{tikz}         
+\usetikzlibrary{mindmap}
+
+\linespread{1.2} % Line spacing
+
+%\setlength\parindent{0pt} % Uncomment to remove all indentation from paragraphs
+
+
+
+
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	RE-DEFINITION 
+%----------------------------------------------------------------------------------------
+% MATHS
+%-----------
+
+\newtheorem{Definition}{Definition}
+\newtheorem{Theorem}{Theorem}
+\newtheorem{Proposition}{Proposition}
+\newtheorem{Corollary}{Corollary}
+\newtheorem{Problem}{Problem}
+\newtheorem{Lemma}{Lemma}
+ 
+\newcommand{\RefSec}[1]{Section~\ref{#1}}
+\newcommand{\RefFig}[1]{Fig.~\ref{#1}}
+\newcommand{\RefTab}[1]{Tab.~\ref{#1}}
+\newcommand{\RefDef}[1]{Definition~\ref{#1}}
+\newcommand{\RefPro}[1]{Proposition~\ref{#1}}
+\newcommand{\RefLem}[1]{Lemma~\ref{#1}}
+\newcommand{\RefThe}[1]{Theorem~\ref{#1}}
+\newcommand{\Eq}[1]{(\ref{#1})}
+
+% LINES
+%-----------
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\begin{titlepage}
+
+\center % Center everything on the page
+
+\textsc{\LARGE Laboratoire d'InfoRmatique en Image et Syst\`{e}mes d'information}\\[1.5cm] % Name of your university/college
+%\textsc{\Large }\\[0.5cm] % Major heading such as course name
+\textsc{\large Rapport de stage}\\[0.5cm] % Minor heading such as course title
+
+\HRule \\[0.4cm]
+{ \huge \bfseries Structure du bord des disques discrets}\\[0.4cm] % Title of your document
+\HRule \\[1.5cm]
+
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Auteur:}\\
+Thomas \textsc{Lafond} % Your name
+\end{flushleft}
+\end{minipage}
+~
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{Encadrant:} \\
+Tristan \textsc{Roussillon} % Supervisor's Name
+\end{flushright}
+\end{minipage}\\[4cm]
+
+{\large 3 Juillet 2013}\\[3cm] % Date, change the \today to a set date if you want to be precise
+
+%\includegraphics{Logo}\\[1cm] % Include a department/university logo - this will require the graphicx package
+
+\vfill % Fill the rest of the page with whitespace
+
+\end{titlepage}
+
+%----------------------------------------------------------------------------------------
+%	TABLE OF CONTENTS
+%----------------------------------------------------------------------------------------
+
+\tableofcontents % Include a table of contents
+\newpage % Première section sur une nouvelle page. 
+
+\include{1-introduction}
+
+\include{2-motivations}
+
+\include{4-existant}
+
+\include{5-contributions}
+
+\include{3-info}
+
+\include{6-conclusion}
+
+\appendix
+\include{a-annexe}
+
+%-----------------------
+% Biblio
+%-------------------------
+\bibliographystyle{plain} 
+\bibliography{tl_bibliographie} 
+%-------------------------
+
+%\part{Développement informatiques}
+%\include{2-devinfo}
+
+%\part{Conclusion}
+%\include{5-conclusion}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
+
+
+
+
+

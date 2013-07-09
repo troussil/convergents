@@ -9,7 +9,7 @@
 // Core geometry
 #include "../inc/PointVector2D.h"
 // Circle
-#include "../inc/RayIntersectableCircle.h"
+#include "../inc/ExactRayIntersectableCircle.h"
 // Convex Hull
 #include "../inc/OutputSensitiveConvexHull.h"
 #include "../inc/ConvexHullHelpers.h"
@@ -30,8 +30,8 @@ int main()
 {
   typedef PointVector2D<int> Point; //type redefinition
   typedef PointVector2D<int> Vector; //type redefinition
-  typedef RayIntersectableCircle<Point,  DGtal::BigInteger> CircleBig;
-  typedef RayIntersectableCircle<Point> Circle;
+  typedef ExactRayIntersectableCircle<Point,  DGtal::BigInteger> CircleBig;
+  typedef ExactRayIntersectableCircle<Point> Circle;
   
   int nbok = 0; //number of tests ok
   int nb = 0;   //total number of tests
@@ -168,7 +168,7 @@ int main()
  
   {
 
-    for (nb_test;nb_test>0;nb_test--)
+    for ( ;nb_test>0;nb_test--)
       {
 #ifdef DEBUG_VERBOSE
 	std::cout << std::endl; 

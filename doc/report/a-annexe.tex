@@ -1,0 +1,187 @@
+%------------------------------------------------
+\section{Annexes}
+%------------------------------------------------
+
+%-----------------------------------------------------------------
+\subsection{Équivalence entre le calcul du pgcd par la méthode Euclidienne et géométrique}
+\label{annexe-euc-geo}
+%-----------------------------------------------------------------
+
+%-----------------------------------------------------------------
+\subsubsection{Trouver $q_n$}
+
+Soit d la droite d'équation ax + by + c = 0 et soit un rayon issue de $S=(x_s, y_s)$ dans la direction du vecteur $V=(x_v, y_v)$.\\
+Soit $M(x,y)$ un point tel que $\overrightarrow{SM} = q \overrightarrow{V}$. Les coordonnées de M vérifient : \\
+ 
+\begin{equation*}
+    \left\{
+    \begin{split}
+      x - x_s &= q x_v \\
+      y - y_s &= q y_v 
+   \end{split}
+   \right. 
+\end{equation*}
+
+\begin{equation*}
+    \left\{
+    \begin{split}
+      x &= q x_v + x_s \\
+      y &= q y_v + y_s 
+   \end{split}
+   \right. 
+\end{equation*}
+
+
+On choisit le point M comme l'intersection de la droite d d'équation d : ax + by +c = 0 et du rayon. Les coordonnées de M vérifient : \\
+
+$$(a x_v + b y_v) * q = -(a x_s + b y_s +c)$$
+$$q = - \frac{a x_s + b y_s +c}{(a x_v + b y_v)}$$
+
+%-----------------------------------------------------------------
+\subsubsection{Rappel sur le calcul du pgcd par l'algorithme d'Euclide}
+
+
+On rappelle les résultats de l'algorithme d'Euclide pour a,b : \\
+\noindent $a       = k_0*b       + r_0$ d'où $k_0 = \lfloor b / a \rfloor$\\
+\noindent $b       = k_1*r_0     + r_1$\\
+\noindent $r_{n-2} = k_n*r_{n-1} + r_{n}$\\
+
+%-----------------------------------------------------------------
+\subsubsection{Preuve par récurrence sur n que $q_n = k_n$}
+
+\paragraph{}
+
+On vérifie que que la $q_0 = k_0$.\\
+
+Soit de la droite passant par O(0,0) et P(b, a) d'équation d: ax + by =0 et soit le rayon issue de $p_{-2} = (1,0)$ dans la direction de $p_{-1} = (0,1)$.\\
+
+On note le convergent $p_{0} = p_{-2} + q_0 p_{-1}$ avec $q_0$ est le plus grand entier tel que $p_0$ et $p_{-2}$ soient du même côté. Sa valeur est la partie entière de $-(a x_s + b y_s +c)/(a x_v + b y_v)$
+
+$$q_0 = - \lfloor\frac{a*1 + b*0 +0}{a*0 + b*1}\rfloor = - \lfloor\frac{a}{b}\rfloor = k_0$$
+
+On a montré que la relation est vraie au rang 0 avec \textbf{$q_0 = k_0$}.
+
+\paragraph{}
+On suppose vrai la relation au rang n.
+
+$q_n = k_n$\\
+
+Ce qui implique :  
+$r_{n-2} = k_n*r_{n-1} + r_{n}$\\
+$a x_{n-2} + b y_{n-2} = r_{n-2}$\\
+$a x_{n-1} + b y_{n-1} = r_{n-1}$\\
+
+Soit le rayon issue de $p_{n-1}$ dans la direction de $p_{n}$.\\
+On note le convergent $p_{n+1} = p_{n-1} + q_{n+1} p_{n}$. $q_{n+1}$ est le plus grand entier tel que $p_{n+1}$ et $p_{n-1}$ soient du même côté. Sa valeur est la partie entière de $-(a x_{n-1} + b y_{n-1} +c)/(a x_{n} + b y_{n})$
+
+
+$q_0$ est égale au premier coefficient de la division Euclidienne de b par a.
+
+\begin{align*}
+q_{n+1} &= - \lfloor\frac{a x_{n-1} + b y_{n-1}}{ a x_{n} + b y_{n}}\rfloor \\
+        &= - \lfloor\frac{a x_{n-1} + b y_{n-1}}{ (a (x_{n-2} + q_n * x_{n-1}) + b (y_{n-2} + q_n * y_{n-1})}\rfloor \\
+        &= - \lfloor\frac{a x_{n-1} + b y_{n-1}}{ q_n*(a x_{n-1} + b*y_{n-1} ) + a x_{n-2} + b*y_{n-2}  }\rfloor \\
+        &= - \lfloor\frac{r_{n-1}              }{ r_{n-2} + k_n * r_{n-1}}\rfloor \\
+        &= - \lfloor\frac{r_{n-1}              }{ r_{n} }\rfloor \\
+        &= k_{n+1}
+\end{align*}
+
+On a montré que \textbf{$q_{n+1}= k_{n+1}$}. Comme la relation est vraie au rang 0 et au rang (n+1),  \textbf{elle est vraie pour tout n > 0}.
+
+%-----------------------------------------------------------------
+%%THOM
+\subsubsection{Exemple d'équivalence pour le calcul du pgcd et des convergents de (3,8)}
+
+%% TRI: je ne vois pas l'intérêt ici: en annexe ?
+ \begin{table}[H]
+   \centering
+   \begin{tabular}{|p{0.04\linewidth}|p{0.04\linewidth}|p{0.04\linewidth}||p{0.04\linewidth}|p{0.04\linewidth}||p{0.2\linewidth}||p{0.35\linewidth}|}
+     \hline 
+     $k$ & $a$ & $b$ & $q_{k}$ & $r_k$ & (a,b) & $p_k$ \\
+     \hline 
+     -2 & - & - & - & - & -                    & $p_{-2} = (1,0)$\\
+     -1 & - & - & - & - & $3 p_{-2} + 8p_{-1}$ & $p_{-1} = (0,1)$\\
+      0 & 8 & 3 & 2 & 2 & $2 p_{-1} + 3p_{0}$  & $p_{0}  = p_{-2} + 2p_{-1} = (1,2)$\\ 
+      1 & 3 & 2 & 1 & 1 & $p_{0}  + 2p_{1}$    & $p_{1}  = p_{-1} + p_{0} = (1,3)$\\
+      2 & 2 & 1 & 2 & 0 & $p_{2}$              & $p_{2}  = p_{0} + 2p_{1} = (3,8)$\\
+     \hline
+   \end{tabular} 
+   \caption{Résultat du $PGCD(3,8)$ par la méthode d'Euclide et géométrique}
+ \end{table}
+
+%-----------------------------------------------------------------
+\subsection{Algorithme du calcul de l'$\alpha$-shape pour $\alpha <0$}
+%-----------------------------------------------------------------
+
+
+
+\begin{algorithm}[h]
+  \label{algo:1}
+  \KwIn{$\alpha$, $v_{in}$ any $\alpha$-shape vertex  }
+  \KwOut{$L$ a list of consecutive $\alpha$-shape vertices starting from $v_{in}$ and $v_{out}$ the last vertex.}
+  %
+  $p_{-2} \leftarrow (1,0)$, $p_{-1} \leftarrow (0,1)$, $k \leftarrow 0$, stop $\leftarrow$ false \;
+  \While{Ray-shooting intersecte the circle and non stop} 
+  {
+    $p_k = q_k p_{k-1} + q_{k-2}$ \;
+    \eIf{$p_k$ is outside the shape} 
+    {
+      \tcc{k is odd}	
+      \If{$k > 0$ et $qk < 0$} 
+      {
+        $v_{out} \leftarrow p_{k-1}$ \;
+        $stop\leftarrow true$ \;
+      }
+    }
+    {
+      \tcc{$p_k$ is inside or lie on the shape}	
+      \eIf{$k\: is\: even$} 
+      {
+        \tcc{$R$ returns the circumcircle radius of three points}	
+        \If{ $R(v, (q_k - 1)p_{k-1} + p_{k-2}, p_k) > -1/\alpha$ }
+        {
+           \tcc{Find the greatest integer $0 \leq q \leq q_{k} - 1$ such that}
+          $R(v, qp_{k-1} + p_{k-2}, (q+1)p_{k-1} + p_{k-2}) > -1/\alpha$ \;
+          
+          $L \leftarrow L \cup v$ \; 
+          \For{$i$ from $1$ to $q_k-q$ } 
+          {
+            $L \leftarrow L \cup i p_{k-1} $ \;      
+          }
+          $v_{out} \leftarrow p_{k}$ \;
+          $stop \leftarrow true$ \;
+        }          
+      }  
+      {
+        \If{ $R(v, p_k, (q_k - 1)p_{k-1} + p_{k-2}) > -1/\alpha$ }
+        {
+           \tcc{Find the greatest integer $0 \leq q \leq q_{k} - 1$ such that}
+          $R(v, qp_{k-1} + p_{k-2}, (q+1)p_{k-1} + p_{k-2}) > -1/\alpha$ \;
+        
+          \eIf{ $qkalpha == 0$} 
+          {
+            $v_{out} \leftarrow p_{k-2}$ \;
+            $stop \leftarrow true$ \;
+          }
+          {
+            \For{$i$ from $1$ to $q_k-q$ } 
+            {
+              $L \leftarrow L \cup p_{k-2} + i p_{k-1} $ \;      
+            }
+            $v_{out} \leftarrow p_{k}$ \;
+            $stop \leftarrow true$ \;
+          }  
+        }
+      } 
+    }
+    \tcc{Update  $p_{k-1}$ and  $p_{k-2}$}	    
+    $k \leftarrow k + 1$ \;
+    $p_{k-2} \leftarrow p_{k-1}$ \;
+    $p_{k-1} \leftarrow p_{k}$ \;
+   }
+   \If{$stop == false$ }
+   {
+    $v_{out} \leftarrow p_{k-1}$ \; 
+   } 
+\end{algorithm}
+
