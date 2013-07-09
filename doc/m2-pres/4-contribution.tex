@@ -186,10 +186,7 @@
       \end{itemize}      
         Compare la longueur de \textbf{$R_T$} par rapport à \textbf{$R_{\alpha}$}.\\
       \end{block}
-    }
-
-    \only<4>
-    {
+      
       \begin{alertblock}{Deux cas}
         \begin{itemize}
           \item $\alpha = \alpha_{2}$ (en orange), \textbf{$|R_{\alpha_{2}}| > R_T$}
@@ -197,6 +194,7 @@
         \end{itemize}
        \end{alertblock}
     }
+
   \end{column}
   \begin{column}{0.3\linewidth}
     \only<1>
@@ -213,7 +211,7 @@
         \includegraphics[width=.9\linewidth]{fig/4-con/nas/con-nas-1.pdf}
       \end{figure}
     }
-    \only<3,4>
+    \only<3>
     {
       \begin{figure}[H]
         \centering
@@ -237,6 +235,7 @@
 \begin{block}{}
 \begin{itemize}
   \item $b \in \mathcal{D}_{\alpha_2}$
+  \item $\exists \mathcal{D}_{\alpha_2}$ avec a et c comme points $\alpha$-adjacents contenant tous les points de $\mathcal{D}$.  
   \item \alert{b n'est pas un sommet de l'$\alpha$-shape.}
 \end{itemize}
 
@@ -363,20 +362,20 @@
 
 \only<1>
 {
-\begin{exampleblock}{}
-  \textbf{Nombre de sommet des $\alpha-shapes$}\\
-  La division du nombre de sommets par $R^{2/3}$ croît légèrement.\\
-  Les résultats sont conformes à la publication.\\
-\end{exampleblock} 
+  \begin{exampleblock}{}
+    \textbf{Nombre de sommet des $\alpha-shapes$}\\
+    La division du nombre de sommets par $R^{2/3}$ croît légèrement.\\
+    Les résultats sont conformes à la publication.\\
+  \end{exampleblock} 
 } 
 \only<2>
 {
-\begin{alertblock}{}
-  \begin{enumerate}
-    \item Nous avons développé un algorithme incrémental, ``output sensitive'' pour le calcul des $\alpha$-shapes dans le cas $\alpha \leq 0$. 
-    \item Nous souhaitons compléter notre programme afin de pouvoir calculer des $\alpha$-shapes dans le cas $\alpha \geq 0$.
-  \end{enumerate}
-\end{alertblock} 
+  \begin{alertblock}{}
+    \begin{enumerate}
+      \item Nous avons développé un algorithme incrémental, ``output sensitive'' pour le calcul des $\alpha$-shapes dans le cas $\alpha \leq 0$. 
+      \item Nous souhaitons compléter notre programme afin de pouvoir calculer des $\alpha$-shapes dans le cas $\alpha \geq 0$.
+    \end{enumerate}
+  \end{alertblock} 
 } 
  
 \end{frame}
@@ -387,17 +386,176 @@
 
 \begin{frame}
 \frametitle{$\alpha$-shape, $\alpha \leq 0$ - Présentation}
+  \begin{block}{Principe}
+    \begin{itemize}
+      \item Approche ``Bottom-Up'' : Méthode de calcul de l'$\alpha$-shape pour $\alpha > 0$ différente des méthodes précédentes.
+      \item L'ensemble des sommets de l'$\alpha$-shape est un sous-ensemble de l'enveloppe convexe.
+      \item Selectionner parmi les sommets de l'enveloppe convexe, ceux qui sont pertinents et enlever les autres.
+    \end{itemize}  
+  \end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Algorithme - départ}
+
+\only<1>
+{
+  \begin{block}{}
+    \begin{enumerate}
+      \item Point de départ :
+      \begin{itemize}
+        \item Tous les sommets de l'enveloppe convexe n'appartienent pas obligatoirement à l'alpha-shape.
+        \item Nous devons choisir un sommet appartenant au plus petit cercle englobant.
+        \item Choix par construction parmi l'un des trois sommets du triangle composant le cercle circonscrit.
+      \end{itemize}
+
+      \item  $\mathcal{S}$ = l'ensemble des sommets de l'enveloppe convexe du disque discret.
+    \end{enumerate}
+  \end{block}
+}  
+\only<1>
+{
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=.4\linewidth]{fig/4-con/pas/con-pas-0.pdf}
+  \end{figure}
+}  
+
+\only<2>
+{
+  \begin{block}{}
+    \begin{itemize}
+      \item $a,b$ et $c \in \mathcal{S}$, trois sommets succéssifs.
+    \end{itemize} 
+    Utilisation d'un \textbf{prédicat} pour savoir si b est un sommet de l'$\alpha$-shape.
+  \end{block}
+}
+
+\only<2,3>
+{
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=.4\linewidth]{fig/4-con/nas/con-nas-2.pdf}
+  \end{figure}
+}  
+
+\only<2,3>
+{
+  \begin{block}{Prédicat}
+    \begin{itemize}
+      \item \textbf{$R_T$} : Rayon du cercle circonscrit au triangle : $T(a, b, c)$.
+      \item \textbf{$R_{\alpha}$} $= -1/\alpha$ : Rayon de notre disque généralisé.
+    \end{itemize}      
+    Compare la longueur de \textbf{$R_T$} par rapport à \textbf{$R_{\alpha}$}.\\
+  \end{block}
+}
+\only<3>
+{
+  \begin{alertblock}{Deux cas}
+    \begin{itemize}
+      \item $\alpha = \alpha_{1}$ (en violet), \textbf{$R_{\alpha_{1}} < R_T$}
+      \item $\alpha = \alpha_{2}$ (en orange), \textbf{$R_{\alpha_{2}} > R_T$}
+    \end{itemize}
+  \end{alertblock}
+}
 
 \end{frame}
 
 \begin{frame}
-\frametitle{Algorithme}
+\frametitle{Cas 1 - $\alpha = \alpha_{1}$ - $R_{\alpha_{1}} < R_T$}
+\only<1>
+{
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=.5\linewidth]{fig/4-con/nas/con-nas-2.pdf}
+  \end{figure}
+}
+
+\begin{block}{}
+  \begin{itemize}
+    \item $b \in \mathcal{D}_{\alpha_1}$
+    \item $\exists \mathcal{D}_{\alpha_1}$ avec a et c comme points $\alpha$-adjacents contenant tous les points de $\mathcal{D}$.
+    \item \alert{b n'est pas un sommet de l'$\alpha$-shape.}
+  \end{itemize}
+\end{block}
+
+\only<2>
+{
+  \begin{block}{}
+    \begin{enumerate}
+      \item Suppression de b la liste des sommets potentiels
+      \item a reste inchangé, b devient c et c devient le sommet suivant de $\mathcal{S}$
+      \item Poursuite de la procédure.
+    \end{enumerate}
+  \end{block}
+ 
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\linewidth]{fig/4-con/pas/con-pas-10.pdf}
+    \includegraphics[width=0.4\linewidth]{fig/4-con/pas/con-pas-11.pdf}
+  \end{figure}
+}
+  
 
 \end{frame}
 
 \begin{frame}
-\frametitle{Résultats}
+\frametitle{Cas 2 - $\alpha = \alpha_{2}$ - $R_{\alpha_{2}} > R_T$}
+\only<1>
+{
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=.5\linewidth]{fig/4-con/nas/con-nas-2.pdf}
+  \end{figure}
+}
 
+\begin{block}{}
+  \begin{itemize}
+    \item $b \not\in \mathcal{D}_{\alpha_2}$
+    \item $\not\exists \mathcal{D}_{\alpha_2}$ avec a et c comme points $\alpha$-adjacents contenant tous les points de $\mathcal{D}$.
+    \item a et c ne sont pas des points $\alpha$-adjacents.
+    \item a et b sont $\alpha$-adjacents.
+    \item \alert{b est un sommet de l'$\alpha$-shape.}
+  \end{itemize}
+\end{block}
+
+\only<2>
+{
+  \begin{block}{}
+    \begin{enumerate}
+      \item b devient a, c devient b et c devient le sommet suivant de $\mathcal{S}$.\\
+      \item Poursuite de la procédure.
+    \end{enumerate}
+  \end{block}
+ 
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\linewidth]{fig/4-con/pas/con-pas-20.pdf}
+    \includegraphics[width=0.4\linewidth]{fig/4-con/pas/con-pas-21.pdf}
+  \end{figure}
+}
+\end{frame}
+
+\begin{frame}
+\frametitle{Compléxité et Perspective}
+
+\begin{block}{ Complexité}
+  Le calcul se base sur l'enveloppe convexe selon la méthode de Har-Peled. 
+  \begin{itemize}
+    \item Parcours maximum de deux fois de l'ensemble des sommets de l'enveloppe convexe ($O(R^{2/3})$). 
+  \end{itemize}
+  
+  \begin{enumerate}
+    \item Calcul linéaire par rapport au nombre de sommet de l'enveloppe convexe avec une compléxité de $O(R^{2/3} \log R )$.
+    \item La complexité dépend du nombre de sommets de l'enveloppe convexe et non du nombre de sommet de l'$\alpha$-shape.\\
+  \end{enumerate}
+  Méthode non ``output sensitive''. 
+\end{block}
+
+\begin{block}{Perspective}
+  Adopter une approche ``top-down''. 
+  Partir des points du plus petit cercle englobant et ajouter succéssivement les sommets de l'alpha-shape manquant. 
+\end{block}
 \end{frame}
 
 
