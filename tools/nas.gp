@@ -2,7 +2,7 @@
 
 # -- Export png 
 set terminal png size 1200,800
-set output 'fig/5-con/nas/nas.png'
+set output 'fig/4-con/nas/nas.png'
 
 # Radius	predicate	time	# Vertices
 set title ' temps calcul en fonction du Rayon - Échelle log'
@@ -25,13 +25,13 @@ set grid;
 set logscale;
 
 # -- X --
-set xrange [32:33554432];
-set xtics 50;
+set xrange [32:268435456];
+set xtics 10;
 set xlabel ' Rayon (unité)';
 
 # -- Y --
-set yrange [170:	2640000];
-set ytics 50;
+set yrange [170:	10695000];
+set ytics 10;
 set ylabel ' # sommets (unité), temps (ms)';
 
 
